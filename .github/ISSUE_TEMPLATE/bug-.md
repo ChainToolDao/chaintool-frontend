@@ -1,6 +1,6 @@
 ---
 name: 'Bug '
-about: Create a report to help us improve
+about: '提交发现的 Bug '
 title: ''
 labels: ''
 assignees: ''
