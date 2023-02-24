@@ -1,0 +1,35 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "test": "vue-cli-service test:unit"
+  },
+  "dependencies": {
+    "axios": "^0.21.4",
+    "clipboard": "^2.0.8",
+    "element-ui": "^2.15.6",
+    "ethers": "^5.7.2",
+    "file-saver": "^2.0.5",
+    "prerender-spa-plugin": "^3.4.0",
+    "vue": "^2.6.10",
+    "vue-meta-info": "^0.1.7",
+    "vue-router": "^3.0.6",
+    "vuex": "^3.1.2",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.1.0",
+    "@vue/cli-plugin-eslint": "^4.1.0",
+    "@vue/cli-plugin-unit-jest": "^4.1.0",
+    "@vue/cli-service": "^4.5.0",
+    "@vue/eslint-config-airbnb": "^4.0.0",
+    "babel-plugin-component": "^1.1.1",
+    "compression-webpack-plugin": "^5.0.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "vue-template-compiler": "^2.6.10"
+  }
+}
