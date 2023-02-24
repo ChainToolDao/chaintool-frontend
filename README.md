@@ -1,2 +1,2 @@
-# Front-End-ChainTool
+# FrontEnd-ChainTool
 ChainTool 前端仓库
