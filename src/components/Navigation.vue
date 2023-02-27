@@ -3,7 +3,7 @@
         <div class="container">
             <div class="btn" @click="toHome()">
                 <span>Chaintool</span>
-            </div>
+            </div>  
 
             <div>
                 <div v-if="address" class="connect connected">
