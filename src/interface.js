@@ -1,4 +1,4 @@
-const baseUrl = process.env.VUE_APP_URL
+const baseUrl = process.env.VUE_APP_SERVER_URL
 
 export default {
     // traceview
