@@ -27,14 +27,14 @@
           </el-select>
           <el-input v-model="choose" placeholder="Input Function " v-if="findFunction"></el-input>
           <div v-if="page">
-            <div class="btn " @click="inquire">解析</div>
+            <div class="btn analyze" @click="inquire">解析</div>
           </div>
           <div class="tips">解析结果</div>
           <el-table :data="data" style="width: 100%; " row-key="id" border :row-class-name="tableRowClassName"
             :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-            <el-table-column prop="id" label="序号" width="150">
+            <el-table-column prop="id" label="参数类型" width="150">
             </el-table-column>
-            <el-table-column label="参数" width="150">
+            <el-table-column label="参数类型" width="150">
               <template slot-scope="scope">
                 <div v-if='Array.isArray(scope.row.argument)'>
                   <span style="line-height:25px">(</span>
@@ -53,14 +53,11 @@
             <el-table-column label="值" width="420">
               <template slot-scope="scope">
                 <div v-if='Array.isArray(scope.row.value)'>
-                  <!-- 这里执行为数组时 -->
                   <span v-if='!Array.isArray(scope.row.argument)'>
                     <span v-if="scope.row.argument.indexOf('[]') != -1">
                       <span>[</span>
                     </span>
                   </span>
-
-
                   <span v-for="i, index in scope.row.value">
                     <span v-if="scope.row.value[index].toString().indexOf('0x') == -1">
                       <span @click="matrixing(scope.row.value[index])" style="color:#409EFF">{{ scope.row.value[index]
@@ -75,7 +72,6 @@
                     <span v-else>
                       {{ i }}
                       <span v-if="index + 1 != scope.row.value.length"> <span>,</span> <br></span>
-
                     </span>
                   </span>
                   <span v-if='!Array.isArray(scope.row.argument)'>
@@ -84,9 +80,6 @@
                     </span>
                   </span>
                 </div>
-
-
-
                 <span v-else=""> {{ scope.row.value }}</span>
               </template>
             </el-table-column>
@@ -102,7 +95,7 @@
             }}<img class="stateCopy" v-if="stateCopy" src="../assets/imgs/copy.png" @click="copy(encodingResult)" />
           </h5>
         </div>
-        <div class="btn" v-if="!page" @click="coding()">编码</div>
+        <div class="btn " v-if="!page" @click="coding()">编码</div>
       </div>
     </div>
   </div>
@@ -152,38 +145,26 @@ export default {
     this.assignmentRadioBox()
   },
   methods: {
+    //改变带下拉部分的样式
     tableRowClassName({ row, rowIndex }) {
-      console.log("asdsdasdsdaasdasdasdasdasd", row, rowIndex, JSON.parse(JSON.stringify(row.id)))
       if (String(JSON.parse(JSON.stringify(row.id))).indexOf("[var") == "-1") {
         return 'success-row';
       }
       return '';
     },
-
+    //表格展示的数据进行处理
     Conversion(decimal) {
-      console.log(decimal)
-      let hex = 22
+      let hex
       if (decimal._hex) {
-        console.log("执行")
-        console.log(decimal)
-        console.log(decimal._hex)
         hex = decimal._hex.toString(16)
       } else {
-        console.log(decimal.toString(16))
         hex = "0x" + parseInt(decimal).toString(16)
-        console.log(hex)
       }
-      console.log("调用asdhsjkadhfghfdklghjkldfhhdfjdhjhjkddhgfjkjkhfghdfgh")
-      console.log(hex)
       return hex
     },
-    // //判断值形式
-    // judgmentValueForm(value){
-    //   console.log(value)
-    //   return true
-    // },
     //编码
     coding() {
+      //清空上次编码的数据
       this.encodingResult = ""
       try {
         let processingParameters = this.parameter.split("\n")
@@ -192,28 +173,10 @@ export default {
         if (inputFunction.indexOf("function ") != 0) {
           inputFunction = "function " + inputFunction
         }
-
         const iface = new ethers.utils.Interface([inputFunction,]);
-
-
-
-
-
         inputFunction = inputFunction.slice(8).replace(/^\s*/g, "");
-        console.log(inputFunction)
-
-
-
-
-
-
-
-
         this.encodingResult = iface.encodeFunctionData(inputFunction, processingParameters)
-
-        //加入数据库
-        //inputFunction
-        //this.encodingResult,取前面几位
+        //把通过编码的数据加入数据库
         try {
           axios
             .post(intefUrl.selector, {
@@ -223,10 +186,6 @@ export default {
             .then((res) => { });
         } catch (error) {
         }
-
-        console.log(this.encodingResult)
-
-
         this.stateCopy = true
       } catch (error) {
         this.encodingResult = "你的输入有误，请检查后重试"
@@ -240,7 +199,7 @@ export default {
         this.page = false
       }
     },
-    //新窗口-单位转换
+    // 跳转新窗口-单位转换
     matrixing(data) {
       let routeUrl = this.$router.resolve({
         name: "Unitconvert",
@@ -257,7 +216,7 @@ export default {
       }
       this.findFunction = !Boolean(this.radioValue)
     },
-    //函数签名处理
+    // 函数签名处理
     signatureHandle(signature) {
       if (signature.indexOf("function ") == 0) {
         signature = signature.slice(8).replace(/^\s*/g, "");
@@ -267,19 +226,15 @@ export default {
     //自动获取函数的方法
     async assignmentRadioBox() {
       try {
-        //取ABIData关于函数签名部分
+        // 取ABIData关于函数签名部分
         let reverseLookupSign = this.result.slice(0, 10)
-        //reverseLookupSign用于待查找数据
-        //用于放置返回的全部结果
+        // signature用于放置返回的全部结果
         let signature = [];
         try {
           await axios
             .get(intefUrl.selector + "/" + reverseLookupSign)
             .then((res) => {
               for (let i in res.data.data) {
-                // res.data.data[i] = this.$options.methods.signatureHandle(
-                //   res.data.data[i]
-                // );
                 if (signature.indexOf(res.data.data[i]) == -1) {
                   signature.push(res.data.data[i]);
                 }
@@ -297,7 +252,6 @@ export default {
             .then((res) => {
               let data = res.data.split(";");
               for (let i in data) {
-                // data[i] = this.$options.methods.signatureHandle(data[i]);
                 if (signature.indexOf(data[i]) == -1) {
                   signature.push(data[i]);
                   //执行数据库添加操作
@@ -320,7 +274,6 @@ export default {
             .then((res) => {
               let data = res.data.split(";");
               for (let i in data) {
-                // data[i] = this.$options.methods.signatureHandle(data[i]);
                 if (signature.indexOf(data[i]) == -1) {
                   signature.push(data[i]);
                   //执行数据库添加操作
@@ -339,29 +292,21 @@ export default {
           this.choose = signature[0]
         }
       } catch (error) { }
-
     },
     //  执行解析
     async analyze(ABIData, sign) {
       try {
-        console.log("进入函数的值")
-        console.log(ABIData)
-        console.log(sign)
-        //自动获取函数签名
+        //判断是否存在函数签名，不存在则自动获取函数签名
         if (sign == undefined || sign == "") {
-          console.log("进入自动获取函数签名位置")
-          //取ABIData关于函数签名部分
+          // 取ABIData关于函数签名部分
           let reverseLookupSign = ABIData.slice(0, 10)
-          //用于放置返回的全部结果
+          // signature用于放置返回的全部结果
           let signature = [];
           try {
             await axios
               .get(intefUrl.selector + "/" + reverseLookupSign)
               .then((res) => {
                 for (let i in res.data.data) {
-                  // res.data.data[i] = this.$options.methods.signatureHandle(
-                  //   res.data.data[i]
-                  // );
                   if (signature.indexOf(res.data.data[i]) == -1) {
                     signature.push(res.data.data[i]);
                   }
@@ -379,7 +324,6 @@ export default {
               .then((res) => {
                 let data = res.data.split(";");
                 for (let i in data) {
-                  // data[i] = this.$options.methods.signatureHandle(data[i]);
                   if (signature.indexOf(data[i]) == -1) {
                     signature.push(data[i]);
                     //执行数据库添加操作
@@ -402,7 +346,6 @@ export default {
               .then((res) => {
                 let data = res.data.split(";");
                 for (let i in data) {
-                  // data[i] = this.$options.methods.signatureHandle(data[i]);
                   if (signature.indexOf(data[i]) == -1) {
                     signature.push(data[i]);
                     //执行数据库添加操作
@@ -416,11 +359,8 @@ export default {
                 }
               });
           } catch (error) { }
-          console.log(signature)
           sign = signature[0]
         } else {
-          console.log(sign)
-          console.log(ABIData)
           try {
             axios
               .post(intefUrl.selector, {
@@ -429,93 +369,33 @@ export default {
               })
               .then((res) => { });
           } catch (error) { }
-          console.log("测试位置")
-          console.log(sign)
         }
-
-
-
-        console.log("赋值函数签名", sign)
         sign = 'function ' + sign
-        const iface = new ethers.utils.Interface([sign,]);// 这里写入处理后的数组
+        const iface = new ethers.utils.Interface([sign,]);
         sign = sign.slice(9, sign.length)
-        console.log("输出位置")
-        console.log(sign)
-        console.log(ABIData)
-        console.log(iface)
+        //获取结果
         let dataResult = iface.decodeFunctionData(sign, ABIData)
-        console.log("成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取")
-        console.log(dataResult)
-
-
-
-
-
-        let parameterType = iface.functions
         let typeArray = []
-
-        console.log(iface)
-
-
-        console.log(parameterType)
-        console.log(JSON.stringify(parameterType))
-
-
-        console.log("打印位置556", iface.fragments[0].inputs[0].type)
-        console.log("待处理字符")
-        console.log(iface)
-        console.log("xxx", typeArray)
-        // console.log(iface.fragments[0].inputs[0].components)
-        // console.log( iface.fragments[0].inputs[0].inputs.length)
-
         for (let i = 0; i < iface.fragments[0].inputs.length; i++) {
           if (iface.fragments[0].inputs[0].type == "tuple") {
-            console.log("执行")
             let subTypeArray = []
             for (let k = 0; k < iface.fragments[0].inputs[0].components.length; k++) {
-              console.log(iface.fragments[0].inputs[i].components[k].type)
-
-
-
-
               if (iface.fragments[0].inputs[i].components[k].name != null) {
-                subTypeArray.push(iface.fragments[0].inputs[i].components[k].type+"   "+iface.fragments[0].inputs[i].components[k].name)
-
-                } else {
-                  subTypeArray.push(iface.fragments[0].inputs[i].components[k].type)
-
-                }
-
-
-
-
-
-
-
-           
-
-
-
-
-
-
+                subTypeArray.push(iface.fragments[0].inputs[i].components[k].type + "   " + iface.fragments[0].inputs[i].components[k].name)
+              } else {
+                subTypeArray.push(iface.fragments[0].inputs[i].components[k].type)
+              }
             }
             typeArray.push(subTypeArray)
           } else {
-            console.log("执行2")
             if (iface.fragments[0].inputs[i].type == "tuple[]") {
-              console.log("不符合条件")
               let Array = []
               for (let k = 0; k < iface.fragments[0].inputs[i].components.length; k++) {
-                console.log(iface.fragments[0].inputs[i].components[k].type)
-
                 if (iface.fragments[0].inputs[i].components[k].name != null) {
-                  Array.push(iface.fragments[0].inputs[i].components[k].type + "  "+ iface.fragments[0].inputs[i].components[k].name)
+                  Array.push(iface.fragments[0].inputs[i].components[k].type + "  " + iface.fragments[0].inputs[i].components[k].name)
                 } else {
                   Array.push(iface.fragments[0].inputs[i].components[k].type)
                 }
-
-               
               }
               typeArray.push(Array)
             } else {
@@ -524,55 +404,16 @@ export default {
               } else {
                 typeArray.push(iface.fragments[0].inputs[i].type)
               }
-              console.log(iface.fragments[0].inputs[i].type)
-
-              console.log(typeArray)
             }
           }
         }
-        console.log(typeArray)
-        console.log("最终结果")
-        console.log("输出画", [typeArray, dataResult])  //返回的结果
-        // console.log(iface.fragments[0].inputs[0].type)
-        // if (iface.fragments[0].inputs[0].type == "tuple") {
-        //   console.log("执行执行执行执行")
-        //   for (let i = 0; i < iface.fragments[0].inputs[0].components.length; i++) {
-        //     typeArray.push(iface.fragments[0].inputs[0].components[i].type)
-        //   }
-        // }
-        // else {
-        //   console.log("执行执行执行执行44444")
-        //   for (let i = 0; i < iface.fragments[0].inputs.length; i++) {
-        //     typeArray.push(iface.fragments[0].inputs[i].type)
-        //   }
-        // }
-        // console.log("typeArray", typeArray)
-        // let typeArrayParsing = JSON.stringify(parameterType).split('"type":"')
-        // console.log("切割后的字符")
-        // console.log(typeArrayParsing)
-        // for (let i = 2; i <= typeArrayParsing.length - 1; i++) {
-        //   //切取出Argument
-        //   typeArray.push(typeArrayParsing[i].substring(0, typeArrayParsing[i].indexOf('"')))
-        // }
         return [typeArray, dataResult, sign]
-      } catch (error) {
-        console.log("输出错误")
-        console.log(error)
-      }
+      } catch (error) { }
     },
     async queryResultProcessing(data) {
       try {
-        console.log("调用处理函数")
-        console.log(data)
-        console.log(data[0])
         let processResult = []
         for (let i = 0; i < data[1].length; i++) {
-          console.log("输出位置4")
-          console.log("调用处理函数12")
-          console.log(data)
-          console.log(data[0])
-          console.log(data[1][i])
-          console.log(data[0][i])
           if (Array.isArray(data[1][i])) {
             console.log("调用处理函数13")
             console.log(data)
@@ -580,6 +421,7 @@ export default {
             console.log("执行第一种情况，结果是数组，但是不需要重新解析")
             console.log("执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解执行数组的再次解析的情况执行数组的再次解析的情况")
             console.log("输出", data)
+            // multicall进行再次解析
             if (data[2].indexOf("multicall(") != -1) {
               for (let k = 0; k < data[1][i].length; k++) {
                 console.log(data[1][i].length)
@@ -887,6 +729,10 @@ export default {
   margin-bottom: 30px;
 }
 
+.analyze {
+  margin-left: 41%;
+}
+
 .container .list .header {
   display: flex;
   width: 100%;
@@ -920,7 +766,6 @@ export default {
   flex-direction: row;
   display: inline-block;
   text-align: center;
-  margin-left: 41%;
   margin-bottom: 15px;
   width: 96px;
   height: 36px;
