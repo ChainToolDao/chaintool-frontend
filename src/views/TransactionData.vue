@@ -55,10 +55,10 @@
                 <div v-if='Array.isArray(scope.row.value)'>
                   <!-- 这里执行为数组时 -->
                   <span v-if='!Array.isArray(scope.row.argument)'>
-                      <span v-if="scope.row.argument.indexOf('[]')!=-1">
-                        <span>[</span>
-                        </span>
+                    <span v-if="scope.row.argument.indexOf('[]') != -1">
+                      <span>[</span>
                     </span>
+                  </span>
 
 
                   <span v-for="i, index in scope.row.value">
@@ -70,19 +70,19 @@
                       <span>{{ Conversion(scope.row.value[index]) }}</span>
                       <sub>16</sub>
                       <span>)</span>
-                      <span v-if="index+1!=scope.row.value.length"><span>,</span> <br></span>
+                      <span v-if="index + 1 != scope.row.value.length"><span>,</span> <br></span>
                     </span>
                     <span v-else>
-                      {{ i }} 
-                      <span v-if="index+1!=scope.row.value.length"> <span>,</span> <br></span>
-                     
+                      {{ i }}
+                      <span v-if="index + 1 != scope.row.value.length"> <span>,</span> <br></span>
+
                     </span>
                   </span>
                   <span v-if='!Array.isArray(scope.row.argument)'>
-                      <span v-if="scope.row.argument.indexOf('[]')!=-1">
-                        <span>]</span>
-                        </span>
+                    <span v-if="scope.row.argument.indexOf('[]') != -1">
+                      <span>]</span>
                     </span>
+                  </span>
                 </div>
 
 
@@ -474,7 +474,31 @@ export default {
             let subTypeArray = []
             for (let k = 0; k < iface.fragments[0].inputs[0].components.length; k++) {
               console.log(iface.fragments[0].inputs[i].components[k].type)
-              subTypeArray.push(iface.fragments[0].inputs[i].components[k].type)
+
+
+
+
+              if (iface.fragments[0].inputs[i].components[k].name != null) {
+                subTypeArray.push(iface.fragments[0].inputs[i].components[k].type+"   "+iface.fragments[0].inputs[i].components[k].name)
+
+                } else {
+                  subTypeArray.push(iface.fragments[0].inputs[i].components[k].type)
+
+                }
+
+
+
+
+
+
+
+           
+
+
+
+
+
+
             }
             typeArray.push(subTypeArray)
           } else {
@@ -484,12 +508,24 @@ export default {
               let Array = []
               for (let k = 0; k < iface.fragments[0].inputs[i].components.length; k++) {
                 console.log(iface.fragments[0].inputs[i].components[k].type)
-                Array.push(iface.fragments[0].inputs[i].components[k].type)
+
+                if (iface.fragments[0].inputs[i].components[k].name != null) {
+                  Array.push(iface.fragments[0].inputs[i].components[k].type + "  "+ iface.fragments[0].inputs[i].components[k].name)
+                } else {
+                  Array.push(iface.fragments[0].inputs[i].components[k].type)
+                }
+
+               
               }
               typeArray.push(Array)
             } else {
+              if (iface.fragments[0].inputs[i].name != null) {
+                typeArray.push(iface.fragments[0].inputs[i].type + "  " + iface.fragments[0].inputs[i].name)
+              } else {
+                typeArray.push(iface.fragments[0].inputs[i].type)
+              }
               console.log(iface.fragments[0].inputs[i].type)
-              typeArray.push(iface.fragments[0].inputs[i].type)
+
               console.log(typeArray)
             }
           }
