@@ -53,8 +53,16 @@
             <el-table-column label="值" width="420">
               <template slot-scope="scope">
                 <div v-if='Array.isArray(scope.row.value)'>
-                  <div v-for="i, index in scope.row.value">
-                    <div v-if="scope.row.value[index].toString().indexOf('0x') == -1">
+                  <!-- 这里执行为数组时 -->
+                  <span v-if='!Array.isArray(scope.row.argument)'>
+                      <span v-if="scope.row.argument.indexOf('[]')!=-1">
+                        <span>[</span>
+                        </span>
+                    </span>
+
+
+                  <span v-for="i, index in scope.row.value">
+                    <span v-if="scope.row.value[index].toString().indexOf('0x') == -1">
                       <span @click="matrixing(scope.row.value[index])" style="color:#409EFF">{{ scope.row.value[index]
                       }}</span>
                       <sub style="color:#409EFF">10</sub>
@@ -62,12 +70,23 @@
                       <span>{{ Conversion(scope.row.value[index]) }}</span>
                       <sub>16</sub>
                       <span>)</span>
-                    </div>
-                    <div v-else>
-                      {{ i }}
-                    </div>
-                  </div>
+                      <span v-if="index+1!=scope.row.value.length"><span>,</span> <br></span>
+                    </span>
+                    <span v-else>
+                      {{ i }} 
+                      <span v-if="index+1!=scope.row.value.length"> <span>,</span> <br></span>
+                     
+                    </span>
+                  </span>
+                  <span v-if='!Array.isArray(scope.row.argument)'>
+                      <span v-if="scope.row.argument.indexOf('[]')!=-1">
+                        <span>]</span>
+                        </span>
+                    </span>
                 </div>
+
+
+
                 <span v-else=""> {{ scope.row.value }}</span>
               </template>
             </el-table-column>
@@ -84,7 +103,6 @@
           </h5>
         </div>
         <div class="btn" v-if="!page" @click="coding()">编码</div>
-
       </div>
     </div>
   </div>
@@ -411,22 +429,23 @@ export default {
               })
               .then((res) => { });
           } catch (error) { }
-          console.log("测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置")
+          console.log("测试位置")
           console.log(sign)
         }
 
 
 
-        console.log("赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名", sign)
+        console.log("赋值函数签名", sign)
         sign = 'function ' + sign
         const iface = new ethers.utils.Interface([sign,]);// 这里写入处理后的数组
         sign = sign.slice(9, sign.length)
         console.log("输出位置")
         console.log(sign)
         console.log(ABIData)
+        console.log(iface)
         let dataResult = iface.decodeFunctionData(sign, ABIData)
-        console.log("成功获取")
-
+        console.log("成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取成功获取")
+        console.log(dataResult)
 
 
 
@@ -523,10 +542,11 @@ export default {
             console.log(data)
             console.log(data[0])
             console.log("执行第一种情况，结果是数组，但是不需要重新解析")
-            if (data[0][i] == "bytes[]") {
+            console.log("执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解执行数组的再次解析的情况执行数组的再次解析的情况")
+            console.log("输出", data)
+            if (data[2].indexOf("multicall(") != -1) {
               for (let k = 0; k < data[1][i].length; k++) {
                 console.log(data[1][i].length)
-                console.log("执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解执行数组的再次解析的情况执行数组的再次解析的情况")
                 console.log("data[1][i][k]")
                 console.log(data[1][i][k])
                 let secondaryCallData = await this.analyze(data[1][i][k])
@@ -800,7 +820,7 @@ export default {
   margin-bottom: 30px;
 }
 
-.container .el-select{
+.container .el-select {
   width: 100%;
   margin-bottom: 15px;
 }
@@ -864,7 +884,7 @@ export default {
   flex-direction: row;
   display: inline-block;
   text-align: center;
-  margin-left: 37%;
+  margin-left: 41%;
   margin-bottom: 15px;
   width: 96px;
   height: 36px;
