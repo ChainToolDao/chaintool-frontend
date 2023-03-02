@@ -32,7 +32,7 @@
           <div class="tips">解析结果</div>
           <el-table :data="data" style="width: 100%; " row-key="id" border :row-class-name="tableRowClassName"
             :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-            <el-table-column prop="id" label="参数类型" width="150">
+            <el-table-column prop="id" label="参数" width="150">
             </el-table-column>
             <el-table-column label="参数类型" width="150">
               <template slot-scope="scope">
@@ -375,39 +375,55 @@ export default {
         sign = sign.slice(9, sign.length)
         //获取结果
         let dataResult = iface.decodeFunctionData(sign, ABIData)
+
+        console.log(iface)
+        console.log("最终结果最终结果最终结果最终结果最终结果最终结果最终结果最终结果最终结果最终结果最终结果")
+        console.log(dataResult)
+
         let typeArray = []
+        let nameArray=[]
         for (let i = 0; i < iface.fragments[0].inputs.length; i++) {
+          nameArray.push(iface.fragments[0].inputs[i].name)
           if (iface.fragments[0].inputs[0].type == "tuple") {
             let subTypeArray = []
             for (let k = 0; k < iface.fragments[0].inputs[0].components.length; k++) {
-              if (iface.fragments[0].inputs[i].components[k].name != null) {
-                subTypeArray.push(iface.fragments[0].inputs[i].components[k].type + "   " + iface.fragments[0].inputs[i].components[k].name)
-              } else {
-                subTypeArray.push(iface.fragments[0].inputs[i].components[k].type)
-              }
+              subTypeArray.push(iface.fragments[0].inputs[i].components[k].type)
+              // if (iface.fragments[0].inputs[i].components[k].name != null) {
+              //   subTypeArray.push(iface.fragments[0].inputs[i].components[k].type + "   " + iface.fragments[0].inputs[i].components[k].name)
+              // } else {
+              //   subTypeArray.push(iface.fragments[0].inputs[i].components[k].type)
+              // }
+
+
+
             }
             typeArray.push(subTypeArray)
           } else {
             if (iface.fragments[0].inputs[i].type == "tuple[]") {
               let Array = []
               for (let k = 0; k < iface.fragments[0].inputs[i].components.length; k++) {
-                if (iface.fragments[0].inputs[i].components[k].name != null) {
-                  Array.push(iface.fragments[0].inputs[i].components[k].type + "  " + iface.fragments[0].inputs[i].components[k].name)
-                } else {
-                  Array.push(iface.fragments[0].inputs[i].components[k].type)
-                }
+                Array.push(iface.fragments[0].inputs[i].components[k].type)
+                // if (iface.fragments[0].inputs[i].components[k].name != null) {
+                //   Array.push(iface.fragments[0].inputs[i].components[k].type + "  " + iface.fragments[0].inputs[i].components[k].name)
+                // } else {
+                //   Array.push(iface.fragments[0].inputs[i].components[k].type)
+                // }
               }
               typeArray.push(Array)
             } else {
-              if (iface.fragments[0].inputs[i].name != null) {
-                typeArray.push(iface.fragments[0].inputs[i].type + "  " + iface.fragments[0].inputs[i].name)
-              } else {
-                typeArray.push(iface.fragments[0].inputs[i].type)
-              }
+              typeArray.push(iface.fragments[0].inputs[i].type)
+              // if (iface.fragments[0].inputs[i].name != null) {
+              //   typeArray.push(iface.fragments[0].inputs[i].type + "  " + iface.fragments[0].inputs[i].name)
+              // } else {
+              //   typeArray.push(iface.fragments[0].inputs[i].type)
+              // }
             }
           }
         }
-        return [typeArray, dataResult, sign]
+        
+        console.log([typeArray, dataResult, sign, nameArray])
+        console.log("输出输出结果返回值")
+        return [typeArray, dataResult, sign, nameArray]
       } catch (error) { }
     },
     async queryResultProcessing(data) {
@@ -419,7 +435,7 @@ export default {
             console.log(data)
             console.log(data[0])
             console.log("执行第一种情况，结果是数组，但是不需要重新解析")
-            console.log("执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解析的情况执行数组的再次解执行数组的再次解析的情况执行数组的再次解析的情况")
+            console.log("执行数组的再次解析的情况")
             console.log("输出", data)
             // multicall进行再次解析
             if (data[2].indexOf("multicall(") != -1) {
@@ -431,7 +447,7 @@ export default {
                 let methodname = secondaryCallData[2]
                 let analysisResult = await this.queryResultProcessing(secondaryCallData);
 
-                console.log("analysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResultanalysisResult")
+                console.log("analysisResult   ")
                 console.log(analysisResult)
                 for (let j = 0; j < analysisResult.length; j++) {
                   analysisResult[j].id = "fun" + (k + 1) + "[" + analysisResult[j].id + "]"
@@ -443,7 +459,7 @@ export default {
                   "children": analysisResult
                 }
                 processResult.push(queryType)
-                console.log("processResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResultprocessResult")
+                console.log("processResult   ")
                 console.log(processResult)
                 console.log(i)
               }
@@ -510,47 +526,116 @@ export default {
               console.log("sdasdsadsasadsadsadsssssssss")
               console.log(argument)
               console.log(value)
-              console.log("这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况这里是不需要再次解析的情况")
+              console.log("这里是不需要再次解析的情况")
 
-              let queryType = {
-                'id': "var_" + (i + 1),
-                "argument": argument,
-                "value": value,
+              // let queryType = {
+              //   'id': "var_" + (i + 1),
+              //   "argument": data[0][i],
+              //   "value": value,
+              // }
+
+
+
+              console.log("输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值")
+              console.log(data[0][i])
+              console.log(data[3][i])
+
+
+              //对于数组值全部为null需要清空，这里需要思考如何展示的问题
+              // if(Array.isArray(data[3][i])){
+              //   for(let k =0; k<data[3][i].length;k++){
+                  
+              //   }
+              // }
+
+
+              if (data[3][i] != null) {
+                console.log("不为空")
+                let queryType = {
+                  'id': data[3][i],
+                  "argument": data[0][i],
+                  "value": value,
+                }
+                processResult.push(queryType)
               }
-              console.log("输出情况")
-              console.log(i)
+              else {
+                let queryType = {
+                  'id': "var_" + (i + 1),
+                  "argument": data[0][i],
+                  "value": value,
+                }
+                processResult.push(queryType)
+              }
 
-              console.log("执行5596")
-              processResult.push(queryType)
-              console.log(queryType)
+
             }
 
 
           }
           else if (data[1][i]._hex || data[0][i].indexOf("int") != -1) {
             console.log('执行第二种情况，为int或uint类型')
-            let queryType = {
-              'id': "var_" + (i + 1),
-              "argument": data[0][i],
-              "value": [String(data[1][i])]
-              // "value": ["number",String(data[1][i]),data[1][i]._hex]   
+
+
+
+
+            if (data[3][i] != null) {
+              console.log("不为空")
+              let queryType = {
+                'id': data[3][i],
+                "argument": data[0][i],
+                "value": [String(data[1][i])],
+              }
+              processResult.push(queryType)
             }
-            processResult.push(queryType)
-            console.log(queryType)
+            else {
+              let queryType = {
+                'id': "var_" + (i + 1),
+                "argument": data[0][i],
+                "value": [String(data[1][i])],
+              }
+              processResult.push(queryType)
+            }
+
+
+
+
+
+
+
+
           }
           else {
             console.log("执行第三种情况")
-            let queryType = {
-              'id': "var_" + (i + 1),
-              "argument": data[0][i],
-              "value": data[1][i],
+            //修改位置
+            console.log(data[3][i])
+            if (data[3][i] != null) {
+              console.log("不为空")
+              let queryType = {
+                'id': data[3][i],
+                "argument": data[0][i],
+                "value": data[1][i],
+              }
+              processResult.push(queryType)
             }
+            else {
+              let queryType = {
+                'id': "var_" + (i + 1),
+                "argument": data[0][i],
+                "value": data[1][i],
+              }
+              processResult.push(queryType)
+            }
+            // let queryType = {
+            //   'id': data[3][i],
+            //   "argument": data[0][i],
+            //   "value": data[1][i],
+            // }
+            // processResult.push(queryType)
 
-            console.log("sssss输出三四五")
-            console.log(queryType)
+            // console.log("sssss输出三四五")
+            // console.log(queryType)
 
-            processResult.push(queryType)
-            console.log(queryType)
+            // console.log(queryType)
           }
         }
         console.log("函数返回值+")
