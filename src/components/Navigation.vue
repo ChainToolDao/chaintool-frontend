@@ -8,7 +8,7 @@
             </div>
             <div class="rightcontainer">
                 <div>
-                    <a href="" target="_blank"> <img class="github" src="../assets/imgs/github.png" alt=""></a>
+                    <a href="https://github.com/ChainToolDao" target="_blank"> <img class="github" src="../assets/imgs/github.png" alt=""></a>
                     <a href="https://twitter.com/NUpchain" target="_blank"> <img class="twitter"
                             src="../assets/imgs/twitter.png" alt=""></a>
                 </div>
@@ -162,7 +162,7 @@ export default {
 }
 
 .rightcontainer {
-    display: flex;
+    display: flex;  
     align-items: center
 }
 </style>
