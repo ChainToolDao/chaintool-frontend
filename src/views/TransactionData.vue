@@ -53,30 +53,53 @@
             <el-table-column label="值" width="420">
               <template slot-scope="scope">
                 <div v-if='Array.isArray(scope.row.value)'>
-                  <span v-if='!Array.isArray(scope.row.argument)'>
-                    <span v-if="scope.row.argument.indexOf('[]') != -1">
-                      <span>[</span>
+                  <span v-if="Array.isArray(scope.row.value[0])">
+                    <span>[(</span>
+                    <span v-for="i, index in scope.row.value[0]">
+                      <span v-if="scope.row.value[0][index].toString().indexOf('0x') == -1">
+                        <span @click="matrixing(scope.row.value[0][index])" style="color:#409EFF">{{
+                          scope.row.value[0][index]
+                        }}</span>
+                        <sub style="color:#409EFF">10</sub>
+                        <span>(</span>
+                        <span>{{ Conversion(scope.row.value[0][index]) }}</span>
+                        <sub>16</sub>
+                        <span>)</span>
+                        <span v-if="index + 1 != scope.row.value[0].length"><span>,</span> </span>
+                      </span>
+                      <span v-else>
+                        {{ i }}
+                        <span v-if="index + 1 != scope.row.value[0].length"> <span>,</span> <br></span>
+                      </span>
                     </span>
+                    <span>)]</span>
                   </span>
-                  <span v-for="i, index in scope.row.value">
-                    <span v-if="scope.row.value[index].toString().indexOf('0x') == -1">
-                      <span @click="matrixing(scope.row.value[index])" style="color:#409EFF">{{ scope.row.value[index]
-                      }}</span>
-                      <sub style="color:#409EFF">10</sub>
-                      <span>(</span>
-                      <span>{{ Conversion(scope.row.value[index]) }}</span>
-                      <sub>16</sub>
-                      <span>)</span>
-                      <span v-if="index + 1 != scope.row.value.length"><span>,</span> <br></span>
+                  <span v-else>
+                    <span v-if='!Array.isArray(scope.row.argument)'>
+                      <span v-if="scope.row.argument.indexOf('[]') != -1">
+                        <span>[</span>
+                      </span>
                     </span>
-                    <span v-else>
-                      {{ i }}
-                      <span v-if="index + 1 != scope.row.value.length"> <span>,</span> <br></span>
+                    <span v-for="i, index in scope.row.value">
+                      <span v-if="scope.row.value[index].toString().indexOf('0x') == -1">
+                        <span @click="matrixing(scope.row.value[index])" style="color:#409EFF">{{ scope.row.value[index]
+                        }}</span>
+                        <sub style="color:#409EFF">10</sub>
+                        <span>(</span>
+                        <span>{{ Conversion(scope.row.value[index]) }}</span>
+                        <sub>16</sub>
+                        <span>)</span>
+                        <span v-if="index + 1 != scope.row.value.length"><span>,</span> <br></span>
+                      </span>
+                      <span v-else>
+                        {{ i }}
+                        <span v-if="index + 1 != scope.row.value.length"> <span>,</span> <br></span>
+                      </span>
                     </span>
-                  </span>
-                  <span v-if='!Array.isArray(scope.row.argument)'>
-                    <span v-if="scope.row.argument.indexOf('[]') != -1">
-                      <span>]</span>
+                    <span v-if='!Array.isArray(scope.row.argument)'>
+                      <span v-if="scope.row.argument.indexOf('[]') != -1">
+                        <span>]</span>
+                      </span>
                     </span>
                   </span>
                 </div>
@@ -387,10 +410,14 @@ export default {
             typeArray.push(subTypeArray)
           } else {
             if (iface.fragments[0].inputs[i].type == "tuple[]") {
-              let Array = []
+              let Array = "("
               for (let k = 0; k < iface.fragments[0].inputs[i].components.length; k++) {
-                Array.push(iface.fragments[0].inputs[i].components[k].type)
+                Array = Array + iface.fragments[0].inputs[i].components[k].type
+                if (k < iface.fragments[0].inputs[i].components.length - 1) {
+                  Array = Array + ","
+                }
               }
+              Array = Array + ")[]"
               typeArray.push(Array)
             } else {
               typeArray.push(iface.fragments[0].inputs[i].type)
@@ -423,19 +450,12 @@ export default {
                 processResult.push(queryType)
               }
             } else {
-              let argument = ""
-              let value = ""
-              argument = data[0][i]
-              if (typeof (data[1][i][0]) == 'string' || data[1][i].length >= 2) {
-                value = data[1][i]
-              } else {
-                value = data[1][i][0]
-              }
+              //不需要再次解析的数组结构
               if (data[3][i] != null) {
                 let queryType = {
                   'id': data[3][i],
                   "argument": data[0][i],
-                  "value": value,
+                  "value": data[1][i],
                 }
                 processResult.push(queryType)
               }
@@ -443,7 +463,7 @@ export default {
                 let queryType = {
                   'id': "var_" + (i + 1),
                   "argument": data[0][i],
-                  "value": value,
+                  "value": data[1][i],
                 }
                 processResult.push(queryType)
               }
