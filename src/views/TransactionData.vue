@@ -26,6 +26,9 @@
             </el-option>
           </el-select>
           <el-input v-model="choose" placeholder="Input Function " v-if="findFunction"></el-input>
+          <div v-if="page">
+            <div class="btn " @click="inquire">解析</div>
+          </div>
           <div class="tips">解析结果</div>
           <el-table :data="data" style="width: 100%; " row-key="id" border :row-class-name="tableRowClassName"
             :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
@@ -81,9 +84,7 @@
           </h5>
         </div>
         <div class="btn" v-if="!page" @click="coding()">编码</div>
-        <div v-if="page">
-          <div class="btn " @click="inquire">解析</div>
-        </div>
+
       </div>
     </div>
   </div>
@@ -114,9 +115,9 @@ export default {
   data() {
     return {
       result: "0x23b872dd0000000000000000000000008ba1f109551bd432803012645ac136ddd64dba72000000000000000000000000ab7c8803962c0f2f5bbbe3fa8bf41cd82aa1923c0000000000000000000000000000000000000000000000000de0b6b3a7640000",     //输入的数据
-      signature: [],  
-      choose: "",    
-      results: [],    
+      signature: [],
+      choose: "",
+      results: [],
       findFunction: false,
       radioValue: "true",
       activeIndex: "1",
@@ -411,11 +412,12 @@ export default {
               .then((res) => { });
           } catch (error) { }
           console.log("测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置测试位置")
+          console.log(sign)
         }
 
 
 
-        console.log("赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名", this.choose)
+        console.log("赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名赋值函数签名", sign)
         sign = 'function ' + sign
         const iface = new ethers.utils.Interface([sign,]);// 这里写入处理后的数组
         sign = sign.slice(9, sign.length)
@@ -791,11 +793,16 @@ export default {
   margin-bottom: 20px;
 }
 
-.container .el-select,
+
 .container .el-input,
 .container .el-textarea {
   width: 100%;
   margin-bottom: 30px;
+}
+
+.container .el-select{
+  width: 100%;
+  margin-bottom: 15px;
 }
 
 .el-radio {
@@ -857,8 +864,8 @@ export default {
   flex-direction: row;
   display: inline-block;
   text-align: center;
-  margin-top: 10px;
-  margin-left: 20px;
+  margin-left: 37%;
+  margin-bottom: 15px;
   width: 96px;
   height: 36px;
   line-height: 35px;
@@ -972,4 +979,5 @@ export default {
   margin-left: -1px;
   width: 421px;
   height: auto;
-}</style>
+}
+</style>
