@@ -373,29 +373,16 @@ export default {
         sign = 'function ' + sign
         const iface = new ethers.utils.Interface([sign,]);
         sign = sign.slice(9, sign.length)
-        //获取结果
+        //获取解析结果
         let dataResult = iface.decodeFunctionData(sign, ABIData)
-
-        console.log(iface)
-        console.log("最终结果最终结果最终结果最终结果最终结果最终结果最终结果最终结果最终结果最终结果最终结果")
-        console.log(dataResult)
-
         let typeArray = []
-        let nameArray=[]
+        let nameArray = []
         for (let i = 0; i < iface.fragments[0].inputs.length; i++) {
           nameArray.push(iface.fragments[0].inputs[i].name)
           if (iface.fragments[0].inputs[0].type == "tuple") {
             let subTypeArray = []
             for (let k = 0; k < iface.fragments[0].inputs[0].components.length; k++) {
               subTypeArray.push(iface.fragments[0].inputs[i].components[k].type)
-              // if (iface.fragments[0].inputs[i].components[k].name != null) {
-              //   subTypeArray.push(iface.fragments[0].inputs[i].components[k].type + "   " + iface.fragments[0].inputs[i].components[k].name)
-              // } else {
-              //   subTypeArray.push(iface.fragments[0].inputs[i].components[k].type)
-              // }
-
-
-
             }
             typeArray.push(subTypeArray)
           } else {
@@ -403,26 +390,13 @@ export default {
               let Array = []
               for (let k = 0; k < iface.fragments[0].inputs[i].components.length; k++) {
                 Array.push(iface.fragments[0].inputs[i].components[k].type)
-                // if (iface.fragments[0].inputs[i].components[k].name != null) {
-                //   Array.push(iface.fragments[0].inputs[i].components[k].type + "  " + iface.fragments[0].inputs[i].components[k].name)
-                // } else {
-                //   Array.push(iface.fragments[0].inputs[i].components[k].type)
-                // }
               }
               typeArray.push(Array)
             } else {
               typeArray.push(iface.fragments[0].inputs[i].type)
-              // if (iface.fragments[0].inputs[i].name != null) {
-              //   typeArray.push(iface.fragments[0].inputs[i].type + "  " + iface.fragments[0].inputs[i].name)
-              // } else {
-              //   typeArray.push(iface.fragments[0].inputs[i].type)
-              // }
             }
           }
         }
-        
-        console.log([typeArray, dataResult, sign, nameArray])
-        console.log("输出输出结果返回值")
         return [typeArray, dataResult, sign, nameArray]
       } catch (error) { }
     },
@@ -431,24 +405,12 @@ export default {
         let processResult = []
         for (let i = 0; i < data[1].length; i++) {
           if (Array.isArray(data[1][i])) {
-            console.log("调用处理函数13")
-            console.log(data)
-            console.log(data[0])
-            console.log("执行第一种情况，结果是数组，但是不需要重新解析")
-            console.log("执行数组的再次解析的情况")
-            console.log("输出", data)
             // multicall进行再次解析
             if (data[2].indexOf("multicall(") != -1) {
               for (let k = 0; k < data[1][i].length; k++) {
-                console.log(data[1][i].length)
-                console.log("data[1][i][k]")
-                console.log(data[1][i][k])
                 let secondaryCallData = await this.analyze(data[1][i][k])
                 let methodname = secondaryCallData[2]
                 let analysisResult = await this.queryResultProcessing(secondaryCallData);
-
-                console.log("analysisResult   ")
-                console.log(analysisResult)
                 for (let j = 0; j < analysisResult.length; j++) {
                   analysisResult[j].id = "fun" + (k + 1) + "[" + analysisResult[j].id + "]"
                 }
@@ -459,98 +421,17 @@ export default {
                   "children": analysisResult
                 }
                 processResult.push(queryType)
-                console.log("processResult   ")
-                console.log(processResult)
-                console.log(i)
               }
-              // console.log(data)
-              // let analysisResult = await this.queryResultProcessing(await this.analyze(data[1][i][0]));
-              // console.log("输出ddd")
-              // console.log(analysisResult)
-              // console.log("调用处理函数14")
-              // console.log(data)
-              // console.log(data[0])
-              // for (let i = 0; i < analysisResult.length; i++) {
-              //   analysisResult[i].id = "Subdata_" + analysisResult[i].id
-              // }
-              // console.log("数组")
-              // console.log(analysisResult)
-              // console.log("调用处理函数15")
-              // console.log(data)
-              // console.log(data[0])
-              // let queryType = {
-              //   'id': i + 1,
-              //   "argument": data[0][0],
-              //   "value": data[1][i][0],
-              //   "children": analysisResult
-              // }
-              // processResult.push(queryType)
-              // console.log("输出二次查询的内容")
-              // console.log(queryType)
             } else {
-              console.log("这里是不需要再次解析的情况")
-              //需要再添加一个处理
               let argument = ""
               let value = ""
-              console.log(data[0])
-              console.log(data[1][i])
-              console.log(data[0].length)
-              console.log(data[1][i].length)
-              // for (let i = 1; i < data[0].length; i++) {
-
-
-
-              //去掉第一位元素
-              // data[0].shift()
-
               argument = data[0][i]
-              // if (argument == "") {
-              //   argument = data[0][i]
-              // } else {
-              //   argument = argument + "\n" + data[0][i]
-              // }
-              console.log("调用argument")
-              console.log(argument)
-              // }
-              console.log("执行")
-              // for (let i = 0; i < data[1][0].length; i++) {
-              console.log("调用33474")
-
-              //09修改位置
-              console.log(data[1][i])
               if (typeof (data[1][i][0]) == 'string' || data[1][i].length >= 2) {
                 value = data[1][i]
               } else {
                 value = data[1][i][0]
               }
-              console.log("sdasdsadsasadsadsadsssssssss")
-              console.log(argument)
-              console.log(value)
-              console.log("这里是不需要再次解析的情况")
-
-              // let queryType = {
-              //   'id': "var_" + (i + 1),
-              //   "argument": data[0][i],
-              //   "value": value,
-              // }
-
-
-
-              console.log("输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值输出值")
-              console.log(data[0][i])
-              console.log(data[3][i])
-
-
-              //对于数组值全部为null需要清空，这里需要思考如何展示的问题
-              // if(Array.isArray(data[3][i])){
-              //   for(let k =0; k<data[3][i].length;k++){
-                  
-              //   }
-              // }
-
-
               if (data[3][i] != null) {
-                console.log("不为空")
                 let queryType = {
                   'id': data[3][i],
                   "argument": data[0][i],
@@ -566,20 +447,10 @@ export default {
                 }
                 processResult.push(queryType)
               }
-
-
             }
-
-
           }
           else if (data[1][i]._hex || data[0][i].indexOf("int") != -1) {
-            console.log('执行第二种情况，为int或uint类型')
-
-
-
-
             if (data[3][i] != null) {
-              console.log("不为空")
               let queryType = {
                 'id': data[3][i],
                 "argument": data[0][i],
@@ -595,21 +466,9 @@ export default {
               }
               processResult.push(queryType)
             }
-
-
-
-
-
-
-
-
           }
           else {
-            console.log("执行第三种情况")
-            //修改位置
-            console.log(data[3][i])
             if (data[3][i] != null) {
-              console.log("不为空")
               let queryType = {
                 'id': data[3][i],
                 "argument": data[0][i],
@@ -625,62 +484,18 @@ export default {
               }
               processResult.push(queryType)
             }
-            // let queryType = {
-            //   'id': data[3][i],
-            //   "argument": data[0][i],
-            //   "value": data[1][i],
-            // }
-            // processResult.push(queryType)
-
-            // console.log("sssss输出三四五")
-            // console.log(queryType)
-
-            // console.log(queryType)
           }
         }
-        console.log("函数返回值+")
-        console.log(processResult)
         return processResult
       } catch (error) { }
     },
     //解析
     async inquire() {
-      console.log("第一次进入函数的签名")
-      console.log(this.choose)
       let searchResult = await this.$options.methods.analyze(this.result, this.choose);
-
-
       this.data = await this.$options.methods.queryResultProcessing(searchResult);
-      console.log("输出位置sddddddd")
-
-      console.log(this.data)
-
       if (this.data == undefined) {
-
         this.$message.error("查询失败，请检查你的输入后重试");
-
-
       }
-      // this.data[0].value='fg'
-      // this.data[0].argument='yuugyyu'
-      // this.data=  [{
-      //     id: 1,
-      //     argument: '2016-05-02',
-      //     value: '王小虎',
-      //     children: [{
-      //         id: 31,
-      //         argument: '2016-05-01',
-      //         value: '王小虎',
-      //       }, 
-      //     ]
-      //   }
-      // ]
-      console.log("this.data")
-      console.log(this.data)
-
-
-
-
     },
     //调用复制的方法
     copy(text) {
@@ -722,8 +537,6 @@ export default {
   width: 680px;
   word-wrap: break-word;
 }
-
-
 
 .hezi {
   width: 704px;
@@ -776,7 +589,6 @@ export default {
   margin-bottom: 20px;
 }
 
-
 .container .el-input,
 .container .el-textarea {
   width: 100%;
@@ -790,7 +602,6 @@ export default {
 
 .el-radio {
   margin: 0 20px;
-
 }
 
 .container .el-select,
@@ -887,7 +698,6 @@ export default {
 .el-table_cell {
   white-space: pre-wrap;
 }
-
 
 /deep/ .success-row {
   background: #efefef;
