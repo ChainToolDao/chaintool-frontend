@@ -3,15 +3,15 @@
     <Navigation></Navigation>
     <div class="TopicID">
       <div class="container">
-        <h3>事件签名获取TopicID</h3>
+        <h3>查询事件主题(TopicID)</h3>
         <div>
-          <h5>获取TopicID</h5>
+          <h5>根据事件名查询主题(TopicID)</h5>
           <div>
             <el-input
               v-model="inputEventSignature"
               placeholder="Input Event Signature"
             ></el-input>
-            <el-button @click="obtainTopicID">确认获取</el-button>
+            <el-button @click="obtainTopicID">查询</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -25,13 +25,13 @@
         </h5>
 
         <div>
-          <h5>获取事件签名</h5>
+          <h5>根据TopicID查询事件名</h5>
           <div>
             <el-input
               v-model="inputTopicID"
-              placeholder="Input Topic ID"
+              placeholder="Input TopicID"
             ></el-input>
-            <el-button @click="obtainEventSignature()">确认获取</el-button>
+            <el-button @click="obtainEventSignature()">查询</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -62,12 +62,12 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Chaintool - 事件签名获取TopicID",
+      title: "Chaintool - 查询事件主题(TopicID)",
 
       meta: [
         {
           name: "keyword",
-          content: "事件签名获取TopicID,TopicID获取事件签名",
+          content: "根据事件名获取TopicID及TopicID获取事件签名",
         },
       ],
     };

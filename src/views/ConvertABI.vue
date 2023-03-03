@@ -3,12 +3,12 @@
     <Navigation></Navigation>
     <div class="ABI">
       <div class="container">
-        <h3>函数签名获取选择器</h3>
+        <h3>函数名查询函数选择器(4字节)</h3>
         <div>
-          <h5>获取选择器</h5>
+          <h5>通过函数名查询4字节函数选择器</h5>
           <div>
             <el-input v-model="enterABI" placeholder="Enter The Function Signature"></el-input>
-            <el-button @click="aBITranslation">确认获取</el-button>
+            <el-button @click="aBITranslation">查询</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -17,10 +17,10 @@
         </h5>
 
         <div>
-          <h5>获取函数签名</h5>
+          <h5>通过字节函数选择器函数名查询函数签名</h5>
           <div>
             <el-input v-model="reverseLookupSign" placeholder="Input Selector"></el-input>
-            <el-button @click="querySignature()">确认获取</el-button>
+            <el-button @click="querySignature()">查询</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -45,12 +45,12 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Chaintool - 函数签名获取选择器",
+      title: "Chaintool - 函数名查询函数选择器(4字节)",
 
       meta: [
         {
           name: "keyword",
-          content: "函数签名获取选择器,选择器获取函数签名",
+          content: "函数选择器(4字节)查询及反查",
         },
       ],
     };

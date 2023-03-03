@@ -3,9 +3,9 @@
     <Navigation></Navigation>
     <div class="Hash">
       <div class="container">
-        <h3>Hash工具</h3>
+        <h3>Hash 工具</h3>
         <div>
-          <h5>Hash工具</h5>
+          <h5>Hash 工具</h5>
           <div>
             <el-radio-group v-model="algorithmSelection" @change="agreeChange">
               <el-radio label="1" border size="medium" @change="agreeChange"
@@ -34,8 +34,8 @@
           </div>
           <div>
             <select name="" v-model="radio" id="">
-              <option value="0">Text</option>
-              <option value="1">Hex</option>
+              <option value="0"> Text </option>
+              <option value="1"> Hex </option>
             </select>
             <el-input
               v-model="inputHash"
@@ -76,7 +76,7 @@ export default {
       meta: [
         {
           name: "keyword",
-          content: "Hash工具，Keccak-256计算，Base64编码，Base64解码",
+          content: "Hash工具：Keccak-256 计算，Base64 编码，Base64 解码",
         },
       ],
     };

@@ -6,10 +6,10 @@
         <h3>批量生成EVM钱包</h3>
         <div>
           <el-radio v-model="radio" label="1" @change="agreeChange"
-            >批量生成</el-radio
+            >随机批量生成</el-radio
           >
           <el-radio v-model="radio" label="2" @change="agreeChange"
-            >私钥或助记词创建</el-radio
+            >自定义私钥或助记词创建</el-radio
           >
         </div>
         <div v-if="radio == 1">
@@ -42,14 +42,11 @@
                 v-model="walletQuantity"
                 placeholder="Input Number Of Wallets"
               ></el-input>
-              <el-button v-if="!buildState" @click="transfer()"
-                >立即生成</el-button
+              <el-button v-if="!buildState" @click="generate()">立即生成</el-button
               >
-              <el-button v-if="buildState" @click="transfer"
-                >重新生成</el-button
+              <el-button v-if="buildState" @click="generate">重新生成</el-button
               >
-              <el-button v-if="buildState" @click="exportexcel"
-                >下载表格</el-button
+              <el-button v-if="buildState" @click="exportexcel">下载表格</el-button
               >
             </div>
           </div>
@@ -125,12 +122,12 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Chaintool - 生成EVM钱包",
+      title: "Chaintool - 批量生成 EVM 钱包",
 
       meta: [
         {
           name: "keyword",
-          content: "生成EVM钱包,批量生成EVM钱包",
+          content: "生成 EVM 钱包,批量生成 EVM 钱包",
         },
       ],
     };
@@ -223,7 +220,7 @@ export default {
       } catch (e) {}
       return wbout;
     },
-    transfer() {
+    generate() {
       this.loading = !this.loading;
       let that = this;
       setTimeout(function () {

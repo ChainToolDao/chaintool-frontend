@@ -11,7 +11,7 @@ import ConvertABI from '../views/ConvertABI.vue'
 import GenerateWallet from '../views/GenerateWallet.vue'
 import ConvertTopicID from '../views/ConvertTopicID.vue'
 import HashTool from '../views/HashTool.vue'
-import  TransactionData from '../views/TransactionData.vue'
+import  CalldataDecode from '../views/CalldataDecode.vue'
 
 
 Vue.use(Router)
@@ -66,7 +66,7 @@ export default new Router({
             component: GenerateWallet
         },
         {
-            path: '/convertTopicID',
+            path: '/topicID',
             name: 'ConvertTopicID',
             component: ConvertTopicID
         },
@@ -76,9 +76,9 @@ export default new Router({
             component: HashTool
         },
         {
-            path: '/transactionData',
-            name: 'TransactionData',
-            component: TransactionData
+            path: '/calldata',
+            name: 'CalldataDecode',
+            component: CalldataDecode
         },
         {
             path: '/*',
