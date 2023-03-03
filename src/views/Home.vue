@@ -5,12 +5,9 @@
             <div class="topTips">
                 <div>
                     <div>Chaintool 实用工具，让区块链开发更轻松</div>
-
                     <div>巧妙处理、提高效率，所需的工具尽在于此。</div>
                     <el-button type="primary" ><a href="https://github.com/ChainToolDao/chaintool-frontend/issues/new?assignees=&labels=&template=feature.md&title=" class="theFeedback" >问题反馈</a></el-button>
                          </div>
-                
-
                 <img src="../assets/imgs/main.png">
             </div>
 
@@ -124,13 +121,13 @@ export default {
                     title: 'hash工具',
                     detail: 'hash工具，keccak-256、base64 等计算',
                     router: '/hashTool',
-                    url: require('../assets/imgs/tool_list8.png'),
+                    url: require('../assets/imgs/tool_list7.png'),
                 },
                 {
                     title: '解析交易输入数据',
                     detail: '解析交易输入数据',
                     router: '/transactionData',
-                    url: require('../assets/imgs/tool_list8.png'),
+                    url: require('../assets/imgs/tool_list11.png'),
                 },
             ],
         }
