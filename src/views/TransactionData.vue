@@ -33,23 +33,12 @@
             </el-table-column>
             <el-table-column label="参数类型" width="150">
               <template slot-scope="scope">
-                <div v-if='Array.isArray(scope.row.argument)'>
-                  <span style="line-height:25px">(</span>
-                  <span v-for=" i, index  in scope.row.argument" style="line-height: 26px;">
-                    <span v-if="index == 0">{{ i }},</span>
-                    <div v-else-if="index != 0 && index + 1 != scope.row.argument.length">
-                      {{ i }},
-                    </div>
-                    <span v-else-if="index + 1 == scope.row.argument.length">{{ i }}</span>
-                  </span>
-                  <span>)</span>
-                </div>
-                <span v-else=""> {{ scope.row.argument }}</span>
+                <TransactionDataTableParameterType :data=scope.row.argument></TransactionDataTableParameterType>
               </template>
             </el-table-column>
             <el-table-column label="值" width="420">
               <template slot-scope="scope">
-                <TransactionDataTableValue :data=[scope.row.argument,scope.row.value]></TransactionDataTableValue>
+                <TransactionDataTableValue :data=scope.row></TransactionDataTableValue>
               </template>
             </el-table-column>
           </el-table>
@@ -74,12 +63,14 @@ import Navigation from "../components/Navigation.vue";
 import intefUrl from "../interface";
 import axios from "axios";
 import Clipboard from "clipboard";
-import TransactionDataTableValue from "./TransactionDatatable/TransactionDataTableValue.vue";
+import TransactionDataTableValue from "./TransactionDataTable/TransactionDataTableValue.vue";
+import TransactionDataTableParameterType from "./TransactionDataTable/TransactionDataTableParameterType.vue";
 export default {
   name: "transactionData",
   components: {
     Navigation,
     TransactionDataTableValue,
+    TransactionDataTableParameterType
   },
   metaInfo() {
     return {
@@ -391,8 +382,6 @@ export default {
             } else {
               //不需要再次解析的数组结构
               if (data[3][i] != null) {
-                console.log("执行位置1")
-                console.log(data[1][i])
                 let queryType = {
                   'id': data[3][i],
                   "argument": data[0][i],
@@ -401,62 +390,6 @@ export default {
                 processResult.push(queryType)
               }
               else {
-                //处理元组的位置
-                // console.log("执行位置2")
-                // console.log(data[1][i])
-
-                // if ((typeof data[1][i][0] == 'object') && data[1][i][0].constructor == Array) {
-                //   for (let k = 0; k < data[1][i][0].length; k++) {
-                //     //判断字符的类型
-                //     console.log("输出字符的类型1")
-                //     console.log(data[1][i][0][k])
-                //     console.log(typeof (data[1][i][0][k]))
-
-
-                //     try {
-                //       if (typeof (data[1][i][0][k]) == "number" && data[1][i][0][k] < 10000) {
-                //         data[1][i][0][k] = String(data[1][i][0][k])
-                //         // data[1][i][k] = 555555
-                //       }
-                //       if(typeof (data[1][i][0][k])=="object"&&data[1][i][0][k]._hex<10000){
-                //         data[1][i][0][k]=data[1][i][0][k]._hex
-                //       }
-                //     } catch (error) {
-                //       console.log(error)
-                //     }
-
-
-                //   }
-                // } else {
-                //   for (let k = 0; k < data[1][i].length; k++) {
-                //     //判断字符的类型
-
-                //     console.log("输出字符的类型2")
-                //     console.log(data[1][i][k])
-                //     console.log(typeof (data[1][i][k]))
-                //     try {
-                //       if (typeof (data[1][i][k]) == "number" && data[1][i][k] < 10000) {
-                //         data[1][i][k] = String(data[1][i][k])
-                //         // data[1][i][k] = 555555
-                //       }
-                //       if(typeof (data[1][i][k])=="object"&&data[1][i][k]._hex<10000){
-                //         data[1][i][k]=data[1][i][k]._hex
-                //       }
-                //     } catch (error) {
-                //       console.log(error)
-                //     }
-
-
-
-                //   }
-
-                // }
-
-
-
-                console.log(data[1][i])
-
-
                 let queryType = {
                   'id': "var_" + (i + 1),
                   "argument": data[0][i],
@@ -469,38 +402,20 @@ export default {
           else if (data[1][i]._hex || data[0][i].indexOf("int") != -1) {
 
             let queryTypeID = null
-            // if (Number(data[1][i]) < 10000) {
-            //   queryTypeValue = data[1][i]
-            // } else {
-            //   queryTypeValue = [String(data[1][i])]
-            // }
             if (data[3][i] != null) {
               queryTypeID = data[3][i]
             } else {
               queryTypeID = "var_" + (i + 1)
             }
-            console.log("执行位置3")
             let queryType = {
               'id': queryTypeID,
               "argument": data[0][i],
               "value": [String(data[1][i])],
             }
             processResult.push(queryType)
-
-
-
-
-
-
-
-
-
-
           }
           else {
             if (data[3][i] != null) {
-              console.log("执行位置4")
-              console.log(data[1][i])
               let queryType = {
                 'id': data[3][i],
                 "argument": data[0][i],
@@ -509,8 +424,6 @@ export default {
               processResult.push(queryType)
             }
             else {
-              console.log("执行位置5")
-              console.log(data[1][i])
               let queryType = {
                 'id': "var_" + (i + 1),
                 "argument": data[0][i],
