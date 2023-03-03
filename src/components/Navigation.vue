@@ -2,15 +2,22 @@
     <div class="navigation">
         <div class="container">
             <div class="btn" @click="toHome()">
-                <span>Chaintool</span>
-            </div>  
-
-            <div>
+                <span>
+                    <img class="topLogo" src="../assets/imgs/topLogo.png" alt="">
+                </span>
+            </div>
+            <div class="rightcontainer">
+                <div>
+                    <a href="https://github.com/ChainToolDao" target="_blank"> <img class="github" src="../assets/imgs/github.png" alt=""></a>
+                    <a href="https://twitter.com/NUpchain" target="_blank"> <img class="twitter"
+                            src="../assets/imgs/twitter.png" alt=""></a>
+                </div>
                 <div v-if="address" class="connect connected">
                     <div></div>
 
                     <div>{{ address }}</div>
                 </div>
+
 
                 <div v-else class="connect" @click="login">
                     <div></div>
@@ -83,59 +90,79 @@ export default {
 </script>
 
 <style scoped>
-    .navigation {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        background-color: #fff;
-        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
-    }
+.navigation {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
 
-    .container {
-        display: flex;
-        width: 100%;
-        height: 70px;
-        max-width: 1280px;
-        box-sizing: border-box;
-        justify-content: space-between;
-        align-items: center;
-        margin: 0 20px;
-        cursor: pointer;
-    }
+.container {
+    display: flex;
+    width: 100%;
+    height: 70px;
+    max-width: 1280px;
+    box-sizing: border-box;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 20px;
+    cursor: pointer;
+}
 
-    .container .btn {
-        cursor: pointer;
-    }
+.container .btn {
+    cursor: pointer;
+}
 
-    .container div span {
-        font-size: 24px;
-        font-weight: 500;
-    }
+.container div span {
+    font-size: 24px;
+    font-weight: 500;
+}
 
-    .container .connect {
-        height: 35px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 0 20px;
-        background-color: #EEF0F3;
-        border-radius: 5px;
-    }
+.container .connect {
+    height: 35px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 20px;
+    background-color: #EEF0F3;
+    border-radius: 5px;
+}
 
-    .container .connect div:first-child {
-        width: 16px;
-        height: 16px;
-        background-color: #A3A3A3;
-        border-radius: 50%;
-    }
+.container .connect div:first-child {
+    width: 16px;
+    height: 16px;
+    background-color: #A3A3A3;
+    border-radius: 50%;
+}
 
-    .container .connect div:last-child {
-        font-size: 14px;
-    }
+.container .connect div:last-child {
+    font-size: 14px;
+}
 
-    .container .connected div:first-child {
-        background-color: #3EC93F;
-    }
+.container .connected div:first-child {
+    background-color: #3EC93F;
+}
 
+.topLogo {
+    width: 150px;
+    height: 33px;
+}
 
+.github {
+    width: 35px;
+    height: 35px;
+    margin-right: 5px;
+}
+
+.twitter {
+    width: 36px;
+    height: 36px;
+    margin-right: 10px;
+}
+
+.rightcontainer {
+    display: flex;  
+    align-items: center
+}
 </style>
