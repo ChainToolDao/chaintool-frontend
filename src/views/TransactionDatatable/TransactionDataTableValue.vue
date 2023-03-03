@@ -3,7 +3,7 @@
         <div v-if='Array.isArray(data.value)'>
             <span v-if="Array.isArray(data.value[0])">[(
                 <span v-for="i, index in data.value[0]">
-                    <span v-if="data.value[0][index].toString().indexOf('0x') == -1 && judgmentValue(data.value[0][index])">
+                    <span v-if="data.value[0][index].toString().indexOf('0x') == -1 && checkValue(data.value[0][index])">
                         <span @click="matrixing(data.value[0][index])" style="color:#409EFF">{{
                             data.value[0][index]
                         }} <sub>10</sub></span>
@@ -24,7 +24,7 @@
                     </span>
                 </span>
                 <span v-for="i, index in data.value">
-                    <span v-if="data.value[index].toString().indexOf('0x') == -1 && judgmentValue(data.value[index])">
+                    <span v-if="data.value[index].toString().indexOf('0x') == -1 && checkValue(data.value[index])">
                         <span @click="matrixing(data.value[index])" style="color:#409EFF">{{ data.value[index]
                         }}</span>
                         <sub style="color:#409EFF">10</sub>
