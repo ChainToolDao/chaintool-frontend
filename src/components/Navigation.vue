@@ -150,15 +150,17 @@ export default {
 }
 
 .github {
-    width: 35px;
-    height: 35px;
-    margin-right: 5px;
+    width: 30px;
+    height: 30px;
+    margin-right: 12px;
+    filter:invert(0%)
 }
 
 .twitter {
-    width: 36px;
-    height: 36px;
-    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+    margin-right: 12px;
+    filter:invert(0%)
 }
 
 .rightcontainer {

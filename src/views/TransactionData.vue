@@ -47,7 +47,7 @@
           <div class="tips">输入函数</div>
           <el-input v-model="inputFunction" placeholder="请输入函数"></el-input>
           <div class="tips">参数</div>
-          <el-input v-model="parameter" placeholder="一行输入一个参数" type="textarea"></el-input>
+          <el-input v-model="parameter" placeholder="一行输入一个参数    数组类型参数输入格式:[0x2222,0x4444]" type="textarea"></el-input>
           <h5 class="result"> {{ encodingResult }}<img class="stateCopy" v-if="stateCopy" src="../assets/imgs/copy.png"
               @click="copy(encodingResult)" /> </h5>
         </div>
@@ -93,8 +93,8 @@ export default {
       radioValue: "true",
       activeIndex: "1",
       page: true,
-      inputFunction: "",
-      parameter: "",
+      inputFunction: "transferFrom(address,address,uint256)",
+      parameter: "0x8ba1f109551bD432803012645Ac136ddd64DBA72\n0xaB7C8803962c0f2F5BBBe3FA8bf41cd82AA1923C\n1000000000000000000",
       encodingResult: "",
       stateCopy: false,
       data: [],
@@ -118,6 +118,12 @@ export default {
       this.encodingResult = ""
       try {
         let processingParameters = this.parameter.split("\n")
+        //对数组类型参数进行处理
+        for (let i = 0; i < processingParameters.length; i++) {
+          if (processingParameters[i].indexOf('[') == 0 && processingParameters[i].indexOf(']') + 1 == processingParameters[i].length) {
+            processingParameters[i] = processingParameters[i].substring(1, processingParameters[i].length - 1).split(',')
+          }
+        }
         this.stateCopy = false
         let inputFunction = this.inputFunction.replace(/^\s*/g, "");
         if (inputFunction.indexOf("function ") != 0) {
