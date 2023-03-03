@@ -71,7 +71,7 @@ export default {
             return hex
         },
         //判断数字值是否大于10000
-        judgmentValue(intValue) {
+        checkValue(intValue) {
             let numericValue
             if (intValue._hex) {
                 numericValue = intValue._hex

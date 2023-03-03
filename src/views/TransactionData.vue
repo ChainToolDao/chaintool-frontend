@@ -112,16 +112,6 @@ export default {
       }
       return '';
     },
-    //表格展示的数据进行处理
-    Conversion(decimal) {
-      let hex
-      if (decimal._hex) {
-        hex = decimal._hex.toString(16)
-      } else {
-        hex = "0x" + parseInt(decimal).toString(16)
-      }
-      return hex
-    },
     //编码
     coding() {
       //清空上次编码的数据
