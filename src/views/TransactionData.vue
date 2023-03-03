@@ -5,12 +5,10 @@
       <div class="container">
         <div class="title">解析交易输入数据</div>
         <div class="tips">
-          <span>
-            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-              <el-menu-item index="1">解析</el-menu-item>
-              <el-menu-item index="2">编码</el-menu-item>
-            </el-menu>
-          </span>
+          <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+            <el-menu-item index="1">解析</el-menu-item>
+            <el-menu-item index="2">编码</el-menu-item>
+          </el-menu>
         </div>
         <div v-if="page">
           <div class="tips"> Input Calldata</div>
@@ -26,8 +24,7 @@
             </el-option>
           </el-select>
           <el-input v-model="choose" placeholder="Input Function " v-if="findFunction"></el-input>
-          <div v-if="page">
-            <div class="btn analyze" @click="inquire">解析</div>
+          <div v-if="page" class="btn analyze" @click="inquire">解析
           </div>
           <div class="tips">解析结果</div>
           <el-table :data="data" style="width: 100%; " row-key="id" border :row-class-name="tableRowClassName"
@@ -52,58 +49,7 @@
             </el-table-column>
             <el-table-column label="值" width="420">
               <template slot-scope="scope">
-                <div v-if='Array.isArray(scope.row.value)'>
-                  <span v-if="Array.isArray(scope.row.value[0])">
-                    <span>[(</span>
-                    <span v-for="i, index in scope.row.value[0]">
-                      <span v-if="scope.row.value[0][index].toString().indexOf('0x') == -1">
-                        <span @click="matrixing(scope.row.value[0][index])" style="color:#409EFF">{{
-                          scope.row.value[0][index]
-                        }}</span>
-                        <sub style="color:#409EFF">10</sub>
-                        <span>(</span>
-                        <span>{{ Conversion(scope.row.value[0][index]) }}</span>
-                        <sub>16</sub>
-                        <span>)</span>
-                        <span v-if="index + 1 != scope.row.value[0].length"><span>,</span> </span>
-                      </span>
-                      <span v-else>
-                        {{ i }}
-                        <span v-if="index + 1 != scope.row.value[0].length"> <span>,</span> <br></span>
-                      </span>
-                    </span>
-                    <span>)]</span>
-                  </span>
-                  <span v-else>
-                    <span v-if='!Array.isArray(scope.row.argument)'>
-                      <span v-if="scope.row.argument.indexOf('[]') != -1">
-                        <span>[</span>
-                      </span>
-                    </span>
-                    <span v-for="i, index in scope.row.value">
-                      <span v-if="scope.row.value[index].toString().indexOf('0x') == -1">
-                        <span @click="matrixing(scope.row.value[index])" style="color:#409EFF">{{ scope.row.value[index]
-                        }}</span>
-                        <sub style="color:#409EFF">10</sub>
-                        <span>(</span>
-                        <span>{{ Conversion(scope.row.value[index]) }}</span>
-                        <sub>16</sub>
-                        <span>)</span>
-                        <span v-if="index + 1 != scope.row.value.length"><span>,</span> <br></span>
-                      </span>
-                      <span v-else>
-                        {{ i }}
-                        <span v-if="index + 1 != scope.row.value.length"> <span>,</span> <br></span>
-                      </span>
-                    </span>
-                    <span v-if='!Array.isArray(scope.row.argument)'>
-                      <span v-if="scope.row.argument.indexOf('[]') != -1">
-                        <span>]</span>
-                      </span>
-                    </span>
-                  </span>
-                </div>
-                <span v-else=""> {{ scope.row.value }}</span>
+                <TransactionDataTableValue :data=[scope.row.argument,scope.row.value]></TransactionDataTableValue>
               </template>
             </el-table-column>
           </el-table>
@@ -113,10 +59,8 @@
           <el-input v-model="inputFunction" placeholder="请输入函数"></el-input>
           <div class="tips">参数</div>
           <el-input v-model="parameter" placeholder="一行输入一个参数" type="textarea"></el-input>
-          <h5 class="result">
-            {{ encodingResult
-            }}<img class="stateCopy" v-if="stateCopy" src="../assets/imgs/copy.png" @click="copy(encodingResult)" />
-          </h5>
+          <h5 class="result"> {{ encodingResult }}<img class="stateCopy" v-if="stateCopy" src="../assets/imgs/copy.png"
+              @click="copy(encodingResult)" /> </h5>
         </div>
         <div class="btn " v-if="!page" @click="coding()">编码</div>
       </div>
@@ -130,10 +74,12 @@ import Navigation from "../components/Navigation.vue";
 import intefUrl from "../interface";
 import axios from "axios";
 import Clipboard from "clipboard";
+import TransactionDataTableValue from "./TransactionDatatable/TransactionDataTableValue.vue";
 export default {
   name: "transactionData",
   components: {
     Navigation,
+    TransactionDataTableValue,
   },
   metaInfo() {
     return {
@@ -222,14 +168,7 @@ export default {
         this.page = false
       }
     },
-    // 跳转新窗口-单位转换
-    matrixing(data) {
-      let routeUrl = this.$router.resolve({
-        name: "Unitconvert",
-        query: { param: data }
-      });
-      window.open(routeUrl.href, '_blank');
-    },
+
     //切换函数输入方式是自动选择还是手动输入
     adjustInputMode: function () {
       if (this.findFunction) {
@@ -452,6 +391,8 @@ export default {
             } else {
               //不需要再次解析的数组结构
               if (data[3][i] != null) {
+                console.log("执行位置1")
+                console.log(data[1][i])
                 let queryType = {
                   'id': data[3][i],
                   "argument": data[0][i],
@@ -460,6 +401,62 @@ export default {
                 processResult.push(queryType)
               }
               else {
+                //处理元组的位置
+                // console.log("执行位置2")
+                // console.log(data[1][i])
+
+                // if ((typeof data[1][i][0] == 'object') && data[1][i][0].constructor == Array) {
+                //   for (let k = 0; k < data[1][i][0].length; k++) {
+                //     //判断字符的类型
+                //     console.log("输出字符的类型1")
+                //     console.log(data[1][i][0][k])
+                //     console.log(typeof (data[1][i][0][k]))
+
+
+                //     try {
+                //       if (typeof (data[1][i][0][k]) == "number" && data[1][i][0][k] < 10000) {
+                //         data[1][i][0][k] = String(data[1][i][0][k])
+                //         // data[1][i][k] = 555555
+                //       }
+                //       if(typeof (data[1][i][0][k])=="object"&&data[1][i][0][k]._hex<10000){
+                //         data[1][i][0][k]=data[1][i][0][k]._hex
+                //       }
+                //     } catch (error) {
+                //       console.log(error)
+                //     }
+
+
+                //   }
+                // } else {
+                //   for (let k = 0; k < data[1][i].length; k++) {
+                //     //判断字符的类型
+
+                //     console.log("输出字符的类型2")
+                //     console.log(data[1][i][k])
+                //     console.log(typeof (data[1][i][k]))
+                //     try {
+                //       if (typeof (data[1][i][k]) == "number" && data[1][i][k] < 10000) {
+                //         data[1][i][k] = String(data[1][i][k])
+                //         // data[1][i][k] = 555555
+                //       }
+                //       if(typeof (data[1][i][k])=="object"&&data[1][i][k]._hex<10000){
+                //         data[1][i][k]=data[1][i][k]._hex
+                //       }
+                //     } catch (error) {
+                //       console.log(error)
+                //     }
+
+
+
+                //   }
+
+                // }
+
+
+
+                console.log(data[1][i])
+
+
                 let queryType = {
                   'id': "var_" + (i + 1),
                   "argument": data[0][i],
@@ -470,25 +467,40 @@ export default {
             }
           }
           else if (data[1][i]._hex || data[0][i].indexOf("int") != -1) {
+
+            let queryTypeID = null
+            // if (Number(data[1][i]) < 10000) {
+            //   queryTypeValue = data[1][i]
+            // } else {
+            //   queryTypeValue = [String(data[1][i])]
+            // }
             if (data[3][i] != null) {
-              let queryType = {
-                'id': data[3][i],
-                "argument": data[0][i],
-                "value": [String(data[1][i])],
-              }
-              processResult.push(queryType)
+              queryTypeID = data[3][i]
+            } else {
+              queryTypeID = "var_" + (i + 1)
             }
-            else {
-              let queryType = {
-                'id': "var_" + (i + 1),
-                "argument": data[0][i],
-                "value": [String(data[1][i])],
-              }
-              processResult.push(queryType)
+            console.log("执行位置3")
+            let queryType = {
+              'id': queryTypeID,
+              "argument": data[0][i],
+              "value": [String(data[1][i])],
             }
+            processResult.push(queryType)
+
+
+
+
+
+
+
+
+
+
           }
           else {
             if (data[3][i] != null) {
+              console.log("执行位置4")
+              console.log(data[1][i])
               let queryType = {
                 'id': data[3][i],
                 "argument": data[0][i],
@@ -497,6 +509,8 @@ export default {
               processResult.push(queryType)
             }
             else {
+              console.log("执行位置5")
+              console.log(data[1][i])
               let queryType = {
                 'id': "var_" + (i + 1),
                 "argument": data[0][i],
