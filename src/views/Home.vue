@@ -115,7 +115,7 @@ export default {
                 {
                     title: '事件签名查询主题(TopicID)',
                     detail: '根据事件签名查询主题TopicID及反向查询',
-                    router: '/convertTopicID',
+                    router: '/topicID',
                     url: require('../assets/imgs/tool_list8.png'),
                 },
                 {
@@ -127,7 +127,7 @@ export default {
                 {
                     title: '交易输入数据编解码',
                     detail: '编码及解码交易输入数据（Input Calldata）',
-                    router: '/callDataDecode',
+                    router: '/calldata',
                     url: require('../assets/imgs/tool_list11.png'),
                 },
             ],
