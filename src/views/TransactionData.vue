@@ -433,7 +433,7 @@ export default {
       } catch (error) { }
     },
     //解析
-    async inquire() {
+    async inquire() {  
       let searchResult = await this.$options.methods.analyze(this.result, this.choose);
       this.data = await this.$options.methods.queryResultProcessing(searchResult);
       if (this.data == undefined) {

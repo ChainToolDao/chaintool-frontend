@@ -6,7 +6,7 @@
                 <div>
                     <div>Chaintool 实用工具，让区块链开发更轻松</div>
                     <div>巧妙处理、提高效率，所需的工具尽在于此。</div>
-                    <el-button type="primary" ><a href="https://github.com/ChainToolDao/chaintool-frontend/issues/new?assignees=&labels=&template=feature.md&title=" class="theFeedback" >问题反馈</a></el-button>
+                    <el-button type="primary" ><a href="https://github.com/ChainToolDao/chaintool-frontend/issues/new?assignees=&labels=&template=feature.md&title=" class="theFeedback" target="_blank" >反馈需求/建议</a></el-button>
                          </div>
                 <img src="../assets/imgs/main.png">
             </div>
@@ -75,12 +75,12 @@ export default {
                     router: '/bulkQuery',
                     url: require('../assets/imgs/tool_list2.png'),
                 },
-                {
-                    title: '批量转账',
-                    detail: '',
-                    router: '/bulkTransfer',
-                    url: require('../assets/imgs/tool_list3.png'),
-                },
+                // {
+                //     title: '批量转账',
+                //     detail: '',
+                //     router: '/bulkTransfer',
+                //     url: require('../assets/imgs/tool_list3.png'),
+                // },
                 {
                     title: '交易分析',
                     detail: '解析 EVM 交易内部详情',
@@ -272,7 +272,7 @@ a{
 }
 
 .el-button--primary {
-    width: 100px;
+    width: 130px;
 }
     
     .theFeedback{
