@@ -5,7 +5,7 @@
         <div class="scroll">
             <div class="container">
 
-                <div class="title">ABI图形化</div>
+                <div class="title">ABI 图形化</div>
 
                 <div class="buttons">
                     <el-button class="btn" type="primary" @click="dialogFormVisible = true">添加合约</el-button>
@@ -60,7 +60,7 @@
                             <el-main>
                                 <el-table :data="tableData">
                                     <el-table-column prop="ItemName" label="项目名称"> </el-table-column>
-                                    <el-table-column prop="ItemNetwork" label="链条网络"> </el-table-column>
+                                    <el-table-column prop="ItemNetwork" label="区块链网络"> </el-table-column>
                                     <el-table-column prop="ItemAddress" label="合约地址"> </el-table-column>
                                 </el-table>
                                 <div class="sol-body">
@@ -181,12 +181,12 @@ export default {
     },
     metaInfo() {
         return {
-            title: 'Chaintool - ABI图形化',
+            title: 'Chaintool - ABI 图形化',
 
             meta: [
                 {
                     name: 'keyword',
-                    content: 'abi图形化,abi可视化调用'
+                    content: 'ABI 图形化, ABI 可视化调用'
                 },
                 {
                     name: 'description',
@@ -226,7 +226,7 @@ export default {
         let checkAbi = (rule, value, callback) => {
             if (value === '') {
                 console.log(1)
-                callback(new Error('请输入ABI'))
+                callback(new Error('请输入 ABI'))
             } else {
                 callback()
             }

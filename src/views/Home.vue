@@ -8,6 +8,7 @@
                     <div>巧妙处理、提高效率，所需的工具尽在于此。</div>
                     <el-button type="primary" ><a href="https://github.com/ChainToolDao/chaintool-frontend/issues/new?assignees=&labels=&template=feature.md&title=" class="theFeedback" target="_blank" >反馈需求/建议</a></el-button>
                          </div>
+               
                 <img src="../assets/imgs/main.png">
             </div>
 
@@ -55,7 +56,7 @@ export default {
                 },
                 {
                     name: 'description',
-                    content: 'Chaintool 实用工具, 让区块链开发更轻松,巧妙处理、提高效率，所需的工具尽在于此'
+                    content: 'Chaintool 实用工具, 让区块链开发更轻松, 巧妙处理、提高效率，所需的工具尽在于此'
                 }
             ]
         }
@@ -77,7 +78,8 @@ export default {
                 },
                 // {
                 //     title: '批量转账',
-                //     detail: '',
+                //     detail: '批量转账',
+
                 //     router: '/bulkTransfer',
                 //     url: require('../assets/imgs/tool_list3.png'),
                 // },
@@ -89,7 +91,7 @@ export default {
                 },
                 {
                     title: 'ABI 可视化调用',
-                    detail: '根据 ABI 自动生成可调用按钮',
+                    detail: '根据 ABI 自动生成可调用函数',
                     router: '/abi',
                     url: require('../assets/imgs/tool_list5.png'),
                 },
@@ -100,33 +102,33 @@ export default {
                     url: require('../assets/imgs/tool_list6.png'),
                 },
                 {
-                    title: '函数签名获取选择器',
-                    detail: '根据函数签名获取选择器',
-                    router: '/convertABI',
-                    url: require('../assets/imgs/tool_list7.png'),
-                },
-                {
-                    title: '生成EVM钱包',
-                    detail: '批量生成EVM钱包',
+                    title: '生成 EVM 钱包',
+                    detail: '批量生成 EVM 钱包',
                     router: '/generateWallet',
                     url: require('../assets/imgs/tool_list8.png'),
                 },
                 {
-                    title: '事件签名获取TopicID',
-                    detail: '根据事件签名获取TopicID',
-                    router: '/convertTopicID',
+                    title: '签名选择器查询',
+                    detail: '根据函数签名查询 4 字节函数选择器',
+                    router: '/convertABI',
+                    url: require('../assets/imgs/tool_list7.png'),
+                },
+                {
+                    title: '事件签名查询主题(TopicID)',
+                    detail: '根据事件签名查询主题TopicID及反向查询',
+                    router: '/topicID',
                     url: require('../assets/imgs/tool_list8.png'),
                 },
                 {
-                    title: 'hash工具',
-                    detail: 'hash工具，keccak-256、base64 等计算',
+                    title: 'Hash 工具',
+                    detail: '常用 Hash 工具，如keccak-256、base64 等计算',
                     router: '/hashTool',
                     url: require('../assets/imgs/tool_list7.png'),
                 },
                 {
-                    title: '解析交易输入数据',
-                    detail: '解析交易输入数据',
-                    router: '/transactionData',
+                    title: '交易输入数据编解码',
+                    detail: '编码及解码交易输入数据（Input Calldata）',
+                    router: '/calldata',
                     url: require('../assets/imgs/tool_list11.png'),
                 },
             ],
@@ -272,12 +274,13 @@ a{
 }
 
 .el-button--primary {
+
     width: 130px;
 }
     
-    .theFeedback{
+.theFeedback{
     color: #FAFAFA;
-   width: 300px;
+    width: 260px;
 }
 
 </style>

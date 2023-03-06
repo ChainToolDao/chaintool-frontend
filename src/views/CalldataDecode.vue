@@ -3,10 +3,10 @@
     <Navigation></Navigation>
     <div class="scroll">
       <div class="container">
-        <div class="title">解析交易输入数据</div>
+        <div class="title">交易输入数据(Calldata)编解码</div>
         <div class="tips">
           <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-            <el-menu-item index="1">解析</el-menu-item>
+            <el-menu-item index="1">解码</el-menu-item>
             <el-menu-item index="2">编码</el-menu-item>
           </el-menu>
         </div>
@@ -24,21 +24,21 @@
             </el-option>
           </el-select>
           <el-input v-model="choose" placeholder="Input Function " v-if="findFunction"></el-input>
-          <div v-if="page" class="btn analyze" @click="inquire">解析
+          <div v-if="page" class="btn analyze" @click="inquire">解码
           </div>
-          <div class="tips">解析结果</div>
+          <div class="tips">解码结果</div>
           <el-table :data="data" style="width: 100%; " row-key="id" border :row-class-name="tableRowClassName"
             :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
             <el-table-column prop="id" label="参数" width="150">
             </el-table-column>
             <el-table-column label="参数类型" width="150">
               <template slot-scope="scope">
-                <TransactionDataTableParameterType :data=scope.row.argument></TransactionDataTableParameterType>
+                <DataType :data=scope.row.argument></DataType>
               </template>
             </el-table-column>
             <el-table-column label="值" width="420">
               <template slot-scope="scope">
-                <TransactionDataTableValue :data=scope.row></TransactionDataTableValue>
+                <DataValue :data=scope.row></DataValue>
               </template>
             </el-table-column>
           </el-table>
@@ -47,7 +47,7 @@
           <div class="tips">输入函数</div>
           <el-input v-model="inputFunction" placeholder="请输入函数"></el-input>
           <div class="tips">参数</div>
-          <el-input v-model="parameter" placeholder="一行输入一个参数    数组类型参数输入格式:[0x2222,0x4444]" type="textarea"></el-input>
+          <el-input v-model="parameter" placeholder="一行输入一个参数，数组类型参数输入格式:[0x2222,0x4444]" type="textarea"></el-input>
           <h5 class="result"> {{ encodingResult }}<img class="stateCopy" v-if="stateCopy" src="../assets/imgs/copy.png"
               @click="copy(encodingResult)" /> </h5>
         </div>
@@ -63,22 +63,22 @@ import Navigation from "../components/Navigation.vue";
 import intefUrl from "../interface";
 import axios from "axios";
 import Clipboard from "clipboard";
-import TransactionDataTableValue from "./TransactionDataTable/TransactionDataTableValue.vue";
-import TransactionDataTableParameterType from "./TransactionDataTable/TransactionDataTableParameterType.vue";
+import DataValue from "./calldata/DataValue.vue";
+import DataType from "./calldata/DataType.vue";
 export default {
   name: "transactionData",
   components: {
     Navigation,
-    TransactionDataTableValue,
-    TransactionDataTableParameterType
+    DataValue,
+    DataType
   },
   metaInfo() {
     return {
-      title: "Chaintool - 解析交易输入数据",
+      title: "Chaintool - 交易输入数据(Calldata)编解码",
       meta: [
         {
           name: "keyword",
-          content: "解析交易输入数据，将Solidity字段编码为ETH ABI十六进制格式，编码",
+          content: "交易输入数据(Calldata)编码及解码",
         },
       ],
     };
@@ -242,6 +242,8 @@ export default {
         }
       } catch (error) { }
     },
+
+
     //  执行解析
     async analyze(ABIData, sign) {
       try {
