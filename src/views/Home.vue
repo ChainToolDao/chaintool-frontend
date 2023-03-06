@@ -4,8 +4,8 @@
         <div class="container">
             <div class="topTips">
                 <div>
-                    <div>Chaintool 实用工具，让区块链开发更轻松</div>
-                    <div>巧妙处理、提高效率，所需的工具尽在于此。</div>
+                    <div>Chaintool - 区块链工具箱<br/>让区块链开发更轻松</div>
+                    <div>开源才值得信赖，好用才提高效率，你所需的工具尽在于此。</div>
                     <el-button type="primary" ><a href="https://github.com/ChainToolDao/chaintool-frontend/issues/new?assignees=&labels=&template=feature.md&title=" class="theFeedback" target="_blank" >反馈需求/建议</a></el-button>
                          </div>
                
