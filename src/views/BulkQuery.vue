@@ -4,9 +4,7 @@
     <div class="scroll">
       <div class="container">
         <div class="title">批量查询钱包余额</div>
-
         <div class="tips">查询网络</div>
-
         <el-select v-model="select">
           <el-option
             v-for="(item, index) in chainlist"
@@ -15,25 +13,20 @@
           >
           </el-option>
         </el-select>
-
         <div class="tips">代币地址</div>
-
         <el-input v-model="tokenAdress" placeholder="默认 ETH 地址"></el-input>
-
         <div class="tips">钱包地址</div>
-
         <el-input
           type="textarea"
-          v-model="listAddress"
+          v-model="walletAddress"
           placeholder="一行输入一个地址"
         ></el-input>
-
         <div class="tips">查询结果</div>
         <el-table
           :data="searchResult"
           border
           style="width: 100%"
-          v-loading="loading"
+          v-loading="isloading"
           id="outExcel"
         >
           <el-table-column prop="walletAddress" label="钱包地址" width="403">
@@ -43,10 +36,9 @@
           <el-table-column prop="balance" label="余额" width="250">
           </el-table-column>
         </el-table>
-
         <div>
-          <div class="btn" @click="checkTheBalance">查询余额</div>
-          <span class="btn" @click="exportexcel">下载表格</span>
+          <div class="bottomBtn" @click="checkBalance">查询余额</div>
+          <span class="bottomBtn" @click="exportexcel">下载表格</span>
         </div>
       </div>
     </div>
@@ -56,6 +48,7 @@
 <script>
 import { ethers } from "ethers";
 import Navigation from "../components/Navigation.vue";
+import FileSaver from "file-saver";
 import * as XLSX from "xlsx";
 
 export default {
@@ -96,19 +89,14 @@ export default {
           value: "https://rpc-mainnet.matic.network",
         },
       ],
+      //代币地址
       tokenAdress: "",
-      listAddress: "",
-      walletnum: "",
-      web3: "",
-      wallet_arr: [],
-      value: "",
+      //钱包地址  
+      walletAddress: "",
+      //查询结果
       searchResult: [],
-      loading: false,
-      walletlist: null,
-      swallet: null,
-      balance: null,
-      humanread: null,
-      tokenAddress: null,
+      //是加载中
+      isloading: false,
     };
   },
 
@@ -117,6 +105,7 @@ export default {
   },
 
   methods: {
+    //导出excel
     exportexcel() {
       if (this.searchResult.length == 0) {
         this.$message("你当前还没有查询余额，请查询余额后再进行下载表格");
@@ -138,25 +127,28 @@ export default {
           //设置导出文件名称
           "钱包余额表格.xlsx"
         );
-      } catch (e) {}
+      } catch (error) {
+      }
       return wbout;
     },
-    async checkTheBalance() {
+
+    //查询余额
+    async checkBalance() {
       this.searchResult = [];
       let walletBalance = [];
       let token = [];
-      let listAddress = this.listAddress.split("\n");
+      let walletAddress = this.walletAddress.split("\n");
       let provider = new ethers.providers.InfuraProvider("mainnet");
-      if (this.listAddress == "") {
+      if (this.walletAddress == "") {
         this.$message("你还没有输入钱包地址，请输入钱包地址后重试");
         return;
       }
-      this.loading = true;
+      this.isloading = true;
       if (this.tokenAdress == "") {
-        for (let i in listAddress) {
+        for (let i in walletAddress) {
           try {
             walletBalance[i] = await (
-              await provider.getBalance(listAddress[i])
+              await provider.getBalance(walletAddress[i])
             )._hex;
             token[i] = "ETH";
           } catch (error) {
@@ -178,9 +170,9 @@ export default {
           "function symbol() view returns (string)",
         ];
         let contract = new ethers.Contract(this.tokenAdress, abi, provider);
-        for (let i in listAddress) {
+        for (let i in walletAddress) {
           try {
-            let balance = await contract.balanceOf(listAddress[i]);
+            let balance = await contract.balanceOf(walletAddress[i]);
             walletBalance.push(balance._hex);
             let tokenAddress = await contract.symbol();
             token[i] = tokenAddress;
@@ -189,18 +181,17 @@ export default {
           }
         }
       }
-
-      for (let i in listAddress) {
+      for (let i in walletAddress) {
         walletBalance[i] = parseInt(walletBalance[i], 16);
         let data = {
-          walletAddress: listAddress[i],
+          walletAddress: walletAddress[i],
           balance: walletBalance[i],
           // token:token[i]
           token: "ETH",
         };
         this.searchResult.push(data);
       }
-      this.loading = false;
+      this.isloading = false;
     },
 
     // ----------初始化账户-------------
@@ -331,7 +322,7 @@ export default {
   font-weight: 300;
 }
 
-.container .btn {
+.container .bottomBtn {
   flex-direction: row;
   display: inline-block;
   text-align: center;
@@ -350,11 +341,11 @@ export default {
   border-radius: 6px;
 }
 
-.container .btn:hover {
+.container .bottomBtn:hover {
   background-color: #575757;
 }
 
-.container .btn:active {
+.container .bottomBtn:active {
   background-color: #000;
 }
 
