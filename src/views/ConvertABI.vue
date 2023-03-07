@@ -8,24 +8,23 @@
           <h5>通过函数名查询4字节函数选择器</h5>
           <div>
             <el-input v-model="enterABI" placeholder="Enter The Function Signature"></el-input>
-            <el-button @click="aBITranslation">查询</el-button>
+            <el-button @click="queryFunctionSelector">查询</el-button>
           </div>
         </div>
         <h5 class="result">
           {{ outputABI
-          }}<img class="stateCopy" v-if="stateCopyABI" src="../assets/imgs/copy.png" @click="copy(outputABI)" />
+          }}<img class="copyButton" v-if="canCopyABI" src="../assets/imgs/copy.png" @click="copy(outputABI)" />
         </h5>
-
         <div>
           <h5>通过字节函数选择器函数名查询函数签名</h5>
           <div>
-            <el-input v-model="reverseLookupSign" placeholder="Input Selector"></el-input>
+            <el-input v-model="enterSelector" placeholder="Input Selector"></el-input>
             <el-button @click="querySignature()">查询</el-button>
           </div>
         </div>
         <h5 class="result">
           {{ signature }}
-          <img src="../assets/imgs/copy.png" alt="" v-if="reverseLookup" class="stateCopy" @click="copy(signature)" />
+          <img src="../assets/imgs/copy.png" alt="" v-if="canCopyFunctionSignature" class="copyButton" @click="copy(signature)" />
           <img class="load" src="../assets/imgs/load.gif" alt="" v-if="load" />
         </h5>
       </div>
@@ -35,9 +34,7 @@
 <script>
 import Navigation from "../components/Navigation.vue";
 import Clipboard from "clipboard";
-import intefUrl from "../interface";
 import { ethers } from "ethers";
-import axios from "axios";
 export default {
   name: "convertABI",
   components: {
@@ -46,7 +43,6 @@ export default {
   metaInfo() {
     return {
       title: "Chaintool - 函数名查询函数选择器(4字节)",
-
       meta: [
         {
           name: "keyword",
@@ -57,25 +53,36 @@ export default {
   },
   data() {
     return {
+      // 输入ABI
       enterABI: "",
+      // 输出ABI
       outputABI: "",
-      reverseLookupSign: "",
+      // 输入选择器
+      enterSelector: "",
+      // 签名
       signature: "",
-      stateCopyABI: false,
-      reverseLookup: false,
+      // 可以复制ABI
+      canCopyABI: false,
+      // 可以复制函数签名   
+      canCopyFunctionSignature: false,
+      // 加载
       load: false,
     };
   },
+  
   methods: {
-    signatureHandle(signature) {
+    //格式函数签名
+    formatFunctionSignature(signature) {
       if (signature.indexOf("function ") == 0) {
         signature = signature.slice(8).replace(/^\s*/g, "");
       }
       return signature   
     },
-    async aBITranslation() {
+
+    //查询函数选择器
+    async queryFunctionSelector() {
       let ABI = [];
-      ABI[0] = this.$options.methods.signatureHandle(this.enterABI);
+      ABI[0] = this.$options.methods.formatFunctionSignature(this.enterABI);
       if (ABI[0]) {
         ABI[0] = "function " + ABI[0];
       } else {
@@ -87,100 +94,35 @@ export default {
         let iface = new ethers.utils.Interface(ABI);
         ABI[0] = ABI[0].slice(9);
         this.outputABI = iface.getSighash(ABI[0]);
-        this.stateCopyABI = true;
-        try {
-          axios
-            .post(intefUrl.selector, {
-              signature: ABI[0],
-              selector: this.outputABI,
-            })
-            .then((res) => { });
-        } catch (error) { }
+        this.canCopyABI = true;
+        this.submitFunctionSelector(ABI[0],this.outputABI)
       } catch (error) {
-        this.stateCopyABI = false;
+        this.canCopyABI = false;
         this.outputABI = "你输入的函数有误，请重新输入";
       }
     },
+
+    //查询函数签名
     async querySignature() {
-      let reverseLookupSign = this.reverseLookupSign;
-      if (reverseLookupSign.indexOf("0x") != 0) {
-        reverseLookupSign = "0x" + reverseLookupSign;
+      let enterSelector = this.enterSelector;
+      if (enterSelector.indexOf("0x") != 0) {
+        enterSelector = "0x" + enterSelector;
       }
       this.signature = "正在查询";
       this.load = true;
-      this.reverseLookup = false;
-      let signature = [];
-      try {
-        await axios
-          .get(intefUrl.selector + "/" + reverseLookupSign)
-          .then((res) => {
-            for (let i in res.data.data) {
-              res.data.data[i] = this.$options.methods.signatureHandle(
-                res.data.data[i]
-              );
-              if (signature.indexOf(res.data.data[i]) == -1) {
-                signature.push(res.data.data[i]);
-              }
-            }
-          });
-      } catch (error) { }
-      reverseLookupSign = reverseLookupSign.slice(2);
-      try {
-        await axios
-          .get(
-            "https://raw.githubusercontent.com/ethereum-lists/4bytes/master/signatures/" +
-            reverseLookupSign
-          )
-          .then((res) => {
-            let data = res.data.split(";");
-            for (let i in data) {
-              data[i] = this.$options.methods.signatureHandle(data[i]);
-              if (signature.indexOf(data[i]) == -1) {
-                signature.push(data[i]);
-                //执行数据库添加操作
-                axios
-                  .post(intefUrl.selector, {
-                    signature: data[i],
-                    selector: "0x" + reverseLookupSign,
-                  })
-                  .then((res) => { });
-              }
-            }
-          });
-      } catch (error) { }
-      try {
-        await axios
-          .get(
-            "https://raw.githubusercontent.com/ethereum-lists/4bytes/master/with_parameter_names/" +
-            reverseLookupSign
-          )
-          .then((res) => {
-            let data = res.data.split(";");
-            for (let i in data) {
-              data[i] = this.$options.methods.signatureHandle(data[i]);
-              if (signature.indexOf(data[i]) == -1) {
-                signature.push(data[i]);
-                //执行数据库添加操作
-                axios
-                  .post(intefUrl.selector, {
-                    signature: data[i],
-                    selector: "0x" + reverseLookupSign,
-                  })
-                  .then((res) => { });
-              }
-            }
-          });
-      } catch (error) { }
-
+      this.canCopyFunctionSignature = false;
+      let signature = []
+      signature= await this.getFunctionSignature(enterSelector)
       if (signature.length >= 1) {
         this.signature = signature.join(";");
-        this.reverseLookup = true;
+        this.canCopyFunctionSignature = true;
         this.load = false;
       } else {
         this.signature = "你所查找的选择器暂未被记录，例：0x0dbe671f";
         this.load = false;
       }
     },
+
     copy(text) {
       const clipboard = new Clipboard(".result", {
         text: () => {
@@ -298,9 +240,10 @@ export default {
 .container .result {
   width: 100%;
   margin-left: 10px;
+  word-wrap: break-word;
 }
 
-.stateCopy {
+.copyButton {
   width: 15px;
   height: 15px;
   margin-left: 10px;

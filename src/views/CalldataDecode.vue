@@ -4,74 +4,35 @@
     <div class="scroll">
       <div class="container">
         <div class="title">交易输入数据(Calldata)编解码</div>
-        <div class="tips">
-          <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+        <div class="mainRow">
+          <el-menu  :default-active="preferredPage" class="el-menu-demo" mode="horizontal"  @select="cutoverTop">
             <el-menu-item index="1">解码</el-menu-item>
             <el-menu-item index="2">编码</el-menu-item>
           </el-menu>
         </div>
-        <div v-if="page">
-          <div class="tips"> Input Calldata</div>
-          <el-input v-model="result" placeholder="Enter Calldata" @input="assignmentRadioBox()" type="textarea"
-            autosize></el-input>
-          <div class="tips">选择函数 <span> <el-radio-group v-model="radioValue" @click="adjustInputMode">
-                <el-radio label="true" border size="medium" @change="adjustInputMode">自动选择</el-radio>
-                <el-radio label="" border size="medium" @change="adjustInputMode">手动输入</el-radio>
-              </el-radio-group></span>
-          </div>
-          <el-select v-model="choose" placeholder="Please Choose" v-if="!findFunction">
-            <el-option v-for="(item, index) in results" :key="'chainlist' + index" :label="item" :value="item">
-            </el-option>
-          </el-select>
-          <el-input v-model="choose" placeholder="Input Function " v-if="findFunction"></el-input>
-          <div v-if="page" class="btn analyze" @click="inquire">解码
-          </div>
-          <div class="tips">解码结果</div>
-          <el-table :data="data" style="width: 100%; " row-key="id" border :row-class-name="tableRowClassName"
-            :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-            <el-table-column prop="id" label="参数" width="150">
-            </el-table-column>
-            <el-table-column label="参数类型" width="150">
-              <template slot-scope="scope">
-                <DataType :data=scope.row.argument></DataType>
-              </template>
-            </el-table-column>
-            <el-table-column label="值" width="420">
-              <template slot-scope="scope">
-                <DataValue :data=scope.row></DataValue>
-              </template>
-            </el-table-column>
-          </el-table>
+        <div v-if="selectFunction">
+          <Decoding></Decoding>
         </div>
-        <div v-if="!page" class="hezi">
-          <div class="tips">输入函数</div>
-          <el-input v-model="inputFunction" placeholder="请输入函数"></el-input>
-          <div class="tips">参数</div>
-          <el-input v-model="parameter" placeholder="一行输入一个参数，数组类型参数输入格式:[0x2222,0x4444]" type="textarea"></el-input>
-          <h5 class="result"> {{ encodingResult }}<img class="stateCopy" v-if="stateCopy" src="../assets/imgs/copy.png"
-              @click="copy(encodingResult)" /> </h5>
+        <div v-if="!selectFunction" class="contentSection">
+          <Coding></Coding>
         </div>
-        <div class="btn " v-if="!page" @click="coding()">编码</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ethers } from "ethers";
 import Navigation from "../components/Navigation.vue";
-import intefUrl from "../interface";
-import axios from "axios";
-import Clipboard from "clipboard";
-import DataValue from "./calldata/DataValue.vue";
-import DataType from "./calldata/DataType.vue";
+import Coding from "./calldata/Coding.vue";
+import Decoding from "./calldata/Decoding.vue";
 export default {
   name: "transactionData",
   components: {
     Navigation,
-    DataValue,
-    DataType
+    Coding,
+    Decoding
   },
+
   metaInfo() {
     return {
       title: "Chaintool - 交易输入数据(Calldata)编解码",
@@ -83,380 +44,24 @@ export default {
       ],
     };
   },
+
   data() {
     return {
-      result: "0x23b872dd0000000000000000000000008ba1f109551bd432803012645ac136ddd64dba72000000000000000000000000ab7c8803962c0f2f5bbbe3fa8bf41cd82aa1923c0000000000000000000000000000000000000000000000000de0b6b3a7640000",     //输入的数据
-      signature: [],
-      choose: "",
-      results: [],
-      findFunction: false,
-      radioValue: "true",
-      activeIndex: "1",
-      page: true,
-      inputFunction: "transferFrom(address,address,uint256)",
-      parameter: "0x8ba1f109551bD432803012645Ac136ddd64DBA72\n0xaB7C8803962c0f2F5BBBe3FA8bf41cd82AA1923C\n1000000000000000000",
-      encodingResult: "",
-      stateCopy: false,
-      data: [],
+      // 首选页面
+      preferredPage: "1",
+      // 是解码
+      selectFunction: true,
     };
   },
-  mounted() {
-    //进入页面先执行自动获取函数
-    this.assignmentRadioBox()
-  },
+
   methods: {
-    //改变带下拉部分的样式
-    tableRowClassName({ row, rowIndex }) {
-      if (String(JSON.parse(JSON.stringify(row.id))).indexOf("[var") == "-1") {
-        return 'success-row';
-      }
-      return '';
-    },
-    //编码
-    coding() {
-      //清空上次编码的数据
-      this.encodingResult = ""
-      try {
-        let processingParameters = this.parameter.split("\n")
-        //对数组类型参数进行处理
-        for (let i = 0; i < processingParameters.length; i++) {
-          if (processingParameters[i].indexOf('[') == 0 && processingParameters[i].indexOf(']') + 1 == processingParameters[i].length) {
-            processingParameters[i] = processingParameters[i].substring(1, processingParameters[i].length - 1).split(',')
-          }
-        }
-        this.stateCopy = false
-        let inputFunction = this.inputFunction.replace(/^\s*/g, "");
-        if (inputFunction.indexOf("function ") != 0) {
-          inputFunction = "function " + inputFunction
-        }
-        const iface = new ethers.utils.Interface([inputFunction,]);
-        inputFunction = inputFunction.slice(8).replace(/^\s*/g, "");
-        this.encodingResult = iface.encodeFunctionData(inputFunction, processingParameters)
-        //把通过编码的数据加入数据库
-        try {
-          axios
-            .post(intefUrl.selector, {
-              signature: inputFunction,
-              selector: (this.encodingResult.substring(0, 10)),
-            })
-            .then((res) => { });
-        } catch (error) {
-        }
-        this.stateCopy = true
-      } catch (error) {
-        this.encodingResult = "你的输入有误，请检查后重试"
-      }
-    },
-    // 编码与解码的切换
-    handleSelect(key) {
+    // 切换编码和解码
+    cutoverTop(key) {
       if (key == 1) {
-        this.page = true
+        this.selectFunction = true
       } else {
-        this.page = false
+        this.selectFunction = false
       }
-    },
-
-    //切换函数输入方式是自动选择还是手动输入
-    adjustInputMode: function () {
-      if (this.findFunction) {
-        this.choose = this.results[0]
-      } else {
-        this.choose = ''
-      }
-      this.findFunction = !Boolean(this.radioValue)
-    },
-    // 函数签名处理
-    signatureHandle(signature) {
-      if (signature.indexOf("function ") == 0) {
-        signature = signature.slice(8).replace(/^\s*/g, "");
-      }
-      return signature
-    },
-    //自动获取函数的方法
-    async assignmentRadioBox() {
-      try {
-        // 取ABIData关于函数签名部分
-        let reverseLookupSign = this.result.slice(0, 10)
-        // signature用于放置返回的全部结果
-        let signature = [];
-        try {
-          await axios
-            .get(intefUrl.selector + "/" + reverseLookupSign)
-            .then((res) => {
-              for (let i in res.data.data) {
-                if (signature.indexOf(res.data.data[i]) == -1) {
-                  signature.push(res.data.data[i]);
-                }
-              }
-            });
-        } catch (error) {
-        }
-        reverseLookupSign = reverseLookupSign.slice(2);
-        try {
-          await axios
-            .get(
-              "https://raw.githubusercontent.com/ethereum-lists/4bytes/master/signatures/" +
-              reverseLookupSign
-            )
-            .then((res) => {
-              let data = res.data.split(";");
-              for (let i in data) {
-                if (signature.indexOf(data[i]) == -1) {
-                  signature.push(data[i]);
-                  //执行数据库添加操作
-                  axios
-                    .post(intefUrl.selector, {
-                      signature: data[i],
-                      selector: "0x" + reverseLookupSign,
-                    })
-                    .then((res) => { });
-                }
-              }
-            });
-        } catch (error) { }
-        try {
-          await axios
-            .get(
-              "https://raw.githubusercontent.com/ethereum-lists/4bytes/master/with_parameter_names/" +
-              reverseLookupSign
-            )
-            .then((res) => {
-              let data = res.data.split(";");
-              for (let i in data) {
-                if (signature.indexOf(data[i]) == -1) {
-                  signature.push(data[i]);
-                  //执行数据库添加操作
-                  axios
-                    .post(intefUrl.selector, {
-                      signature: data[i],
-                      selector: "0x" + reverseLookupSign,
-                    })
-                    .then((res) => { });
-                }
-              }
-            });
-        } catch (error) { }
-        this.results = signature
-        if (!this.findFunction) {
-          this.choose = signature[0]
-        }
-      } catch (error) { }
-    },
-
-
-    //  执行解析
-    async analyze(ABIData, sign) {
-      try {
-        //判断是否存在函数签名，不存在则自动获取函数签名
-        if (sign == undefined || sign == "") {
-          // 取ABIData关于函数签名部分
-          let reverseLookupSign = ABIData.slice(0, 10)
-          // signature用于放置返回的全部结果
-          let signature = [];
-          try {
-            await axios
-              .get(intefUrl.selector + "/" + reverseLookupSign)
-              .then((res) => {
-                for (let i in res.data.data) {
-                  if (signature.indexOf(res.data.data[i]) == -1) {
-                    signature.push(res.data.data[i]);
-                  }
-                }
-              });
-          } catch (error) {
-          }
-          reverseLookupSign = reverseLookupSign.slice(2);
-          try {
-            await axios
-              .get(
-                "https://raw.githubusercontent.com/ethereum-lists/4bytes/master/signatures/" +
-                reverseLookupSign
-              )
-              .then((res) => {
-                let data = res.data.split(";");
-                for (let i in data) {
-                  if (signature.indexOf(data[i]) == -1) {
-                    signature.push(data[i]);
-                    //执行数据库添加操作
-                    axios
-                      .post(intefUrl.selector, {
-                        signature: data[i],
-                        selector: "0x" + reverseLookupSign,
-                      })
-                      .then((res) => { });
-                  }
-                }
-              });
-          } catch (error) { }
-          try {
-            await axios
-              .get(
-                "https://raw.githubusercontent.com/ethereum-lists/4bytes/master/with_parameter_names/" +
-                reverseLookupSign
-              )
-              .then((res) => {
-                let data = res.data.split(";");
-                for (let i in data) {
-                  if (signature.indexOf(data[i]) == -1) {
-                    signature.push(data[i]);
-                    //执行数据库添加操作
-                    axios
-                      .post(intefUrl.selector, {
-                        signature: data[i],
-                        selector: "0x" + reverseLookupSign,
-                      })
-                      .then((res) => { });
-                  }
-                }
-              });
-          } catch (error) { }
-          sign = signature[0]
-        } else {
-          try {
-            axios
-              .post(intefUrl.selector, {
-                signature: sign,
-                selector: ABIData.slice(0, 10),
-              })
-              .then((res) => { });
-          } catch (error) { }
-        }
-        sign = 'function ' + sign
-        const iface = new ethers.utils.Interface([sign,]);
-        sign = sign.slice(9, sign.length)
-        //获取解析结果
-        let dataResult = iface.decodeFunctionData(sign, ABIData)
-        let typeArray = []
-        let nameArray = []
-        for (let i = 0; i < iface.fragments[0].inputs.length; i++) {
-          nameArray.push(iface.fragments[0].inputs[i].name)
-          if (iface.fragments[0].inputs[0].type == "tuple") {
-            let subTypeArray = []
-            for (let k = 0; k < iface.fragments[0].inputs[0].components.length; k++) {
-              subTypeArray.push(iface.fragments[0].inputs[i].components[k].type)
-            }
-            typeArray.push(subTypeArray)
-          } else {
-            if (iface.fragments[0].inputs[i].type == "tuple[]") {
-              let Array = "("
-              for (let k = 0; k < iface.fragments[0].inputs[i].components.length; k++) {
-                Array = Array + iface.fragments[0].inputs[i].components[k].type
-                if (k < iface.fragments[0].inputs[i].components.length - 1) {
-                  Array = Array + ","
-                }
-              }
-              Array = Array + ")[]"
-              typeArray.push(Array)
-            } else {
-              typeArray.push(iface.fragments[0].inputs[i].type)
-            }
-          }
-        }
-        return [typeArray, dataResult, sign, nameArray]
-      } catch (error) { }
-    },
-    async queryResultProcessing(data) {
-      try {
-        let processResult = []
-        for (let i = 0; i < data[1].length; i++) {
-          if (Array.isArray(data[1][i])) {
-            // multicall进行再次解析
-            if (data[2].indexOf("multicall(") != -1) {
-              for (let k = 0; k < data[1][i].length; k++) {
-                let secondaryCallData = await this.analyze(data[1][i][k])
-                let methodname = secondaryCallData[2]
-                let analysisResult = await this.queryResultProcessing(secondaryCallData);
-                for (let j = 0; j < analysisResult.length; j++) {
-                  analysisResult[j].id = "fun" + (k + 1) + "[" + analysisResult[j].id + "]"
-                }
-                let queryType = {
-                  'id': "fun" + (k + 1),
-                  "argument": methodname,  //这里写函数的方法名
-                  "value": data[1][i][k],
-                  "children": analysisResult
-                }
-                processResult.push(queryType)
-              }
-            } else {
-              //不需要再次解析的数组结构
-              if (data[3][i] != null) {
-                let queryType = {
-                  'id': data[3][i],
-                  "argument": data[0][i],
-                  "value": data[1][i],
-                }
-                processResult.push(queryType)
-              }
-              else {
-                let queryType = {
-                  'id': "var_" + (i + 1),
-                  "argument": data[0][i],
-                  "value": data[1][i],
-                }
-                processResult.push(queryType)
-              }
-            }
-          }
-          else if (data[1][i]._hex || data[0][i].indexOf("int") != -1) {
-
-            let queryTypeID = null
-            if (data[3][i] != null) {
-              queryTypeID = data[3][i]
-            } else {
-              queryTypeID = "var_" + (i + 1)
-            }
-            let queryType = {
-              'id': queryTypeID,
-              "argument": data[0][i],
-              "value": [String(data[1][i])],
-            }
-            processResult.push(queryType)
-          }
-          else {
-            if (data[3][i] != null) {
-              let queryType = {
-                'id': data[3][i],
-                "argument": data[0][i],
-                "value": data[1][i],
-              }
-              processResult.push(queryType)
-            }
-            else {
-              let queryType = {
-                'id': "var_" + (i + 1),
-                "argument": data[0][i],
-                "value": data[1][i],
-              }
-              processResult.push(queryType)
-            }
-          }
-        }
-        return processResult
-      } catch (error) { }
-    },
-    //解析
-    async inquire() {
-      let searchResult = await this.$options.methods.analyze(this.result, this.choose);
-      this.data = await this.$options.methods.queryResultProcessing(searchResult);
-      if (this.data == undefined) {
-        this.$message.error("查询失败，请检查你的输入后重试");
-      }
-    },
-    //调用复制的方法
-    copy(text) {
-      const clipboard = new Clipboard(".result", {
-        text: () => {
-          return text;
-        },
-      });
-      clipboard.on("success", () => {
-        this.$message.success("复制成功");
-        clipboard.destroy();
-      });
-      clipboard.on("error", () => {
-        this.$message.error("复制失败");
-        clipboard.destroy();
-      });
     },
   },
 };
@@ -476,14 +81,14 @@ export default {
   overflow: auto;
 }
 
-.result {
+/deep/ .result {
   width: 100%;
   margin: 1px 10px;
   width: 680px;
   word-wrap: break-word;
 }
 
-.hezi {
+.contentSection {
   width: 704px;
 }
 
@@ -507,14 +112,14 @@ export default {
   font-weight: 700;
 }
 
-.stateCopy {
+/deep/ .copyButton {
   width: 15px;
   height: 15px;
   margin-left: 10px;
   cursor: pointer;
 }
 
-.container .tips {
+/deep/ .container .mainRow {
   font-size: 14px;
   color: #000;
   font-weight: 700;
@@ -522,7 +127,7 @@ export default {
   margin-bottom: 10px;
 }
 
-.tips {
+/deep/ .mainRow {
   margin-bottom: 20px;
 }
 
@@ -546,7 +151,7 @@ export default {
 }
 
 .el-radio {
-  margin: 0 20px;
+  margin: 0 10px;
 }
 
 .container .el-select,
@@ -570,7 +175,7 @@ export default {
   margin-bottom: 30px;
 }
 
-.analyze {
+.contentButton {
   margin-left: 41%;
 }
 
@@ -603,7 +208,7 @@ export default {
   font-weight: 300;
 }
 
-.container .btn {
+/deep/ .container .bottomButton {
   flex-direction: row;
   display: inline-block;
   text-align: center;
@@ -621,11 +226,11 @@ export default {
   border-radius: 6px;
 }
 
-.container .btn:hover {
+/deep/ .container .bottomButton:hover {
   background-color: #575757;
 }
 
-.container .btn:active {
+/deep/ .container .bottomButton:active {
   background-color: #000;
 }
 
@@ -706,14 +311,12 @@ export default {
 .exhibit .exhibit-number {
   width: 151px;
   height: auto;
-
 }
 
 .exhibit .exhibit-parameter {
   margin-left: -1px;
   width: 151px;
   height: auto;
-
 }
 
 .exhibit .exhibit-value {

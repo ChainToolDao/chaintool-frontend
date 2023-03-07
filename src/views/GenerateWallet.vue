@@ -5,14 +5,14 @@
       <div class="container">
         <h3>批量生成EVM钱包</h3>
         <div>
-          <el-radio v-model="radio" label="1" @change="agreeChange"
+          <el-radio v-model="generationMethod" label="1" @change="emptyWalletData"
             >随机批量生成</el-radio
           >
-          <el-radio v-model="radio" label="2" @change="agreeChange"
+          <el-radio v-model="generationMethod" label="2" @change="emptyWalletData"
             >自定义私钥或助记词创建</el-radio
           >
         </div>
-        <div v-if="radio == 1">
+        <div v-if="generationMethod == 1">
           <div>
             <h5>选择助记词长度</h5>
           </div>
@@ -42,16 +42,16 @@
                 v-model="walletQuantity"
                 placeholder="Input Number Of Wallets"
               ></el-input>
-              <el-button v-if="!buildState" @click="generate()">立即生成</el-button
+              <el-button v-if="!hasBuildState" @click="generateWallet()">立即生成</el-button
               >
-              <el-button v-if="buildState" @click="generate">重新生成</el-button
+              <el-button v-if="hasBuildState" @click="generateWallet">重新生成</el-button
               >
-              <el-button v-if="buildState" @click="exportexcel">下载表格</el-button
+              <el-button v-if="hasBuildState" @click="exportexcel">下载表格</el-button
               >
             </div>
           </div>
         </div>
-        <div v-if="radio == 2">
+        <div v-if="generationMethod == 2">
           <div>
             <h5>通过私钥或助记词创建钱包</h5>
           </div>
@@ -134,20 +134,30 @@ export default {
   },
   data() {
     return {
-      walletQuantity: "", //钱包数量
-      mnemonicLength: "12", //助记词长度
-      buildState: false, //生成状态
-      walletdata: [],
+      //钱包数量
+      walletQuantity: "", 
+      //助记词长度
+      mnemonicLength: "12", 
+      //有生成状态
+      hasBuildState: false, 
+      //钱包数据
+      walletdata: [],  
+      //加载中
       loading: false,
-      radio: "1",
+      //生成方式   
+      generationMethod: "1",
+      
       inputPrivateKey: "",
     };
   },
   methods: {
-    agreeChange: function () {
+    //清空钱包数据
+    emptyWalletData: function () {
       this.walletdata = [];
     },
-    generateWallet() {
+
+    //生成钱包数据
+    generateWalletData() {
       this.walletdata = [];
       if (!this.mnemonicLength || !this.walletQuantity) {
         this.$message({
@@ -189,7 +199,7 @@ export default {
           var path = "m/44'/60'/0'/0/0";
           var wallet = ethers.Wallet.fromMnemonic(mnemonic, path); //通过助记词创建钱包
 
-          this.buildState = true;
+          this.hasBuildState = true;
           var wallet = {
             address: wallet.address,
             mnemonic: mnemonic,
@@ -200,6 +210,8 @@ export default {
         this.loading = !this.loading;
       }
     },
+
+    //导出excel
     exportexcel() {
       /** 从表生成工作簿对象*/
       const wb = XLSX.utils.table_to_book(document.querySelector("#outExcel"), {
@@ -220,14 +232,18 @@ export default {
       } catch (e) {}
       return wbout;
     },
-    generate() {
+
+    //生成钱包
+    generateWallet() {
       this.loading = !this.loading;
       let that = this;
       setTimeout(function () {
-        that.generateWallet();
+        that.generateWalletData();
       }, 30);
     },
-    createWallet() {
+
+    //通过私钥或助记词创建钱包
+    createWallet () {
       this.walletdata = [];
       try {
         // 通过助记词创建钱包对象
@@ -247,7 +263,6 @@ export default {
           this.inputPrivateKey = "0x" + this.inputPrivateKey;
         }
         var wallet = new ethers.Wallet(this.inputPrivateKey);
-        console.log(wallet);
         var wallet = {
           address: wallet.address,
           mnemonic: wallet.mnemonic,
@@ -259,6 +274,7 @@ export default {
         this.$message.error("创建失败，请检查你的输入");
       }
     },
+
     copy(text) {
       const clipboard = new Clipboard(".dataReplication", {
         text: () => {

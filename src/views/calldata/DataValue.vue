@@ -4,10 +4,10 @@
             <span v-if="Array.isArray(data.value[0])">[(
                 <span v-for="i, index in data.value[0]">
                     <span v-if="data.value[0][index].toString().indexOf('0x') == -1 && checkValue(data.value[0][index])">
-                        <span @click="matrixing(data.value[0][index])" style="color:#409EFF">{{
+                        <span @click="jumpLinkWindow(data.value[0][index])" style="color:#409EFF">{{
                             data.value[0][index]
                         }} <sub>10</sub></span>
-                        <span>({{ Conversion(data.value[0][index]) }})<sub>16</sub></span>
+                        <span>({{ conversionHex(data.value[0][index]) }})<sub>16</sub></span>
                         <span v-if="index + 1 != data.value[0].length">, </span>
                     </span>
                     <span v-else>
@@ -25,10 +25,11 @@
                 </span>
                 <span v-for="i, index in data.value">
                     <span v-if="data.value[index].toString().indexOf('0x') == -1 && checkValue(data.value[index])">
-                        <span @click="matrixing(data.value[index])" style="color:#409EFF">{{ data.value[index]
+                        <span @click="jumpLinkWindow(data.value[index])" style="color:#409EFF">{{ data.value[index]
                         }}</span>
                         <sub style="color:#409EFF">10</sub>
-                        <span>({{ Conversion(data.value[index]) }}<sub>16</sub>)<span v-if="index + 1 != data.value.length">,
+                        <span>({{ conversionHex(data.value[index]) }}<sub>16</sub>)<span
+                                v-if="index + 1 != data.value.length">,
                                 <br></span></span>
                     </span>
                     <span v-else>
@@ -52,16 +53,17 @@ export default {
         data: ''
     },
     methods: {
-        // 跳转新窗口-单位转换
-        matrixing(data) {
+        // 跳转链接-单位转换
+        jumpLink(data) {
             let routeUrl = this.$router.resolve({
                 name: "Unitconvert",
                 query: { param: data }
             });
             window.open(routeUrl.href, '_blank');
         },
-        //表格展示的数据进行处理
-        Conversion(decimal) {
+
+        //对表格大于10000的int和uint类型进行处理
+        conversionHex(decimal) {
             let hex
             if (decimal._hex) {
                 hex = decimal._hex.toString(16)
@@ -70,7 +72,8 @@ export default {
             }
             return hex
         },
-        //判断数字值是否大于10000
+        
+        //检查int和uint值是否大于10000
         checkValue(intValue) {
             let numericValue
             if (intValue._hex) {
