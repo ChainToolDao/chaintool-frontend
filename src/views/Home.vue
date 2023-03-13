@@ -5,34 +5,30 @@
             <div class="topTips">
                 <div>
                     <div>Chaintool - 区块链工具箱
-                        <br/>让区块链开发更轻松</div>
+                        <br />让区块链开发更轻松
+                    </div>
                     <div>开源才值得信赖，好用才提高效率，你所需的工具尽在于此。</div>
-                    <el-button type="primary" ><a href="https://github.com/ChainToolDao/chaintool-frontend/issues" class="theFeedback" >反馈需求与建议</a></el-button>
-                        </div>
+                    <el-button type="primary"><a href="https://github.com/ChainToolDao/chaintool-frontend/issues"
+                            class="theFeedback">反馈需求与建议</a></el-button>
+                </div>
                 <img src="../assets/imgs/main.png">
             </div>
-
             <div class="title">工具列表</div>
-
             <div class="detail">免费效率工具，快上手试试吧</div>
-
             <div class="listTool">
-
                 <div v-for="(item, index) in tool_list" :key="'tool_list' + index" @click="toRouter(item.router)">
                     <img :src='item.url'>
-
                     <div class="text">
                         <div class="textTitle">
                             <span>{{ item.title }}</span>
                             <img src="../assets/imgs/arrow-right.svg">
                         </div>
-
                         <div>{{ item.detail }}</div>
                     </div>
                 </div>
 
             </div>
-            
+
         </div>
     </div>
 </template>
@@ -142,9 +138,10 @@ export default {
 </script>
 
 <style scoped>
-a{
-    text-decoration-line: none; 
+a {
+    text-decoration-line: none;
 }
+
 .home {
     width: 100%;
     height: auto;
@@ -268,17 +265,16 @@ a{
         max-width: calc(100vw - 40px);
     }
 }
-.footer{
+
+.footer {
     margin-top: 20px;
 }
 
 .el-button--primary {
     width: 260px;
 }
-    
-.theFeedback{
+
+.theFeedback {
     color: #FAFAFA;
     width: 260px;
-}
-
-</style>
+}</style>

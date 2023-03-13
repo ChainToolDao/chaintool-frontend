@@ -107,7 +107,6 @@ export default {
     justify-content: space-between;
     align-items: center;
     margin: 0 20px;
-    cursor: pointer;
 }
 
 .container .btn {
@@ -120,6 +119,7 @@ export default {
 }
 
 .container .connect {
+      cursor: pointer;
     height: 35px;
     display: flex;
     align-items: center;
