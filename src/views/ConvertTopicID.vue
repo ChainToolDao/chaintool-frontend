@@ -57,13 +57,13 @@ export default {
   data() {
     return {
       //输入事件签名
-      inputEventSignature: "",
+      inputEventSignature: "event Transfer(address indexed from, address indexed to, uint256 amount)",
       //输出TopicID
       outputTopicID: "",
       //可以复制TopicID
       canCopyTopicID: false,
       //输入TopicID
-      inputTopicID: "",
+      inputTopicID: "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
       //输出事件签名
       outputEventSignature: "",
       //可以复制事件签名    

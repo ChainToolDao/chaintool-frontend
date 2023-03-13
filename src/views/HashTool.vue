@@ -58,7 +58,7 @@ export default {
   data() {
     return {
       //输入Hash
-      inputHash: "",
+      inputHash: "123456",
       //输出Hash
       outputHash: "",
       // 可以复制Hash  

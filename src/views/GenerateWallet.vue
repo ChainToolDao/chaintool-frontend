@@ -4,50 +4,34 @@
     <div class="wallet">
       <div class="container">
         <h3>批量生成EVM钱包</h3>
+        <div class="tips">
+          <span>Tips: 钱包生成过程均在本地电脑完成，我们无法获取到您的助记词及私钥！<br></span>
+          <span>开源才值得信赖，<a href="https://github.com/ChainToolDao" target="_blank">点击可前往项目GitHub</a> 。</span>
+        </div>
         <div>
-          <el-radio v-model="generationMethod" label="1" @change="emptyWalletData"
-            >随机批量生成</el-radio
-          >
-          <el-radio v-model="generationMethod" label="2" @change="emptyWalletData"
-            >自定义私钥或助记词创建</el-radio
-          >
+          <el-radio v-model="generationMethod" label="1" @change="emptyWalletData">随机批量生成</el-radio>
+          <el-radio v-model="generationMethod" label="2" @change="emptyWalletData">自定义私钥或助记词创建</el-radio>
         </div>
         <div v-if="generationMethod == 1">
           <div>
             <h5>选择助记词长度</h5>
           </div>
           <div>
-            <el-radio v-model="mnemonicLength" label="12" border size="medium"
-              >12位</el-radio
-            >
-            <el-radio v-model="mnemonicLength" label="15" border size="medium"
-              >15位</el-radio
-            >
-            <el-radio v-model="mnemonicLength" label="18" border size="medium"
-              >18位</el-radio
-            >
-            <el-radio v-model="mnemonicLength" label="21" border size="medium"
-              >21位</el-radio
-            >
-            <el-radio v-model="mnemonicLength" label="24" border size="medium"
-              >24位</el-radio
-            >
+            <el-radio v-model="mnemonicLength" label="12" border size="medium">12位</el-radio>
+            <el-radio v-model="mnemonicLength" label="15" border size="medium">15位</el-radio>
+            <el-radio v-model="mnemonicLength" label="18" border size="medium">18位</el-radio>
+            <el-radio v-model="mnemonicLength" label="21" border size="medium">21位</el-radio>
+            <el-radio v-model="mnemonicLength" label="24" border size="medium">24位</el-radio>
           </div>
           <div>
             <h5>生成钱包的地址数量</h5>
           </div>
           <div>
             <div>
-              <el-input
-                v-model="walletQuantity"
-                placeholder="Input Number Of Wallets"
-              ></el-input>
-              <el-button v-if="!hasBuildState" @click="generateWallet()">立即生成</el-button
-              >
-              <el-button v-if="hasBuildState" @click="generateWallet">重新生成</el-button
-              >
-              <el-button v-if="hasBuildState" @click="exportexcel">下载表格</el-button
-              >
+              <el-input v-model="walletQuantity" placeholder="Input Number Of Wallets"></el-input>
+              <el-button v-if="!hasBuildState" @click="generateWallet()">立即生成</el-button>
+              <el-button v-if="hasBuildState" @click="generateWallet">重新生成</el-button>
+              <el-button v-if="hasBuildState" @click="exportexcel">下载表格</el-button>
             </div>
           </div>
         </div>
@@ -57,10 +41,7 @@
           </div>
           <div>
             <div>
-              <el-input
-                v-model="inputPrivateKey"
-                placeholder="Enter private key or mnemonic"
-              ></el-input>
+              <el-input v-model="inputPrivateKey" placeholder="Enter private key or mnemonic"></el-input>
               <el-button @click="createWallet()">立即创建</el-button>
             </div>
           </div>
@@ -69,32 +50,19 @@
           <div class="data" v-for="(data, index) in walletdata" :key="index">
             <div>
               <h5>
-                <span class="dataTitle"> 地址</span
-                ><span class="verticalLine"></span>
-                <span class="dataBox"
-                  ><span class="roll">{{ data.address }}</span></span
-                ><span class="dataReplication" @click="copy(data.address)"
-                  >复制</span
-                >
+                <span class="dataTitle"> 地址</span><span class="verticalLine"></span>
+                <span class="dataBox"><span class="roll">{{ data.address }}</span></span><span class="dataReplication"
+                  @click="copy(data.address)">复制</span>
               </h5>
               <h5>
-                <span class="dataTitle">助记词</span
-                ><span class="verticalLine"></span>
-                <span class="dataBox"
-                  ><span class="roll">{{ data.mnemonic }}</span></span
-                ><span class="dataReplication" @click="copy(data.mnemonic)"
-                  >复制</span
-                >
+                <span class="dataTitle">助记词</span><span class="verticalLine"></span>
+                <span class="dataBox"><span class="roll">{{ data.mnemonic }}</span></span><span class="dataReplication"
+                  @click="copy(data.mnemonic)">复制</span>
               </h5>
               <h5>
-                <span class="dataTitle">密钥</span
-                ><span class="verticalLine"></span>
-                <span class="dataBox"
-                  ><span class="roll">{{ data.privateKey }}</span></span
-                >
-                <span class="dataReplication" @click="copy(data.privateKey)"
-                  >复制</span
-                >
+                <span class="dataTitle">密钥</span><span class="verticalLine"></span>
+                <span class="dataBox"><span class="roll">{{ data.privateKey }}</span></span>
+                <span class="dataReplication" @click="copy(data.privateKey)">复制</span>
               </h5>
             </div>
           </div>
@@ -135,18 +103,18 @@ export default {
   data() {
     return {
       //钱包数量
-      walletQuantity: "", 
+      walletQuantity: "1",
       //助记词长度
-      mnemonicLength: "12", 
+      mnemonicLength: "12",
       //有生成状态
-      hasBuildState: false, 
+      hasBuildState: false,
       //钱包数据
-      walletdata: [],  
+      walletdata: [],
       //加载中
       loading: false,
       //生成方式   
       generationMethod: "1",
-      
+
       inputPrivateKey: "",
     };
   },
@@ -179,7 +147,7 @@ export default {
           this.loading = !this.loading;
           return;
         }
-        if(this.walletQuantity > 100){
+        if (this.walletQuantity > 100) {
           this.$message({
             message:
               "你写入的钱包数量大于100，无法生成。请输入不大于100的生成数量。",
@@ -229,7 +197,7 @@ export default {
           //设置导出文件名称
           "EVM钱包.xlsx"
         );
-      } catch (e) {}
+      } catch (e) { }
       return wbout;
     },
 
@@ -243,7 +211,7 @@ export default {
     },
 
     //通过私钥或助记词创建钱包
-    createWallet () {
+    createWallet() {
       this.walletdata = [];
       try {
         // 通过助记词创建钱包对象
@@ -256,7 +224,7 @@ export default {
         };
         this.walletdata.push(wallet);
         return;
-      } catch (error) {}
+      } catch (error) { }
       try {
         // 通过私钥创建钱包对象
         if (this.inputPrivateKey.substring(0, 2) !== "0x") {
@@ -270,7 +238,7 @@ export default {
         };
         this.walletdata.push(wallet);
       } catch (error) {
-        this.inputPrivateKey=""
+        this.inputPrivateKey = ""
         this.$message.error("创建失败，请检查你的输入");
       }
     },
@@ -300,6 +268,7 @@ export default {
   width: 100%;
   height: 100%;
 }
+
 .wallet {
   min-width: 636px;
   height: calc(100vh - 70px);
@@ -307,6 +276,7 @@ export default {
   justify-content: center;
   overflow: auto;
 }
+
 .container {
   min-width: 700px;
   max-width: 768px;
@@ -322,17 +292,21 @@ export default {
   border-radius: 8px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
+
 .container div {
   width: 100%;
 }
+
 .container div div {
   display: flex;
   flex-wrap: nowrap;
 }
+
 .container div div .el-input {
   width: 100%;
   margin-right: 0px;
 }
+
 /deep/ .container div .el-input input {
   padding: 0 15px !important;
   -webkit-appearance: none;
@@ -377,26 +351,31 @@ export default {
   font-size: 18px;
   font-weight: 700;
 }
+
 .container h5 {
   margin: 10px 0;
   font-size: 14px;
   color: #000;
   font-weight: 700;
 }
+
 .container .result {
   width: 100%;
   margin-left: 10px;
 }
+
 .stateCopy {
   width: 15px;
   height: 15px;
   margin-left: 10px;
 }
+
 .scroll {
   height: auto;
   max-height: 500px;
   overflow: auto;
 }
+
 .data {
   min-width: 690px;
   overflow: hidden;
@@ -408,15 +387,18 @@ export default {
 .data div {
   flex-direction: column;
 }
+
 .data div h5 {
   background-color: #f0f0f0;
   height: 40px;
   margin: 2px 0;
 }
+
 .data div h5 span {
   display: inline-block;
   color: #000;
 }
+
 .data div .dataTitle {
   font-weight: 300;
   float: left;
@@ -429,6 +411,23 @@ export default {
   margin: 5px 0;
   color: #da2121;
 }
+
+.container .tips {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 15px;
+  color: #ff9f37;
+}
+
+.container .tips span a{
+  color: #ff9f37;
+  text-decoration:none
+}
+
+.container .tips span a:hover{
+  color: #409eff;
+}
+
 .data div .dataBox {
   font-weight: 350;
   padding-top: 13px;
@@ -437,10 +436,12 @@ export default {
   word-break: keep-all;
   overflow-x: scroll;
 }
+
 .data div .dataBox .roll {
   white-space: nowrap;
   width: auto;
 }
+
 .data div .dataReplication {
   width: 67px;
   height: 38px;
@@ -451,12 +452,14 @@ export default {
   border: 1px solid #e9e9e9;
   background-color: #ffffff;
 }
+
 .data div .verticalLine {
   float: left;
   margin-right: 10px;
   height: 38px;
   border: solid 1px rgb(221, 221, 221);
 }
+
 .el-table {
   position: absolute;
   left: -5000px;

@@ -70,11 +70,11 @@ export default {
   data() {
     return {
       //输入地址
-      enterAddress: "",
+      enterAddress: "0x8ba1f109551bd432803012645ac136ddd64dba72",
       //输出地址
       outputAddress: "",
       //输入ENS
-      enterENS: "",
+      enterENS: "ricmoo.firefly.eth",
       //输出ENS
       outputENS: "",
       //可以复制地址   

@@ -105,7 +105,7 @@ export default {
                 {
                     title: '签名选择器查询',
                     detail: '根据函数签名查询 4 字节函数选择器',
-                    router: '/convertABI',
+                    router: '/querySelector',
                     url: require('../assets/imgs/tool_list7.png'),
                 },
                 {

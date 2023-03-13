@@ -7,13 +7,13 @@
         <div>
           <h5>通过函数名查询4字节函数选择器</h5>
           <div>
-            <el-input v-model="enterABI" placeholder="Enter The Function Signature"></el-input>
+            <el-input v-model="enterFunctionName" placeholder="Enter The Function Signature"></el-input>
             <el-button @click="queryFunctionSelector">查询</el-button>
           </div>
         </div>
         <h5 class="result">
-          {{ outputABI
-          }}<img class="copyButton" v-if="canCopyABI" src="../assets/imgs/copy.png" @click="copy(outputABI)" />
+          {{ outputSelector
+          }}<img class="copyButton" v-if="canCopyABI" src="../assets/imgs/copy.png" @click="copy(outputSelector)" />
         </h5>
         <div>
           <h5>通过字节函数选择器函数名查询函数签名</h5>
@@ -36,7 +36,7 @@ import Navigation from "../components/Navigation.vue";
 import Clipboard from "clipboard";
 import { ethers } from "ethers";
 export default {
-  name: "convertABI",
+  name: "querySelector",
   components: {
     Navigation,
   },
@@ -54,11 +54,11 @@ export default {
   data() {
     return {
       // 输入ABI
-      enterABI: "",
+      enterFunctionName: "transfer(address,uint256)",
       // 输出ABI
-      outputABI: "",
+      outputSelector: "",
       // 输入选择器
-      enterSelector: "",
+      enterSelector: "0x0dbe671f",
       // 签名
       signature: "",
       // 可以复制ABI
@@ -82,23 +82,23 @@ export default {
     //查询函数选择器
     async queryFunctionSelector() {
       let ABI = [];
-      ABI[0] = this.$options.methods.formatFunctionSignature(this.enterABI);
+      ABI[0] = this.$options.methods.formatFunctionSignature(this.enterFunctionName);
       if (ABI[0]) {
         ABI[0] = "function " + ABI[0];
       } else {
-        this.outputABI =
+        this.outputSelector =
           "你输入的函数有误，请重新输入!  请用如下格式输入，例：transfer(address,uint256)";
         return;
       }
       try {
         let iface = new ethers.utils.Interface(ABI);
         ABI[0] = ABI[0].slice(9);
-        this.outputABI = iface.getSighash(ABI[0]);
+        this.outputSelector = iface.getSighash(ABI[0]);
         this.canCopyABI = true;
-        this.submitFunctionSelector(ABI[0],this.outputABI)
+        this.submitFunctionSelector(ABI[0],this.outputSelector)
       } catch (error) {
         this.canCopyABI = false;
-        this.outputABI = "你输入的函数有误，请重新输入";
+        this.outputSelector = "你输入的函数有误，请重新输入";
       }
     },
 
