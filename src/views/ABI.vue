@@ -6,6 +6,7 @@
                 <div class="title">ABI 图形化</div>
                 <div class="buttons">
                     <el-button class="btn" type="primary" @click="dialogFormVisible = true">添加合约</el-button>
+                    <el-button class="btn" type="warning" @click="updateContract">编辑当前合约</el-button>
                     <el-button class="btn" type="danger" @click="deleteContract">删除当前合约</el-button>
                 </div>
                 <div class="contract-list">
@@ -124,8 +125,10 @@
                                     <div class="contentRight">
                                         <div class="rightList">
                                             <div v-if="parameter != null">
-                                                <div class="title">参数</div>
-                                                <el-table :data="parameter[0].inputs" class="list">
+                                                <div class="title">调用函数： </div>
+                                                <div class="title">{{ parameter[0].name }} </div>
+                                                <el-table :data="parameter[0].inputs" class="list"
+                                                    v-if="parameter[0].inputs.length > 0">
                                                     <el-table-column label="Type" width="100">
                                                         <template slot-scope="scope">
                                                             <span>{{ scope.row.type }}</span>
@@ -142,11 +145,13 @@
                                                         </template>
                                                     </el-table-column>
                                                 </el-table>
+                                                <div class="rightButton">
+                                                    <el-button type="danger" @click="clearOutput">清空输出</el-button>
+                                                    <el-button type="primary" class=""
+                                                        @click="submitAbiForm(parameter[0], parameter[1])">运行</el-button>
+                                                </div>
                                             </div>
                                         </div>
-                                        <el-button type="primary" class=""
-                                            @click="submitAbiForm(parameter[0], parameter[1])">运行</el-button>
-                                        <el-button type="danger">清空输出</el-button>
                                         <div>
                                             <div class="sol-body-right" :data="abiCardData">
                                                 <div v-if="abiCardData.length != 0">
@@ -260,7 +265,8 @@ export default {
                 else {
                     const data = JSON.parse(localData)
                     for (let i = 0; i < data.length; i++) {
-                        if (data[i].name === value) {
+                        if (data[i].name === value && !(this.isUpdate && this.chooseContractName == value)) {
+
                             callback(new Error('已有相同名称的项目存在！'))
                         }
                     }
@@ -356,9 +362,14 @@ export default {
             accountAddress: '',
             provider: {},
             signer: {},
+            // 链号
             chainId: 0,
             // 有ABI
             hasABI: false,
+            //是更新
+            isUpdate: false,
+            // 选择合约名称
+            chooseContractName: "",
             //参数列表
             parameter: null
         }
@@ -463,15 +474,23 @@ export default {
             //修改是否存在ABI的状态
             this.hasABI = false
             this.tableData = Array(1).fill(this.item)
-            console.log("初始化数据位置", this.tableData)
             // 清空卡片数据
             this.abiCardData = []
             // 清空当前点击对象
             this.clickItem = []
         },
 
+        // 取消按钮事件
+        cancelDialog() {
+            this.dialogFormVisible = false
+        },
+
+        // 关闭输入框
         closureInputBox() {
-            this.hasABI = false;//清空数据
+            this.hasABI = false;
+            // 清空表单
+            this.form = {}
+            this.init()
         },
 
         // localstorage的get方法
@@ -517,8 +536,6 @@ export default {
 
         // 添加合约 事件 提交表单
         onSubmit(formName) {
-            console.log("提交传入参数", formName)
-            console.log("this.localData", this.localData)
             if (this.localData == null) {
                 // 清空localData
                 this.localData = []
@@ -526,10 +543,10 @@ export default {
             // 校验规则
             this.$refs[formName].validate(async (valid) => {
                 if (valid) {
-                    console.log("this.localData", this.localData)
-                    console.log("this.form", this.form)
                     if (await this.validABI(this.form.abi)) {
-                        this.localData.push(this.form)
+                        if (!this.isUpdate) {
+                            this.localData.push(this.form)
+                        }
                         // 保存localData到localStorage
                         this.storage.set('localData', this.localData)
                         //关闭弹出窗
@@ -538,6 +555,7 @@ export default {
                         this.$refs.form.resetFields()
                         //初始化
                         this.init()
+                        this.isUpdate = false
                     }
                 } else {
                     return false
@@ -545,7 +563,7 @@ export default {
             })
         },
 
-        //解析ABI
+        //解析ABI 判断abi是否正确
         async validABI(abiObj) {
             if (abiObj !== '' && abiObj !== null && abiObj !== undefined) {
                 try {
@@ -562,18 +580,12 @@ export default {
             }
         },
 
-        // 取消按钮 事件
-        cancelDialog() {
-            // 清空表单
-            this.$refs.form.resetFields()
-            this.dialogFormVisible = false
-        },
-
         // 单击左侧导航栏的事件
         openItem(Item) {
-            console.log("Item", Item)
             // 清空 abiCardData
             this.abiCardData = []
+            //清空 parameter
+            this.parameter = null
             // 将abi的数值转成对象
             let abiObj = JSON.parse(Item.abi)
             this.tableData = [
@@ -590,9 +602,6 @@ export default {
             let writeMethod = []
             //其他
             let otherMethod = []
-            console.log("this.tableData", this.tableData)
-            console.log("this.tableData[0].ItemAbi", this.tableData[0].ItemAbi)
-            console.log(this.tableData)
             for (let i = 0; i < this.tableData[0].ItemAbi.length; i++) {
                 switch (this.tableData[0].ItemAbi[i].stateMutability) {
                     case ("view"):
@@ -613,9 +622,33 @@ export default {
             this.clickItem = Item
         },
 
+        //更新合约
+        updateContract() {
+            if (this.clickItem.length == 0) {
+                this.$message('当前暂未选择合约');
+                return
+            }
+            this.isUpdate = true
+            // 清空 abiCardData
+            this.abiCardData = []
+            //清空 parameter
+            this.parameter = null
+            this.chooseContractName = this.clickItem.name
+            this.form = this.clickItem
+            //打开编辑窗口
+            this.dialogFormVisible = true
+        },
+
         // 删除合约事件
         deleteContract() {
-            console.log("正在执行删除合约", this.clickItem.name)
+            if (this.clickItem.length == 0) {
+                this.$message('当前暂未选择合约');
+                return
+            }
+            // 清空 abiCardData
+            this.abiCardData = []
+            //清空 parameter
+            this.parameter = null
             if (this.clickItem.name !== undefined) {
                 // 删除合约
                 this.storage.remove('localData', this.clickItem.name)
@@ -660,7 +693,6 @@ export default {
             let thisChainId = this.convertChainId(this.clickItem.network)
             let that = this
             // 执行网络切换，并返回切换状态
-            console.log("cahinId", thisChainId, this.chainId)
             if (thisChainId != this.chainId) {
                 await this.$confirm('当前钱包连接的链与本合约连接的链不同。将为你切换到对应网络' + this.clickItem.network + '?', '当前网络错误', {
                     confirmButtonText: '确定切换',
@@ -673,12 +705,12 @@ export default {
                     return
                 });
             } else {
-                this.numberRun(abiObj, Item)
+                this.callFunctions(abiObj, Item)
             }
         },
 
         //函数运行
-        async numberRun(abiObj, Item) {
+        async callFunctions(abiObj, Item) {
             // 连接MetaMask
             await this.connectMetaMask()
             // 通过abi调用函数
@@ -727,7 +759,7 @@ export default {
                     method: 'wallet_switchEthereumChain',
                     params: [{ chainId: chainId }],
                 });
-                this.numberRun(runParameter[0], runParameter[1])
+                this.callFunctions(runParameter[0], runParameter[1])
                 //这里继续执行函数
             } catch (switchError) {
                 if (switchError.code === 4902) {
@@ -770,6 +802,11 @@ export default {
                     chainId = 0
             }
             return chainId
+        },
+
+        //清空输出
+        clearOutput() {
+            this.abiCardData = []
         },
     },
 }
@@ -975,7 +1012,7 @@ input::-webkit-input-placeholder {
     margin-bottom: 0px;
     margin-top: 10px;
     color: #909399;
-    width: 50px;
+    width: 90px;
     display: inline-block
 }
 
@@ -998,5 +1035,11 @@ input::-webkit-input-placeholder {
 
 .contentRight {
     width: 100%;
+}
+
+.contentRight .rightButton {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    float: right;
 }
 </style>
