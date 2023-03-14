@@ -8,20 +8,17 @@
             </div>
             <div class="rightcontainer">
                 <div>
-                    <a href="https://github.com/ChainToolDao" target="_blank"> <img class="github" src="../assets/imgs/github.png" alt=""></a>
+                    <a href="https://github.com/ChainToolDao" target="_blank"> <img class="github"
+                            src="../assets/imgs/github.png" alt=""></a>
                     <a href="https://twitter.com/NUpchain" target="_blank"> <img class="twitter"
                             src="../assets/imgs/twitter.png" alt=""></a>
                 </div>
                 <div v-if="address" class="connect connected">
                     <div></div>
-
                     <div>{{ address }}</div>
                 </div>
-
-
                 <div v-else class="connect" @click="login">
                     <div></div>
-
                     <div>连接钱包</div>
                 </div>
             </div>
@@ -32,6 +29,7 @@
 <script>
 import { ethers } from 'ethers'
 import Proxy from '../proxy.js'
+import { Message } from 'element-ui'
 
 export default {
     name: 'Navigation',
@@ -53,9 +51,17 @@ export default {
         }
     },
 
+    mounted() {
+        let that =this
+        window.ethereum.on('accountsChanged', function (accounts) {
+            that.address= that.formatAccount(accounts[0])   
+        })
+        this.login(true)
+    },
+
     methods: {
-        login() {
-            Proxy.initWeb3Account(async (web3Provider) => {
+        async login(autoTransfer) {
+               let loginStatus= await Proxy.initWeb3Account(async (web3Provider) => {
                 if (web3Provider) {
                     web3Provider.on('accountsChanged', (accounts) => {
                         if (accounts[0]) {
@@ -66,14 +72,17 @@ export default {
                             this.$store.commit('updataAccount', null)
                         }
                     })
-
                     let provider = new ethers.providers.Web3Provider(web3Provider)
-
                     let account = await provider.getSigner().getAddress()
                     this.$store.commit('updataAccount', account)
                     this.address = this.formatAccount(account)
                 }
             })
+            if (loginStatus=="false1"&&autoTransfer!=true){
+                Message.error("连接失败, MetaMask连接被拒绝");
+            }else if (loginStatus=="false2"&&!autoTransfer!=true){
+                Message.error("连接失败, 请先安装MetaMask");
+            }
         },
 
         formatAccount(acc) {
@@ -119,7 +128,7 @@ export default {
 }
 
 .container .connect {
-      cursor: pointer;
+    cursor: pointer;
     height: 35px;
     display: flex;
     align-items: center;
@@ -153,18 +162,18 @@ export default {
     width: 30px;
     height: 30px;
     margin-right: 12px;
-    filter:invert(0%)
+    filter: invert(0%)
 }
 
 .twitter {
     width: 30px;
     height: 30px;
     margin-right: 12px;
-    filter:invert(0%)
+    filter: invert(0%)
 }
 
 .rightcontainer {
-    display: flex;  
+    display: flex;
     align-items: center
 }
 </style>

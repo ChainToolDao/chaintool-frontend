@@ -414,6 +414,7 @@ export default {
             //请求网络
             let requestNetwork = null
             switch (this.form.network) {
+                
                 case ("Hardhat(localhost)"):
                     this.$message.error("当前网络不支持Etherscan获取");
                     return
@@ -459,6 +460,7 @@ export default {
         async init() {
             // 给storage 对象添加方法
             this.storage.get = this.get
+
             this.storage.set = this.set
             this.storage.remove = this.remove
             // 读取localdata
@@ -754,6 +756,9 @@ export default {
 
         //切换网络
         async switchNetwork(chainId, runParameter) {
+            console.log("执行链接")
+            console.log(chainId)
+            console.log(runParameter)
             try {
                 await ethereum.request({
                     method: 'wallet_switchEthereumChain',
@@ -763,7 +768,21 @@ export default {
                 //这里继续执行函数
             } catch (switchError) {
                 if (switchError.code === 4902) {
-                    this.$message.error('该链尚未添加到 MetaMask')
+                    this.$message('该链尚未添加到 MetaMask,正在执行自动添加');
+                    try {
+                        await ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [
+                                {
+                                    chainId: '0x56',
+                                    chainName: 'Arbitrum One',
+                                    rpcUrls: ['https://bsc-dataseed1.binance.org/'] /* ... */,
+                                },
+                            ],
+                        });
+                    } catch (addError) {
+                        this.$message.error('添加失败，请手动添加后重试。')
+                    }
                 } else {
                     this.$message.error('连接请求错误，请尝试手动连接。连接后刷新页面重试。')
                 }

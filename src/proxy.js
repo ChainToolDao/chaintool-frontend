@@ -1,6 +1,6 @@
 /* eslint-disable */
 import Vue from 'vue'
-import { Message } from 'element-ui'
+
 
 export default {
 
@@ -13,14 +13,12 @@ export default {
             try {
                 await window.ethereum.enable();
             } catch (error) {
-                Message.error("连接失败, MetaMask连接被拒绝");
                 callback(false)
-                return
+                return "false1"
             }
             callback(provider)
         } else {
-            Message.error("连接失败, 请先安装MetaMask");
-            return
+            return "false2"
         }
     },
 

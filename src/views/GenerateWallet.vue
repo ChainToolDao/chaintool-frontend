@@ -5,8 +5,7 @@
       <div class="container">
         <h3>批量生成EVM钱包</h3>
         <div class="tips">
-          <span>Tips: 钱包生成过程均在本地电脑完成，我们无法获取到您的助记词及私钥！<br></span>
-          <span>开源才值得信赖，<a href="https://github.com/ChainToolDao" target="_blank">点击可前往项目GitHub</a> 。</span>
+          <span>Tips: 钱包生成过程均在本地完成，代码完全<a href="https://github.com/ChainToolDao" target="_blank">开源</a>。任何人都无法获取到您的助记词及私钥，请放心使用。<br></span>
         </div>
         <div>
           <el-radio v-model="generationMethod" label="1" @change="emptyWalletData">随机批量生成</el-radio>
@@ -415,13 +414,14 @@ export default {
 .container .tips {
   width: 100%;
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   color: #ff9f37;
+  font-size:15px
 }
 
 .container .tips span a{
   color: #ff9f37;
-  text-decoration:none
+  text-decoration:none;
 }
 
 .container .tips span a:hover{
