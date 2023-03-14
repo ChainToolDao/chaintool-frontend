@@ -5,8 +5,9 @@ import axios from 'axios'
 import App from './App'
 import store from './store'
 import router from './router'
-
 import MetaInfo from "vue-meta-info";
+import JsonViewer from 'vue-json-viewer';
+Vue.use(JsonViewer);
 Vue.use(MetaInfo);
 
 axios.defaults.timeout = 10000;

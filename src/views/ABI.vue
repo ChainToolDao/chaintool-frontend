@@ -96,7 +96,7 @@
                                             <el-menu :data="tableData">
                                                 <div v-if="tableData[0].ItemAbi != null">
                                                     <template v-for="(item, index) in tableData[0].ItemAbi">
-                                                        <div @click="parameters(item, index)" class="contentList">
+                                                        <div @click="transferParameters(item, index)" class="contentList">
                                                             <el-submenu
                                                                 v-if="item.type == 'function' || item.type == 'view'"
                                                                 :key="index" :index="index + ''">
@@ -158,10 +158,13 @@
                                                     <el-card class="box-card" v-for="(item, index) in abiCardData"
                                                         :key="index" :index="index + 'card'">
                                                         <div slot="header" class="clearfix">
-                                                            <div>调用函数：{{ item.function }}</div>
+                                                            <div><span v-if="item.typeFlag == 'error'">❌ </span>
+                                                                调用函数：{{ item.function }}</div>
                                                         </div>
                                                         <pre
-                                                            style="white-space: normal; word-break: break-all">返回内容：{{ item.content }}</pre>
+                                                            style="white-space: normal; word-break: break-all"><span>返回内容：</span>
+                                                                                                                                <json-viewer :value="item.content" ></json-viewer>
+                                                                                                                            </pre>
                                                     </el-card>
                                                 </div>
                                             </div>
@@ -174,6 +177,19 @@
                 </div>
                 <div class="dialog">
                     <el-dialog title="添加合约" :visible.sync="dialogFormVisible" @close='closureInputBox'>
+                        <el-dialog width="45%" title="预设ABI" :visible.sync="innerVisible" append-to-body>
+                            <div class="innerFrame">
+                                <div v-for="piece, index in presetsABI">
+                                    <div class="inner-title">{{ piece.standard }}</div>
+                                    <div>
+                                        <ul>
+                                            <li v-for="data  in piece.data" @click="transferABI(data.ABI)">{{ data.name
+                                            }}<br><span>{{ data.illustrate }}</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </el-dialog>
                         <el-form :model="form" :rules="rules" ref="form">
                             <el-form-item label="项目名称" prop="name" :label-width="formLabelWidth">
                                 <el-input v-model="form.name" autocomplete="off" placeholder="unique name"></el-input>
@@ -217,6 +233,7 @@
                                 </div>
                             </el-form-item>
                         </el-form>
+                        <div @click="innerVisible = true" class="dialog-div">从预设的ABI中选择</div>
                         <div slot="footer" class="dialog-footer">
                             <el-button @click="cancelDialog">取 消</el-button>
                             <el-button type="primary" @click="onSubmit('form')">确 定</el-button>
@@ -232,6 +249,8 @@
 import { ethers } from 'ethers'
 import Navigation from '../components/Navigation.vue'
 import axios from "axios";
+import presetsABI from '../presetsABI.json';
+import network from '../network.json'
 
 export default {
     name: 'abi',
@@ -307,6 +326,8 @@ export default {
             storage: {},
             // dialog控件的开启关闭属性
             dialogFormVisible: false,
+            // dialog内部控件
+            innerVisible: false,
             // 右侧详情栏的表格信息数据
             item: {
                 ItemName: '',
@@ -355,7 +376,7 @@ export default {
                 network: [{ validator: checkNetwork, trigger: 'blur' }],
             },
             // 表单子栏的宽度
-            formLabelWidth: '120px',
+            formLabelWidth: '100px',
             // 监听左侧点击的导航标题
             clickItem: {},
             // 与合约交互相关的数据定义
@@ -371,7 +392,11 @@ export default {
             // 选择合约名称
             chooseContractName: "",
             //参数列表
-            parameter: null
+            parameter: null,
+            //预设ABI
+            presetsABI: presetsABI,
+            //网络
+            network: network,
         }
     },
 
@@ -388,7 +413,7 @@ export default {
         },
 
         //传递参数
-        parameters(item, index) {
+        transferParameters(item, index) {
             this.parameter = [item, index]
         },
 
@@ -405,6 +430,13 @@ export default {
             }
         },
 
+        //传递ABI   
+        transferABI(ABI) {
+            this.innerVisible = false
+            this.form.abi = JSON.stringify(ABI)
+            this.hasABI = true
+        },
+
         //从Etherscan获取ABI
         async getABIFromEtherscan() {
             if (this.form.address == "" || this.form.network == "") {
@@ -414,7 +446,6 @@ export default {
             //请求网络
             let requestNetwork = null
             switch (this.form.network) {
-                
                 case ("Hardhat(localhost)"):
                     this.$message.error("当前网络不支持Etherscan获取");
                     return
@@ -460,7 +491,6 @@ export default {
         async init() {
             // 给storage 对象添加方法
             this.storage.get = this.get
-
             this.storage.set = this.set
             this.storage.remove = this.remove
             // 读取localdata
@@ -730,7 +760,6 @@ export default {
                     let args = []
                     for (let i = 0; i < Item.inputs.length; i++) {
                         args.push(Item.inputs[i].value)
-
                     }
                     // 调用函数
                     const cardContent = await contract[Item.name](...args)
@@ -749,34 +778,49 @@ export default {
                     }
                     this.abiCardData.unshift(cardData)
                 } catch (err) {
-                    this.$message.error(err)
+                    const cardData = {
+                        function: Item.name,
+                        content: JSON.parse(JSON.stringify(err)),
+                        typeFlag: "error"
+                    }
+                    this.abiCardData.unshift(cardData)
+                }
+            }
+        },
+
+        //匹配网络
+        matchingNetwork(value, type) {
+            if (type == "chainID") {
+                for (let i in this.network) {
+                    if (value == this.network[i].chainID) {
+                        return this.network[i]
+                    }
                 }
             }
         },
 
         //切换网络
         async switchNetwork(chainId, runParameter) {
-            console.log("执行链接")
-            console.log(chainId)
-            console.log(runParameter)
             try {
                 await ethereum.request({
                     method: 'wallet_switchEthereumChain',
                     params: [{ chainId: chainId }],
                 });
-                this.callFunctions(runParameter[0], runParameter[1])
                 //这里继续执行函数
+                this.callFunctions(runParameter[0], runParameter[1])
             } catch (switchError) {
                 if (switchError.code === 4902) {
                     this.$message('该链尚未添加到 MetaMask,正在执行自动添加');
+                    let chainID = Number(chainId).toString(10)
+                    let network = this.matchingNetwork(chainID, "chainID")
                     try {
                         await ethereum.request({
                             method: 'wallet_addEthereumChain',
                             params: [
                                 {
-                                    chainId: '0x56',
-                                    chainName: 'Arbitrum One',
-                                    rpcUrls: ['https://bsc-dataseed1.binance.org/'] /* ... */,
+                                    chainId: chainId,
+                                    chainName: network.networkName,
+                                    rpcUrls: [network.rpcUrls],
                                 },
                             ],
                         });
@@ -1056,9 +1100,53 @@ input::-webkit-input-placeholder {
     width: 100%;
 }
 
+.dialog-div {
+    width: 100%;
+    color: #409EFF;
+    padding-left: 12%;
+    float: right;
+}
+
 .contentRight .rightButton {
     margin-top: 20px;
     margin-bottom: 20px;
     float: right;
+}
+
+.box-card-error {
+    background-color: rgb(255, 42, 42);
+}
+
+.innerFrame {
+    color: #000000;
+    font-size: 18px;
+}
+
+.innerFrame .inner-title {
+    margin: 10px 0;
+}
+
+.innerFrame ul li {
+    width: 26%;
+    height: 95px;
+    padding: 10px;
+    border: #dcdfec solid 1px;
+    display: inline-block;
+    margin-right: 3px;
+    border-radius: 20px;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: top;
+}
+
+.innerFrame ul li span {
+    margin-top: 7px;
+    color: #606266;
+    font-size: 10px;
+    display: inline-block
+}
+
+/deep/ .el-dialog__body {
+    padding: 10px 20px 30px 27px;
 }
 </style>

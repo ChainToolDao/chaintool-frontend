@@ -1,0 +1,66 @@
+[
+    {
+        "chainID": "31337",
+        "networkName": "Hardhat(localhost)",
+        "rpcUrls": "http://localhost:8545",
+        "chainExplorer": "",
+        "requestNetwork": "",
+        "apikey": ""
+    },
+    {
+        "chainID": "1",
+        "networkName": "Ethereum Mainnet",
+        "rpcUrls": "https://mainnet.infura.io/v3/",
+        "chainExplorer": "https://etherscan.io/",
+        "requestNetwork": "",
+        "apikey": ""
+    },
+    {
+        "chainID": "5",
+        "networkName": "Goerli",
+        "rpcUrls": "https://goerli.infura.io/v3/",
+        "chainExplorer": "https://goerli.etherscan.io/",
+        "requestNetwork": "",
+        "apikey": ""
+    },
+    {
+        "chainID": "56",
+        "networkName": "Binance Smart Chain Mainnet",
+        "rpcUrls": "https://rpc.ankr.com/bsc",
+        "chainExplorer": "https://bscscan.com/",
+        "requestNetwork": "",
+        "apikey": ""
+    },
+    {
+        "chainID": "137",
+        "networkName": "Polygon Mainnet",
+        "rpcUrls": "https://endpoints.omniatech.io/v1/matic/mainnet/public",
+        "chainExplorer": "https://polygonscan.com/",
+        "requestNetwork": "",
+        "apikey": ""
+    },
+    {
+        "chainID": "80001",
+        "networkName": "Mumbai",
+        "rpcUrls": "https://endpoints.omniatech.io/v1/matic/mumbai/public",
+        "chainExplorer": "https://mumbai.polygonscan.com/",
+        "requestNetwork": "",
+        "apikey": ""
+    },
+    {
+        "chainID": "11155111",
+        "networkName": "Sepolia",
+        "rpcUrls": "https://sepolia.infura.io/v3/",
+        "chainExplorer": "https://sepolia.etherscan.io/",
+        "requestNetwork": "",
+        "apikey": ""
+    },
+    {
+        "chainID": "97",
+        "networkName": "Binance Smart Chain Testnet",
+        "rpcUrls": "https://endpoints.omniatech.io/v1/bsc/testnet/public",
+        "chainExplorer": "https://testnet.bscscan.com/",
+        "requestNetwork": "",
+        "apikey": ""
+    }
+]
