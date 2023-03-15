@@ -11,7 +11,7 @@
           </el-menu>
         </div>
         <div v-if="selectFunction">
-          <DeCoding></DeCoding>
+          <Decoding></Decoding>
         </div>
         <div v-if="!selectFunction" class="contentSection">
           <Coding></Coding>
@@ -24,13 +24,13 @@
 <script>
 import Navigation from "../components/Navigation.vue";
 import Coding from "./calldata/Coding.vue";
-import DeCoding from "./calldata/DeCoding.vue";
+import Decoding from "./calldata/Decoding.vue";
 export default {
   name: "transactionData",
   components: {
     Navigation,
     Coding,
-    DeCoding
+    Decoding
   },
 
   metaInfo() {
