@@ -3,7 +3,7 @@
         <Navigation></Navigation>
         <div class="scroll">
             <div class="container">
-                <div class="title">ABI 图形化</div>
+                <div class="title">ABI 可视化调用</div>
                 <div class="buttons">
                     <el-button class="btn" type="primary" @click="dialogFormVisible = true">添加合约</el-button>
                     <el-button class="btn" type="warning" @click="updateContract">编辑当前合约</el-button>
@@ -161,7 +161,8 @@
                                                                 调用函数：{{ item.function }}</div>
                                                         </div>
                                                         <pre >
-                                                            <span>返回内容：</span>
+                                                            <span v-if="item.typeFlag == 'write'">交易详情：</span>
+                                                            <span v-if="item.typeFlag=='read'||item.typeFlag=='error'">返回内容：</span>
                                                             <json-viewer :value="item.content" ></json-viewer>
                                                         </pre>
                                                     </el-card>
@@ -176,7 +177,7 @@
                 </div>
                 <div class="dialog">
                     <el-dialog title="添加合约" :visible.sync="dialogFormVisible" @close='closureInputBox'>
-                        <el-dialog width="45%" title="预设ABI" :visible.sync="innerVisible" append-to-body>
+                        <el-dialog width="45%" title="常见ABI" :visible.sync="innerVisible" append-to-body>
                             <div class="innerFrame">
                                 <div v-for="piece, index in presetsABI">
                                     <div class="inner-title">{{ piece.standard }}</div>
@@ -198,13 +199,11 @@
                                     <el-option label="Hardhat(localhost)" value="Hardhat(localhost)"></el-option>
                                     <el-option label="Ethereum Mainnet" value="Ethereum Mainnet"></el-option>
                                     <el-option label="Goerli" value="Goerli"></el-option>
-                                    <el-option label="Binance Smart Chain Mainnet"
-                                        value="Binance Smart Chain Mainnet"></el-option>
+                                    <el-option label="Sepolia" value="Sepolia"></el-option>
+                                    <el-option label="Binance Smart Chain Mainnet" value="Binance Smart Chain Mainnet"></el-option>
+                                    <el-option label="Binance Smart Chain Testnet"  value="Binance Smart Chain Testnet"></el-option>
                                     <el-option label="Polygon Mainnet" value="Polygon Mainnet"></el-option>
                                     <el-option label="Mumbai" value="Mumbai"></el-option>
-                                    <el-option label="Sepolia" value="Sepolia"></el-option>
-                                    <el-option label="Binance Smart Chain Testnet"
-                                        value="Binance Smart Chain Testnet"></el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="项目地址" prop="address" :label-width="formLabelWidth">
@@ -216,6 +215,9 @@
                                     class="el-textarea__inner" ></textarea>
                                 <div class="popUpBox" v-if="!hasABI">
                                     <ul>
+                                        <li class="" @click="innerVisible = true"><i
+                                                class="el-icon-folder-opened  el-icon"></i><span>选择常见ABI</span>
+                                        </li>
                                         <li class="">
                                             <el-upload class="upload-demo"
                                                 action="https://jsonplaceholder.typicode.com/posts/" accept=".ABI,.txt"
@@ -232,7 +234,6 @@
                                 </div>
                             </el-form-item>
                         </el-form>
-                        <div @click="innerVisible = true" class="dialog-div">从预设的ABI中选择</div>
                         <div slot="footer" class="dialog-footer">
                             <el-button @click="cancelDialog">取 消</el-button>
                             <el-button type="primary" @click="onSubmit('form')">确 定</el-button>
@@ -443,43 +444,15 @@ export default {
                 return
             }
             //请求网络
-            let requestNetwork = null
-            switch (this.form.network) {
-                case ("Hardhat(localhost)"):
-                    this.$message.error("当前网络不支持Etherscan获取");
-                    return
-                case ("Ethereum Mainnet"):
-                    requestNetwork = "https://api.etherscan.io/api?module=contract&action=getabi&address=" + this.form.address + "&apikey=" + process.env.VUE_APP_APIKEY
-                    break;
-                case ("Goerli"):
-                    requestNetwork = "https://api-goerli.etherscan.io/api?module=contract&action=getabi&address=" + this.form.address + "&apikey=" + process.env.VUE_APP_APIKEY
-                    break;
-                case ("Binance Smart Chain Mainnet"):
-                    requestNetwork = "https://api.etherscan.io/api?module=contract&action=getabi&address=" + this.form.address + "&apikey=" + process.env.VUE_APP_APIKEY
-                    break;
-                case ("Polygon Mainnet"):
-                    requestNetwork = "https://api.etherscan.io/api?module=contract&action=getabi&address=" + this.form.address + "&apikey=" + process.env.VUE_APP_APIKEY
-                    break;
-                case ("Mumbai"):
-                    requestNetwork = "https://api.etherscan.io/api?module=contract&action=getabi&address=" + this.form.address + "&apikey=" + process.env.VUE_APP_APIKEY
-                    break;
-                case ("Sepolia"):
-                    requestNetwork = "https://api-sepolia.etherscan.io/api?module=contract&action=getabi&address=" + this.form.address + "&apikey=" + process.env.VUE_APP_APIKEY
-                    break;
-                case ("Binance Smart Chain Testnet"):
-                    requestNetwork = "https://api-testnet.bscscan.com/api?module=contract&action=getabi&address=" + this.form.address + "&apikey=" + process.env.VUE_APP_APIKEY
-                    break;
-            }
+            let requestNetwork = "https://anyabi.xyz/api/get-abi/"+this.convertChainId(this.form.network)+"/"+this.form.address
+
             let that = this
             try {
                 await axios
                     .get(requestNetwork)
                     .then((res) => {
-                        if (res.data.result == "Contract source code not verified") {
-                            throw 'abc';
-                        }
                         this.hasABI = true
-                        that.form.abi = res.data.result
+                        that.form.abi = JSON.stringify(res.data.abi)
                     });
             } catch (error) {
                 this.$message.error("Etherscan获取失败，请检查你输入的地址与网络后重试");
@@ -770,10 +743,17 @@ export default {
                     } else {
                         cardContentData = cardContent
                     }
+                    let typeFlag=""
+                    if(Item.stateMutability=="payable"||Item.stateMutability=="nonpayable"){
+                        typeFlag='write'
+                    }else{
+                        typeFlag='read'
+                    }
                     // eslint-disable-next-line no-underscore-dangle
                     const cardData = {
                         function: Item.name,
                         content: cardContentData,
+                        typeFlag: typeFlag 
                     }
                     this.abiCardData.unshift(cardData)
                 } catch (err) {
@@ -1024,13 +1004,18 @@ input::-webkit-input-placeholder {
 
 .popUpBox ul li {
     display: inline-block;
-    width: 30%;
-    height: 120px;
+    width: 115px;
+    height: 100px;
     margin-right: 10px;
     border: #DCDFE6 solid 1px;
     border-radius: 10%;
     max-width: 220px;
     min-width: 100px;
+}
+
+/deep/ .el-dialog{
+    max-width: 834px;
+    min-width: 650px;
 }
 
 .popUpBox ul li:hover {
@@ -1049,7 +1034,7 @@ input::-webkit-input-placeholder {
     display: inline-block;
     width: 100%;
     text-align: center;
-    line-height: 60px;
+    line-height: 23px;
 }
 
 .upload-demo,
@@ -1145,7 +1130,7 @@ input::-webkit-input-placeholder {
 }
 
 /deep/ .el-dialog__body {
-    padding: 10px 20px 30px 27px;
+    padding: 10px 20px 20px 27px;
 }
 
 .contract-list  .main{
