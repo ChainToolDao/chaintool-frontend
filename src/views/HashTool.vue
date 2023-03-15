@@ -8,20 +8,20 @@
           <h5>Hash 工具</h5>
           <div>
             <el-radio-group v-model="algorithmSelection" @change="clearInputAndOutput">
-              <el-radio label="1" border size="medium" @change="clearInputAndOutput">Keccak-256</el-radio>
-              <el-radio label="2" border size="medium" @change="clearInputAndOutput">Base64</el-radio>
+              <el-radio label="Keccak-256" border size="medium" @change="clearInputAndOutput">Keccak-256</el-radio>
+              <el-radio label="Base64" border size="medium" @change="clearInputAndOutput">Base64</el-radio>
             </el-radio-group>
           </div>
-          <div>
-            <el-radio v-model="isCoding" label="1" v-if="algorithmSelection == 2"
+          <div v-if="algorithmSelection == 'Base64'">
+            <el-radio v-model="isCoding" label="coding" 
               @change="clearInputAndOutput">编码</el-radio>
-            <el-radio v-model="isCoding" label="0" v-if="algorithmSelection == 2"
+            <el-radio v-model="isCoding" label="deCoding" 
               @change="clearInputAndOutput">解码</el-radio>
           </div>
           <div>
             <select name="" v-model="encodingType" id="">
-              <option value="0"> Text </option>
-              <option value="1"> Hex </option>
+              <option value="test"> Text </option>
+              <option value="hex"> Hex </option>
             </select>
             <el-input v-model="inputHash" placeholder="Input" type="textarea" autosize></el-input>
             <el-button @click="getHash" style="margin-left: 20px">确认</el-button>
@@ -64,11 +64,11 @@ export default {
       // 可以复制Hash  
       canCopyHash: false,
       // 编码类型  encodingType
-      encodingType: "0",
+      encodingType: "test",
       // 算法选择
-      algorithmSelection: "1",
+      algorithmSelection: "Keccak-256",
       // 是编码状态
-      isCoding: "1",
+      isCoding: "coding",
     };
   },
   methods: {
@@ -81,7 +81,7 @@ export default {
 
     //keccak256计算
     keccak256Count() {
-      if (this.encodingType == 1) {
+      if (this.encodingType == "hex") {
         //hex运算
         this.inputHash = this.inputHash.replace(/(^\s*)/g, "");
         let inputHash = this.inputHash;
@@ -109,8 +109,8 @@ export default {
 
     //base64计算
     base64Count() {
-      if (this.isCoding == 1) {
-        if (this.encodingType == 1) {
+      if (this.isCoding == "coding") {
+        if (this.encodingType == "hex") {
           //Hex 编码
           try {
             this.inputHash = this.inputHash.replace(/(^\s*)/g, "");
@@ -131,8 +131,8 @@ export default {
           this.outputHash = new Buffer(this.inputHash).toString("base64");
           this.canCopyHash = true;
         }
-      } else if (this.isCoding == 0) {
-        if (this.encodingType == 1) {
+      } else if (this.isCoding == "deCoding") {
+        if (this.encodingType == "hex") {
           //Hex 解码
           try {
             let base64 = this.inputHash;
@@ -167,7 +167,7 @@ export default {
         return;
       }
       this.canCopyHash = false;
-      if (this.algorithmSelection == 1) {
+      if (this.algorithmSelection == 'Keccak-256') {
         this.keccak256Count();
       } else {
         this.base64Count()

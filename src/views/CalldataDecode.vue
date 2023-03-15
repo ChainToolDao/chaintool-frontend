@@ -6,12 +6,12 @@
         <div class="title">交易输入数据(Calldata)编解码</div>
         <div class="mainRow">
           <el-menu  :default-active="preferredPage" class="el-menu-demo" mode="horizontal"  @select="cutoverTop">
-            <el-menu-item index="1">解码</el-menu-item>
-            <el-menu-item index="2">编码</el-menu-item>
+            <el-menu-item index="deCoding">解码</el-menu-item>
+            <el-menu-item index="coding">编码</el-menu-item>
           </el-menu>
         </div>
         <div v-if="selectFunction">
-          <Decoding></Decoding>
+          <DeCoding></DeCoding>
         </div>
         <div v-if="!selectFunction" class="contentSection">
           <Coding></Coding>
@@ -24,13 +24,13 @@
 <script>
 import Navigation from "../components/Navigation.vue";
 import Coding from "./calldata/Coding.vue";
-import Decoding from "./calldata/Decoding.vue";
+import DeCoding from "./calldata/DeCoding.vue";
 export default {
   name: "transactionData",
   components: {
     Navigation,
     Coding,
-    Decoding
+    DeCoding
   },
 
   metaInfo() {
@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       // 首选页面
-      preferredPage: "1",
+      preferredPage: "deCoding",
       // 是解码
       selectFunction: true,
     };
@@ -57,7 +57,7 @@ export default {
   methods: {
     // 切换编码和解码
     cutoverTop(key) {
-      if (key == 1) {
+      if (key == 'deCoding') {
         this.selectFunction = true
       } else {
         this.selectFunction = false

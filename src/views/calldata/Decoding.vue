@@ -79,7 +79,7 @@ export default {
 
         //获取函数签名自动
         async getFunctionSignAuto() {
-            let functionSignature = await this.getFunctionSignature(this.calldata.slice(0, 10))
+            let functionSignature = await this.functionSelector.getFunctionSignature(this.calldata.slice(0, 10))
             this.signatureArray = functionSignature
             if (!this.isManualInput) {
                 this.chooseSignature = functionSignature[0]
@@ -214,8 +214,8 @@ export default {
 
         //解码
         async decoding() {
-            let searchResult = await this.$options.methods.decodingTransactionData(this.calldata, this.chooseSignature, this.getFunctionSignature, this.submitFunctionSelector);
-            this.decodingResult = await this.$options.methods.processingCalldata(searchResult, this.getFunctionSignature, this.submitFunctionSelector);
+            let searchResult = await this.$options.methods.decodingTransactionData(this.calldata, this.chooseSignature, this.functionSelector.getFunctionSignature, this.functionSelector.submitFunctionSelector);
+            this.decodingResult = await this.$options.methods.processingCalldata(searchResult, this.functionSelector.getFunctionSignature, this.functionSelector.submitFunctionSelector);
             if (this.decodingResult == undefined) {
                 this.$message.error("查询失败，请检查你的输入后重试");
             }

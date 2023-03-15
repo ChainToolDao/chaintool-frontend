@@ -11,22 +11,22 @@ async function parsingRawTraces(rawTraces,
     for (let i = 0; i < rawTraces.length; i++) {
         // 交易结构
         let tx = {
-                id: "0", // tree id
-                pid: "", // 父id
-                children: [],
-                calltype: "", //调用类型
-                ETH: "", // value
-                from: "", //  发送者的地址
-                fromName: "", //  发送者地址的解析名称
-                to: "", //  接收者的地址，一般是合约地址
-                toName: "", //  接收者地址的解析名称
-                function: "", // 调用的函数签名
-                inputArg: "", // 函数的参数集合
-                gasUsed: "", // 实际消耗的gas
-                output: "", // 函数输出
-                init: false, // 该交易是否是创建合约
-            }
-            // 解析合约调用深度
+            id: "0", // tree id
+            pid: "", // 父id
+            children: [],
+            calltype: "", //调用类型
+            ETH: "", // value
+            from: "", //  发送者的地址
+            fromName: "", //  发送者地址的解析名称
+            to: "", //  接收者的地址，一般是合约地址
+            toName: "", //  接收者地址的解析名称
+            function: "", // 调用的函数签名
+            inputArg: "", // 函数的参数集合
+            gasUsed: "", // 实际消耗的gas
+            output: "", // 函数输出
+            init: false, // 该交易是否是创建合约
+        }
+        // 解析合约调用深度
         let deep = rawTraces[i].traceAddress.length;
         if (deep) {
             // 处理子节点id
@@ -291,11 +291,11 @@ function getMapName(key, mapByUser, mapByCrawl) {
     if (mapByUser) {
         try {
             map = JSON.parse(mapByUser);
-        } catch (error) {}
+        } catch (error) { }
     } else if (mapByCrawl) {
         try {
             map = JSON.parse(mapByCrawl);
-        } catch (error) {}
+        } catch (error) { }
     }
 
     if (map.hasOwnProperty(key)) {

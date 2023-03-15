@@ -5,22 +5,19 @@ import Vue from 'vue'
 export default {
 
     async initWeb3Account(callback) {
-
         let provider
         if (window.ethereum) {
             provider = window.ethereum;
-
             try {
                 await window.ethereum.enable();
             } catch (error) {
                 callback(false)
-                return "false1"
+                Message.error("连接失败, MetaMask连接被拒绝");
             }
             callback(provider)
         } else {
-            return "false2"
+            Message.error("连接失败, 请先安装MetaMask");
         }
     },
-
 }
 

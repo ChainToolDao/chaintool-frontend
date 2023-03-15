@@ -49,7 +49,7 @@ export default {
         codingSelector = codingSelector.slice(8).replace(/^\s*/g, "");
         this.encodingResult = iface.encodeFunctionData(codingSelector, processingParameters)
         //把通过编码的数据加入数据库
-        this.submitFunctionSelector(codingSelector, (this.encodingResult.substring(0, 10)))
+        this.functionSelector.submitFunctionSelector(codingSelector, (this.encodingResult.substring(0, 10)))
         this.canCopy = true
       } catch (error) {
         this.encodingResult = "你的输入有误，请检查后重试"

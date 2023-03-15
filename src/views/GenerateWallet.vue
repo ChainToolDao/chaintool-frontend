@@ -8,10 +8,10 @@
           <span>Tips: 钱包生成过程均在本地完成，代码完全<a href="https://github.com/ChainToolDao" target="_blank">开源</a>。任何人都无法获取到您的助记词及私钥，请放心使用。<br></span>
         </div>
         <div>
-          <el-radio v-model="generationMethod" label="1" @change="emptyWalletData">随机批量生成</el-radio>
-          <el-radio v-model="generationMethod" label="2" @change="emptyWalletData">自定义私钥或助记词创建</el-radio>
+          <el-radio v-model="generateMethod" label="randomBatch" @change="emptyWalletData">随机批量生成</el-radio>
+          <el-radio v-model="generateMethod" label="customize" @change="emptyWalletData">自定义私钥或助记词创建</el-radio>
         </div>
-        <div v-if="generationMethod == 1">
+        <div v-if="generateMethod == 'randomBatch'">
           <div>
             <h5>选择助记词长度</h5>
           </div>
@@ -34,7 +34,7 @@
             </div>
           </div>
         </div>
-        <div v-if="generationMethod == 2">
+        <div v-if="generateMethod == 'customize'">
           <div>
             <h5>通过私钥或助记词创建钱包</h5>
           </div>
@@ -112,8 +112,7 @@ export default {
       //加载中
       loading: false,
       //生成方式   
-      generationMethod: "1",
-
+      generateMethod: "randomBatch",
       inputPrivateKey: "",
     };
   },
