@@ -15,6 +15,7 @@
     "file-saver": "^2.0.5",
     "prerender-spa-plugin": "^3.4.0",
     "vue": "^2.6.10",
+    "vue-json-viewer": "^2.2.22",
     "vue-meta-info": "^0.1.7",
     "vue-router": "^3.0.6",
     "vuex": "^3.1.2",

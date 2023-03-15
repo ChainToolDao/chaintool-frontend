@@ -7,55 +7,29 @@
         <div>
           <h5>Hash 工具</h5>
           <div>
-            <el-radio-group v-model="algorithmSelection" @change="agreeChange">
-              <el-radio label="1" border size="medium" @change="agreeChange"
-                >Keccak-256</el-radio
-              >
-              <el-radio label="2" border size="medium" @change="agreeChange"
-                >Base64</el-radio
-              >
+            <el-radio-group v-model="algorithmSelection" @change="clearInputAndOutput">
+              <el-radio label="1" border size="medium" @change="clearInputAndOutput">Keccak-256</el-radio>
+              <el-radio label="2" border size="medium" @change="clearInputAndOutput">Base64</el-radio>
             </el-radio-group>
           </div>
           <div>
-            <el-radio
-              v-model="coding"
-              label="1"
-              v-if="algorithmSelection == 2"
-              @change="agreeChange"
-              >编码</el-radio
-            >
-            <el-radio
-              v-model="coding"
-              label="0"
-              v-if="algorithmSelection == 2"
-              @change="agreeChange"
-              >解码</el-radio
-            >
+            <el-radio v-model="isCoding" label="1" v-if="algorithmSelection == 2"
+              @change="clearInputAndOutput">编码</el-radio>
+            <el-radio v-model="isCoding" label="0" v-if="algorithmSelection == 2"
+              @change="clearInputAndOutput">解码</el-radio>
           </div>
           <div>
-            <select name="" v-model="radio" id="">
+            <select name="" v-model="encodingType" id="">
               <option value="0"> Text </option>
               <option value="1"> Hex </option>
             </select>
-            <el-input
-              v-model="inputHash"
-              placeholder="Input"
-              type="textarea"
-              autosize
-            ></el-input>
-            <el-button @click="obtainHash" style="margin-left: 20px"
-              >确认</el-button
-            >
+            <el-input v-model="inputHash" placeholder="Input" type="textarea" autosize></el-input>
+            <el-button @click="getHash" style="margin-left: 20px">确认</el-button>
           </div>
         </div>
-        <h5 class="result">
+        <h5 class="bottom">
           {{ outputHash
-          }}<img
-            class="stateCopy"
-            v-if="stateCopyHash"
-            src="../assets/imgs/copy.png"
-            @click="copy(outputHash)"
-          />
+          }}<img class="copyButton" v-if="canCopyHash" src="../assets/imgs/copy.png" @click="copy(outputHash)" />
         </h5>
       </div>
     </div>
@@ -83,110 +57,125 @@ export default {
   },
   data() {
     return {
-      inputHash: "",
+      //输入Hash
+      inputHash: "123456",
+      //输出Hash
       outputHash: "",
-      stateCopyHash: false,
-      radio: "0",
+      // 可以复制Hash  
+      canCopyHash: false,
+      // 编码类型  encodingType
+      encodingType: "0",
+      // 算法选择
       algorithmSelection: "1",
-      coding: "1",
+      // 是编码状态
+      isCoding: "1",
     };
   },
   methods: {
-    agreeChange: function () {
-      this.stateCopyHash = false;
+    //清空输入与输出
+    clearInputAndOutput: function () {
+      this.canCopyHash = false;
       this.inputHash = "";
       this.outputHash = "";
     },
+
+    //keccak256计算
+    keccak256Count() {
+      if (this.encodingType == 1) {
+        //hex运算
+        this.inputHash = this.inputHash.replace(/(^\s*)/g, "");
+        let inputHash = this.inputHash;
+        if (inputHash.indexOf("0x") != 0) {
+          inputHash = "0x" + inputHash;
+        }
+        if (inputHash.length % 2 != 0) {
+          inputHash = "0x0" + inputHash.slice(2);
+        }
+        try {
+          this.outputHash = ethers.utils.keccak256(inputHash);
+          this.canCopyHash = true;
+        } catch (error) {
+          this.outputHash = "你的输入不是16进制的字符，请重新输入";
+          this.canCopyHash = false;
+        }
+      } else {
+        //这里进行text运算
+        this.outputHash = ethers.utils.keccak256(
+          ethers.utils.toUtf8Bytes(this.inputHash)
+        );
+        this.canCopyHash = true;
+      }
+    },
+
+    //base64计算
+    base64Count() {
+      if (this.isCoding == 1) {
+        if (this.encodingType == 1) {
+          //Hex 编码
+          try {
+            this.inputHash = this.inputHash.replace(/(^\s*)/g, "");
+            let inputHash = this.inputHash;
+            if (inputHash.indexOf("0x") != 0) {
+              inputHash = "0x" + inputHash;
+            }
+            if (inputHash.length % 2 != 0) {
+              inputHash = "0x0" + inputHash.slice(2);
+            }
+            this.outputHash = ethers.utils.base64.encode(inputHash);
+            this.canCopyHash = true;
+          } catch (error) {
+            this.outputHash = "你的输入不是16进制的字符，请重新输入";
+          }
+        } else {
+          //Text 编码
+          this.outputHash = new Buffer(this.inputHash).toString("base64");
+          this.canCopyHash = true;
+        }
+      } else if (this.isCoding == 0) {
+        if (this.encodingType == 1) {
+          //Hex 解码
+          try {
+            let base64 = this.inputHash;
+            var raw = atob(base64);
+            var HEX = "";
+            for (let i = 0; i < raw.length; i++) {
+              var _hex = raw.charCodeAt(i).toString(16);
+              HEX += _hex.length == 2 ? _hex : "0" + _hex;
+            }
+            this.outputHash = HEX;
+            this.canCopyHash = true;
+          } catch (error) {
+            this.outputHash = "解码失败，请检查你的输入后重试";
+          }
+        } else {
+          //Text解码
+          try {
+            this.outputHash = new Buffer(this.inputHash, "base64").toString();
+            this.canCopyHash = true;
+          } catch (error) {
+            this.outputHash = "解码失败，请检查你的输入后重试";
+          }
+        }
+      }
+
+    },
+
     // 获取Hash
-    obtainHash() {
+    getHash() {
       if (this.inputHash == "") {
         this.outputHash = "你的输入为空，请重新输入";
         return;
       }
-      this.stateCopyHash = false;
+      this.canCopyHash = false;
       if (this.algorithmSelection == 1) {
-        if (this.inputHash == "") {
-          this.outputHash = "你的输入不是16进制的字符，请重新输入";
-          return;
-        }
-        if (this.radio == 1) {
-          //这里进行hex运算
-          this.inputHash = this.inputHash.replace(/(^\s*)/g, "");
-          let inputHash = this.inputHash;
-          if (inputHash.indexOf("0x") != 0) {
-            inputHash = "0x" + inputHash;
-          }
-          if (inputHash.length % 2 != 0) {
-            inputHash = "0x0" + inputHash.slice(2);
-          }
-          try {
-            this.outputHash = ethers.utils.keccak256(inputHash);
-            this.stateCopyHash = true;
-          } catch (error) {
-            this.outputHash = "你的输入不是16进制的字符，请重新输入";
-            this.stateCopyHash = false;
-          }
-        } else {
-          //这里进行text运算
-          this.outputHash = ethers.utils.keccak256(
-            ethers.utils.toUtf8Bytes(this.inputHash)
-          );
-          this.stateCopyHash = true;
-        }
+        this.keccak256Count();
       } else {
-        if (this.coding == 1) {
-          if (this.radio == 1) {
-            //Hex 编码
-            try {
-              this.inputHash = this.inputHash.replace(/(^\s*)/g, "");
-              let inputHash = this.inputHash;
-              if (inputHash.indexOf("0x") != 0) {
-                inputHash = "0x" + inputHash;
-              }
-              if (inputHash.length % 2 != 0) {
-                inputHash = "0x0" + inputHash.slice(2);
-              }
-              this.outputHash = ethers.utils.base64.encode(inputHash);
-              this.stateCopyHash = true;
-            } catch (error) {
-              this.outputHash = "你的输入不是16进制的字符，请重新输入";
-            }
-          } else {
-            //Text 编码
-            this.outputHash = new Buffer(this.inputHash).toString("base64");
-            this.stateCopyHash = true;
-          }
-        } else if (this.coding == 0) {
-          if (this.radio == 1) {
-            //Hex 解码
-            try {
-              let base64 = this.inputHash;
-              var raw = atob(base64);
-              var HEX = "";
-              for (let i = 0; i < raw.length; i++) {
-                var _hex = raw.charCodeAt(i).toString(16);
-                HEX += _hex.length == 2 ? _hex : "0" + _hex;
-              }
-              this.outputHash = HEX;
-              this.stateCopyHash = true;
-            } catch (error) {
-              this.outputHash = "解码失败，请检查你的输入后重试";
-            }
-          } else {
-            //Text解码
-            try {
-              this.outputHash = new Buffer(this.inputHash, "base64").toString();
-              this.stateCopyHash = true;
-            } catch (error) {
-              this.outputHash = "解码失败，请检查你的输入后重试";
-            }
-          }
-        }
+        this.base64Count()
       }
     },
 
     copy(text) {
-      const clipboard = new Clipboard(".result", {
+      const clipboard = new Clipboard(".bottom", {
         text: () => {
           return text;
         },
@@ -209,6 +198,7 @@ export default {
   width: 100%;
   height: 100%;
 }
+
 select {
   border: #dcdfe6 1px solid;
   border-radius: 4px;
@@ -216,6 +206,7 @@ select {
   width: 75px;
   margin-right: 5px;
 }
+
 .Hash {
   width: 100%;
   height: calc(100vh - 70px);
@@ -223,9 +214,11 @@ select {
   justify-content: center;
   overflow: auto;
 }
+
 .el-radio {
   margin: 15px 5px;
 }
+
 .container {
   max-width: 768px;
   padding: 32px;
@@ -240,18 +233,22 @@ select {
   border-radius: 8px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
+
 .container div {
   width: 100%;
 }
+
 .container div div {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
 }
+
 .container div div .el-input {
   width: 100%;
   margin-right: 0px;
 }
+
 /deep/ .container div .el-input input {
   padding: 0 15px !important;
   -webkit-appearance: none;
@@ -290,27 +287,32 @@ select {
   background-color: #409eff;
   border-color: #409eff;
 }
+
 .container h3 {
   font-size: 18px;
   font-weight: 700;
 }
+
 .container h5 {
   margin: 10px 0;
   font-size: 14px;
   color: #000;
   font-weight: 700;
 }
-.container .result {
+
+.container .bottom {
   width: 100%;
   word-break: break-all;
   height: auto;
   margin-left: 10px;
 }
-.stateCopy {
+
+.copyButton {
   width: 15px;
   height: 15px;
   margin-left: 10px;
 }
+
 .load {
   width: 30px;
   height: 30px;

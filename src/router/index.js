@@ -7,7 +7,7 @@ import Traceview from '../views/TraceView.vue'
 import Bulkquery from '../views/BulkQuery.vue'
 import Notfind from '../views/Notfind.vue'
 import Address from '../views/Address.vue'
-import ConvertABI from '../views/ConvertABI.vue'
+import QuerySelector from '../views/QuerySelector.vue'
 import GenerateWallet from '../views/GenerateWallet.vue'
 import ConvertTopicID from '../views/ConvertTopicID.vue'
 import HashTool from '../views/HashTool.vue'
@@ -56,9 +56,9 @@ export default new Router({
             component: Address
         },
         {
-            path: '/convertABI',
-            name: 'ConvertABI',
-            component: ConvertABI
+            path: '/querySelector',
+            name: 'QuerySelector',
+            component: QuerySelector
         },
         {
             path: '/generateWallet',

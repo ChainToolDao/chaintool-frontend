@@ -18,8 +18,8 @@
           {{ outputAddress }}
           <img
             src="../assets/imgs/copy.png"
-            v-if="stateCopyaddress"
-            class="stateCopy"
+            v-if="canCopyAddress"
+            class="copyButton"
             @click="copy(outputAddress)"
           />
         </h5>
@@ -35,8 +35,8 @@
           <img
             src="../assets/imgs/copy.png"
             alt=""
-            v-if="stateCopyENS"
-            class="stateCopy"
+            v-if="canCopyENS"
+            class="copyButton"
             @click="copy(outputENS)"
           />
           <img class="load" src="../assets/imgs/load.gif" alt="" v-if="load" />
@@ -69,30 +69,40 @@ export default {
   },
   data() {
     return {
-      enterAddress: "",
+      //输入地址
+      enterAddress: "0x8ba1f109551bd432803012645ac136ddd64dba72",
+      //输出地址
       outputAddress: "",
-      enterENS: "",
+      //输入ENS
+      enterENS: "ricmoo.firefly.eth",
+      //输出ENS
       outputENS: "",
-      stateCopyaddress: false,
-      stateCopyENS: false,
+      //可以复制地址   
+      canCopyAddress: false,
+      //可以复制ENS
+      canCopyENS: false,
+      //加载
       load: false,
     };
   },
   methods: {
+    //地址转换
     addressTranslation() {
       this.enterAddress = this.enterAddress.toLowerCase();
       if (ethers.utils.isAddress(this.enterAddress)) {
         this.outputAddress = ethers.utils.getAddress(this.enterAddress);
         this.outputAddress = this.outputAddress;
-        this.stateCopyaddress = true;
+        this.canCopyAddress = true;
       } else {
         this.outputAddress =
           "您输入的地址不合法，请重新输入。输入示例：0x8ba1f109551bd432803012645ac136ddd64dba72";
-        this.stateCopyaddress = false;
+        this.canCopyAddress = false;
       }
     },
+
+    //查询ENS
     async queryENS() {
-      this.stateCopyENS = false;
+      this.canCopyENS = false;
       this.outputENS = "正在查询";
       this.load = true;
       let provider = new ethers.providers.InfuraProvider("mainnet");
@@ -107,10 +117,11 @@ export default {
         pendingENS =
           "没有查询到对应的ENS，也没有查询到对应的地址 例”0x8ba1f109551bD432803012645Ac136ddd64DBA72“或“ricmoo.firefly.eth”";
       } else {
-        this.stateCopyENS = true;
+        this.canCopyENS = true;
       }
       this.outputENS = pendingENS;
     },
+
     copy(text) {
       const clipboard = new Clipboard(".result", {
         text: () => {
@@ -166,8 +177,7 @@ export default {
 }
 .container div div .el-input {
   width: 100%;
-  margin-right: 0px;
-  /* border: solid red 1px; */
+  margin-right: 0px
 }
 /deep/ .container div .el-input input {
   padding: 0 15px !important;
@@ -223,7 +233,7 @@ export default {
   width: 100%;
   margin-left: 10px;
 }
-.stateCopy {
+.copyButton {
   width: 15px;
   height: 15px;
   margin-left: 10px;

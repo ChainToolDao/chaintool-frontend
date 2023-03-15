@@ -5,34 +5,30 @@
             <div class="topTips">
                 <div>
                     <div>Chaintool - 区块链工具箱
-                        <br/>让区块链开发更轻松</div>
+                        <br />让区块链开发更轻松
+                    </div>
                     <div>开源才值得信赖，好用才提高效率，你所需的工具尽在于此。</div>
-                    <el-button type="primary" ><a href="https://github.com/ChainToolDao/chaintool-frontend/issues" class="theFeedback" >反馈需求与建议</a></el-button>
-                        </div>
+                    <el-button type="primary"><a href="https://github.com/ChainToolDao/chaintool-frontend/issues"
+                            class="theFeedback">反馈需求与建议</a></el-button>
+                </div>
                 <img src="../assets/imgs/main.png">
             </div>
-
             <div class="title">工具列表</div>
-
             <div class="detail">免费效率工具，快上手试试吧</div>
-
             <div class="listTool">
-
                 <div v-for="(item, index) in tool_list" :key="'tool_list' + index" @click="toRouter(item.router)">
                     <img :src='item.url'>
-
                     <div class="text">
                         <div class="textTitle">
                             <span>{{ item.title }}</span>
                             <img src="../assets/imgs/arrow-right.svg">
                         </div>
-
                         <div>{{ item.detail }}</div>
                     </div>
                 </div>
 
             </div>
-            
+
         </div>
     </div>
 </template>
@@ -109,20 +105,20 @@ export default {
                 {
                     title: '签名选择器查询',
                     detail: '根据函数签名查询 4 字节函数选择器',
-                    router: '/convertABI',
+                    router: '/querySelector',
                     url: require('../assets/imgs/tool_list7.png'),
                 },
                 {
                     title: '事件签名查询主题(TopicID)',
                     detail: '根据事件签名查询主题TopicID及反向查询',
                     router: '/topicID',
-                    url: require('../assets/imgs/tool_list8.png'),
+                    url: require('../assets/imgs/tool_list9.png'),
                 },
                 {
                     title: 'Hash 工具',
                     detail: '常用 Hash 工具，如keccak-256、base64 等计算',
                     router: '/hashTool',
-                    url: require('../assets/imgs/tool_list7.png'),
+                    url: require('../assets/imgs/tool_list10.png'),
                 },
                 {
                     title: '交易输入数据编解码',
@@ -142,9 +138,10 @@ export default {
 </script>
 
 <style scoped>
-a{
-    text-decoration-line: none; 
+a {
+    text-decoration-line: none;
 }
+
 .home {
     width: 100%;
     height: auto;
@@ -268,17 +265,16 @@ a{
         max-width: calc(100vw - 40px);
     }
 }
-.footer{
+
+.footer {
     margin-top: 20px;
 }
 
 .el-button--primary {
     width: 260px;
 }
-    
-.theFeedback{
+
+.theFeedback {
     color: #FAFAFA;
     width: 260px;
-}
-
-</style>
+}</style>

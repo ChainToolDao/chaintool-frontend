@@ -7,42 +7,25 @@
         <div>
           <h5>根据事件名查询主题(TopicID)</h5>
           <div>
-            <el-input
-              v-model="inputEventSignature"
-              placeholder="Input Event Signature"
-            ></el-input>
-            <el-button @click="obtainTopicID">查询</el-button>
+            <el-input v-model="inputEventSignature" placeholder="Input Event Signature"></el-input>
+            <el-button @click="getTopicID">查询</el-button>
           </div>
         </div>
         <h5 class="result">
           {{ outputTopicID
-          }}<img
-            class="stateCopy"
-            v-if="stateCopyTopicID"
-            src="../assets/imgs/copy.png"
-            @click="copy(outputTopicID)"
-          />
+          }}<img class="copyButton" v-if="canCopyTopicID" src="../assets/imgs/copy.png" @click="copy(outputTopicID)" />
         </h5>
-
         <div>
           <h5>根据TopicID查询事件名</h5>
           <div>
-            <el-input
-              v-model="inputTopicID"
-              placeholder="Input TopicID"
-            ></el-input>
-            <el-button @click="obtainEventSignature()">查询</el-button>
+            <el-input v-model="inputTopicID" placeholder="Input TopicID"></el-input>
+            <el-button @click="getEventSignature()">查询</el-button>
           </div>
         </div>
         <h5 class="result">
           {{ outputEventSignature }}
-          <img
-            src="../assets/imgs/copy.png"
-            alt=""
-            v-if="stateCopyEventSignature"
-            class="stateCopy"
-            @click="copy(outputEventSignature)"
-          />
+          <img src="../assets/imgs/copy.png" alt="" v-if="canCopyEventSignature" class="copyButton"
+            @click="copy(outputEventSignature)" />
           <img class="load" src="../assets/imgs/load.gif" alt="" v-if="load" />
         </h5>
       </div>
@@ -63,7 +46,6 @@ export default {
   metaInfo() {
     return {
       title: "Chaintool - 查询事件主题(TopicID)",
-
       meta: [
         {
           name: "keyword",
@@ -74,47 +56,35 @@ export default {
   },
   data() {
     return {
-      inputEventSignature: "",
+      //输入事件签名
+      inputEventSignature: "event Transfer(address indexed from, address indexed to, uint256 amount)",
+      //输出TopicID
       outputTopicID: "",
-      stateCopyTopicID: false,
-      inputTopicID: "",
+      //可以复制TopicID
+      canCopyTopicID: false,
+      //输入TopicID
+      inputTopicID: "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+      //输出事件签名
       outputEventSignature: "",
-      stateCopyEventSignature: false,
+      //可以复制事件签名    
+      canCopyEventSignature: false,
+      //加载
       load: false,
     };
   },
   methods: {
-    formatSignature(signature) {
-      signature.split(")");
+    //格式化事件名
+    formatEventName(signature) {
       signature = signature.replace(/^\s*/g, "");
       if (signature.indexOf("event ") == 0) {
         signature = signature.slice(5).replace(/^\s*/g, "");
       }
-      let signatureStorage = "";
-      //提取名字
-      signatureStorage = signature.split(" ")[0].split("(")[0];
-      //第一种情况，括号内没有内容
-      if (
-        signature.replace(/\s/g, "").indexOf("(") ==
-        signature.replace(/\s/g, "").indexOf(")") - 1
-      ) {
-        return signatureStorage + "()";
-      }
-      //第二种情况，括号内有内容
-      let processValue = signature.split("(")[1].split(")")[0].split(",");
-      for (let i in processValue) {
-        processValue[i] = processValue[i].replace(/^\s*/g, "").split(" ")[0];
-        if (i == 0) {
-          signatureStorage = signatureStorage + "(" + processValue[i];
-        } else {
-          signatureStorage = signatureStorage + "," + processValue[i];
-        }
-      }
-      return signatureStorage + ")";
+      return signature;
     },
+
     // 获取TopicID
-    async obtainTopicID() {
-      this.stateCopyTopicID = false;
+    async getTopicID() {
+      this.canCopyTopicID = false;
       this.outputTopicID = "";
       this.inputEventSignature = this.inputEventSignature.replace(
         /(^\s*)/g,
@@ -140,32 +110,32 @@ export default {
         inputEventSignature[0] = inputEventSignature[0].slice(6);
         let outputTopicID = iface.getEventTopic(inputEventSignature[0]);
         this.outputTopicID = outputTopicID;
-        this.stateCopyTopicID = true;
-        //执行数据库添加操作
-        try {
-          inputEventSignature[0] = this.$options.methods.formatSignature(
+        this.canCopyTopicID = true;
+        inputEventSignature[0] = this.$options.methods.formatEventName(
             inputEventSignature[0]
           );
-          axios
-            .post(intefUrl.topic, {
-              topic: outputTopicID,
-              signature: inputEventSignature[0],
-            })
-            .then((res) => {});
-        } catch (error) {}
+        //执行数据库添加操作
+        this.submitTopicID(outputTopicID,inputEventSignature[0]);
       } catch (error) {
         this.outputTopicID =
           "输入错误，输入示例：event Transfer(address indexed from, address indexed to, uint256 amount)";
       }
     },
 
-    //获取事件签名
-    async obtainEventSignature() {
-      this.load = true;
-      this.outputEventSignature = "正在查询";
-      let inputTopicID = this.inputTopicID;
-      this.stateCopyEventSignature = false;
-      inputTopicID = inputTopicID.replace(/(^\s*)/g, "");
+    //提交主题id
+    async submitTopicID(topic,signature){
+      try {
+       axios
+         .post(intefUrl.topic, {
+           topic: topic,
+           signature: signature,
+         })
+         .then((res) => { });
+     } catch (error) { }
+    },
+
+    //事件签名查找（数据库查找+网络查找）
+    async eventSignatureLookup(inputTopicID) {
       let outputEventSignature = [];
       if (inputTopicID.indexOf("0x") != 0) {
         inputTopicID = "0x" + inputTopicID;
@@ -175,12 +145,12 @@ export default {
         await axios
           .get(
             "https://www.4byte.directory/api/v1/event-signatures/?hex_signature=" +
-              this.inputTopicID
+            this.inputTopicID
           )
           .then((res) => {
             for (let i in res.data.results) {
               res.data.results[i].text_signature =
-                this.$options.methods.formatSignature(
+                this.$options.methods.formatEventName(
                   res.data.results[i].text_signature
                 );
               outputEventSignature.push(res.data.results[i].text_signature);
@@ -189,28 +159,21 @@ export default {
               outputEventSignature = [];
             }
           });
-      } catch (error) {}
+      } catch (error) { }
       //执行数据库查找操作
       try {
         await axios
           .get(intefUrl.topic + "/" + this.inputTopicID)
           .then((res) => {
             for (let i in res.data.data) {
-              res.data.data[i] = this.$options.methods.formatSignature(
+              res.data.data[i] = this.$options.methods.formatEventName(
                 res.data.data[i]
               );
             }
             //数据库中没有的添加到数据库中
             for (let i in outputEventSignature) {
               if (!res.data.data.includes(outputEventSignature[i])) {
-                try {
-                  axios
-                    .post(intefUrl.topic, {
-                      topic: inputTopicID,
-                      signature: outputEventSignature[i],
-                    })
-                    .then((res) => {});
-                } catch (error) {}
+                this.submitTopicID(inputTopicID,outputEventSignature[i])
               }
             }
             //数组中未被记录的添加到数组中
@@ -221,23 +184,34 @@ export default {
               }
             }
           });
-      } catch (error) {}
+      } catch (error) { }
+      return outputEventSignature
+    },
+
+    //获取事件签名
+    async getEventSignature() {
+      this.load = true;
+      this.outputEventSignature = "正在查询";
+      this.canCopyEventSignature = false;
+      this.inputTopicID = this.inputTopicID.replace(/(^\s*)/g, "");
+      let outputEventSignature = [];
+      outputEventSignature = await this.eventSignatureLookup(this.inputTopicID);
       for (let i in outputEventSignature) {
         if (i == 0) {
-          this.stateCopyEventSignature = true;
+          this.canCopyEventSignature = true;
           this.outputEventSignature = outputEventSignature[i];
         } else {
           this.outputEventSignature =
             this.outputEventSignature + ";" + outputEventSignature[i];
         }
       }
-
       if (outputEventSignature.length == 0) {
         this.outputEventSignature =
           "暂未查询到对应的事件签名。输入示例：0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
       }
       this.load = false;
     },
+
     copy(text) {
       const clipboard = new Clipboard(".result", {
         text: () => {
@@ -262,6 +236,7 @@ export default {
   width: 100%;
   height: 100%;
 }
+
 .TopicID {
   width: 100%;
   height: calc(100vh - 70px);
@@ -269,6 +244,7 @@ export default {
   justify-content: center;
   overflow: auto;
 }
+
 .container {
   max-width: 768px;
   padding: 32px;
@@ -283,18 +259,22 @@ export default {
   border-radius: 8px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
+
 .container div {
   width: 100%;
 }
+
 .container div div {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
 }
+
 .container div div .el-input {
   width: 100%;
   margin-right: 0px;
 }
+
 /deep/ .container div .el-input input {
   padding: 0 15px !important;
   -webkit-appearance: none;
@@ -333,25 +313,30 @@ export default {
   background-color: #409eff;
   border-color: #409eff;
 }
+
 .container h3 {
   font-size: 18px;
   font-weight: 700;
 }
+
 .container h5 {
   margin: 10px 0;
   font-size: 14px;
   color: #000;
   font-weight: 700;
 }
+
 .container .result {
   width: 100%;
   margin-left: 10px;
 }
-.stateCopy {
+
+.copyButton {
   width: 15px;
   height: 15px;
   margin-left: 10px;
 }
+
 .load {
   width: 30px;
   height: 30px;
