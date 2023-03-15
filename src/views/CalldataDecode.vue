@@ -24,7 +24,7 @@
 <script>
 import Navigation from "../components/Navigation.vue";
 import Coding from "./calldata/Coding.vue";
-import Decoding from "./calldata/Decoding.vue";
+import Decoding from "./calldata/DeCoding.vue";
 export default {
   name: "transactionData",
   components: {

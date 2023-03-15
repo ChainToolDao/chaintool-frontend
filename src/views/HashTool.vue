@@ -13,10 +13,8 @@
             </el-radio-group>
           </div>
           <div v-if="algorithmSelection == 'Base64'">
-            <el-radio v-model="isCoding" label="coding" 
-              @change="clearInputAndOutput">编码</el-radio>
-            <el-radio v-model="isCoding" label="deCoding" 
-              @change="clearInputAndOutput">解码</el-radio>
+            <el-radio v-model="isCoding" label="coding" @change="clearInputAndOutput">编码</el-radio>
+            <el-radio v-model="isCoding" label="deCoding" @change="clearInputAndOutput">解码</el-radio>
           </div>
           <div>
             <select name="" v-model="encodingType" id="">
@@ -24,7 +22,7 @@
               <option value="hex"> Hex </option>
             </select>
             <el-input v-model="inputHash" placeholder="Input" type="textarea" autosize></el-input>
-            <el-button @click="getHash" style="margin-left: 20px">确认</el-button>
+            <el-button class="button" @click="getHash">确认</el-button>
           </div>
         </div>
         <h5 class="bottom">
@@ -318,5 +316,9 @@ select {
   height: 30px;
   filter: invert(100%);
   vertical-align: middle;
+}
+
+.button {
+  margin-left: 20px
 }
 </style>

@@ -10,8 +10,8 @@
                     <el-button class="btn" type="danger" @click="deleteContract">删除当前合约</el-button>
                 </div>
                 <div class="contract-list">
-                    <el-container style="height: 800px; border: 1px solid #eee">
-                        <el-aside width="184px" style="background-color: rgb(238, 241, 246)">
+                    <el-container  class="main">
+                        <el-aside width="184px"  class="sidebar" >
                             <el-menu>
                                 <div v-if="localData != null">
                                     <el-submenu index="1" v-if="HardhatData.length != 0">
@@ -91,8 +91,7 @@
                                 </el-table>
                                 <div class="sol-body">
                                     <div class="sol-body-left">
-                                        <el-aside width="400px"
-                                            style="height: 600px; border-color: rgb(235 238 245); border-style: dashed">
+                                        <el-aside width="400px" class="column">
                                             <el-menu :data="tableData">
                                                 <div v-if="tableData[0].ItemAbi != null">
                                                     <template v-for="(item, index) in tableData[0].ItemAbi">
@@ -113,7 +112,7 @@
                                                                         type="warning"> Write </el-tag>
                                                                     <el-tag v-if="!item.stateMutability" type="warning">
                                                                         {{ item.stateMutability }} </el-tag>
-                                                                    <span style="margin-left: 9px">{{ item.name }}</span>
+                                                                    <span  class="contentList-text">{{ item.name }}</span>
                                                                 </template>
                                                             </el-submenu>
                                                         </div>
@@ -161,10 +160,10 @@
                                                             <div><span v-if="item.typeFlag == 'error'">❌ </span>
                                                                 调用函数：{{ item.function }}</div>
                                                         </div>
-                                                        <pre
-                                                            style="white-space: normal; word-break: break-all"><span>返回内容：</span>
-                                                                                                                                <json-viewer :value="item.content" ></json-viewer>
-                                                                                                                            </pre>
+                                                        <pre >
+                                                            <span>返回内容：</span>
+                                                            <json-viewer :value="item.content" ></json-viewer>
+                                                        </pre>
                                                     </el-card>
                                                 </div>
                                             </div>
@@ -214,7 +213,7 @@
                             <el-form-item label="ABI" prop="abi" :label-width="formLabelWidth" class="el-textarea">
                                 <textarea autocomplete="off" v-model="form.abi" rows="5" v-if="hasABI"
                                     placeholder='[{"anonymous": false,"inputs": [],"name": "Approval","type": "event"}]'
-                                    class="el-textarea__inner" style="min-height: 33px"></textarea>
+                                    class="el-textarea__inner" ></textarea>
                                 <div class="popUpBox" v-if="!hasABI">
                                     <ul>
                                         <li class="">
@@ -878,14 +877,13 @@ export default {
 <style scoped>
 .abi {
     width: 100%;
-    height: 100%;
+    height: auto;
 }
 
 .scroll {
     width: 100%;
-    height: calc(100vh - 70px);
+    height: auto;
     display: flex;
-    overflow: auto;
     flex-direction: column;
     align-items: center;
 }
@@ -1148,5 +1146,33 @@ input::-webkit-input-placeholder {
 
 /deep/ .el-dialog__body {
     padding: 10px 20px 30px 27px;
+}
+
+.contract-list  .main{
+    height: 800px; 
+    border: 1px solid #eee
+}
+
+.contract-list  .main .sidebar{
+    background-color: rgb(238, 241, 246)
+}
+
+.sol-body-left .column{
+    height: 600px; 
+    border-color: rgb(235 238 245); 
+    border-style: "dashed"
+}
+
+.contentList .contentList-text{
+    margin-left: 9px;
+}
+
+.sol-body-right pre{
+    white-space: normal; 
+    word-break: break-all;
+}
+
+.el-textarea__inner{
+    min-height: 33px;
 }
 </style>
