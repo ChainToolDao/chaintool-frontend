@@ -20,14 +20,15 @@ export default {
     },
     watch: {
         $route() {
-        if (window._czc) {
-            let location = window.location;
-            let contentUrl = location.pathname + location.hash;
-            let refererUrl = "/";
-            window._czc.push(["_trackPageview", contentUrl, refererUrl]);
+            window.scrollTo(0, 0)
+            if (window._czc) {
+                let location = window.location;
+                let contentUrl = location.pathname + location.hash;
+                let refererUrl = "/";
+                window._czc.push(["_trackPageview", contentUrl, refererUrl]);
+            }
         }
-    }
-},
+    },
 }
 </script>
 

@@ -51,17 +51,22 @@ export default {
         }
     },
 
-    mounted() {
-        let that =this
+    async mounted() {
+        let that = this
         window.ethereum.on('accountsChanged', function (accounts) {
-            that.address= that.formatAccount(accounts[0])   
+            that.address = that.formatAccount(accounts[0])
         })
-        this.login(true)
+        try {
+            const provider = new ethers.providers.Web3Provider(window.ethereum)
+            const owner = provider.getSigner()
+            this.address = this.formatAccount(await owner.getAddress())   
+        } catch (error) {
+        }
     },
 
     methods: {
-        async login(autoTransfer) {
-               let loginStatus= await Proxy.initWeb3Account(async (web3Provider) => {
+        async login() {
+            let loginStatus = await Proxy.initWeb3Account(async (web3Provider) => {
                 if (web3Provider) {
                     web3Provider.on('accountsChanged', (accounts) => {
                         if (accounts[0]) {
@@ -78,11 +83,6 @@ export default {
                     this.address = this.formatAccount(account)
                 }
             })
-            if (loginStatus=="false1"&&autoTransfer!=true){
-                Message.error("连接失败, MetaMask连接被拒绝");
-            }else if (loginStatus=="false2"&&!autoTransfer!=true){
-                Message.error("连接失败, 请先安装MetaMask");
-            }
         },
 
         formatAccount(acc) {

@@ -35,6 +35,7 @@
 import Navigation from "../components/Navigation.vue";
 import Clipboard from "clipboard";
 import { ethers } from "ethers";
+
 export default {
   name: "querySelector",
   components: {
@@ -95,7 +96,7 @@ export default {
         ABI[0] = ABI[0].slice(9);
         this.outputSelector = iface.getSighash(ABI[0]);
         this.canCopyABI = true;
-        this.submitFunctionSelector(ABI[0],this.outputSelector)
+        this.functionSelector.submitFunctionSelector(ABI[0],this.outputSelector)
       } catch (error) {
         this.canCopyABI = false;
         this.outputSelector = "你输入的函数有误，请重新输入";
@@ -112,7 +113,7 @@ export default {
       this.load = true;
       this.canCopyFunctionSignature = false;
       let signature = []
-      signature= await this.getFunctionSignature(enterSelector)
+      signature= await this.functionSelector.getFunctionSignature(enterSelector)
       if (signature.length >= 1) {
         this.signature = signature.join(";");
         this.canCopyFunctionSignature = true;

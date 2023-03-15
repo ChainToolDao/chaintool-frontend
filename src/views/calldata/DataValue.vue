@@ -4,7 +4,7 @@
             <span v-if="Array.isArray(data.value[0])">[(
                 <span v-for="i, index in data.value[0]">
                     <span v-if="data.value[0][index].toString().indexOf('0x') == -1 && checkValue(data.value[0][index])">
-                        <span @click="jumpLinkWindow(data.value[0][index])" style="color:#409EFF">{{
+                        <span @click="jumpLink(data.value[0][index])" style="color:#409EFF">{{
                             data.value[0][index]
                         }} <sub>10</sub></span>
                         <span>({{ conversionHex(data.value[0][index]) }})<sub>16</sub></span>
@@ -25,7 +25,7 @@
                 </span>
                 <span v-for="i, index in data.value">
                     <span v-if="data.value[index].toString().indexOf('0x') == -1 && checkValue(data.value[index])">
-                        <span @click="jumpLinkWindow(data.value[index])" style="color:#409EFF">{{ data.value[index]
+                        <span @click="jumpLink(data.value[index])" style="color:#409EFF">{{ data.value[index]
                         }}</span>
                         <sub style="color:#409EFF">10</sub>
                         <span>({{ conversionHex(data.value[index]) }}<sub>16</sub>)<span
