@@ -40,8 +40,8 @@
                                             }}</el-menu-item>
                                     </el-submenu>
                                     <el-submenu index="4" v-if="BinanceSmartChainMainnetData.length != 0">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span
-                                                class="leftTitle">Binance Smart Chain Mainnet</span></template>
+                                        <template slot="title"><i class="el-icon-star-on"></i><span class="leftTitle">BNB
+                                                Chain</span></template>
                                         <el-menu-item v-for="(item, index) in BinanceSmartChainMainnetData" :key="index"
                                             @click="openItem(item)">{{
                                                 item.name
@@ -72,8 +72,8 @@
                                             }}</el-menu-item>
                                     </el-submenu>
                                     <el-submenu index="8" v-if="BinanceSmartChainTestnetData.length != 0" class="leftList">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span
-                                                class="leftTitle">Binance Smart Chain Testnet</span></template>
+                                        <template slot="title"><i class="el-icon-star-on"></i><span class="leftTitle">BNB
+                                                Testnet Chain</span></template>
                                         <el-menu-item v-for="(item, index) in BinanceSmartChainTestnetData" :key="index"
                                             @click="openItem(item)">{{
                                                 item.name
@@ -161,10 +161,10 @@
                                                                 调用函数：{{ item.function }}</div>
                                                         </div>
                                                         <pre >
-                                                            <span v-if="item.typeFlag == 'write'">交易详情：</span>
-                                                            <span v-if="item.typeFlag=='read'||item.typeFlag=='error'">返回内容：</span>
-                                                            <json-viewer :value="item.content" ></json-viewer>
-                                                        </pre>
+                                                                                        <span v-if="item.typeFlag == 'write'">交易详情：</span>
+                                                                                        <span v-if="item.typeFlag=='read'||item.typeFlag=='error'">返回内容：</span>
+                                                                                        <json-viewer :value="item.content" ></json-viewer>
+                                                                                    </pre>
                                                     </el-card>
                                                 </div>
                                             </div>
@@ -183,8 +183,8 @@
                                     <div class="inner-title">{{ piece.standard }}</div>
                                     <div>
                                         <ul>
-                                            <li v-for="data  in piece.data" @click="transferABI(data.ABI)">{{ data.name
-                                            }}<br><span>{{ data.illustrate }}</span></li>
+                                            <li v-for="data  in piece.data" @click="getABI(data)">{{ data
+                                            }}</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -200,8 +200,8 @@
                                     <el-option label="Ethereum Mainnet" value="Ethereum Mainnet"></el-option>
                                     <el-option label="Goerli" value="Goerli"></el-option>
                                     <el-option label="Sepolia" value="Sepolia"></el-option>
-                                    <el-option label="Binance Smart Chain Mainnet" value="Binance Smart Chain Mainnet"></el-option>
-                                    <el-option label="Binance Smart Chain Testnet"  value="Binance Smart Chain Testnet"></el-option>
+                                    <el-option label="BNB Chain" value="BNB Chain"></el-option>
+                                    <el-option label="BNB Testnet Chain" value="BNB Testnet Chain"></el-option>
                                     <el-option label="Polygon Mainnet" value="Polygon Mainnet"></el-option>
                                     <el-option label="Mumbai" value="Mumbai"></el-option>
                                 </el-select>
@@ -212,7 +212,7 @@
                             <el-form-item label="ABI" prop="abi" :label-width="formLabelWidth" class="el-textarea">
                                 <textarea autocomplete="off" v-model="form.abi" rows="5" v-if="hasABI"
                                     placeholder='[{"anonymous": false,"inputs": [],"name": "Approval","type": "event"}]'
-                                    class="el-textarea__inner" ></textarea>
+                                    class="el-textarea__inner" @input="determineAbiIsEmpty"></textarea>
                                 <div class="popUpBox" v-if="!hasABI">
                                     <ul>
                                         <li class="" @click="innerVisible = true"><i
@@ -257,6 +257,7 @@ export default {
     components: {
         Navigation,
     },
+
     metaInfo() {
         return {
             title: 'Chaintool - ABI 图形化',
@@ -273,6 +274,7 @@ export default {
             ]
         }
     },
+
     data() {
         // 表单验证 - 项目名称
         let validateName = (rule, value, callback) => {
@@ -407,9 +409,11 @@ export default {
     methods: {
         //判断abi值是否为空
         determineAbiIsEmpty() {
-            if (this.form.abi == "") {
-                this.hasABI = false
-            }
+            setTimeout(() => {
+                if (this.form.abi == "") {
+                    this.hasABI = false
+                }
+            }, 300);
         },
 
         //传递参数
@@ -430,11 +434,18 @@ export default {
             }
         },
 
-        //传递ABI   
-        transferABI(ABI) {
-            this.innerVisible = false
-            this.form.abi = JSON.stringify(ABI)
+        //获取ABI   
+        async getABI(name) {
+            try {
+                await axios
+                    .get("/commonABI/" + name + ".json")
+                    .then((res) => {
+                        this.form.abi = JSON.stringify(res.data)
+                    });
+            } catch (err) {
+            }
             this.hasABI = true
+            this.innerVisible = false
         },
 
         //从Etherscan获取ABI
@@ -444,8 +455,7 @@ export default {
                 return
             }
             //请求网络
-            let requestNetwork = "https://anyabi.xyz/api/get-abi/"+this.convertChainId(this.form.network)+"/"+this.form.address
-
+            let requestNetwork = "https://anyabi.xyz/api/get-abi/" + this.convertChainId(this.form.network) + "/" + this.form.address
             let that = this
             try {
                 await axios
@@ -470,11 +480,11 @@ export default {
             this.HardhatData = this.solveData('Hardhat(localhost)')
             this.GoerliData = this.solveData('Goerli')
             this.EthereumMainnetData = this.solveData('Ethereum Mainnet')
-            this.BinanceSmartChainMainnetData = this.solveData('Binance Smart Chain Mainnet')
+            this.BinanceSmartChainMainnetData = this.solveData('BNB Chain')
             this.PolygonMainnetData = this.solveData('Polygon Mainnet')
             this.MumbaiData = this.solveData('Mumbai')
             this.SepoliaData = this.solveData('Sepolia')
-            this.BinanceSmartChainTestnetData = this.solveData('Binance Smart Chain Testnet')
+            this.BinanceSmartChainTestnetData = this.solveData('BNB Testnet Chain')
             //修改是否存在ABI的状态
             this.hasABI = false
             this.tableData = Array(1).fill(this.item)
@@ -753,7 +763,7 @@ export default {
                     const cardData = {
                         function: Item.name,
                         content: cardContentData,
-                        typeFlag: typeFlag 
+                        typeFlag: typeFlag
                     }
                     this.abiCardData.unshift(cardData)
                 } catch (err) {
@@ -814,36 +824,11 @@ export default {
 
         // 根据选择的网络返回对应的chainId
         convertChainId(network) {
-            let chainId = 0
-            switch (network) {
-                case 'Hardhat(localhost)':
-                    chainId = 31337
-                    break
-                case 'Ethereum Mainnet':
-                    chainId = 1
-                    break
-                case 'Goerli':
-                    chainId = 5
-                    break
-                case 'Binance Smart Chain Mainnet':
-                    chainId = 56
-                    break
-                case 'Polygon Mainnet':
-                    chainId = 137
-                    break
-                case 'Mumbai':
-                    chainId = 80001
-                    break
-                case 'Sepolia':
-                    chainId = 11155111
-                    break
-                case 'Binance Smart Chain Testnet':
-                    chainId = 97
-                    break
-                default:
-                    chainId = 0
+            for (let i in this.network) {
+                if (network == this.network[i].networkName) {
+                    return this.network[i].chainID
+                }
             }
-            return chainId
         },
 
         //清空输出
@@ -1110,7 +1095,8 @@ input::-webkit-input-placeholder {
 }
 
 .innerFrame ul li {
-    width: 26%;
+    width: auto;
+    min-width: 123px;
     height: 95px;
     padding: 10px;
     border: #dcdfec solid 1px;
@@ -1120,13 +1106,7 @@ input::-webkit-input-placeholder {
     font-size: 14px;
     text-align: center;
     vertical-align: top;
-}
-
-.innerFrame ul li span {
-    margin-top: 7px;
-    color: #606266;
-    font-size: 10px;
-    display: inline-block
+    line-height: 65px;
 }
 
 /deep/ .el-dialog__body {
@@ -1134,7 +1114,7 @@ input::-webkit-input-placeholder {
 }
 
 .contract-list  .main{
-    height: 800px; 
+    height: 800px;
     border: 1px solid #eee
 }
 
@@ -1143,8 +1123,8 @@ input::-webkit-input-placeholder {
 }
 
 .sol-body-left .column{
-    height: 600px; 
-    border-color: rgb(235 238 245); 
+    height: 600px;
+    border-color: rgb(235 238 245);
     border-style: "dashed"
 }
 
@@ -1153,7 +1133,7 @@ input::-webkit-input-placeholder {
 }
 
 .sol-body-right pre{
-    white-space: normal; 
+    white-space: normal;
     word-break: break-all;
 }
 

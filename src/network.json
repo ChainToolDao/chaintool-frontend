@@ -25,7 +25,7 @@
     },
     {
         "chainID": "56",
-        "networkName": "Binance Smart Chain Mainnet",
+        "networkName": "BNB Chain",
         "rpcUrls": "https://rpc.ankr.com/bsc",
         "chainExplorer": "https://bscscan.com/",
         "requestNetwork": "",
@@ -57,7 +57,7 @@
     },
     {
         "chainID": "97",
-        "networkName": "Binance Smart Chain Testnet",
+        "networkName": "BNB Testnet Chain",
         "rpcUrls": "https://endpoints.omniatech.io/v1/bsc/testnet/public",
         "chainExplorer": "https://testnet.bscscan.com/",
         "requestNetwork": "",
