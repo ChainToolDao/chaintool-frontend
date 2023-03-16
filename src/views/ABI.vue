@@ -10,75 +10,21 @@
                     <el-button class="btn" type="danger" @click="deleteContract">删除当前合约</el-button>
                 </div>
                 <div class="contract-list">
-                    <el-container  class="main">
-                        <el-aside width="184px"  class="sidebar" >
+                    <el-container class="main">
+                        <el-aside width="184px" class="sidebar">
                             <el-menu>
                                 <div v-if="localData != null">
-                                    <el-submenu index="1" v-if="HardhatData.length != 0">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span
-                                                class="leftTitle">Hardhat(localhost)</span></template>
-                                        <el-menu-item v-for="(item, index) in HardhatData" :key="index"
-                                            @click="openItem(item)">{{
-                                                item.name
-                                            }}</el-menu-item>
-                                    </el-submenu>
-                                    <el-submenu index="2" v-if="GoerliData.length != 0">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span
-                                                class="leftTitle">Goerli</span></template>
-                                        <el-menu-item v-for="(item, index) in GoerliData" :key="index"
-                                            @click="openItem(item)">{{
-                                                item.name
-                                            }}</el-menu-item>
-                                    </el-submenu>
-                                    <el-submenu index="3" v-if="EthereumMainnetData.length != 0">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span
-                                                class="leftTitle">Ethereum
-                                                Mainnet</span></template>
-                                        <el-menu-item v-for="(item, index) in EthereumMainnetData" :key="index"
-                                            @click="openItem(item)">{{
-                                                item.name
-                                            }}</el-menu-item>
-                                    </el-submenu>
-                                    <el-submenu index="4" v-if="BinanceSmartChainMainnetData.length != 0">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span class="leftTitle">BNB
-                                                Chain</span></template>
-                                        <el-menu-item v-for="(item, index) in BinanceSmartChainMainnetData" :key="index"
-                                            @click="openItem(item)">{{
-                                                item.name
-                                            }}</el-menu-item>
-                                    </el-submenu>
-                                    <el-submenu index="5" v-if="PolygonMainnetData.length != 0">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span
-                                                class="leftTitle">Polygon Mainnet</span></template>
-                                        <el-menu-item v-for="(item, index) in PolygonMainnetData" :key="index"
-                                            @click="openItem(item)">{{
-                                                item.name
-                                            }}</el-menu-item>
-                                    </el-submenu>
-                                    <el-submenu index="6" v-if="MumbaiData.length != 0">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span
-                                                class="leftTitle">Mumbai</span></template>
-                                        <el-menu-item v-for="(item, index) in MumbaiData" :key="index"
-                                            @click="openItem(item)">{{
-                                                item.name
-                                            }}</el-menu-item>
-                                    </el-submenu>
-                                    <el-submenu index="7" v-if="SepoliaData.length != 0">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span
-                                                class="leftTitle">Sepolia</span></template>
-                                        <el-menu-item v-for="(item, index) in SepoliaData" :key="index"
-                                            @click="openItem(item)">{{
-                                                item.name
-                                            }}</el-menu-item>
-                                    </el-submenu>
-                                    <el-submenu index="8" v-if="BinanceSmartChainTestnetData.length != 0" class="leftList">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span class="leftTitle">BNB
-                                                Testnet Chain</span></template>
-                                        <el-menu-item v-for="(item, index) in BinanceSmartChainTestnetData" :key="index"
-                                            @click="openItem(item)">{{
-                                                item.name
-                                            }}</el-menu-item>
-                                    </el-submenu>
+                                    <div v-for="item, index in contractList">
+                                        <el-submenu :index=item.network>
+                                            <template slot="title">
+                                                <i class="el-icon-star-on"></i>
+                                                <span class="leftTitle">{{ item.network }}</span>
+                                            </template>
+                                            <el-menu-item v-for="data, key in item.data" :key=key
+                                                @click="openItem(data, item.network)">{{ data.name }}</el-menu-item>
+                                        </el-submenu>
+                                    </div>
+
                                 </div>
                             </el-menu>
                         </el-aside>
@@ -92,8 +38,9 @@
                                 <div class="sol-body">
                                     <div class="sol-body-left">
                                         <el-aside width="400px" class="column">
-                                            <el-menu :data="tableData">
-                                                <div v-if="tableData[0].ItemAbi != null">
+                                            <el-menu :data="tableData" >
+                                                <!-- <div v-if="tableData[0].ItemAbi != null"> -->
+                                                  <div v-if="tableData.length>=1">
                                                     <template v-for="(item, index) in tableData[0].ItemAbi">
                                                         <div @click="transferParameters(item, index)" class="contentList">
                                                             <el-submenu
@@ -112,7 +59,7 @@
                                                                         type="warning"> Write </el-tag>
                                                                     <el-tag v-if="!item.stateMutability" type="warning">
                                                                         {{ item.stateMutability }} </el-tag>
-                                                                    <span  class="contentList-text">{{ item.name }}</span>
+                                                                    <span class="contentList-text">{{ item.name }}</span>
                                                                 </template>
                                                             </el-submenu>
                                                         </div>
@@ -161,10 +108,10 @@
                                                                 调用函数：{{ item.function }}</div>
                                                         </div>
                                                         <pre >
-                                                                                        <span v-if="item.typeFlag == 'write'">交易详情：</span>
+                                                                                                <span v-if="item.typeFlag == 'write'">交易详情：</span>
                                                                                         <span v-if="item.typeFlag=='read'||item.typeFlag=='error'">返回内容：</span>
-                                                                                        <json-viewer :value="item.content" ></json-viewer>
-                                                                                    </pre>
+                                                                                                <json-viewer :value="item.content" ></json-viewer>
+                                                                                            </pre>
                                                     </el-card>
                                                 </div>
                                             </div>
@@ -287,7 +234,6 @@ export default {
                     const data = JSON.parse(localData)
                     for (let i = 0; i < data.length; i++) {
                         if (data[i].name === value && !(this.isUpdate && this.chooseContractName == value)) {
-
                             callback(new Error('已有相同名称的项目存在！'))
                         }
                     }
@@ -339,28 +285,8 @@ export default {
             },
             // 右侧详情栏的表格信息数据对象
             tableData: [],
-            // 右侧详情栏的函数表单数据
-            abiForm: {},
-            // 右侧详情栏的ABI输入框列表数据
-            abiData: [],
             // 右侧详情栏的ABI卡片数据 调用函数 返回内容
             abiCardData: [],
-            // 左侧导航栏的Hardhat网络的总数据对象
-            HardhatData: [],
-            // 左侧导航栏的EthereumMainnet网络总数据对象
-            EthereumMainnetData: [],
-            // 左侧导航栏的Goerli网络的总数据对象
-            GoerliData: [],
-            // 左侧导航栏的BinanceSmartChainMainnet网络总数据对象
-            BinanceSmartChainMainnetData: [],
-            // 左侧导航栏的PolygonMainnet网络的总数据对象
-            PolygonMainnetData: [],
-            // 左侧导航栏的MumbaiData网络的总数据对象
-            MumbaiData: [],
-            // 左侧导航栏的Sepolia网络的总数据对象
-            SepoliaData: [],
-            // 左侧导航栏的BinanceSmartChainTestnet网络的总数据对象
-            BinanceSmartChainTestnetData: [],
             // 所有合约的总数据对象
             localData: [],
             // 添加合约的表单对象
@@ -399,6 +325,8 @@ export default {
             presetsABI: presetsABI,
             //网络
             network: network,
+            // 合约列表
+            contractList: ""
         }
     },
 
@@ -469,22 +397,49 @@ export default {
             }
         },
 
+        //读取localdata
+        readLocaldata() {
+            this.localData=[]
+            // 已添加数量
+            let readQuantity = -1
+            for (let i in this.storage.get('localData')) {
+                for (let k in this.localData) {
+                    if (this.localData[k].network == this.storage.get('localData')[i].network) {
+                        readQuantity++
+                        this.localData[k].data.push({
+                            name: this.storage.get('localData')[i].name,
+                            address: this.storage.get('localData')[i].address,
+                            abi: this.storage.get('localData')[i].abi,
+                        })
+                    }
+                }
+                if (readQuantity != i) {
+                    readQuantity++
+                    let abiData = {
+                        network: this.storage.get('localData')[i].network,
+                        data: [
+                            {
+                                name: this.storage.get('localData')[i].name,
+                                address: this.storage.get('localData')[i].address,
+                                abi: this.storage.get('localData')[i].abi,
+                            }
+                        ]
+                    }
+                    this.localData.push(abiData)
+                }
+            }
+            this.contractList = this.localData
+        },
+
         // 初始化数据
         async init() {
             // 给storage 对象添加方法
             this.storage.get = this.get
             this.storage.set = this.set
             this.storage.remove = this.remove
+            await this.readLocaldata()
             // 读取localdata
-            this.localData = this.storage.get('localData')
-            this.HardhatData = this.solveData('Hardhat(localhost)')
-            this.GoerliData = this.solveData('Goerli')
-            this.EthereumMainnetData = this.solveData('Ethereum Mainnet')
-            this.BinanceSmartChainMainnetData = this.solveData('BNB Chain')
-            this.PolygonMainnetData = this.solveData('Polygon Mainnet')
-            this.MumbaiData = this.solveData('Mumbai')
-            this.SepoliaData = this.solveData('Sepolia')
-            this.BinanceSmartChainTestnetData = this.solveData('BNB Testnet Chain')
+            this.localData = await this.storage.get('localData')
             //修改是否存在ABI的状态
             this.hasABI = false
             this.tableData = Array(1).fill(this.item)
@@ -560,16 +515,22 @@ export default {
                     if (await this.validABI(this.form.abi)) {
                         if (!this.isUpdate) {
                             this.localData.push(this.form)
+                        }else{
+                            for(let i in this.localData){
+                                if(this.localData[i].name==this.chooseContractName){
+                                    this.localData[i]=this.form
+                                }
+                            }
                         }
                         // 保存localData到localStorage
-                        this.storage.set('localData', this.localData)
-                        //关闭弹出窗
-                        this.dialogFormVisible = false
-                        //清空表单
-                        this.$refs.form.resetFields()
+                        await this.storage.set('localData', this.localData)
+                        // 清空表单
+                        await this.$refs.form.resetFields()
                         //初始化
-                        this.init()
+                        await this.init()
                         this.isUpdate = false
+                         //关闭弹出窗
+                        this.dialogFormVisible = false
                     }
                 } else {
                     return false
@@ -595,7 +556,8 @@ export default {
         },
 
         // 单击左侧导航栏的事件
-        openItem(Item) {
+        openItem(Item, network) {
+            Item.network = network
             // 清空 abiCardData
             this.abiCardData = []
             //清空 parameter
@@ -753,11 +715,11 @@ export default {
                     } else {
                         cardContentData = cardContent
                     }
-                    let typeFlag=""
-                    if(Item.stateMutability=="payable"||Item.stateMutability=="nonpayable"){
-                        typeFlag='write'
-                    }else{
-                        typeFlag='read'
+                    let typeFlag = ""
+                    if (Item.stateMutability == "payable" || Item.stateMutability == "nonpayable") {
+                        typeFlag = 'write'
+                    } else {
+                        typeFlag = 'read'
                     }
                     // eslint-disable-next-line no-underscore-dangle
                     const cardData = {
@@ -779,7 +741,8 @@ export default {
 
         //匹配网络
         matchingNetwork(value, type) {
-            if (type == "chainID") {
+        
+            if (type == "chainID") {     
                 for (let i in this.network) {
                     if (value == this.network[i].chainID) {
                         return this.network[i]
@@ -800,14 +763,16 @@ export default {
             } catch (switchError) {
                 if (switchError.code === 4902) {
                     this.$message('该链尚未添加到 MetaMask,正在执行自动添加');
-                    let chainID = Number(chainId).toString(10)
+                    let chainID=chainId.slice(2)
                     let network = this.matchingNetwork(chainID, "chainID")
+                    chainID=parseInt(chainID)
+                    chainID="0x"+chainID.toString(16)
                     try {
                         await ethereum.request({
                             method: 'wallet_addEthereumChain',
                             params: [
                                 {
-                                    chainId: chainId,
+                                    chainId: chainID,
                                     chainName: network.networkName,
                                     rpcUrls: [network.rpcUrls],
                                 },
