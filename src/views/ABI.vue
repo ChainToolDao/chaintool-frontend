@@ -5,16 +5,15 @@
             <div class="container">
                 <div class="title">ABI 可视化调用</div>
                 <div class="buttons">
-                    <el-button class="btn" type="primary" @click="dialogFormVisible = true">添加合约</el-button>
-                    <el-button class="btn" type="warning" @click="updateContract">编辑当前合约</el-button>
-                    <el-button class="btn" type="danger" @click="deleteContract">删除当前合约</el-button>
                 </div>
                 <div class="contract-list">
                     <el-container class="main">
                         <el-aside width="184px" class="sidebar">
                             <el-menu>
                                 <div v-if="localData != null">
-                                    <div v-for="item, index in contractList">
+                                 <el-button class="btn" type="primary" @click="dialogFormVisible = true">添加合约</el-button>
+                                    <div v-for="item in contractList" :key="item.network">
+                                    
                                         <el-submenu :index=item.network>
                                             <template slot="title">
                                                 <i class="el-icon-star-on"></i>
@@ -24,12 +23,14 @@
                                                 @click="openItem(data, item.network)">{{ data.name }}</el-menu-item>
                                         </el-submenu>
                                     </div>
-
                                 </div>
                             </el-menu>
                         </el-aside>
                         <el-container>
                             <el-main>
+                                <el-button  class="submenu" type="danger" @click="deleteContract"><i class="el-icon-delete el-icon--left"></i><span>删除当前合约</span></el-button>
+                                <el-button  class="submenu" type="info" @click="checkEtherscan"><i class="el-icon-paperclip el-icon--left"></i><span>查看Etherscan</span></el-button> 
+                                <el-button  class="submenu" type="warning" @click="updateContract"><i class="el-icon-edit el-icon--left"></i><span> 编辑当前合约</span></el-button>
                                 <el-table :data="tableData">
                                     <el-table-column prop="ItemName" label="合约名称"> </el-table-column>
                                     <el-table-column prop="ItemNetwork" label="区块链网络"> </el-table-column>
@@ -39,23 +40,16 @@
                                     <div class="sol-body-left">
                                         <el-aside width="400px" class="column">
                                             <el-menu :data="tableData" >
-                                                <!-- <div v-if="tableData[0].ItemAbi != null"> -->
                                                   <div v-if="tableData.length>=1">
-                                                    <template v-for="(item, index) in tableData[0].ItemAbi">
-                                                        <div @click="transferParameters(item, index)" class="contentList">
+                                                    <template v-for="(item, index) in tableData[0].ItemAbi"  >
+                                                        <div @click="transferParameters(item,index)" class="contentList"  :key=index> 
                                                             <el-submenu
                                                                 v-if="item.type == 'function' || item.type == 'view'"
                                                                 :key="index" :index="index + ''">
                                                                 <template slot="title">
-                                                                    <el-tag v-if="item.stateMutability == 'view'"> Read
+                                                                    <el-tag v-if="item.stateMutability == 'Read'"> Read
                                                                     </el-tag>
-                                                                    <el-tag v-if="item.stateMutability == 'pure'"
-                                                                        type="success"> Read </el-tag>
-                                                                    <el-tag v-if="item.stateMutability == 'constant'"
-                                                                        type="info"> Read </el-tag>
-                                                                    <el-tag v-if="item.stateMutability == 'payable'"
-                                                                        type="warning"> Write </el-tag>
-                                                                    <el-tag v-if="item.stateMutability == 'nonpayable'"
+                                                                    <el-tag v-if="item.stateMutability == 'Write'"
                                                                         type="warning"> Write </el-tag>
                                                                     <el-tag v-if="!item.stateMutability" type="warning">
                                                                         {{ item.stateMutability }} </el-tag>
@@ -107,11 +101,11 @@
                                                             <div><span v-if="item.typeFlag == 'error'">❌ </span>
                                                                 调用函数：{{ item.function }}</div>
                                                         </div>
-                                                        <pre >
-                                                                                                <span v-if="item.typeFlag == 'write'">交易详情：</span>
-                                                                                        <span v-if="item.typeFlag=='read'||item.typeFlag=='error'">返回内容：</span>
-                                                                                                <json-viewer :value="item.content" ></json-viewer>
-                                                                                            </pre>
+                                                        <pre>
+                                                            <span v-if="item.typeFlag == 'write'">交易详情：</span>
+                                                            <span v-if="item.typeFlag=='read'||item.typeFlag=='error'">返回内容：</span>
+                                                            <json-viewer :value="item.content" ></json-viewer>
+                                                        </pre>
                                                     </el-card>
                                                 </div>
                                             </div>
@@ -126,11 +120,11 @@
                     <el-dialog title="添加合约" :visible.sync="dialogFormVisible" @close='closureInputBox'>
                         <el-dialog width="45%" title="常见ABI" :visible.sync="innerVisible" append-to-body>
                             <div class="innerFrame">
-                                <div v-for="piece, index in presetsABI">
+                                <div v-for="piece in presetsABI" :key="piece.standard">
                                     <div class="inner-title">{{ piece.standard }}</div>
                                     <div>
                                         <ul>
-                                            <li v-for="data  in piece.data" @click="getABI(data)">{{ data
+                                            <li v-for="data  in piece.data" @click="getABI(data)" :key="data">{{ data
                                             }}</li>
                                         </ul>
                                     </div>
@@ -142,15 +136,8 @@
                                 <el-input v-model="form.name" autocomplete="off" placeholder="unique name"></el-input>
                             </el-form-item>
                             <el-form-item label="网络" prop="network" :label-width="formLabelWidth">
-                                <el-select v-model="form.network" placeholder="请选择要连接的网络">
-                                    <el-option label="Hardhat(localhost)" value="Hardhat(localhost)"></el-option>
-                                    <el-option label="Ethereum Mainnet" value="Ethereum Mainnet"></el-option>
-                                    <el-option label="Goerli" value="Goerli"></el-option>
-                                    <el-option label="Sepolia" value="Sepolia"></el-option>
-                                    <el-option label="BNB Chain" value="BNB Chain"></el-option>
-                                    <el-option label="BNB Testnet Chain" value="BNB Testnet Chain"></el-option>
-                                    <el-option label="Polygon Mainnet" value="Polygon Mainnet"></el-option>
-                                    <el-option label="Mumbai" value="Mumbai"></el-option>
+                                <el-select v-model="form.network" placeholder="请选择要连接的网络" >
+                                    <el-option v-for="item in network" :key="item.chainID" :label="item.networkName" :value="item.networkName"></el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="项目地址" prop="address" :label-width="formLabelWidth">
@@ -529,6 +516,7 @@ export default {
                         //初始化
                         await this.init()
                         this.isUpdate = false
+                        this.parameter=null
                          //关闭弹出窗
                         this.dialogFormVisible = false
                     }
@@ -578,17 +566,16 @@ export default {
             let writeMethod = []
             //其他
             let otherMethod = []
+            let state=[["view","pure","constant"],["payable","nonpayable"]]
             for (let i = 0; i < this.tableData[0].ItemAbi.length; i++) {
-                switch (this.tableData[0].ItemAbi[i].stateMutability) {
-                    case ("view"):
-                        viewMethod.push(this.tableData[0].ItemAbi[i])
-                        break;
-                    case ("nonpayable"):
-                        writeMethod.push(this.tableData[0].ItemAbi[i])
-                        break;
-                    default:
-                        otherMethod.push(this.tableData[0].ItemAbi[i])
-                        break;
+                if(state[0].indexOf(this.tableData[0].ItemAbi[i].stateMutability)!=-1){
+                    this.tableData[0].ItemAbi[i].stateMutability="Read"
+                    viewMethod.push(this.tableData[0].ItemAbi[i])
+                }else if(state[1].indexOf(this.tableData[0].ItemAbi[i].stateMutability)!=-1){
+                    this.tableData[0].ItemAbi[i].stateMutability="Write"
+                    writeMethod.push(this.tableData[0].ItemAbi[i])
+                }else{
+                    otherMethod.push(this.tableData[0].ItemAbi[i])
                 }
             }
             this.tableData[0].ItemAbi = []
@@ -613,6 +600,23 @@ export default {
             this.form = this.clickItem
             //打开编辑窗口
             this.dialogFormVisible = true
+        },
+
+        //查看Etherscan
+        checkEtherscan(){
+            if (this.clickItem.length == 0) {
+                this.$message('当前暂未选择合约');
+                return
+            }
+            for(let i in this.network){
+                if(this.clickItem.network==this.network[i].networkName){
+                    if(this.network[i].chainExplorer==""){
+                        this.$message('该合约Etherscan暂未被记录');
+                    }else{
+                          window.open(this.network[i].chainExplorer+"address/"+this.clickItem.address , '_blank')
+                    }
+                }
+            }
         },
 
         // 删除合约事件
@@ -706,6 +710,11 @@ export default {
                         args.push(Item.inputs[i].value)
                     }
                     // 调用函数
+                    for (let i = 0; i < args.length; i++) {
+                        if (args[i].indexOf('[') == 0 && args[i].indexOf(']') + 1 == args[i].length) {
+                            args[i] = args[i].substring(1, args[i].length - 1).split(',')
+                        }
+                    }
                     const cardContent = await contract[Item.name](...args)
                     // 接收返回的数据
                     let cardContentData = ''
@@ -741,7 +750,6 @@ export default {
 
         //匹配网络
         matchingNetwork(value, type) {
-        
             if (type == "chainID") {     
                 for (let i in this.network) {
                     if (value == this.network[i].chainID) {
@@ -864,6 +872,7 @@ export default {
     padding: 0 15px;
     line-height: 36px;
     justify-content: center;
+    margin:20px auto
 }
 
 .container .contract-list {
@@ -1017,6 +1026,15 @@ input::-webkit-input-placeholder {
 /deep/ .contentList .el-submenu__icon-arrow {
     color: red;
     display: none;
+}
+
+.submenu{
+    float:right;
+    margin-left:20px;
+}
+
+/deep/ .el-icon--left{
+    margin:0px
 }
 
 .rightList .el-button {
