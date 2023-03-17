@@ -100,8 +100,8 @@ export default {
     mounted: function () {
         if (this.$route.query.param) {
             this.ether_list[0].value = this.$route.query.param
+            this.convertWei(this.$route.query.param)
         }
-        this.convertWei(this.$route.query.param)
     },
 
     methods: {
