@@ -492,9 +492,11 @@ export default {
 
         // 添加合约 事件 提交表单
         onSubmit(formName) {
-            const iface = new ethers.utils.Interface(this.form.abi);
-            const FormatTypes = ethers.utils.FormatTypes;
-            this.form.abi = iface.format(FormatTypes.json)
+            if(this.form.abi[1]!="{"){
+                const iface = new ethers.utils.Interface(this.form.abi);
+                const FormatTypes = ethers.utils.FormatTypes;
+                this.form.abi = iface.format(FormatTypes.json)
+            }
             if (this.localData == null) {
                 // 清空localData
                 this.localData = []
