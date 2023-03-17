@@ -492,6 +492,9 @@ export default {
 
         // 添加合约 事件 提交表单
         onSubmit(formName) {
+            const iface = new ethers.utils.Interface(this.form.abi);
+            const FormatTypes = ethers.utils.FormatTypes;
+            this.form.abi = iface.format(FormatTypes.json)
             if (this.localData == null) {
                 // 清空localData
                 this.localData = []
@@ -710,11 +713,7 @@ export default {
                         args.push(Item.inputs[i].value)
                     }
                     // 调用函数
-                    for (let i = 0; i < args.length; i++) {
-                        if (args[i].indexOf('[') == 0 && args[i].indexOf(']') + 1 == args[i].length) {
-                            args[i] = args[i].substring(1, args[i].length - 1).split(',')
-                        }
-                    }
+                    args=await this.arrayParsing.stringArrayParsing(args)
                     const cardContent = await contract[Item.name](...args)
                     // 接收返回的数据
                     let cardContentData = ''
@@ -770,7 +769,6 @@ export default {
                 this.callFunctions(runParameter[0], runParameter[1])
             } catch (switchError) {
                 if (switchError.code === 4902) {
-                    this.$message('该链尚未添加到 MetaMask,正在执行自动添加');
                     let chainID=chainId.slice(2)
                     let network = this.matchingNetwork(chainID, "chainID")
                     chainID=parseInt(chainID)
@@ -787,7 +785,7 @@ export default {
                             ],
                         });
                     } catch (addError) {
-                        this.$message.error('添加失败，请手动添加后重试。')
+                        this.$message.error('连接请求错误，请尝试手动连接。连接后刷新页面重试。')
                     }
                 } else {
                     this.$message.error('连接请求错误，请尝试手动连接。连接后刷新页面重试。')
