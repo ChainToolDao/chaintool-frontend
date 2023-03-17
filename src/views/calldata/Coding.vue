@@ -29,17 +29,12 @@ export default {
 
   methods: {
     //编码
-    coding() {
+    async coding() {
       //清空上次编码的数据
       this.encodingResult = ""
       try {
         let processingParameters = this.codingParameter.split("\n")
-        //对数组类型参数进行处理
-        for (let i = 0; i < processingParameters.length; i++) {
-          if (processingParameters[i].indexOf('[') == 0 && processingParameters[i].indexOf(']') + 1 == processingParameters[i].length) {
-            processingParameters[i] = processingParameters[i].substring(1, processingParameters[i].length - 1).split(',')
-          }
-        }
+        processingParameters=await this.arrayParsing.stringArrayParsing(processingParameters)
         this.canCopy = false
         let codingSelector = this.codingSelector.replace(/^\s*/g, "");
         if (codingSelector.indexOf("function ") != 0) {
