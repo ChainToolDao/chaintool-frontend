@@ -1,8 +1,8 @@
 <template>
     <div>
         <div v-if='Array.isArray(data)'>
-            <span style="line-height:25px">(</span>
-            <span v-for=" i, index  in data" style="line-height: 26px;">
+            <span class="list-type">(</span>
+            <span v-for=" i, index  in data" class="list-type">
                 <span v-if="index == 0">{{ i }},</span>
                 <div v-else-if="index != 0 && index + 1 != data.length">
                     {{ i }},
@@ -22,3 +22,9 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.list-type{
+    line-height: 26px;
+}
+</style>

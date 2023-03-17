@@ -3,87 +3,34 @@
         <Navigation></Navigation>
         <div class="scroll">
             <div class="container">
-                <div class="title">ABI 图形化</div>
+                <div class="title">ABI 可视化调用</div>
                 <div class="buttons">
-                    <el-button class="btn" type="primary" @click="dialogFormVisible = true">添加合约</el-button>
-                    <el-button class="btn" type="warning" @click="updateContract">编辑当前合约</el-button>
-                    <el-button class="btn" type="danger" @click="deleteContract">删除当前合约</el-button>
                 </div>
                 <div class="contract-list">
-                    <el-container style="height: 800px; border: 1px solid #eee">
-                        <el-aside width="184px" style="background-color: rgb(238, 241, 246)">
+                    <el-container class="main">
+                        <el-aside width="184px" class="sidebar">
                             <el-menu>
                                 <div v-if="localData != null">
-                                    <el-submenu index="1" v-if="HardhatData.length != 0">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span
-                                                class="leftTitle">Hardhat(localhost)</span></template>
-                                        <el-menu-item v-for="(item, index) in HardhatData" :key="index"
-                                            @click="openItem(item)">{{
-                                                item.name
-                                            }}</el-menu-item>
-                                    </el-submenu>
-                                    <el-submenu index="2" v-if="GoerliData.length != 0">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span
-                                                class="leftTitle">Goerli</span></template>
-                                        <el-menu-item v-for="(item, index) in GoerliData" :key="index"
-                                            @click="openItem(item)">{{
-                                                item.name
-                                            }}</el-menu-item>
-                                    </el-submenu>
-                                    <el-submenu index="3" v-if="EthereumMainnetData.length != 0">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span
-                                                class="leftTitle">Ethereum
-                                                Mainnet</span></template>
-                                        <el-menu-item v-for="(item, index) in EthereumMainnetData" :key="index"
-                                            @click="openItem(item)">{{
-                                                item.name
-                                            }}</el-menu-item>
-                                    </el-submenu>
-                                    <el-submenu index="4" v-if="BinanceSmartChainMainnetData.length != 0">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span
-                                                class="leftTitle">Binance Smart Chain Mainnet</span></template>
-                                        <el-menu-item v-for="(item, index) in BinanceSmartChainMainnetData" :key="index"
-                                            @click="openItem(item)">{{
-                                                item.name
-                                            }}</el-menu-item>
-                                    </el-submenu>
-                                    <el-submenu index="5" v-if="PolygonMainnetData.length != 0">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span
-                                                class="leftTitle">Polygon Mainnet</span></template>
-                                        <el-menu-item v-for="(item, index) in PolygonMainnetData" :key="index"
-                                            @click="openItem(item)">{{
-                                                item.name
-                                            }}</el-menu-item>
-                                    </el-submenu>
-                                    <el-submenu index="6" v-if="MumbaiData.length != 0">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span
-                                                class="leftTitle">Mumbai</span></template>
-                                        <el-menu-item v-for="(item, index) in MumbaiData" :key="index"
-                                            @click="openItem(item)">{{
-                                                item.name
-                                            }}</el-menu-item>
-                                    </el-submenu>
-                                    <el-submenu index="7" v-if="SepoliaData.length != 0">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span
-                                                class="leftTitle">Sepolia</span></template>
-                                        <el-menu-item v-for="(item, index) in SepoliaData" :key="index"
-                                            @click="openItem(item)">{{
-                                                item.name
-                                            }}</el-menu-item>
-                                    </el-submenu>
-                                    <el-submenu index="8" v-if="BinanceSmartChainTestnetData.length != 0" class="leftList">
-                                        <template slot="title"><i class="el-icon-star-on"></i><span
-                                                class="leftTitle">Binance Smart Chain Testnet</span></template>
-                                        <el-menu-item v-for="(item, index) in BinanceSmartChainTestnetData" :key="index"
-                                            @click="openItem(item)">{{
-                                                item.name
-                                            }}</el-menu-item>
-                                    </el-submenu>
+                                 <el-button class="btn" type="primary" @click="dialogFormVisible = true">添加合约</el-button>
+                                    <div v-for="item in contractList" :key="item.network">
+                                    
+                                        <el-submenu :index=item.network>
+                                            <template slot="title">
+                                                <i class="el-icon-star-on"></i>
+                                                <span class="leftTitle">{{ item.network }}</span>
+                                            </template>
+                                            <el-menu-item v-for="data, key in item.data" :key=key
+                                                @click="openItem(data, item.network)">{{ data.name }}</el-menu-item>
+                                        </el-submenu>
+                                    </div>
                                 </div>
                             </el-menu>
                         </el-aside>
                         <el-container>
                             <el-main>
+                                <el-button  class="submenu" type="danger" @click="deleteContract"><i class="el-icon-delete el-icon--left"></i><span>删除当前合约</span></el-button>
+                                <el-button  class="submenu" type="info" @click="checkEtherscan"><i class="el-icon-paperclip el-icon--left"></i><span>查看Etherscan</span></el-button> 
+                                <el-button  class="submenu" type="warning" @click="updateContract"><i class="el-icon-edit el-icon--left"></i><span> 编辑当前合约</span></el-button>
                                 <el-table :data="tableData">
                                     <el-table-column prop="ItemName" label="合约名称"> </el-table-column>
                                     <el-table-column prop="ItemNetwork" label="区块链网络"> </el-table-column>
@@ -91,29 +38,22 @@
                                 </el-table>
                                 <div class="sol-body">
                                     <div class="sol-body-left">
-                                        <el-aside width="400px"
-                                            style="height: 600px; border-color: rgb(235 238 245); border-style: dashed">
-                                            <el-menu :data="tableData">
-                                                <div v-if="tableData[0].ItemAbi != null">
-                                                    <template v-for="(item, index) in tableData[0].ItemAbi">
-                                                        <div @click="transferParameters(item, index)" class="contentList">
+                                        <el-aside width="400px" class="column">
+                                            <el-menu :data="tableData" >
+                                                  <div v-if="tableData.length>=1">
+                                                    <template v-for="(item, index) in tableData[0].ItemAbi"  >
+                                                        <div @click="transferParameters(item,index)" class="contentList"  :key=index> 
                                                             <el-submenu
                                                                 v-if="item.type == 'function' || item.type == 'view'"
                                                                 :key="index" :index="index + ''">
                                                                 <template slot="title">
-                                                                    <el-tag v-if="item.stateMutability == 'view'"> Read
+                                                                    <el-tag v-if="item.stateMutability == 'Read'"> Read
                                                                     </el-tag>
-                                                                    <el-tag v-if="item.stateMutability == 'pure'"
-                                                                        type="success"> Read </el-tag>
-                                                                    <el-tag v-if="item.stateMutability == 'constant'"
-                                                                        type="info"> Read </el-tag>
-                                                                    <el-tag v-if="item.stateMutability == 'payable'"
-                                                                        type="warning"> Write </el-tag>
-                                                                    <el-tag v-if="item.stateMutability == 'nonpayable'"
+                                                                    <el-tag v-if="item.stateMutability == 'Write'"
                                                                         type="warning"> Write </el-tag>
                                                                     <el-tag v-if="!item.stateMutability" type="warning">
                                                                         {{ item.stateMutability }} </el-tag>
-                                                                    <span style="margin-left: 9px">{{ item.name }}</span>
+                                                                    <span class="contentList-text">{{ item.name }}</span>
                                                                 </template>
                                                             </el-submenu>
                                                         </div>
@@ -161,10 +101,11 @@
                                                             <div><span v-if="item.typeFlag == 'error'">❌ </span>
                                                                 调用函数：{{ item.function }}</div>
                                                         </div>
-                                                        <pre
-                                                            style="white-space: normal; word-break: break-all"><span>返回内容：</span>
-                                                                                                                                <json-viewer :value="item.content" ></json-viewer>
-                                                                                                                            </pre>
+                                                        <pre>
+                                                            <span v-if="item.typeFlag == 'write'">交易详情：</span>
+                                                            <span v-if="item.typeFlag=='read'||item.typeFlag=='error'">返回内容：</span>
+                                                            <json-viewer :value="item.content" ></json-viewer>
+                                                        </pre>
                                                     </el-card>
                                                 </div>
                                             </div>
@@ -177,14 +118,14 @@
                 </div>
                 <div class="dialog">
                     <el-dialog title="添加合约" :visible.sync="dialogFormVisible" @close='closureInputBox'>
-                        <el-dialog width="45%" title="预设ABI" :visible.sync="innerVisible" append-to-body>
+                        <el-dialog width="45%" title="常见ABI" :visible.sync="innerVisible" append-to-body>
                             <div class="innerFrame">
-                                <div v-for="piece, index in presetsABI">
+                                <div v-for="piece in presetsABI" :key="piece.standard">
                                     <div class="inner-title">{{ piece.standard }}</div>
                                     <div>
                                         <ul>
-                                            <li v-for="data  in piece.data" @click="transferABI(data.ABI)">{{ data.name
-                                            }}<br><span>{{ data.illustrate }}</span></li>
+                                            <li v-for="data  in piece.data" @click="getABI(data)" :key="data">{{ data
+                                            }}</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -195,17 +136,8 @@
                                 <el-input v-model="form.name" autocomplete="off" placeholder="unique name"></el-input>
                             </el-form-item>
                             <el-form-item label="网络" prop="network" :label-width="formLabelWidth">
-                                <el-select v-model="form.network" placeholder="请选择要连接的网络">
-                                    <el-option label="Hardhat(localhost)" value="Hardhat(localhost)"></el-option>
-                                    <el-option label="Ethereum Mainnet" value="Ethereum Mainnet"></el-option>
-                                    <el-option label="Goerli" value="Goerli"></el-option>
-                                    <el-option label="Binance Smart Chain Mainnet"
-                                        value="Binance Smart Chain Mainnet"></el-option>
-                                    <el-option label="Polygon Mainnet" value="Polygon Mainnet"></el-option>
-                                    <el-option label="Mumbai" value="Mumbai"></el-option>
-                                    <el-option label="Sepolia" value="Sepolia"></el-option>
-                                    <el-option label="Binance Smart Chain Testnet"
-                                        value="Binance Smart Chain Testnet"></el-option>
+                                <el-select v-model="form.network" placeholder="请选择要连接的网络" >
+                                    <el-option v-for="item in network" :key="item.chainID" :label="item.networkName" :value="item.networkName"></el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="项目地址" prop="address" :label-width="formLabelWidth">
@@ -214,9 +146,12 @@
                             <el-form-item label="ABI" prop="abi" :label-width="formLabelWidth" class="el-textarea">
                                 <textarea autocomplete="off" v-model="form.abi" rows="5" v-if="hasABI"
                                     placeholder='[{"anonymous": false,"inputs": [],"name": "Approval","type": "event"}]'
-                                    class="el-textarea__inner" style="min-height: 33px"></textarea>
+                                    class="el-textarea__inner" @input="determineAbiIsEmpty"></textarea>
                                 <div class="popUpBox" v-if="!hasABI">
                                     <ul>
+                                        <li class="" @click="innerVisible = true"><i
+                                                class="el-icon-folder-opened  el-icon"></i><span>选择常见ABI</span>
+                                        </li>
                                         <li class="">
                                             <el-upload class="upload-demo"
                                                 action="https://jsonplaceholder.typicode.com/posts/" accept=".ABI,.txt"
@@ -233,7 +168,6 @@
                                 </div>
                             </el-form-item>
                         </el-form>
-                        <div @click="innerVisible = true" class="dialog-div">从预设的ABI中选择</div>
                         <div slot="footer" class="dialog-footer">
                             <el-button @click="cancelDialog">取 消</el-button>
                             <el-button type="primary" @click="onSubmit('form')">确 定</el-button>
@@ -257,6 +191,7 @@ export default {
     components: {
         Navigation,
     },
+
     metaInfo() {
         return {
             title: 'Chaintool - ABI 图形化',
@@ -273,6 +208,7 @@ export default {
             ]
         }
     },
+
     data() {
         // 表单验证 - 项目名称
         let validateName = (rule, value, callback) => {
@@ -285,7 +221,6 @@ export default {
                     const data = JSON.parse(localData)
                     for (let i = 0; i < data.length; i++) {
                         if (data[i].name === value && !(this.isUpdate && this.chooseContractName == value)) {
-
                             callback(new Error('已有相同名称的项目存在！'))
                         }
                     }
@@ -337,28 +272,8 @@ export default {
             },
             // 右侧详情栏的表格信息数据对象
             tableData: [],
-            // 右侧详情栏的函数表单数据
-            abiForm: {},
-            // 右侧详情栏的ABI输入框列表数据
-            abiData: [],
             // 右侧详情栏的ABI卡片数据 调用函数 返回内容
             abiCardData: [],
-            // 左侧导航栏的Hardhat网络的总数据对象
-            HardhatData: [],
-            // 左侧导航栏的EthereumMainnet网络总数据对象
-            EthereumMainnetData: [],
-            // 左侧导航栏的Goerli网络的总数据对象
-            GoerliData: [],
-            // 左侧导航栏的BinanceSmartChainMainnet网络总数据对象
-            BinanceSmartChainMainnetData: [],
-            // 左侧导航栏的PolygonMainnet网络的总数据对象
-            PolygonMainnetData: [],
-            // 左侧导航栏的MumbaiData网络的总数据对象
-            MumbaiData: [],
-            // 左侧导航栏的Sepolia网络的总数据对象
-            SepoliaData: [],
-            // 左侧导航栏的BinanceSmartChainTestnet网络的总数据对象
-            BinanceSmartChainTestnetData: [],
             // 所有合约的总数据对象
             localData: [],
             // 添加合约的表单对象
@@ -397,6 +312,8 @@ export default {
             presetsABI: presetsABI,
             //网络
             network: network,
+            // 合约列表
+            contractList: ""
         }
     },
 
@@ -407,9 +324,11 @@ export default {
     methods: {
         //判断abi值是否为空
         determineAbiIsEmpty() {
-            if (this.form.abi == "") {
-                this.hasABI = false
-            }
+            setTimeout(() => {
+                if (this.form.abi == "") {
+                    this.hasABI = false
+                }
+            }, 300);
         },
 
         //传递参数
@@ -430,11 +349,18 @@ export default {
             }
         },
 
-        //传递ABI   
-        transferABI(ABI) {
-            this.innerVisible = false
-            this.form.abi = JSON.stringify(ABI)
+        //获取ABI   
+        async getABI(name) {
+            try {
+                await axios
+                    .get("/commonABI/" + name + ".json")
+                    .then((res) => {
+                        this.form.abi = JSON.stringify(res.data)
+                    });
+            } catch (err) {
+            }
             this.hasABI = true
+            this.innerVisible = false
         },
 
         //从Etherscan获取ABI
@@ -444,47 +370,52 @@ export default {
                 return
             }
             //请求网络
-            let requestNetwork = null
-            switch (this.form.network) {
-                case ("Hardhat(localhost)"):
-                    this.$message.error("当前网络不支持Etherscan获取");
-                    return
-                case ("Ethereum Mainnet"):
-                    requestNetwork = "https://api.etherscan.io/api?module=contract&action=getabi&address=" + this.form.address + "&apikey=" + process.env.VUE_APP_APIKEY
-                    break;
-                case ("Goerli"):
-                    requestNetwork = "https://api-goerli.etherscan.io/api?module=contract&action=getabi&address=" + this.form.address + "&apikey=" + process.env.VUE_APP_APIKEY
-                    break;
-                case ("Binance Smart Chain Mainnet"):
-                    requestNetwork = "https://api.etherscan.io/api?module=contract&action=getabi&address=" + this.form.address + "&apikey=" + process.env.VUE_APP_APIKEY
-                    break;
-                case ("Polygon Mainnet"):
-                    requestNetwork = "https://api.etherscan.io/api?module=contract&action=getabi&address=" + this.form.address + "&apikey=" + process.env.VUE_APP_APIKEY
-                    break;
-                case ("Mumbai"):
-                    requestNetwork = "https://api.etherscan.io/api?module=contract&action=getabi&address=" + this.form.address + "&apikey=" + process.env.VUE_APP_APIKEY
-                    break;
-                case ("Sepolia"):
-                    requestNetwork = "https://api-sepolia.etherscan.io/api?module=contract&action=getabi&address=" + this.form.address + "&apikey=" + process.env.VUE_APP_APIKEY
-                    break;
-                case ("Binance Smart Chain Testnet"):
-                    requestNetwork = "https://api-testnet.bscscan.com/api?module=contract&action=getabi&address=" + this.form.address + "&apikey=" + process.env.VUE_APP_APIKEY
-                    break;
-            }
+            let requestNetwork = "https://anyabi.xyz/api/get-abi/" + this.convertChainId(this.form.network) + "/" + this.form.address
             let that = this
             try {
                 await axios
                     .get(requestNetwork)
                     .then((res) => {
-                        if (res.data.result == "Contract source code not verified") {
-                            throw 'abc';
-                        }
                         this.hasABI = true
-                        that.form.abi = res.data.result
+                        that.form.abi = JSON.stringify(res.data.abi)
                     });
             } catch (error) {
                 this.$message.error("Etherscan获取失败，请检查你输入的地址与网络后重试");
             }
+        },
+
+        //读取localdata
+        readLocaldata() {
+            this.localData=[]
+            // 已添加数量
+            let readQuantity = -1
+            for (let i in this.storage.get('localData')) {
+                for (let k in this.localData) {
+                    if (this.localData[k].network == this.storage.get('localData')[i].network) {
+                        readQuantity++
+                        this.localData[k].data.push({
+                            name: this.storage.get('localData')[i].name,
+                            address: this.storage.get('localData')[i].address,
+                            abi: this.storage.get('localData')[i].abi,
+                        })
+                    }
+                }
+                if (readQuantity != i) {
+                    readQuantity++
+                    let abiData = {
+                        network: this.storage.get('localData')[i].network,
+                        data: [
+                            {
+                                name: this.storage.get('localData')[i].name,
+                                address: this.storage.get('localData')[i].address,
+                                abi: this.storage.get('localData')[i].abi,
+                            }
+                        ]
+                    }
+                    this.localData.push(abiData)
+                }
+            }
+            this.contractList = this.localData
         },
 
         // 初始化数据
@@ -493,16 +424,9 @@ export default {
             this.storage.get = this.get
             this.storage.set = this.set
             this.storage.remove = this.remove
+            await this.readLocaldata()
             // 读取localdata
-            this.localData = this.storage.get('localData')
-            this.HardhatData = this.solveData('Hardhat(localhost)')
-            this.GoerliData = this.solveData('Goerli')
-            this.EthereumMainnetData = this.solveData('Ethereum Mainnet')
-            this.BinanceSmartChainMainnetData = this.solveData('Binance Smart Chain Mainnet')
-            this.PolygonMainnetData = this.solveData('Polygon Mainnet')
-            this.MumbaiData = this.solveData('Mumbai')
-            this.SepoliaData = this.solveData('Sepolia')
-            this.BinanceSmartChainTestnetData = this.solveData('Binance Smart Chain Testnet')
+            this.localData = await this.storage.get('localData')
             //修改是否存在ABI的状态
             this.hasABI = false
             this.tableData = Array(1).fill(this.item)
@@ -568,6 +492,11 @@ export default {
 
         // 添加合约 事件 提交表单
         onSubmit(formName) {
+            if(this.form.abi[1]!="{"){
+                const iface = new ethers.utils.Interface(this.form.abi);
+                const FormatTypes = ethers.utils.FormatTypes;
+                this.form.abi = iface.format(FormatTypes.json)
+            }
             if (this.localData == null) {
                 // 清空localData
                 this.localData = []
@@ -578,16 +507,23 @@ export default {
                     if (await this.validABI(this.form.abi)) {
                         if (!this.isUpdate) {
                             this.localData.push(this.form)
+                        }else{
+                            for(let i in this.localData){
+                                if(this.localData[i].name==this.chooseContractName){
+                                    this.localData[i]=this.form
+                                }
+                            }
                         }
                         // 保存localData到localStorage
-                        this.storage.set('localData', this.localData)
-                        //关闭弹出窗
-                        this.dialogFormVisible = false
-                        //清空表单
-                        this.$refs.form.resetFields()
+                        await this.storage.set('localData', this.localData)
+                        // 清空表单
+                        await this.$refs.form.resetFields()
                         //初始化
-                        this.init()
+                        await this.init()
                         this.isUpdate = false
+                        this.parameter=null
+                         //关闭弹出窗
+                        this.dialogFormVisible = false
                     }
                 } else {
                     return false
@@ -613,7 +549,8 @@ export default {
         },
 
         // 单击左侧导航栏的事件
-        openItem(Item) {
+        openItem(Item, network) {
+            Item.network = network
             // 清空 abiCardData
             this.abiCardData = []
             //清空 parameter
@@ -634,17 +571,16 @@ export default {
             let writeMethod = []
             //其他
             let otherMethod = []
+            let state=[["view","pure","constant"],["payable","nonpayable"]]
             for (let i = 0; i < this.tableData[0].ItemAbi.length; i++) {
-                switch (this.tableData[0].ItemAbi[i].stateMutability) {
-                    case ("view"):
-                        viewMethod.push(this.tableData[0].ItemAbi[i])
-                        break;
-                    case ("nonpayable"):
-                        writeMethod.push(this.tableData[0].ItemAbi[i])
-                        break;
-                    default:
-                        otherMethod.push(this.tableData[0].ItemAbi[i])
-                        break;
+                if(state[0].indexOf(this.tableData[0].ItemAbi[i].stateMutability)!=-1){
+                    this.tableData[0].ItemAbi[i].stateMutability="Read"
+                    viewMethod.push(this.tableData[0].ItemAbi[i])
+                }else if(state[1].indexOf(this.tableData[0].ItemAbi[i].stateMutability)!=-1){
+                    this.tableData[0].ItemAbi[i].stateMutability="Write"
+                    writeMethod.push(this.tableData[0].ItemAbi[i])
+                }else{
+                    otherMethod.push(this.tableData[0].ItemAbi[i])
                 }
             }
             this.tableData[0].ItemAbi = []
@@ -669,6 +605,23 @@ export default {
             this.form = this.clickItem
             //打开编辑窗口
             this.dialogFormVisible = true
+        },
+
+        //查看Etherscan
+        checkEtherscan(){
+            if (this.clickItem.length == 0) {
+                this.$message('当前暂未选择合约');
+                return
+            }
+            for(let i in this.network){
+                if(this.clickItem.network==this.network[i].networkName){
+                    if(this.network[i].chainExplorer==""){
+                        this.$message('该合约Etherscan暂未被记录');
+                    }else{
+                          window.open(this.network[i].chainExplorer+"address/"+this.clickItem.address , '_blank')
+                    }
+                }
+            }
         },
 
         // 删除合约事件
@@ -762,6 +715,7 @@ export default {
                         args.push(Item.inputs[i].value)
                     }
                     // 调用函数
+                    args=await this.arrayParsing.stringArrayParsing(args)
                     const cardContent = await contract[Item.name](...args)
                     // 接收返回的数据
                     let cardContentData = ''
@@ -771,10 +725,17 @@ export default {
                     } else {
                         cardContentData = cardContent
                     }
+                    let typeFlag = ""
+                    if (Item.stateMutability == "payable" || Item.stateMutability == "nonpayable") {
+                        typeFlag = 'write'
+                    } else {
+                        typeFlag = 'read'
+                    }
                     // eslint-disable-next-line no-underscore-dangle
                     const cardData = {
                         function: Item.name,
                         content: cardContentData,
+                        typeFlag: typeFlag
                     }
                     this.abiCardData.unshift(cardData)
                 } catch (err) {
@@ -790,7 +751,7 @@ export default {
 
         //匹配网络
         matchingNetwork(value, type) {
-            if (type == "chainID") {
+            if (type == "chainID") {     
                 for (let i in this.network) {
                     if (value == this.network[i].chainID) {
                         return this.network[i]
@@ -810,22 +771,23 @@ export default {
                 this.callFunctions(runParameter[0], runParameter[1])
             } catch (switchError) {
                 if (switchError.code === 4902) {
-                    this.$message('该链尚未添加到 MetaMask,正在执行自动添加');
-                    let chainID = Number(chainId).toString(10)
+                    let chainID=chainId.slice(2)
                     let network = this.matchingNetwork(chainID, "chainID")
+                    chainID=parseInt(chainID)
+                    chainID="0x"+chainID.toString(16)
                     try {
                         await ethereum.request({
                             method: 'wallet_addEthereumChain',
                             params: [
                                 {
-                                    chainId: chainId,
+                                    chainId: chainID,
                                     chainName: network.networkName,
                                     rpcUrls: [network.rpcUrls],
                                 },
                             ],
                         });
                     } catch (addError) {
-                        this.$message.error('添加失败，请手动添加后重试。')
+                        this.$message.error('连接请求错误，请尝试手动连接。连接后刷新页面重试。')
                     }
                 } else {
                     this.$message.error('连接请求错误，请尝试手动连接。连接后刷新页面重试。')
@@ -835,36 +797,11 @@ export default {
 
         // 根据选择的网络返回对应的chainId
         convertChainId(network) {
-            let chainId = 0
-            switch (network) {
-                case 'Hardhat(localhost)':
-                    chainId = 31337
-                    break
-                case 'Ethereum Mainnet':
-                    chainId = 1
-                    break
-                case 'Goerli':
-                    chainId = 5
-                    break
-                case 'Binance Smart Chain Mainnet':
-                    chainId = 56
-                    break
-                case 'Polygon Mainnet':
-                    chainId = 137
-                    break
-                case 'Mumbai':
-                    chainId = 80001
-                    break
-                case 'Sepolia':
-                    chainId = 11155111
-                    break
-                case 'Binance Smart Chain Testnet':
-                    chainId = 97
-                    break
-                default:
-                    chainId = 0
+            for (let i in this.network) {
+                if (network == this.network[i].networkName) {
+                    return this.network[i].chainID
+                }
             }
-            return chainId
         },
 
         //清空输出
@@ -878,14 +815,13 @@ export default {
 <style scoped>
 .abi {
     width: 100%;
-    height: 100%;
+    height: auto;
 }
 
 .scroll {
     width: 100%;
-    height: calc(100vh - 70px);
+    height: auto;
     display: flex;
-    overflow: auto;
     flex-direction: column;
     align-items: center;
 }
@@ -936,6 +872,7 @@ export default {
     padding: 0 15px;
     line-height: 36px;
     justify-content: center;
+    margin:20px auto
 }
 
 .container .contract-list {
@@ -1026,13 +963,18 @@ input::-webkit-input-placeholder {
 
 .popUpBox ul li {
     display: inline-block;
-    width: 30%;
-    height: 120px;
+    width: 115px;
+    height: 100px;
     margin-right: 10px;
     border: #DCDFE6 solid 1px;
     border-radius: 10%;
     max-width: 220px;
     min-width: 100px;
+}
+
+/deep/ .el-dialog{
+    max-width: 834px;
+    min-width: 650px;
 }
 
 .popUpBox ul li:hover {
@@ -1051,7 +993,7 @@ input::-webkit-input-placeholder {
     display: inline-block;
     width: 100%;
     text-align: center;
-    line-height: 60px;
+    line-height: 23px;
 }
 
 .upload-demo,
@@ -1084,6 +1026,15 @@ input::-webkit-input-placeholder {
 /deep/ .contentList .el-submenu__icon-arrow {
     color: red;
     display: none;
+}
+
+.submenu{
+    float:right;
+    margin-left:20px;
+}
+
+/deep/ .el-icon--left{
+    margin:0px
 }
 
 .rightList .el-button {
@@ -1127,7 +1078,8 @@ input::-webkit-input-placeholder {
 }
 
 .innerFrame ul li {
-    width: 26%;
+    width: auto;
+    min-width: 123px;
     height: 95px;
     padding: 10px;
     border: #dcdfec solid 1px;
@@ -1137,16 +1089,38 @@ input::-webkit-input-placeholder {
     font-size: 14px;
     text-align: center;
     vertical-align: top;
-}
-
-.innerFrame ul li span {
-    margin-top: 7px;
-    color: #606266;
-    font-size: 10px;
-    display: inline-block
+    line-height: 65px;
 }
 
 /deep/ .el-dialog__body {
-    padding: 10px 20px 30px 27px;
+    padding: 10px 20px 20px 27px;
+}
+
+.contract-list  .main{
+    height: 800px;
+    border: 1px solid #eee
+}
+
+.contract-list  .main .sidebar{
+    background-color: rgb(238, 241, 246)
+}
+
+.sol-body-left .column{
+    height: 600px;
+    border-color: rgb(235 238 245);
+    border-style: "dashed"
+}
+
+.contentList .contentList-text{
+    margin-left: 9px;
+}
+
+.sol-body-right pre{
+    white-space: normal;
+    word-break: break-all;
+}
+
+.el-textarea__inner{
+    min-height: 33px;
 }
 </style>

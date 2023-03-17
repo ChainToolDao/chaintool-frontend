@@ -25,9 +25,9 @@
         <el-table
           :data="searchResult"
           border
-          style="width: 100%"
           v-loading="isloading"
           id="outExcel"
+          class="table"
         >
           <el-table-column prop="walletAddress" label="钱包地址" width="403">
           </el-table-column>
@@ -353,5 +353,8 @@ export default {
   .container {
     max-width: calc(100vw - 40px);
   }
+}
+.table{
+  width: 100%;
 }
 </style>
