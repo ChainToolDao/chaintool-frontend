@@ -29,8 +29,9 @@
                             <el-main>
                                 <div v-if="this.clickItem.length != 0">
                                     <el-button  class="submenu" type="danger" @click="deleteContract"><i class="el-icon-delete el-icon--left"></i><span>删除当前合约</span></el-button>
-                                    <el-button  class="submenu" type="info" @click="checkEtherscan"><i class="el-icon-paperclip el-icon--left"></i><span>查看Etherscan</span></el-button> 
                                     <el-button  class="submenu" type="warning" @click="updateContract"><i class="el-icon-edit el-icon--left"></i><span> 编辑当前合约</span></el-button>
+                                    <el-button  class="submenu" type="info" @click="checkEtherscan"><i class="el-icon-paperclip el-icon--left"></i><span>查看Etherscan</span></el-button> 
+                                    <el-button  class="submenu" type="info" @click="ABIVisible = true"><i class="el-icon-edit el-icon-view"></i><span> 查看ABI</span></el-button>
                                 </div>
                                 <el-table :data="tableData">
                                     <el-table-column prop="ItemName" label="合约名称"> </el-table-column>
@@ -52,6 +53,8 @@
                                                                     </el-tag>
                                                                     <el-tag v-if="item.stateMutability == 'Write'"
                                                                         type="warning"> Write </el-tag>
+                                                                    <el-tag v-if="item.stateMutability == 'Payable'"
+                                                                        type="danger"> Payable </el-tag>
                                                                     <el-tag v-if="!item.stateMutability" type="warning">
                                                                         {{ item.stateMutability }} </el-tag>
                                                                     <span class="contentList-text">{{ item.name }}</span>
@@ -173,6 +176,27 @@
                             <el-button @click="cancelDialog">取 消</el-button>
                             <el-button type="primary" @click="onSubmit('form')">确 定</el-button>
                         </div>
+                    </el-dialog>
+                    <el-dialog
+                        title="查看ABI"
+                        :visible.sync="ABIVisible"
+                        width="30%"
+                        center>
+                        <div class="visible">
+                            <!-- <el-button round @click="checkJSONABI">JSON ABI</el-button>
+                            <el-button round @click="checkHumanReadableABI">Human-Readable ABI</el-button> -->
+                        </div>
+                        <el-input
+                            type="textarea"
+                            :disabled="true"
+                            :autosize="{ minRows: 5, maxRows: 20}"
+                            placeholder="请输入内容"
+                            v-model="clickItem.abi">
+                        </el-input>
+                        <span slot="footer" class="dialog-footer">
+                            <!-- <el-button type="primary" @click="ABIVisible = false">复 制</el-button> -->
+                            <el-button type="danger" @click="ABIVisible = false">退 出</el-button>
+                        </span>
                     </el-dialog>
                 </div>
             </div>
@@ -314,7 +338,11 @@ export default {
             //网络
             network: network,
             // 合约列表
-            contractList: ""
+            contractList: "",
+            // ABI可见
+            ABIVisible:false,
+            // 查看ABI
+            checkABI:""
         }
     },
 
@@ -499,7 +527,8 @@ export default {
 
         // 添加合约 事件 提交表单
         onSubmit(formName) {
-            if(this.form.abi[1]!="{"){
+            this.form.abi = this.form.abi.replace(/\s*/g,"");
+            if(this.form.abi[1]!=="{"){
                 const iface = new ethers.utils.Interface(this.form.abi);
                 const FormatTypes = ethers.utils.FormatTypes;
                 this.form.abi = iface.format(FormatTypes.json)
@@ -576,16 +605,20 @@ export default {
             let viewMethod = []
             //写
             let writeMethod = []
+            let payableMethod=[]
             //其他
             let otherMethod = []
-            let state=[["view","pure","constant"],["payable","nonpayable"]]
+            let state=["view","pure","constant"]
             for (let i = 0; i < this.tableData[0].ItemAbi.length; i++) {
-                if(state[0].indexOf(this.tableData[0].ItemAbi[i].stateMutability)!=-1){
+                if(state.indexOf(this.tableData[0].ItemAbi[i].stateMutability)!=-1){
                     this.tableData[0].ItemAbi[i].stateMutability="Read"
                     viewMethod.push(this.tableData[0].ItemAbi[i])
-                }else if(state[1].indexOf(this.tableData[0].ItemAbi[i].stateMutability)!=-1){
+                }else if(this.tableData[0].ItemAbi[i].stateMutability=="nonpayable"){
                     this.tableData[0].ItemAbi[i].stateMutability="Write"
                     writeMethod.push(this.tableData[0].ItemAbi[i])
+                }else if(this.tableData[0].ItemAbi[i].stateMutability=="payable"){
+                    this.tableData[0].ItemAbi[i].stateMutability="Payable"
+                    payableMethod.push(this.tableData[0].ItemAbi[i])
                 }else{
                     otherMethod.push(this.tableData[0].ItemAbi[i])
                 }
@@ -593,6 +626,7 @@ export default {
             this.tableData[0].ItemAbi = []
             this.tableData[0].ItemAbi.push(...viewMethod)
             this.tableData[0].ItemAbi.push(...writeMethod)
+            this.tableData[0].ItemAbi.push(...payableMethod)
             this.tableData[0].ItemAbi.push(...otherMethod)
             this.clickItem = Item
         },
@@ -699,6 +733,16 @@ export default {
             } else {
                 this.callFunctions(abiObj, Item)
             }
+        },
+
+        //查看JSONABI
+        checkJSONABI(){
+            console.log("")
+        },
+
+        //查看
+        checkHumanReadable(){
+            console.log("")
         },
 
         //函数运行
@@ -1105,6 +1149,12 @@ input::-webkit-input-placeholder {
 
 /deep/ .el-dialog__body {
     padding: 10px 20px 20px 27px;
+}
+
+.visible{
+    width:100%;
+    text-align:center;
+    margin-bottom:20px;
 }
 
 .contract-list  .main{
