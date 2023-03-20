@@ -10,10 +10,9 @@
                     <el-container class="main">
                         <el-aside width="184px" class="sidebar">
                             <el-menu>
+                                <el-button class="btn" type="primary" @click="dialogFormVisible = true">添加合约</el-button>
                                 <div v-if="localData != null">
-                                 <el-button class="btn" type="primary" @click="dialogFormVisible = true">添加合约</el-button>
                                     <div v-for="item in contractList" :key="item.network">
-                                    
                                         <el-submenu :index=item.network>
                                             <template slot="title">
                                                 <i class="el-icon-star-on"></i>
@@ -28,9 +27,11 @@
                         </el-aside>
                         <el-container>
                             <el-main>
-                                <el-button  class="submenu" type="danger" @click="deleteContract"><i class="el-icon-delete el-icon--left"></i><span>删除当前合约</span></el-button>
-                                <el-button  class="submenu" type="info" @click="checkEtherscan"><i class="el-icon-paperclip el-icon--left"></i><span>查看Etherscan</span></el-button> 
-                                <el-button  class="submenu" type="warning" @click="updateContract"><i class="el-icon-edit el-icon--left"></i><span> 编辑当前合约</span></el-button>
+                                <div v-if="this.clickItem.length != 0">
+                                    <el-button  class="submenu" type="danger" @click="deleteContract"><i class="el-icon-delete el-icon--left"></i><span>删除当前合约</span></el-button>
+                                    <el-button  class="submenu" type="info" @click="checkEtherscan"><i class="el-icon-paperclip el-icon--left"></i><span>查看Etherscan</span></el-button> 
+                                    <el-button  class="submenu" type="warning" @click="updateContract"><i class="el-icon-edit el-icon--left"></i><span> 编辑当前合约</span></el-button>
+                                </div>
                                 <el-table :data="tableData">
                                     <el-table-column prop="ItemName" label="合约名称"> </el-table-column>
                                     <el-table-column prop="ItemNetwork" label="区块链网络"> </el-table-column>
@@ -124,7 +125,7 @@
                                     <div class="inner-title">{{ piece.standard }}</div>
                                     <div>
                                         <ul>
-                                            <li v-for="data  in piece.data" @click="getABI(data)" :key="data">{{ data
+                                            <li class="link" v-for="data  in piece.data" @click="getABI(data)" :key="data">{{ data
                                             }}</li>
                                         </ul>
                                     </div>
@@ -149,19 +150,19 @@
                                     class="el-textarea__inner" @input="determineAbiIsEmpty"></textarea>
                                 <div class="popUpBox" v-if="!hasABI">
                                     <ul>
-                                        <li class="" @click="innerVisible = true"><i
+                                        <li class="upload-demo" @click="innerVisible = true"><i
                                                 class="el-icon-folder-opened  el-icon"></i><span>选择常见ABI</span>
                                         </li>
                                         <li class="">
                                             <el-upload class="upload-demo"
                                                 action="https://jsonplaceholder.typicode.com/posts/" accept=".ABI,.txt"
                                                 :on-success="readFile"> <i
-                                                    class="el-icon-upload2 el-icon"></i><span>上传ABI文件</span>
+                                                    class="el-icon-upload2 el-icon"></i><span><a>上传ABI文件</a></span>
                                             </el-upload>
                                         </li>
-                                        <li class="" @click="hasABI = true"><i
+                                        <li class="upload-demo" @click="hasABI = true"><i
                                                 class="el-icon-copy-document  el-icon"></i><span>粘贴ABI文件</span></li>
-                                        <li class="" @click="getABIFromEtherscan"><i
+                                        <li class="upload-demo" @click="getABIFromEtherscan"><i
                                                 class="el-icon-connection  el-icon"></i><span>Etherscan获取</span>
                                         </li>
                                     </ul>
@@ -996,6 +997,10 @@ input::-webkit-input-placeholder {
     line-height: 23px;
 }
 
+.upload-demo{
+    cursor: pointer;
+}
+
 .upload-demo,
 /deep/ .el-upload {
     width: 100%;
@@ -1118,6 +1123,10 @@ input::-webkit-input-placeholder {
 .sol-body-right pre{
     white-space: normal;
     word-break: break-all;
+}
+
+.link{
+    cursor:pointer;
 }
 
 .el-textarea__inner{
