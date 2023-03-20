@@ -89,6 +89,18 @@
                                                         </template>
                                                     </el-table-column>
                                                 </el-table>
+                                                <div v-if="parameter[0].stateMutability=='Payable'" class="rightInput">
+                                                    <span>附带参数(value):</span> <span>合约以ETH数量执行</span>
+                                                    <div style="margin-top: 15px;" >
+                                                    <el-input placeholder="请输入Value" v-model="overrides.value" class="input-with-select">
+                                                        <el-select v-model="unit" slot="prepend" placeholder="请选择"  >
+                                                            <el-option label="Wei" value="Wei"></el-option>
+                                                            <el-option label="Gwei" value="Gwei"></el-option>
+                                                            <el-option label="Ether" value="Ether"></el-option>
+                                                        </el-select>
+                                                        </el-input>
+                                                    </div>
+                                                </div>
                                                 <div class="rightButton">
                                                     <el-button type="danger" @click="clearOutput">清空输出</el-button>
                                                     <el-button type="primary" class=""
@@ -342,7 +354,12 @@ export default {
             // ABI可见
             ABIVisible:false,
             // 查看ABI
-            checkABI:""
+            checkABI:"",
+            overrides:{
+                value:""
+            },
+            //单位
+            unit:"Wei"
         }
     },
 
@@ -767,7 +784,23 @@ export default {
                     }
                     // 调用函数
                     args=await this.arrayParsing.stringArrayParsing(args)
-                    const cardContent = await contract[Item.name](...args)
+                    let overrides={
+                        value:""
+                    }
+                    overrides.value=this.overrides.value.toString()
+                    if(this.unit=="Gwei"){
+                        overrides.value=(overrides.value*1000000000).toString()
+                    }
+                    if(this.unit=="Ether"){
+                        overrides.value=(overrides.value*1000000000000000000).toString()
+                   }
+
+                    if(this.overrides.value!=""){
+                        const cardContent = await contract[Item.name](...args,overrides)
+                    }else{
+                        const cardContent = await contract[Item.name](...args)
+                    }
+                    
                     // 接收返回的数据
                     let cardContentData = ''
                     // 根据不同的 stateMutability 类型处理 返回的结果
@@ -964,6 +997,10 @@ input::-webkit-input-placeholder {
     width: 231px !important
 }
 
+/deep/ .el-select .el-input {
+    width: 80px;
+}
+
 .el-container .el-aside {
     overflow-x: hidden;
 }
@@ -991,6 +1028,10 @@ input::-webkit-input-placeholder {
     -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     width: 100%;
+}
+
+.rightInput{
+    margin:20px 0;
 }
 
 .leftTitle {
