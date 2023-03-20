@@ -4,12 +4,13 @@
         <div class="container">
             <div class="topTips">
                 <div>
-                    <div>Chaintool - 区块链工具箱
-                        <br />让区块链开发更轻松
+                    <div><div>Chaintool - <span><a href="https://github.com/ChainToolDao/chaintool-frontend/issues" target="_blank">开源</a></span>工具箱</div>
+                        让区块链开发更轻松
                     </div>
-                    <div>开源才值得信赖，好用才提高效率，你所需的工具尽在于此。</div>
-                    <el-button type="primary"><a href="https://github.com/ChainToolDao/chaintool-frontend/issues"
-                            class="theFeedback">反馈需求与建议</a></el-button>
+                    <div class="summary">开源才值得信赖，好用才提高效率，你所需的工具尽在于此。</div>
+                    <button class="theFeedback">
+                        <a href="https://github.com/ChainToolDao/chaintool-frontend/issues" class="theFeedback" target="_blank">问题反馈</a>
+                    </button>
                 </div>
                 <img src="../assets/imgs/main.png">
             </div>
@@ -192,7 +193,25 @@ a {
 }
 
 .container .topTips>div div:last-child {
-    font-size: 18px;
+    font-size: 50px;
+    font-weight: bold;
+    color: #333333;
+    line-height: 75px;
+}
+
+.container .topTips>div div:last-child span{
+    font-size: 56px;
+    font-family: SourceHanSansCN-Bold, SourceHanSansCN;
+    font-weight: bold;
+    color: #2E8FF0;
+    line-height: 84px;
+    background: linear-gradient(313deg, #5EF4CB 0%, #19AAE2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.container  .topTips div div{
+    
 }
 
 .container .topTips>img {
@@ -275,6 +294,21 @@ a {
 }
 
 .theFeedback {
-    color: #FAFAFA;
-    width: 260px;
-}</style>
+    width: 127px;
+    height: 37px;
+    background: #141414;
+    border-radius: 23px;
+    border:none
+}
+
+.theFeedback a{
+    width: 56px;
+    height: 20px;
+    font-size: 14px;
+    color: #FFFFFF;
+}
+
+.summary{
+    color:#0E1F59;
+}
+</style>
