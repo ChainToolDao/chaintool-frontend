@@ -4,7 +4,7 @@
         <div class="container">
             <div class="topTips">
                 <div>
-                    <div><div>Chaintool - <span><a href="https://github.com/ChainToolDao/chaintool-frontend/issues" target="_blank">开源</a></span>工具箱</div>
+                    <div><div>Chaintool - <span><a href="https://github.com/ChainToolDao" target="_blank">开源</a></span>工具箱</div>
                         让区块链开发更轻松
                     </div>
                     <div class="summary">开源才值得信赖，好用才提高效率，你所需的工具尽在于此。</div>
