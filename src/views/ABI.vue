@@ -10,7 +10,7 @@
                     <el-container class="main">
                         <el-aside width="184px" class="sidebar">
                             <el-menu>
-                                <el-button class="btn" type="primary" @click="dialogFormVisible = true">添加合约</el-button>
+                                <el-button class="btn" type="primary" @click="addContract()">添加合约</el-button>
                                 <div v-if="localData != null">
                                     <div v-for="item in contractList" :key="item.network">
                                         <el-submenu :index=item.network>
@@ -419,6 +419,12 @@ export default {
             this.contractList = this.localData
         },
 
+        //添加合约
+        addContract(){
+            this.isUpdate=false
+            this.dialogFormVisible = true
+        },
+        
         // 初始化数据
         async init() {
             // 给storage 对象添加方法
