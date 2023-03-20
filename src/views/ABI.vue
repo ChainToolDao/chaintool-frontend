@@ -27,9 +27,11 @@
                         </el-aside>
                         <el-container>
                             <el-main>
-                                <el-button  class="submenu" type="danger" @click="deleteContract"><i class="el-icon-delete el-icon--left"></i><span>删除当前合约</span></el-button>
-                                <el-button  class="submenu" type="info" @click="checkEtherscan"><i class="el-icon-paperclip el-icon--left"></i><span>查看Etherscan</span></el-button> 
-                                <el-button  class="submenu" type="warning" @click="updateContract"><i class="el-icon-edit el-icon--left"></i><span> 编辑当前合约</span></el-button>
+                                <div v-if="this.clickItem.length != 0">
+                                    <el-button  class="submenu" type="danger" @click="deleteContract"><i class="el-icon-delete el-icon--left"></i><span>删除当前合约</span></el-button>
+                                    <el-button  class="submenu" type="info" @click="checkEtherscan"><i class="el-icon-paperclip el-icon--left"></i><span>查看Etherscan</span></el-button> 
+                                    <el-button  class="submenu" type="warning" @click="updateContract"><i class="el-icon-edit el-icon--left"></i><span> 编辑当前合约</span></el-button>
+                                </div>
                                 <el-table :data="tableData">
                                     <el-table-column prop="ItemName" label="合约名称"> </el-table-column>
                                     <el-table-column prop="ItemNetwork" label="区块链网络"> </el-table-column>
