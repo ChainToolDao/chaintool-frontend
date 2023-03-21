@@ -96,16 +96,19 @@
 													</el-table-column>
 												</el-table>
 												<div v-if="parameter[0].stateMutability=='Payable'" class="rightInput">
-													<span>附带参数(value):</span> <span>合约以ETH数量执行</span>
 													<div>
-														<el-input placeholder="请输入Value" v-model="overrides.value"
-															class="input-with-select">
-															<el-select v-model="unit" slot="prepend" placeholder="请选择">
-																<el-option label="Wei" value="Wei"></el-option>
-																<el-option label="Gwei" value="Gwei"></el-option>
-																<el-option label="Ether" value="Ether"></el-option>
-															</el-select>
-														</el-input>
+														<span>value:</span>
+														<span>
+															<el-input placeholder="请输入Value" v-model="overrides.value"
+																class="input-with-select">
+																<el-select v-model="unit" slot="prepend"
+																	placeholder="请选择">
+																	<el-option label="Wei" value="Wei"></el-option>
+																	<el-option label="Gwei" value="Gwei"></el-option>
+																	<el-option label="Ether" value="Ether"></el-option>
+																</el-select>
+															</el-input>
+														</span>
 													</div>
 												</div>
 												<div class="rightButton">
@@ -1010,6 +1013,11 @@ export default {
 	display: inline-block;
 }
 
+/deep/ .rightInput input {
+	width: 100%;
+	min-width: 250px;
+}
+
 .container .btn {
 	height: 36px;
 	cursor: pointer;
@@ -1103,6 +1111,11 @@ input::-webkit-input-placeholder {
 
 .leftTitle::-webkit-scrollbar {
 	width: 0px;
+}
+
+.rightInput span:nth-child(2) {
+	width: 80%;
+	margin-left: 10px;
 }
 
 /deep/ .rightInput .el-select {
