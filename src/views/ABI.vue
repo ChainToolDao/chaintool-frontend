@@ -468,8 +468,11 @@ export default {
 		//传递参数
 		transferParameters(item, index) {
 			this.parameter = [item, index]
-			if(this.parameter[0].inputs.length==0){
-				this.submitAbiForm(this.parameter[0],this.parameter[1])
+			if (
+				this.parameter[0].inputs.length == 0 &&
+				item.stateMutability != 'Payable'
+			) {
+				this.submitAbiForm(this.parameter[0], this.parameter[1])
 			}
 		},
 
