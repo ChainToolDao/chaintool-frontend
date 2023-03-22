@@ -33,7 +33,7 @@
 											<i class="el-icon-share"></i>
 											<span>分享</span>
 										</li>
-										<li @click="ABIVisible = true" class="view">
+										<li @click="checkJSONABI" class="view">
 											<i class="el-icon-view"></i>
 											<span>查看ABI</span>
 										</li>
@@ -217,14 +217,14 @@
 					</el-dialog>
 					<el-dialog title="查看ABI" :visible.sync="ABIVisible" width="30%" center>
 						<div class="visible">
-							<!-- <el-button round @click="checkJSONABI">JSON ABI</el-button>
-                            <el-button round @click="checkHumanReadableABI">Human-Readable ABI</el-button> -->
+							<el-button round @click="checkJSONABI">JSON ABI</el-button>
+							<el-button round @click="checkHumanReadableABI">Human-Readable ABI</el-button>
 						</div>
 						<el-input type="textarea" :disabled="true" :autosize="{ minRows: 5, maxRows: 20}"
-							placeholder="请输入内容" v-model="clickItem.abi">
+							placeholder="请输入内容" v-model="checkABI">
 						</el-input>
 						<span slot="footer" class="dialog-footer">
-							<!-- <el-button type="primary" @click="ABIVisible = false">复 制</el-button> -->
+							<el-button type="primary" @click="copy(checkABI,'复制成功','.dialog-footer')">复 制</el-button>
 							<el-button type="danger" @click="ABIVisible = false">退 出</el-button>
 						</span>
 					</el-dialog>
@@ -382,6 +382,8 @@ export default {
 			unit: 'Wei',
 			// 保存待打开页面数据
 			pageData: null,
+			//查看ABI
+			checkABI: [],
 		}
 	},
 
@@ -513,7 +515,7 @@ export default {
 						this.network[i].currencySymbol +
 						'/' +
 						Item.address
-					this.copy(url, '复制分享链接成功')
+					this.copy(url, '复制分享链接成功', '.shop')
 				}
 			}
 		},
@@ -673,9 +675,8 @@ export default {
 
 		// 添加合约 事件 提交表单
 		async onSubmit(formName) {
-			this.form.abi = this.form.abi.replace(/\s*/g, '')
-			if (this.form.abi[1] !== '{') {
-				const iface = new ethers.utils.Interface(this.form.abi)
+			if (this.form.abi[1].indexOf('{') == -1) {
+				const iface = new ethers.utils.Interface(eval(this.form.abi))
 				const FormatTypes = ethers.utils.FormatTypes
 				this.form.abi = iface.format(FormatTypes.json)
 			}
@@ -919,12 +920,23 @@ export default {
 
 		//查看JSONABI
 		checkJSONABI() {
-			console.log('')
+			this.ABIVisible = true
+			this.checkABI = this.clickItem.abi
 		},
 
-		//查看
-		checkHumanReadable() {
-			console.log('')
+		//查看人类可读ABI
+		checkHumanReadableABI() {
+			const iface = new ethers.utils.Interface(this.clickItem.abi)
+			const FormatTypes = ethers.utils.FormatTypes
+			let checkABI = iface.format(FormatTypes.full)
+			this.checkABI = '['
+			for (let i in checkABI) {
+				if (i < checkABI.length - 1) {
+					this.checkABI += '"' + checkABI[i] + '",' + '\n\n'
+					continue
+				}
+				this.checkABI += '"' + checkABI[i] + '"]'
+			}
 		},
 
 		//函数运行
@@ -1079,8 +1091,8 @@ export default {
 		},
 
 		//调用复制的方法
-		copy(text, output) {
-			const clipboard = new Clipboard('.shop', {
+		copy(text, output, class1) {
+			const clipboard = new Clipboard(class1, {
 				text: () => {
 					return text
 				},
