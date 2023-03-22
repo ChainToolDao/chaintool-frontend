@@ -27,15 +27,29 @@
 						</el-aside>
 						<el-container>
 							<el-main>
-								<div v-if="this.clickItem.length != 0">
-									<el-button class="submenu" type="danger" @click="deleteContract"><i
-											class="el-icon-delete el-icon--left"></i><span>删除当前合约</span></el-button>
-									<el-button class="submenu" type="warning" @click="updateContract"><i
-											class="el-icon-edit el-icon--left"></i><span> 编辑当前合约</span></el-button>
-									<el-button class="submenu" type="info" @click="checkEtherscan"><i
-											class="el-icon-paperclip el-icon--left"></i><span>查看Etherscan</span></el-button>
-									<el-button class="submenu" type="info" @click="ABIVisible = true"><i
-											class="el-icon-edit el-icon-view"></i><span> 查看ABI</span></el-button>
+								<div v-if="this.clickItem.length != 0" class="shop">
+									<ul>
+										<li @click="shareContract(clickItem)" class="share">
+											<i class="el-icon-share"></i>
+											<span>分享</span>
+										</li>
+										<li @click="ABIVisible = true" class="view">
+											<i class="el-icon-view"></i>
+											<span>查看ABI</span>
+										</li>
+										<li @click="checkEtherscan" class="paperclip">
+											<i class="el-icon-paperclip"></i>
+											<span>查看Etherscan</span>
+										</li>
+										<li @click="updateContract" class="edit">
+											<i class="el-icon-edit"></i>
+											<span>编辑</span>
+										</li>
+										<li @click="deleteContract" class="delete">
+											<i class="el-icon-delete"></i>
+											<span>删除</span>
+										</li>
+									</ul>
 								</div>
 								<el-table :data="tableData">
 									<el-table-column prop="ItemName" label="合约名称"> </el-table-column>
@@ -226,6 +240,7 @@ import Navigation from '../components/Navigation.vue'
 import axios from 'axios'
 import presetsABI from '../presetsABI.json'
 import network from '../network.json'
+import Clipboard from 'clipboard'
 
 export default {
 	name: 'abi',
@@ -346,32 +361,88 @@ export default {
 			chainId: 0,
 			// 有ABI
 			hasABI: false,
-			//是更新
+			// 是更新
 			isUpdate: false,
 			// 选择合约名称
 			chooseContractName: '',
-			//参数列表
+			// 参数列表
 			parameter: null,
-			//预设ABI
+			// 预设ABI
 			presetsABI: presetsABI,
-			//网络
+			// 网络
 			network: network,
 			// 合约列表
 			contractList: '',
 			// ABI可见
 			ABIVisible: false,
-			// 查看ABI
-			checkABI: '',
 			overrides: {
 				value: '',
 			},
-			//单位
+			// 单位
 			unit: 'Wei',
+			// 保存待打开页面数据
+			pageData: null,
 		}
 	},
 
-	created() {
+	async created() {
+		//初始化
 		this.init()
+	},
+
+	async mounted() {
+		//判断url是否携带address与currencySymbol
+		if (
+			this.$route.params.currencySymbol !== undefined &&
+			this.$route.params.address !== undefined
+		) {
+			//获取所有信息，填充表单
+			for (let i = 1; i < this.network.length; i++) {
+				if (
+					this.network[i].currencySymbol ==
+					this.$route.params.currencySymbol
+				) {
+					this.form.network = this.network[i].networkName
+					this.form.address = this.$route.params.address
+					// 获取ABI
+					this.form.name = await this.getABIFromEtherscan()
+				}
+			}
+			if (this.form.abi == '') {
+				this.$message.error('自动添加合约失败')
+				return
+			}
+			//获取浏览器保存的数据，用于下面的判断
+			let localData = await this.storage.get('localData')
+			for (let i in localData) {
+				if (
+					await this.judgeObjecEquals(
+						JSON.stringify(this.form),
+						JSON.stringify(localData[i])
+					)
+				) {
+					this.openItem(localData[i], localData[i].network)
+					this.hasABI = false
+					// 清空表单
+					this.form = {
+						name: '',
+						address: '',
+						abi: '',
+						network: '',
+					}
+					return
+				}
+			}
+			for (let i in localData) {
+				//判断是否存在名字相同的合约
+				if (this.form.name == localData[i].name) {
+					this.createABI(this.form.name)
+					return
+				}
+			}
+			//创建合约
+			this.createABI(this.form.name)
+		}
 	},
 
 	methods: {
@@ -382,6 +453,14 @@ export default {
 					this.hasABI = false
 				}
 			}, 300)
+		},
+
+		//创建合约
+		async createABI(name) {
+			this.dialogFormVisible = true
+			await this.addContract()
+			this.hasABI = true
+			await this.onSubmit('form')
 		},
 
 		//传递参数
@@ -399,6 +478,43 @@ export default {
 				let val = e.target.result //获取数据
 				let rtulist = val.split('\r\n')
 				that.form.abi = rtulist
+			}
+		},
+
+		//判断对象值是否相等
+		judgeObjecEquals(objectA, objectB) {
+			objectA = JSON.parse(objectA)
+			objectB = JSON.parse(objectB)
+			// 遍历对象，返回对象的属性名
+			let Array = ['abi', 'address', 'network']
+			for (let i in Array) {
+				//判断对象的每一个属性名对应的值是否相等
+				if (
+					objectA[Array[i]].replace(/\s*/g, '') !=
+					objectB[Array[i]].replace(/\s*/g, '')
+				) {
+					return false
+				}
+			}
+			return true
+		},
+
+		//分享合约
+		shareContract(Item) {
+			let url
+			if (Item.network == 'Hardhat(localhost)') {
+				this.$message.error('当前网络暂不支持分享')
+				return
+			}
+			for (let i in this.network) {
+				if (this.network[i].networkName == Item.network) {
+					url =
+						'https://chaintool.tech/abi/' +
+						this.network[i].currencySymbol +
+						'/' +
+						Item.address
+					this.copy(url, '复制分享链接成功')
+				}
 			}
 		},
 
@@ -426,15 +542,16 @@ export default {
 				'/' +
 				this.form.address
 			let that = this
+			let name
 			try {
 				await axios.get(requestNetwork).then((res) => {
 					this.hasABI = true
 					that.form.abi = JSON.stringify(res.data.abi)
+					name = res.data.name
 				})
+				return name
 			} catch (error) {
-				this.$message.error(
-					'Etherscan获取失败，请检查你输入的地址与网络后重试'
-				)
+				this.$message.error('ABI获取失败')
 			}
 		},
 
@@ -507,10 +624,10 @@ export default {
 
 		// 关闭输入框
 		closureInputBox() {
+			this.dialogFormVisible = false
 			this.hasABI = false
 			// 清空表单
 			this.form = {}
-			this.init()
 		},
 
 		// localstorage的get方法
@@ -555,7 +672,7 @@ export default {
 		},
 
 		// 添加合约 事件 提交表单
-		onSubmit(formName) {
+		async onSubmit(formName) {
 			this.form.abi = this.form.abi.replace(/\s*/g, '')
 			if (this.form.abi[1] !== '{') {
 				const iface = new ethers.utils.Interface(this.form.abi)
@@ -567,7 +684,7 @@ export default {
 				this.localData = []
 			}
 			// 校验规则
-			this.$refs[formName].validate(async (valid) => {
+			await this.$refs[formName].validate(async (valid) => {
 				if (valid) {
 					if (await this.validABI(this.form.abi)) {
 						if (!this.isUpdate) {
@@ -582,6 +699,7 @@ export default {
 								}
 							}
 						}
+						this.pageData = JSON.parse(JSON.stringify(this.form))
 						// 保存localData到localStorage
 						await this.storage.set('localData', this.localData)
 						// 清空表单
@@ -591,7 +709,12 @@ export default {
 						this.isUpdate = false
 						this.parameter = null
 						//关闭弹出窗
-						this.dialogFormVisible = false
+						await this.closureInputBox()
+						//打开页面
+						await this.openItem(
+							this.pageData,
+							this.pageData.network
+						)
 					}
 				} else {
 					return false
@@ -954,6 +1077,23 @@ export default {
 		clearOutput() {
 			this.abiCardData = []
 		},
+
+		//调用复制的方法
+		copy(text, output) {
+			const clipboard = new Clipboard('.shop', {
+				text: () => {
+					return text
+				},
+			})
+			clipboard.on('success', () => {
+				this.$message.success(output)
+				clipboard.destroy()
+			})
+			clipboard.on('error', () => {
+				this.$message.error('复制失败')
+				clipboard.destroy()
+			})
+		},
 	},
 }
 </script>
@@ -1109,6 +1249,75 @@ input::-webkit-input-placeholder {
 	overflow: scroll;
 }
 
+.shop {
+	height: 40px;
+}
+
+.shop ul {
+	float: right;
+	height: 100%;
+}
+
+.shop ul li {
+	height: 40px;
+	line-height: 40px;
+	border-radius: 9px;
+	margin-left: 12px;
+	background-color: rgb(204, 204, 204);
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	max-width: 40px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.shop ul .view:hover {
+	color: #fff;
+	background-color: #409eff;
+}
+
+.shop ul .share:hover {
+	color: #fff;
+	background-color: #409eff;
+}
+
+.shop ul .paperclip:hover {
+	color: #fff;
+	background-color: #409eff;
+}
+
+.shop ul .edit:hover {
+	color: #fff;
+	background-color: #e6a23c;
+}
+
+.shop ul .delete:hover {
+	color: #fff;
+	background-color: #f56c6c;
+}
+
+.shop ul li:hover {
+	max-width: 250px;
+}
+
+.shop ul li i {
+	padding: 0 9px 0 12px;
+	margin: 0;
+}
+
+.shop ul li span {
+	font-size: 14px;
+	height: 40px;
+	width: auto;
+	padding-right: 10px;
+	display: inline-block;
+	opacity: 0;
+}
+
+.shop ul li:hover span {
+	opacity: 100;
+}
+
 .leftTitle::-webkit-scrollbar {
 	width: 0px;
 }
@@ -1194,20 +1403,26 @@ input::-webkit-input-placeholder {
 	display: inline-block;
 }
 
-.rightList .list {
-}
-
 /deep/ .contentList .el-submenu__icon-arrow {
 	color: red;
 	display: none;
 }
 
-.submenu {
+.el-main div .submenu {
 	float: right;
 	margin-left: 20px;
+	padding: 12px 10px;
+	width: auto;
+	height: 38px;
 }
 
-/deep/ .el-icon--left {
+.submenu span span {
+	display: inline-block;
+	margin-left: 15px;
+	display: none;
+}
+
+.submenu span span /deep/ .el-icon--left {
 	margin: 0px;
 }
 

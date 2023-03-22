@@ -9,42 +9,49 @@
         "chainID": "1",
         "networkName": "Ethereum Mainnet",
         "rpcUrls": "https://mainnet.infura.io/v3/",
-        "chainExplorer": "https://etherscan.io/"
+        "chainExplorer": "https://etherscan.io/",
+        "currencySymbol":"ETH"
     },
     {
         "chainID": "5",
         "networkName": "Goerli",
         "rpcUrls": "https://goerli.infura.io/v3/",
-        "chainExplorer": "https://goerli.etherscan.io/"
+        "chainExplorer": "https://goerli.etherscan.io/",
+        "currencySymbol":"GoerliETH"
     },
     {
         "chainID": "11155111",
         "networkName": "Sepolia",
         "rpcUrls": "https://sepolia.infura.io/v3/",
-        "chainExplorer": "https://sepolia.etherscan.io/"
+        "chainExplorer": "https://sepolia.etherscan.io/",
+        "currencySymbol":"SepoliaETH"
     },
     {
         "chainID": "137",
         "networkName": "Polygon Mainnet",
         "rpcUrls": "https://endpoints.omniatech.io/v1/matic/mainnet/public",
-        "chainExplorer": "https://polygonscan.com/"
+        "chainExplorer": "https://polygonscan.com/",
+        "currencySymbol":"MATIC"
     },
     {
         "chainID": "80001",
         "networkName": "Mumbai",
         "rpcUrls": "https://endpoints.omniatech.io/v1/matic/mumbai/public",
-        "chainExplorer": "https://mumbai.polygonscan.com/"
+        "chainExplorer": "https://mumbai.polygonscan.com/",
+        "currencySymbol":"Mumbai MATIC"
     },
     {
         "chainID": "56",
         "networkName": "BNB Chain",
         "rpcUrls": "https://rpc.ankr.com/bsc",
-        "chainExplorer": "https://bscscan.com/"
+        "chainExplorer": "https://bscscan.com/",
+        "currencySymbol":"BNB"
     },
     {
         "chainID": "97",
         "networkName": "BNB Testnet Chain",
         "rpcUrls": "https://endpoints.omniatech.io/v1/bsc/testnet/public",
-        "chainExplorer": "https://testnet.bscscan.com/"
+        "chainExplorer": "https://testnet.bscscan.com/",
+        "currencySymbol":"Testnet BNB"
     }
 ]
