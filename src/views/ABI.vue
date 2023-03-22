@@ -638,15 +638,41 @@ export default {
 			this.form = {}
 		},
 
+		//ChainID转换网络名称
+		 chainIDConvertNetwork(val){
+			for (let i in val){
+				for(let k in this.network){
+					if(this.network[k].chainID==val[i].network){
+						val[i].network=this.network[k].networkName
+					}
+				}
+			}
+			return val
+		},
+
+		//网络转换ChainID
+		networkConvertChainID(val){
+			for (let i in val){
+				for(let k in this.network){
+					if(this.network[k].networkName==val[i].network){
+						val[i].network=this.network[k].chainID
+					}
+				}
+			}
+			console.log(val)
+			return val
+		},
+
 		// localstorage的get方法
 		get(name) {
 			const localData = localStorage.getItem(name)
 			if (localData == '' || localData == null) return null
-			return JSON.parse(localData)
+			return this.chainIDConvertNetwork(JSON.parse(localData))
 		},
 
 		// localstorage的set方法
 		set(name, val) {
+			val=this.networkConvertChainID(val)
 			//将JSON.stringify(val)储存到name
 			localStorage.setItem(name, JSON.stringify(val))
 		},
