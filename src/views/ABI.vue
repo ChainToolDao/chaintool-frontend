@@ -659,7 +659,6 @@ export default {
 					}
 				}
 			}
-			console.log(val)
 			return val
 		},
 
