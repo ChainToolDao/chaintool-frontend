@@ -279,7 +279,7 @@ export default {
 		// 表单验证 - 项目名称
 		let validateName = (rule, value, callback) => {
 			if (value === '' || value == undefined) {
-				callback(new Error('请输入项目名称'))
+				callback(new Error('请输入合约名称'))
 			} else {
 				const localData = localStorage.getItem('localData')
 				if (localData == '' || localData == null) callback()
@@ -290,7 +290,7 @@ export default {
 							data[i].name === value &&
 							!(this.isUpdate && this.chooseContractName == value)
 						) {
-							callback(new Error('已有相同名称的项目存在！'))
+							callback(new Error('已有相同名称的合约存在！'))
 						}
 					}
 					callback()
@@ -300,8 +300,9 @@ export default {
 
 		// 表单验证 - 项目地址
 		let validateAddress = (rule, value, callback) => {
-			if (value === '' || value == undefined) {
-				callback(new Error('请输入项目地址'))
+			console.log("地址校验",)
+			if (value === '' || value == undefined || !ethers.utils.isAddress(value) ) {
+				callback(new Error('请输入正确的合约地址'))
 			} else {
 				callback()
 			}
@@ -319,7 +320,7 @@ export default {
 		// 表单验证 - 网络
 		let checkNetwork = (rule, value, callback) => {
 			if (value === '' || value == undefined) {
-				callback(new Error('请选择网络'))
+				callback(new Error('请选择区块链网络'))
 			} else {
 				callback()
 			}
