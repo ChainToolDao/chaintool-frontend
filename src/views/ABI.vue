@@ -169,7 +169,7 @@
 					</el-container>
 				</div>
 				<div class="dialog">
-					<el-dialog title="添加合约" :visible.sync="dialogFormVisible" @close='closureInputBox'>
+					<el-dialog title="合约" :visible.sync="dialogFormVisible" @close='closureInputBox'>
 						<el-dialog width="45%" title="常见ABI" :visible.sync="innerVisible" append-to-body>
 							<div class="innerFrame">
 								<div v-for="piece in presetsABI" :key="piece.standard">
@@ -185,16 +185,16 @@
 							</div>
 						</el-dialog>
 						<el-form :model="form" :rules="rules" ref="form">
-							<el-form-item label="项目名称" prop="name" :label-width="formLabelWidth">
+							<el-form-item label="合约名称" prop="name" :label-width="formLabelWidth">
 								<el-input v-model="form.name" autocomplete="off" placeholder="unique name"></el-input>
 							</el-form-item>
-							<el-form-item label="网络" prop="network" :label-width="formLabelWidth">
+							<el-form-item label="区块链网络" prop="network" :label-width="formLabelWidth">
 								<el-select v-model="form.network" placeholder="请选择要连接的网络">
 									<el-option v-for="item in network" :key="item.chainID" :label="item.networkName"
 										:value="item.networkName"></el-option>
 								</el-select>
 							</el-form-item>
-							<el-form-item label="项目地址" prop="address" :label-width="formLabelWidth">
+							<el-form-item label="合约地址" prop="address" :label-width="formLabelWidth">
 								<el-input v-model="form.address" autocomplete="off" placeholder="address"></el-input>
 							</el-form-item>
 							<el-form-item label="ABI" prop="abi" :label-width="formLabelWidth" class="el-textarea">
@@ -232,8 +232,8 @@
 							<el-button round @click="checkJSONABI">JSON ABI</el-button>
 							<el-button round @click="checkHumanReadableABI">Human-Readable ABI</el-button>
 						</div>
-						<el-input type="textarea" class="checkABI" :disabled="true" :autosize="{ minRows: 5, maxRows: 20}"
-							placeholder="请输入内容" v-model="checkABI">
+						<el-input type="textarea" class="checkABI" :disabled="true"
+							:autosize="{ minRows: 5, maxRows: 20}" placeholder="请输入内容" v-model="checkABI">
 						</el-input>
 						<span slot="footer" class="dialog-footer">
 							<el-button type="primary" @click="copy(checkABI,'复制成功','.dialog-footer')">复 制</el-button>
@@ -520,10 +520,11 @@ export default {
 		},
 
 		//分享合约
-		shareContract(Item) {
+		async shareContract(Item) {
 			let url
-			if (Item.network == 'Hardhat(localhost)') {
-				this.$message.error('当前网络暂不支持分享')
+			let abi = await this.getNameAndABI(Item.network, Item.address)
+			if (!abi) {
+				this.$message.error('当前合约暂不支持分享')
 				return
 			}
 			for (let i in this.network) {
@@ -549,30 +550,44 @@ export default {
 			this.innerVisible = false
 		},
 
+		//获取ABI
+		async getNameAndABI(network, address) {
+			//请求网络
+			let requestNetwork =
+				'https://anyabi.xyz/api/get-abi/' +
+				this.convertChainId(network) +
+				'/' +
+				address
+			let abi = []
+			try {
+				await axios.get(requestNetwork).then((res) => {
+					abi = [
+						JSON.stringify(res.data.name),
+						JSON.stringify(res.data.abi),
+					]
+				})
+				return abi
+			} catch (error) {
+				return false
+			}
+		},
+
 		//从Etherscan获取ABI
 		async getABIFromEtherscan() {
 			if (this.form.address == '' || this.form.network == '') {
 				this.$message.error('请输入项目地址和输入网络后重试')
 				return
 			}
-			//请求网络
-			let requestNetwork =
-				'https://anyabi.xyz/api/get-abi/' +
-				this.convertChainId(this.form.network) +
-				'/' +
+			let abi = await this.getNameAndABI(
+				this.form.network,
 				this.form.address
-			let that = this
-			let name
-			try {
-				await axios.get(requestNetwork).then((res) => {
-					this.hasABI = true
-					that.form.abi = JSON.stringify(res.data.abi)
-					name = res.data.name
-				})
-				return name
-			} catch (error) {
-				this.$message.error('ABI获取失败')
+			)
+			if (abi) {
+				this.hasABI = true
+				this.form.abi = abi[1]
+				return abi[0]
 			}
+			this.$message.error('ABI获取失败')
 		},
 
 		//读取localdata
@@ -651,11 +666,11 @@ export default {
 		},
 
 		//ChainID转换网络名称
-		 chainIDConvertNetwork(val){
-			for (let i in val){
-				for(let k in this.network){
-					if(this.network[k].chainID==val[i].network){
-						val[i].network=this.network[k].networkName
+		chainIDConvertNetwork(val) {
+			for (let i in val) {
+				for (let k in this.network) {
+					if (this.network[k].chainID == val[i].network) {
+						val[i].network = this.network[k].networkName
 					}
 				}
 			}
@@ -663,11 +678,11 @@ export default {
 		},
 
 		//网络转换ChainID
-		networkConvertChainID(val){
-			for (let i in val){
-				for(let k in this.network){
-					if(this.network[k].networkName==val[i].network){
-						val[i].network=this.network[k].chainID
+		networkConvertChainID(val) {
+			for (let i in val) {
+				for (let k in this.network) {
+					if (this.network[k].networkName == val[i].network) {
+						val[i].network = this.network[k].chainID
 					}
 				}
 			}
@@ -1139,8 +1154,8 @@ export default {
 		},
 
 		//调用复制的方法
-		copy(text, output, class1) {
-			const clipboard = new Clipboard(class1, {
+		async copy(text, output, className) {
+			const clipboard = new Clipboard(className, {
 				text: () => {
 					return text
 				},
@@ -1329,6 +1344,7 @@ input::-webkit-input-placeholder {
 	max-width: 40px;
 	display: inline-block;
 	vertical-align: top;
+	cursor: pointer;
 }
 
 .shop ul .view:hover {
@@ -1370,7 +1386,6 @@ input::-webkit-input-placeholder {
 	height: 40px;
 	width: auto;
 	padding-right: 10px;
-	display: inline-block;
 	opacity: 0;
 }
 
