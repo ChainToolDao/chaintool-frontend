@@ -27,11 +27,11 @@
 						</el-aside>
 						<el-container>
 							<el-main>
-								<div v-if="this.clickItem.length != 0" class="shop">
+								<div v-if="this.clickItem.length != 0" class="shop" ref="shop">
 									<ul>
 										<el-tooltip effect="dark" content="将链接复制到剪切板，通过访问该链接即可自动添加合约"
 											placement="bottom">
-											<li @click="shareContract(clickItem)" class="share">
+											<li @click="shareContract(clickItem)">
 												<i class="el-icon-share"></i>
 												<span>分享</span>
 											</li>
@@ -519,6 +519,7 @@ export default {
 						'/' +
 						Item.address
 					this.copy(url, '复制分享链接成功', '.shop')
+					this.$refs.shop.click()
 				}
 			}
 		},
