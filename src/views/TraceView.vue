@@ -281,15 +281,14 @@ export default {
 <style scoped>
 	.traceView {
         width: 100%;
-        height: 100%;
+        height: auto;
     }
 
 	.scroll {
 		width: 100%;
-		height: calc(100vh - 70px);
+		height: auto;
 		display: flex;
 		justify-content: center;
-		overflow: auto;
 	}
 
     .container {
