@@ -29,26 +29,38 @@
 							<el-main>
 								<div v-if="this.clickItem.length != 0" class="shop">
 									<ul>
-										<li @click="shareContract(clickItem)" class="share">
-											<i class="el-icon-share"></i>
-											<span>分享</span>
-										</li>
-										<li @click="checkJSONABI" class="view">
-											<i class="el-icon-view"></i>
-											<span>查看ABI</span>
-										</li>
-										<li @click="checkEtherscan" class="paperclip">
-											<i class="el-icon-paperclip"></i>
-											<span>查看Etherscan</span>
-										</li>
-										<li @click="updateContract" class="edit">
-											<i class="el-icon-edit"></i>
-											<span>编辑</span>
-										</li>
-										<li @click="deleteContract" class="delete">
-											<i class="el-icon-delete"></i>
-											<span>删除</span>
-										</li>
+										<el-tooltip effect="dark" content="将链接复制到剪切板，通过访问该链接即可自动添加合约"
+											placement="bottom">
+											<li @click="shareContract(clickItem)" class="share">
+												<i class="el-icon-share"></i>
+												<span>分享</span>
+											</li>
+										</el-tooltip>
+										<el-tooltip effect="dark" content="点击可查看ABI，还可以复制ABI" placement="bottom">
+											<li @click="checkJSONABI" class="view">
+												<i class="el-icon-view"></i>
+												<span>查看ABI</span>
+											</li>
+										</el-tooltip>
+										<el-tooltip effect="dark" content="点击可跳转到对应区块链浏览器" placement="bottom">
+											<li @click="checkEtherscan" class="paperclip">
+												<img src="../assets/imgs/etherscanLogo.svg" alt=""
+													class="etherscanLogo">
+												<span>查看Etherscan</span>
+											</li>
+										</el-tooltip>
+										<el-tooltip effect="dark" content="可修改合约的名称、网络、地址、ABI" placement="bottom">
+											<li @click="updateContract" class="edit">
+												<i class="el-icon-edit"></i>
+												<span>编辑</span>
+											</li>
+										</el-tooltip>
+										<el-tooltip effect="dark" content="点击可删除合约" placement="bottom">
+											<li @click="deleteContract" class="delete">
+												<i class="el-icon-delete"></i>
+												<span>删除</span>
+											</li>
+										</el-tooltip>
 									</ul>
 								</div>
 								<el-table :data="tableData">
@@ -671,7 +683,7 @@ export default {
 
 		// localstorage的set方法
 		set(name, val) {
-			val=this.networkConvertChainID(val)
+			val = this.networkConvertChainID(val)
 			//将JSON.stringify(val)储存到name
 			localStorage.setItem(name, JSON.stringify(val))
 		},
@@ -1311,7 +1323,7 @@ input::-webkit-input-placeholder {
 	line-height: 40px;
 	border-radius: 9px;
 	margin-left: 12px;
-	background-color: rgb(204, 204, 204);
+	background-color: rgb(180, 180, 180);
 	transition: all 0.5s;
 	-webkit-transition: all 0.5s;
 	max-width: 40px;
@@ -1364,6 +1376,14 @@ input::-webkit-input-placeholder {
 
 .shop ul li:hover span {
 	opacity: 100;
+}
+
+.etherscanLogo {
+	width: 16px;
+	height: 16px;
+	padding: 0 9px 0 12px;
+	margin: 0 0 -2px 0;
+	filter: invert(100%);
 }
 
 .leftTitle::-webkit-scrollbar {
