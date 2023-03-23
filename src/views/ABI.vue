@@ -198,29 +198,27 @@
 								<el-input v-model="form.address" autocomplete="off" placeholder="address"></el-input>
 							</el-form-item>
 							<el-form-item label="ABI" prop="abi" :label-width="formLabelWidth" class="el-textarea">
-								<textarea autocomplete="off" v-model="form.abi" rows="5" v-if="hasABI"
+								<textarea autocomplete="off" v-model="form.abi" rows="5"
 									placeholder='[{"anonymous": false,"inputs": [],"name": "Approval","type": "event"}]'
-									class="el-textarea__inner" @input="determineAbiIsEmpty"></textarea>
-								<div class="popUpBox" v-if="!hasABI">
-									<ul>
-										<li class="upload-demo" @click="innerVisible = true"><i
-												class="el-icon-folder-opened  el-icon"></i><span>选择常见ABI</span>
-										</li>
-										<li class="">
-											<el-upload class="upload-demo"
-												action="https://jsonplaceholder.typicode.com/posts/" accept=".ABI,.txt"
-												:on-success="readFile"> <i
-													class="el-icon-upload2 el-icon"></i><span><a>上传ABI文件</a></span>
-											</el-upload>
-										</li>
-										<li class="upload-demo" @click="hasABI = true"><i
-												class="el-icon-copy-document  el-icon"></i><span>粘贴ABI文件</span></li>
-										<li class="upload-demo" @click="getABIFromEtherscan"><i
-												class="el-icon-connection  el-icon"></i><span>Etherscan获取</span>
-										</li>
-									</ul>
-								</div>
+									class="el-textarea__inner"></textarea>
 							</el-form-item>
+							<div class="popUpBox">
+								<ul>
+									<li class="upload-demo" @click="innerVisible = true">
+										<el-button>选择常见ABI</el-button>
+									</li>
+									<li class="">
+										<el-upload class="upload-demo"
+											action="https://jsonplaceholder.typicode.com/posts/" accept=".ABI,.txt"
+											:on-success="readFile">
+											<el-button>上传ABI文件</el-button>
+										</el-upload>
+									</li>
+									<li class="upload-demo" @click="getABIFromEtherscan">
+										<el-button>Etherscan获取</el-button>
+									</li>
+								</ul>
+							</div>
 						</el-form>
 						<div slot="footer" class="dialog-footer">
 							<el-button @click="cancelDialog">取 消</el-button>
@@ -280,7 +278,7 @@ export default {
 	data() {
 		// 表单验证 - 项目名称
 		let validateName = (rule, value, callback) => {
-			if (value === '') {
+			if (value === '' || value == undefined) {
 				callback(new Error('请输入项目名称'))
 			} else {
 				const localData = localStorage.getItem('localData')
@@ -302,7 +300,7 @@ export default {
 
 		// 表单验证 - 项目地址
 		let validateAddress = (rule, value, callback) => {
-			if (value === '') {
+			if (value === '' || value == undefined) {
 				callback(new Error('请输入项目地址'))
 			} else {
 				callback()
@@ -311,7 +309,7 @@ export default {
 
 		// 表单验证 - ABI
 		let checkAbi = (rule, value, callback) => {
-			if (value === '') {
+			if (value === '' || value == undefined) {
 				callback(new Error('请输入 ABI'))
 			} else {
 				callback()
@@ -320,7 +318,7 @@ export default {
 
 		// 表单验证 - 网络
 		let checkNetwork = (rule, value, callback) => {
-			if (value === '') {
+			if (value === '' || value == undefined) {
 				callback(new Error('请选择网络'))
 			} else {
 				callback()
@@ -371,8 +369,6 @@ export default {
 			signer: {},
 			// 链号
 			chainId: 0,
-			// 有ABI
-			hasABI: false,
 			// 是更新
 			isUpdate: false,
 			// 选择合约名称
@@ -436,7 +432,6 @@ export default {
 					)
 				) {
 					this.openItem(localData[i], localData[i].network)
-					this.hasABI = false
 					// 清空表单
 					this.form = {
 						name: '',
@@ -460,20 +455,10 @@ export default {
 	},
 
 	methods: {
-		//判断abi值是否为空
-		determineAbiIsEmpty() {
-			setTimeout(() => {
-				if (this.form.abi == '') {
-					this.hasABI = false
-				}
-			}, 300)
-		},
-
 		//创建合约
 		async createABI(name) {
 			this.dialogFormVisible = true
 			await this.addContract()
-			this.hasABI = true
 			await this.onSubmit('form')
 		},
 
@@ -490,7 +475,6 @@ export default {
 
 		//读取文件
 		readFile(response, file, fileList) {
-			this.hasABI = true
 			let reader = new FileReader()
 			reader.readAsText(file.raw, 'UTF-8') //读取，转换字符编码
 			let that = this
@@ -546,7 +530,6 @@ export default {
 					this.form.abi = JSON.stringify(res.data)
 				})
 			} catch (err) {}
-			this.hasABI = true
 			this.innerVisible = false
 		},
 
@@ -583,7 +566,6 @@ export default {
 				this.form.address
 			)
 			if (abi) {
-				this.hasABI = true
 				this.form.abi = abi[1]
 				return abi[0]
 			}
@@ -643,8 +625,6 @@ export default {
 			await this.readLocaldata()
 			// 读取localdata
 			this.localData = await this.storage.get('localData')
-			//修改是否存在ABI的状态
-			this.hasABI = false
 			this.tableData = Array(1).fill(this.item)
 			// 清空卡片数据
 			this.abiCardData = []
@@ -659,8 +639,8 @@ export default {
 
 		// 关闭输入框
 		closureInputBox() {
+			this.$refs['form'].resetFields()
 			this.dialogFormVisible = false
-			this.hasABI = false
 			// 清空表单
 			this.form = {}
 		},
@@ -733,19 +713,21 @@ export default {
 
 		// 添加合约 事件 提交表单
 		async onSubmit(formName) {
-			if (this.form.abi[1].indexOf('{') == -1) {
-				const iface = new ethers.utils.Interface(eval(this.form.abi))
-				const FormatTypes = ethers.utils.FormatTypes
-				this.form.abi = iface.format(FormatTypes.json)
-			}
 			if (this.localData == null) {
 				// 清空localData
 				this.localData = []
 			}
 			// 校验规则
-			await this.$refs[formName].validate(async (valid) => {
+			this.$refs[formName].validate(async (valid) => {
 				if (valid) {
 					if (await this.validABI(this.form.abi)) {
+						if (this.form.abi[1].indexOf('{') == -1) {
+							const iface = new ethers.utils.Interface(
+								eval(this.form.abi)
+							)
+							const FormatTypes = ethers.utils.FormatTypes
+							this.form.abi = iface.format(FormatTypes.json)
+						}
 						if (!this.isUpdate) {
 							this.localData.push(this.form)
 						} else {
@@ -1422,15 +1404,20 @@ input::-webkit-input-placeholder {
 	margin-top: -16px;
 }
 
+.popUpBox ul {
+	margin-left: 100px;
+}
+
 .popUpBox ul li {
 	display: inline-block;
 	width: 115px;
-	height: 100px;
-	margin-right: 10px;
-	border: #dcdfe6 solid 1px;
-	border-radius: 10%;
+	margin-right: 19px;
 	max-width: 220px;
 	min-width: 100px;
+}
+
+/deep/ .popUpBox ul li .upload-demo .el-upload-list {
+	display: none;
 }
 
 /deep/ .el-dialog {
