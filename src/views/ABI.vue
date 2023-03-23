@@ -220,7 +220,7 @@
 							<el-button round @click="checkJSONABI">JSON ABI</el-button>
 							<el-button round @click="checkHumanReadableABI">Human-Readable ABI</el-button>
 						</div>
-						<el-input type="textarea" :disabled="true" :autosize="{ minRows: 5, maxRows: 20}"
+						<el-input type="textarea" class="checkABI" :disabled="true" :autosize="{ minRows: 5, maxRows: 20}"
 							placeholder="请输入内容" v-model="checkABI">
 						</el-input>
 						<span slot="footer" class="dialog-footer">
@@ -838,7 +838,12 @@ export default {
 			//清空 parameter
 			this.parameter = null
 			this.chooseContractName = this.clickItem.name
-			this.form = this.clickItem
+			this.form = {
+				name: this.clickItem.name,
+				address: this.clickItem.address,
+				abi: this.clickItem.abi,
+				network: this.clickItem.network,
+			}
 			//打开编辑窗口
 			this.dialogFormVisible = true
 		},
@@ -1477,6 +1482,10 @@ input::-webkit-input-placeholder {
 
 .sol-body-right {
 	width: 100%;
+}
+
+/deep/ .el-dialog__body .checkABI textarea {
+	color: black;
 }
 
 .contentRight {
