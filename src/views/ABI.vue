@@ -435,7 +435,7 @@ export default {
 						1,
 						this.form.name.length - 1
 					)
-					this.form.name += '-' + this.$route.params.currencySymbol
+					this.form.name += '-' + this.network[i].currencySymbol
 				}
 			}
 			//获取浏览器保存的数据，用于下面的判断
