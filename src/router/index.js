@@ -36,6 +36,11 @@ export default new Router({
             component: Unitconvert
         },
         {
+            path: '/unitConvert/:weiValue',
+            name: 'Unitconvert',
+            component: Unitconvert
+        },
+        {
             path: '/abi/:currencySymbol/:address',
             name: 'Abi',
             component: Abi
