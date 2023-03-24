@@ -54,11 +54,8 @@ export default {
     methods: {
         // 跳转链接-单位转换
         jumpLink(data) {
-            let routeUrl = this.$router.resolve({
-                name: "Unitconvert",
-                query: { param: data }
-            });
-            window.open(routeUrl.href, '_blank');
+            let routeUrl="/unitConvert/"+data
+            window.open(routeUrl, '_blank');
         },
 
         //对表格大于10000的int和uint类型进行处理

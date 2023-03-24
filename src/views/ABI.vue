@@ -27,15 +27,41 @@
 						</el-aside>
 						<el-container>
 							<el-main>
-								<div v-if="this.clickItem.length != 0">
-									<el-button class="submenu" type="danger" @click="deleteContract"><i
-											class="el-icon-delete el-icon--left"></i><span>删除当前合约</span></el-button>
-									<el-button class="submenu" type="warning" @click="updateContract"><i
-											class="el-icon-edit el-icon--left"></i><span> 编辑当前合约</span></el-button>
-									<el-button class="submenu" type="info" @click="checkEtherscan"><i
-											class="el-icon-paperclip el-icon--left"></i><span>查看Etherscan</span></el-button>
-									<el-button class="submenu" type="info" @click="ABIVisible = true"><i
-											class="el-icon-edit el-icon-view"></i><span> 查看ABI</span></el-button>
+								<div v-if="this.clickItem.length != 0" class="shop" ref="shop">
+									<ul>
+										<el-tooltip effect="dark" content="将链接复制到剪切板，通过访问该链接即可自动添加合约"
+											placement="bottom">
+											<li @click="shareContract(clickItem)">
+												<i class="el-icon-share"></i>
+												<span>分享</span>
+											</li>
+										</el-tooltip>
+										<el-tooltip effect="dark" content="点击可查看ABI，还可以复制ABI" placement="bottom">
+											<li @click="checkJSONABI" class="view">
+												<i class="el-icon-view"></i>
+												<span>查看ABI</span>
+											</li>
+										</el-tooltip>
+										<el-tooltip effect="dark" content="点击可跳转到对应区块链浏览器" placement="bottom">
+											<li @click="checkEtherscan" class="paperclip">
+												<img src="../assets/imgs/etherscanLogo.svg" alt=""
+													class="etherscanLogo">
+												<span>查看Etherscan</span>
+											</li>
+										</el-tooltip>
+										<el-tooltip effect="dark" content="可修改合约的名称、网络、地址、ABI" placement="bottom">
+											<li @click="updateContract" class="edit">
+												<i class="el-icon-edit"></i>
+												<span>编辑</span>
+											</li>
+										</el-tooltip>
+										<el-tooltip effect="dark" content="点击可删除合约" placement="bottom">
+											<li @click="deleteContract" class="delete">
+												<i class="el-icon-delete"></i>
+												<span>删除</span>
+											</li>
+										</el-tooltip>
+									</ul>
 								</div>
 								<el-table :data="tableData">
 									<el-table-column prop="ItemName" label="合约名称"> </el-table-column>
@@ -143,7 +169,7 @@
 					</el-container>
 				</div>
 				<div class="dialog">
-					<el-dialog title="添加合约" :visible.sync="dialogFormVisible" @close='closureInputBox'>
+					<el-dialog title="合约" :visible.sync="dialogFormVisible" @close='closureInputBox'>
 						<el-dialog width="45%" title="常见ABI" :visible.sync="innerVisible" append-to-body>
 							<div class="innerFrame">
 								<div v-for="piece in presetsABI" :key="piece.standard">
@@ -159,42 +185,40 @@
 							</div>
 						</el-dialog>
 						<el-form :model="form" :rules="rules" ref="form">
-							<el-form-item label="项目名称" prop="name" :label-width="formLabelWidth">
+							<el-form-item label="合约名称" prop="name" :label-width="formLabelWidth">
 								<el-input v-model="form.name" autocomplete="off" placeholder="unique name"></el-input>
 							</el-form-item>
-							<el-form-item label="网络" prop="network" :label-width="formLabelWidth">
+							<el-form-item label="区块链网络" prop="network" :label-width="formLabelWidth">
 								<el-select v-model="form.network" placeholder="请选择要连接的网络">
 									<el-option v-for="item in network" :key="item.chainID" :label="item.networkName"
 										:value="item.networkName"></el-option>
 								</el-select>
 							</el-form-item>
-							<el-form-item label="项目地址" prop="address" :label-width="formLabelWidth">
+							<el-form-item label="合约地址" prop="address" :label-width="formLabelWidth">
 								<el-input v-model="form.address" autocomplete="off" placeholder="address"></el-input>
 							</el-form-item>
 							<el-form-item label="ABI" prop="abi" :label-width="formLabelWidth" class="el-textarea">
-								<textarea autocomplete="off" v-model="form.abi" rows="5" v-if="hasABI"
+								<textarea autocomplete="off" v-model="form.abi" rows="5"
 									placeholder='[{"anonymous": false,"inputs": [],"name": "Approval","type": "event"}]'
-									class="el-textarea__inner" @input="determineAbiIsEmpty"></textarea>
-								<div class="popUpBox" v-if="!hasABI">
-									<ul>
-										<li class="upload-demo" @click="innerVisible = true"><i
-												class="el-icon-folder-opened  el-icon"></i><span>选择常见ABI</span>
-										</li>
-										<li class="">
-											<el-upload class="upload-demo"
-												action="https://jsonplaceholder.typicode.com/posts/" accept=".ABI,.txt"
-												:on-success="readFile"> <i
-													class="el-icon-upload2 el-icon"></i><span><a>上传ABI文件</a></span>
-											</el-upload>
-										</li>
-										<li class="upload-demo" @click="hasABI = true"><i
-												class="el-icon-copy-document  el-icon"></i><span>粘贴ABI文件</span></li>
-										<li class="upload-demo" @click="getABIFromEtherscan"><i
-												class="el-icon-connection  el-icon"></i><span>Etherscan获取</span>
-										</li>
-									</ul>
-								</div>
+									class="el-textarea__inner"></textarea>
 							</el-form-item>
+							<div class="popUpBox">
+								<ul>
+									<li class="upload-demo" @click="innerVisible = true">
+										<el-button>选择常见ABI</el-button>
+									</li>
+									<li class="">
+										<el-upload class="upload-demo"
+											action="https://jsonplaceholder.typicode.com/posts/" accept=".ABI,.txt"
+											:on-success="readFile">
+											<el-button>上传ABI文件</el-button>
+										</el-upload>
+									</li>
+									<li class="upload-demo" @click="getABIFromEtherscan">
+										<el-button>Etherscan获取</el-button>
+									</li>
+								</ul>
+							</div>
 						</el-form>
 						<div slot="footer" class="dialog-footer">
 							<el-button @click="cancelDialog">取 消</el-button>
@@ -203,14 +227,14 @@
 					</el-dialog>
 					<el-dialog title="查看ABI" :visible.sync="ABIVisible" width="30%" center>
 						<div class="visible">
-							<!-- <el-button round @click="checkJSONABI">JSON ABI</el-button>
-                            <el-button round @click="checkHumanReadableABI">Human-Readable ABI</el-button> -->
+							<el-button round @click="checkJSONABI">JSON ABI</el-button>
+							<el-button round @click="checkHumanReadableABI">Human-Readable ABI</el-button>
 						</div>
-						<el-input type="textarea" :disabled="true" :autosize="{ minRows: 5, maxRows: 20}"
-							placeholder="请输入内容" v-model="clickItem.abi">
+						<el-input type="textarea" class="checkABI" :disabled="true"
+							:autosize="{ minRows: 5, maxRows: 20}" placeholder="请输入内容" v-model="checkABI">
 						</el-input>
 						<span slot="footer" class="dialog-footer">
-							<!-- <el-button type="primary" @click="ABIVisible = false">复 制</el-button> -->
+							<el-button type="primary" @click="copy(checkABI,'复制成功','.dialog-footer')">复 制</el-button>
 							<el-button type="danger" @click="ABIVisible = false">退 出</el-button>
 						</span>
 					</el-dialog>
@@ -226,6 +250,7 @@ import Navigation from '../components/Navigation.vue'
 import axios from 'axios'
 import presetsABI from '../presetsABI.json'
 import network from '../network.json'
+import Clipboard from 'clipboard'
 
 export default {
 	name: 'abi',
@@ -253,8 +278,8 @@ export default {
 	data() {
 		// 表单验证 - 项目名称
 		let validateName = (rule, value, callback) => {
-			if (value === '') {
-				callback(new Error('请输入项目名称'))
+			if (value === '' || value == undefined) {
+				callback(new Error('请输入合约名称'))
 			} else {
 				const localData = localStorage.getItem('localData')
 				if (localData == '' || localData == null) callback()
@@ -265,7 +290,7 @@ export default {
 							data[i].name === value &&
 							!(this.isUpdate && this.chooseContractName == value)
 						) {
-							callback(new Error('已有相同名称的项目存在！'))
+							callback(new Error('已有相同名称的合约存在！'))
 						}
 					}
 					callback()
@@ -275,8 +300,12 @@ export default {
 
 		// 表单验证 - 项目地址
 		let validateAddress = (rule, value, callback) => {
-			if (value === '') {
-				callback(new Error('请输入项目地址'))
+			if (
+				value === '' ||
+				value == undefined ||
+				!ethers.utils.isAddress(value)
+			) {
+				callback(new Error('请输入正确的合约地址'))
 			} else {
 				callback()
 			}
@@ -284,7 +313,7 @@ export default {
 
 		// 表单验证 - ABI
 		let checkAbi = (rule, value, callback) => {
-			if (value === '') {
+			if (value === '' || value == undefined) {
 				callback(new Error('请输入 ABI'))
 			} else {
 				callback()
@@ -293,8 +322,8 @@ export default {
 
 		// 表单验证 - 网络
 		let checkNetwork = (rule, value, callback) => {
-			if (value === '') {
-				callback(new Error('请选择网络'))
+			if (value === '' || value == undefined) {
+				callback(new Error('请选择区块链网络'))
 			} else {
 				callback()
 			}
@@ -344,54 +373,124 @@ export default {
 			signer: {},
 			// 链号
 			chainId: 0,
-			// 有ABI
-			hasABI: false,
-			//是更新
+			// 是更新
 			isUpdate: false,
 			// 选择合约名称
 			chooseContractName: '',
-			//参数列表
+			// 参数列表
 			parameter: null,
-			//预设ABI
+			// 预设ABI
 			presetsABI: presetsABI,
-			//网络
+			// 网络
 			network: network,
 			// 合约列表
 			contractList: '',
 			// ABI可见
 			ABIVisible: false,
-			// 查看ABI
-			checkABI: '',
 			overrides: {
 				value: '',
 			},
-			//单位
+			// 单位
 			unit: 'Wei',
+			// 保存待打开页面数据
+			pageData: null,
+			//查看ABI
+			checkABI: [],
 		}
 	},
 
-	created() {
+	async created() {
+		//初始化
 		this.init()
 	},
 
-	methods: {
-		//判断abi值是否为空
-		determineAbiIsEmpty() {
-			setTimeout(() => {
-				if (this.form.abi == '') {
-					this.hasABI = false
+	async mounted() {
+		//判断url是否携带address与currencySymbol
+		if (
+			this.$route.params.currencySymbol !== undefined &&
+			this.$route.params.address !== undefined
+		) {
+			//获取所有信息，填充表单
+			for (let i = 1; i < this.network.length; i++) {
+				if (
+					this.network[i].currencySymbol ==
+						this.$route.params.currencySymbol ||
+					this.network[i].chainID == this.$route.params.currencySymbol
+				) {
+					this.form.network = this.network[i].networkName
+					this.form.address = this.$route.params.address
+					// 获取ABI
+					this.form.name = await this.getABIFromEtherscan()
+					if (this.form.name == '' || this.form.name == undefined) {
+						this.$message.error('自动添加合约失败')
+						this.form = {
+							name: '',
+							address: '',
+							abi: '',
+							network: '',
+						}
+						return
+					}
+					this.form.name = this.form.name.substring(
+						1,
+						this.form.name.length - 1
+					)
+					this.form.name += '-' + this.network[i].currencySymbol
 				}
-			}, 300)
+			}
+			//获取浏览器保存的数据，用于下面的判断
+			let localData = await this.storage.get('localData')
+			for (let i in localData) {
+				if (
+					await this.judgeObjecEquals(
+						JSON.stringify(this.form),
+						JSON.stringify(localData[i])
+					)
+				) {
+					this.openItem(localData[i], localData[i].network)
+					// 清空表单
+					this.form = {
+						name: '',
+						address: '',
+						abi: '',
+						network: '',
+					}
+					return
+				}
+			}
+			for (let i in localData) {
+				//判断是否存在名字相同的合约
+				if (this.form.name == localData[i].name) {
+					this.createABI(this.form.name)
+					return
+				}
+			}
+			//创建合约
+			this.createABI(this.form.name)
+		}
+	},
+
+	methods: {
+		//创建合约
+		async createABI(name) {
+			this.dialogFormVisible = true
+			await this.addContract()
+			await this.onSubmit('form')
 		},
 
 		//传递参数
 		transferParameters(item, index) {
 			this.parameter = [item, index]
+			if (
+				this.parameter[0].inputs.length == 0 &&
+				item.stateMutability != 'Payable'
+			) {
+				this.submitAbiForm(this.parameter[0], this.parameter[1])
+			}
 		},
 
 		//读取文件
 		readFile(response, file, fileList) {
-			this.hasABI = true
 			let reader = new FileReader()
 			reader.readAsText(file.raw, 'UTF-8') //读取，转换字符编码
 			let that = this
@@ -402,6 +501,45 @@ export default {
 			}
 		},
 
+		//判断对象值是否相等
+		judgeObjecEquals(objectA, objectB) {
+			objectA = JSON.parse(objectA)
+			objectB = JSON.parse(objectB)
+			// 遍历对象，返回对象的属性名
+			let Array = ['abi', 'address', 'network']
+			for (let i in Array) {
+				//判断对象的每一个属性名对应的值是否相等
+				if (
+					objectA[Array[i]].replace(/\s*/g, '') !=
+					objectB[Array[i]].replace(/\s*/g, '')
+				) {
+					return false
+				}
+			}
+			return true
+		},
+
+		//分享合约
+		async shareContract(Item) {
+			let url
+			let abi = await this.getNameAndABI(Item.network, Item.address)
+			if (!abi) {
+				this.$message.error('当前合约暂不支持分享')
+				return
+			}
+			for (let i in this.network) {
+				if (this.network[i].networkName == Item.network) {
+					url =
+						'https://chaintool.tech/abi/' +
+						this.network[i].currencySymbol +
+						'/' +
+						Item.address
+					this.copy(url, '复制分享链接成功', '.shop')
+					this.$refs.shop.click()
+				}
+			}
+		},
+
 		//获取ABI
 		async getABI(name) {
 			try {
@@ -409,8 +547,29 @@ export default {
 					this.form.abi = JSON.stringify(res.data)
 				})
 			} catch (err) {}
-			this.hasABI = true
 			this.innerVisible = false
+		},
+
+		//获取ABI
+		async getNameAndABI(network, address) {
+			//请求网络
+			let requestNetwork =
+				'https://anyabi.xyz/api/get-abi/' +
+				this.convertChainId(network) +
+				'/' +
+				address
+			let abi = []
+			try {
+				await axios.get(requestNetwork).then((res) => {
+					abi = [
+						JSON.stringify(res.data.name),
+						JSON.stringify(res.data.abi),
+					]
+				})
+				return abi
+			} catch (error) {
+				return false
+			}
 		},
 
 		//从Etherscan获取ABI
@@ -419,23 +578,15 @@ export default {
 				this.$message.error('请输入项目地址和输入网络后重试')
 				return
 			}
-			//请求网络
-			let requestNetwork =
-				'https://anyabi.xyz/api/get-abi/' +
-				this.convertChainId(this.form.network) +
-				'/' +
+			let abi = await this.getNameAndABI(
+				this.form.network,
 				this.form.address
-			let that = this
-			try {
-				await axios.get(requestNetwork).then((res) => {
-					this.hasABI = true
-					that.form.abi = JSON.stringify(res.data.abi)
-				})
-			} catch (error) {
-				this.$message.error(
-					'Etherscan获取失败，请检查你输入的地址与网络后重试'
-				)
+			)
+			if (abi) {
+				this.form.abi = abi[1]
+				return abi[0]
 			}
+			this.$message.error('ABI获取失败')
 		},
 
 		//读取localdata
@@ -491,8 +642,6 @@ export default {
 			await this.readLocaldata()
 			// 读取localdata
 			this.localData = await this.storage.get('localData')
-			//修改是否存在ABI的状态
-			this.hasABI = false
 			this.tableData = Array(1).fill(this.item)
 			// 清空卡片数据
 			this.abiCardData = []
@@ -507,21 +656,46 @@ export default {
 
 		// 关闭输入框
 		closureInputBox() {
-			this.hasABI = false
+			this.$refs['form'].resetFields()
+			this.dialogFormVisible = false
 			// 清空表单
 			this.form = {}
-			this.init()
+		},
+
+		//ChainID转换网络名称
+		chainIDConvertNetwork(val) {
+			for (let i in val) {
+				for (let k in this.network) {
+					if (this.network[k].chainID == val[i].network) {
+						val[i].network = this.network[k].networkName
+					}
+				}
+			}
+			return val
+		},
+
+		//网络转换ChainID
+		networkConvertChainID(val) {
+			for (let i in val) {
+				for (let k in this.network) {
+					if (this.network[k].networkName == val[i].network) {
+						val[i].network = this.network[k].chainID
+					}
+				}
+			}
+			return val
 		},
 
 		// localstorage的get方法
 		get(name) {
 			const localData = localStorage.getItem(name)
 			if (localData == '' || localData == null) return null
-			return JSON.parse(localData)
+			return this.chainIDConvertNetwork(JSON.parse(localData))
 		},
 
 		// localstorage的set方法
 		set(name, val) {
+			val = this.networkConvertChainID(val)
 			//将JSON.stringify(val)储存到name
 			localStorage.setItem(name, JSON.stringify(val))
 		},
@@ -555,13 +729,7 @@ export default {
 		},
 
 		// 添加合约 事件 提交表单
-		onSubmit(formName) {
-			this.form.abi = this.form.abi.replace(/\s*/g, '')
-			if (this.form.abi[1] !== '{') {
-				const iface = new ethers.utils.Interface(this.form.abi)
-				const FormatTypes = ethers.utils.FormatTypes
-				this.form.abi = iface.format(FormatTypes.json)
-			}
+		async onSubmit(formName) {
 			if (this.localData == null) {
 				// 清空localData
 				this.localData = []
@@ -570,6 +738,13 @@ export default {
 			this.$refs[formName].validate(async (valid) => {
 				if (valid) {
 					if (await this.validABI(this.form.abi)) {
+						if (this.form.abi[1].indexOf('{') == -1) {
+							const iface = new ethers.utils.Interface(
+								eval(this.form.abi)
+							)
+							const FormatTypes = ethers.utils.FormatTypes
+							this.form.abi = iface.format(FormatTypes.json)
+						}
 						if (!this.isUpdate) {
 							this.localData.push(this.form)
 						} else {
@@ -582,6 +757,7 @@ export default {
 								}
 							}
 						}
+						this.pageData = JSON.parse(JSON.stringify(this.form))
 						// 保存localData到localStorage
 						await this.storage.set('localData', this.localData)
 						// 清空表单
@@ -591,7 +767,12 @@ export default {
 						this.isUpdate = false
 						this.parameter = null
 						//关闭弹出窗
-						this.dialogFormVisible = false
+						await this.closureInputBox()
+						//打开页面
+						await this.openItem(
+							this.pageData,
+							this.pageData.network
+						)
 					}
 				} else {
 					return false
@@ -683,7 +864,12 @@ export default {
 			//清空 parameter
 			this.parameter = null
 			this.chooseContractName = this.clickItem.name
-			this.form = this.clickItem
+			this.form = {
+				name: this.clickItem.name,
+				address: this.clickItem.address,
+				abi: this.clickItem.abi,
+				network: this.clickItem.network,
+			}
 			//打开编辑窗口
 			this.dialogFormVisible = true
 		},
@@ -796,12 +982,23 @@ export default {
 
 		//查看JSONABI
 		checkJSONABI() {
-			console.log('')
+			this.ABIVisible = true
+			this.checkABI = this.clickItem.abi
 		},
 
-		//查看
-		checkHumanReadable() {
-			console.log('')
+		//查看人类可读ABI
+		checkHumanReadableABI() {
+			const iface = new ethers.utils.Interface(this.clickItem.abi)
+			const FormatTypes = ethers.utils.FormatTypes
+			let checkABI = iface.format(FormatTypes.full)
+			this.checkABI = '['
+			for (let i in checkABI) {
+				if (i < checkABI.length - 1) {
+					this.checkABI += '"' + checkABI[i] + '",' + '\n\n'
+					continue
+				}
+				this.checkABI += '"' + checkABI[i] + '"]'
+			}
 		},
 
 		//函数运行
@@ -953,6 +1150,23 @@ export default {
 		//清空输出
 		clearOutput() {
 			this.abiCardData = []
+		},
+
+		//调用复制的方法
+		async copy(text, output, className) {
+			const clipboard = new Clipboard(className, {
+				text: () => {
+					return text
+				},
+			})
+			clipboard.on('success', () => {
+				this.$message.success(output)
+				clipboard.destroy()
+			})
+			clipboard.on('error', () => {
+				this.$message.error('复制失败')
+				clipboard.destroy()
+			})
 		},
 	},
 }
@@ -1109,6 +1323,83 @@ input::-webkit-input-placeholder {
 	overflow: scroll;
 }
 
+.shop {
+	height: 40px;
+}
+
+.shop ul {
+	float: right;
+	height: 100%;
+}
+
+.shop ul li {
+	height: 40px;
+	line-height: 40px;
+	border-radius: 9px;
+	margin-left: 12px;
+	background-color: rgb(180, 180, 180);
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	max-width: 40px;
+	display: inline-block;
+	vertical-align: top;
+	cursor: pointer;
+}
+
+.shop ul .view:hover {
+	color: #fff;
+	background-color: #409eff;
+}
+
+.shop ul .share:hover {
+	color: #fff;
+	background-color: #409eff;
+}
+
+.shop ul .paperclip:hover {
+	color: #fff;
+	background-color: #409eff;
+}
+
+.shop ul .edit:hover {
+	color: #fff;
+	background-color: #e6a23c;
+}
+
+.shop ul .delete:hover {
+	color: #fff;
+	background-color: #f56c6c;
+}
+
+.shop ul li:hover {
+	max-width: 250px;
+}
+
+.shop ul li i {
+	padding: 0 9px 0 12px;
+	margin: 0;
+}
+
+.shop ul li span {
+	font-size: 14px;
+	height: 40px;
+	width: auto;
+	padding-right: 10px;
+	opacity: 0;
+}
+
+.shop ul li:hover span {
+	opacity: 100;
+}
+
+.etherscanLogo {
+	width: 16px;
+	height: 16px;
+	padding: 0 9px 0 12px;
+	margin: 0 0 -2px 0;
+	filter: invert(100%);
+}
+
 .leftTitle::-webkit-scrollbar {
 	width: 0px;
 }
@@ -1130,15 +1421,20 @@ input::-webkit-input-placeholder {
 	margin-top: -16px;
 }
 
+.popUpBox ul {
+	margin-left: 100px;
+}
+
 .popUpBox ul li {
 	display: inline-block;
 	width: 115px;
-	height: 100px;
-	margin-right: 10px;
-	border: #dcdfe6 solid 1px;
-	border-radius: 10%;
+	margin-right: 19px;
 	max-width: 220px;
 	min-width: 100px;
+}
+
+/deep/ .popUpBox ul li .upload-demo .el-upload-list {
+	display: none;
 }
 
 /deep/ .el-dialog {
@@ -1194,20 +1490,26 @@ input::-webkit-input-placeholder {
 	display: inline-block;
 }
 
-.rightList .list {
-}
-
 /deep/ .contentList .el-submenu__icon-arrow {
 	color: red;
 	display: none;
 }
 
-.submenu {
+.el-main div .submenu {
 	float: right;
 	margin-left: 20px;
+	padding: 12px 10px;
+	width: auto;
+	height: 38px;
 }
 
-/deep/ .el-icon--left {
+.submenu span span {
+	display: inline-block;
+	margin-left: 15px;
+	display: none;
+}
+
+.submenu span span /deep/ .el-icon--left {
 	margin: 0px;
 }
 
@@ -1219,6 +1521,10 @@ input::-webkit-input-placeholder {
 
 .sol-body-right {
 	width: 100%;
+}
+
+/deep/ .el-dialog__body .checkABI textarea {
+	color: black;
 }
 
 .contentRight {

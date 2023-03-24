@@ -11,7 +11,7 @@ import QuerySelector from '../views/QuerySelector.vue'
 import GenerateWallet from '../views/GenerateWallet.vue'
 import ConvertTopicID from '../views/ConvertTopicID.vue'
 import HashTool from '../views/HashTool.vue'
-import  CalldataDecode from '../views/CalldataDecode.vue'
+import CalldataDecode from '../views/CalldataDecode.vue'
 
 
 Vue.use(Router)
@@ -34,6 +34,16 @@ export default new Router({
             path: '/unitConvert',
             name: 'Unitconvert',
             component: Unitconvert
+        },
+        {
+            path: '/unitConvert/:weiValue',
+            name: 'Unitconvert',
+            component: Unitconvert
+        },
+        {
+            path: '/abi/:currencySymbol/:address',
+            name: 'Abi',
+            component: Abi
         },
         {
             path: '/abi',

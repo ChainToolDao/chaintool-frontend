@@ -97,10 +97,11 @@ export default {
             ]
         }
     },
-    mounted: function () {
-        if (this.$route.query.param) {
-            this.ether_list[0].value = this.$route.query.param
-            this.convertWei(this.$route.query.param)
+    
+    mounted(){
+        if (this.$route.params.weiValue) {
+            this.ether_list[0].value = this.$route.params.weiValue
+            this.convertWei(this.$route.params.weiValue)
         }
     },
 
