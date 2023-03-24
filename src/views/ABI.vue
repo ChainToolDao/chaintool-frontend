@@ -300,8 +300,11 @@ export default {
 
 		// 表单验证 - 项目地址
 		let validateAddress = (rule, value, callback) => {
-			console.log("地址校验",)
-			if (value === '' || value == undefined || !ethers.utils.isAddress(value) ) {
+			if (
+				value === '' ||
+				value == undefined ||
+				!ethers.utils.isAddress(value)
+			) {
 				callback(new Error('请输入正确的合约地址'))
 			} else {
 				callback()
@@ -411,17 +414,29 @@ export default {
 			for (let i = 1; i < this.network.length; i++) {
 				if (
 					this.network[i].currencySymbol ==
-					this.$route.params.currencySymbol
+						this.$route.params.currencySymbol ||
+					this.network[i].chainID == this.$route.params.currencySymbol
 				) {
 					this.form.network = this.network[i].networkName
 					this.form.address = this.$route.params.address
 					// 获取ABI
 					this.form.name = await this.getABIFromEtherscan()
+					if (this.form.name == '' || this.form.name == undefined) {
+						this.$message.error('自动添加合约失败')
+						this.form = {
+							name: '',
+							address: '',
+							abi: '',
+							network: '',
+						}
+						return
+					}
+					this.form.name = this.form.name.substring(
+						1,
+						this.form.name.length - 1
+					)
+					this.form.name += '-' + this.$route.params.currencySymbol
 				}
-			}
-			if (this.form.abi == '') {
-				this.$message.error('自动添加合约失败')
-				return
 			}
 			//获取浏览器保存的数据，用于下面的判断
 			let localData = await this.storage.get('localData')
