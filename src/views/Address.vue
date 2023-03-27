@@ -88,14 +88,14 @@ export default {
   methods: {
     //地址转换
     addressTranslation() {
-      this.enterAddress = this.enterAddress.toLowerCase();
-      if (ethers.utils.isAddress(this.enterAddress)) {
-        this.outputAddress = ethers.utils.getAddress(this.enterAddress);
+      let enterAddress = this.enterAddress.toLowerCase();
+      if (ethers.utils.isAddress(enterAddress)) {
+        this.outputAddress = ethers.utils.getAddress(enterAddress);
         this.outputAddress = this.outputAddress;
         this.canCopyAddress = true;
       } else {
         this.outputAddress =
-          "您输入的地址不合法，请重新输入。输入示例：0x8ba1f109551bd432803012645ac136ddd64dba72";
+          "您输入的地址不合法，请重新输入。";
         this.canCopyAddress = false;
       }
     },
@@ -115,7 +115,7 @@ export default {
       this.load = false;
       if (!pendingENS && typeof pendingENS !== "undefined" && pendingENS != 0) {
         pendingENS =
-          "没有查询到对应的ENS，也没有查询到对应的地址 例”0x8ba1f109551bD432803012645Ac136ddd64DBA72“或“ricmoo.firefly.eth”";
+          "没有查询到对应的ENS，也没有查询到对应的地址。";
       } else {
         this.canCopyENS = true;
       }
