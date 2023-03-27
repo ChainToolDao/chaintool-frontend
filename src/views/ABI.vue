@@ -31,7 +31,7 @@
 									<ul>
 										<el-tooltip effect="dark" content="将链接复制到剪切板，通过访问该链接即可自动添加合约"
 											placement="bottom">
-											<li @click="shareContract(clickItem)">
+											<li @click="shareContract(clickItem)" class="view">
 												<i class="el-icon-share"></i>
 												<span>分享</span>
 											</li>
@@ -305,7 +305,7 @@ export default {
 				value == undefined ||
 				!ethers.utils.isAddress(value)
 			) {
-				callback(new Error('请输入正确的合约地址'))
+						callback(new Error('请输入正确的合约地址'))
 			} else {
 				callback()
 			}
@@ -628,9 +628,41 @@ export default {
 		},
 
 		//添加合约
-		addContract() {
+		async addContract() {
+			this.addCurrentNetwork()
 			this.isUpdate = false
 			this.dialogFormVisible = true
+		},
+
+		// 添加当前网络
+		async addCurrentNetwork() {
+			try {
+				//当前钱包网络
+				let network = parseInt(
+					await window.ethereum.request({
+						method: 'eth_chainId',
+					})
+				)
+				for (let i in this.network) {
+					if (this.network[i].chainID == network) {
+						return
+					}
+				}
+				this.network.push({
+					networkName: '使用当前连接网络：chainID=' + network,
+				})
+			} catch {}
+		},
+
+		//去除当前网络
+		async removeCurrentNetwork() {
+			if (
+				this.network[this.network.length - 1].networkName.indexOf(
+					'使用当前连接网络'
+				) != -1
+			) {
+				this.network.pop()
+			}
 		},
 
 		// 初始化数据
@@ -656,6 +688,7 @@ export default {
 
 		// 关闭输入框
 		closureInputBox() {
+			this.removeCurrentNetwork()
 			this.$refs['form'].resetFields()
 			this.dialogFormVisible = false
 			// 清空表单
@@ -734,10 +767,19 @@ export default {
 				// 清空localData
 				this.localData = []
 			}
+
 			// 校验规则
 			this.$refs[formName].validate(async (valid) => {
 				if (valid) {
 					if (await this.validABI(this.form.abi)) {
+						if (
+							this.form.network.indexOf('使用当前连接网络') != -1
+						) {
+							this.form.network = this.form.network.substring(
+								9,
+								this.form.network.length
+							)
+						}
 						if (this.form.abi[1].indexOf('{') == -1) {
 							const iface = new ethers.utils.Interface(
 								eval(this.form.abi)
@@ -870,6 +912,7 @@ export default {
 				abi: this.clickItem.abi,
 				network: this.clickItem.network,
 			}
+			this.addCurrentNetwork()
 			//打开编辑窗口
 			this.dialogFormVisible = true
 		},
@@ -878,6 +921,10 @@ export default {
 		checkEtherscan() {
 			if (this.clickItem.length == 0) {
 				this.$message('当前暂未选择合约')
+				return
+			}
+			if (this.clickItem.network.indexOf('chainID') != -1) {
+				this.$message('该合约Etherscan暂未被记录')
 				return
 			}
 			for (let i in this.network) {
@@ -953,6 +1000,12 @@ export default {
 			// 判断网络是否正确
 			let thisChainId = this.convertChainId(this.clickItem.network)
 			let that = this
+			if (this.clickItem.network.indexOf('chainID') != -1) {
+				thisChainId = this.clickItem.network.substring(
+					8,
+					this.clickItem.network.length
+				)
+			}
 			// 执行网络切换，并返回切换状态
 			if (thisChainId != this.chainId) {
 				await this.$confirm(
@@ -966,6 +1019,14 @@ export default {
 					}
 				)
 					.then(async () => {
+						if (this.clickItem.network.indexOf('chainID') != -1) {
+							thisChainId = this.clickItem.network.substring(
+								8,
+								this.clickItem.network.length
+							)
+							// thisChainId= parseInt(this.clickItem.network)
+						}
+						thisChainId = Number(thisChainId)
 						thisChainId = '0x' + thisChainId.toString(16)
 						that.switchNetwork(thisChainId, [abiObj, Item])
 					})
@@ -986,7 +1047,7 @@ export default {
 			this.checkABI = this.clickItem.abi
 		},
 
-		//查看人类可读ABI
+		//查看可读ABI
 		checkHumanReadableABI() {
 			const iface = new ethers.utils.Interface(this.clickItem.abi)
 			const FormatTypes = ethers.utils.FormatTypes
@@ -1102,10 +1163,13 @@ export default {
 		//切换网络
 		async switchNetwork(chainId, runParameter) {
 			try {
-				await ethereum.request({
-					method: 'wallet_switchEthereumChain',
-					params: [{ chainId: chainId }],
-				})
+				try {
+					await ethereum.request({
+						method: 'wallet_switchEthereumChain',
+						params: [{ chainId: chainId }],
+					})
+				} catch (error) {
+				}
 				//这里继续执行函数
 				this.callFunctions(runParameter[0], runParameter[1])
 			} catch (switchError) {
@@ -1261,6 +1325,10 @@ input::-webkit-input-placeholder {
 
 .clearfix:after {
 	clear: both;
+}
+
+/deep/ .el-input--suffix .el-input__inner {
+	width: 300px;
 }
 
 .box-card {
