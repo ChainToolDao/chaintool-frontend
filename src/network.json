@@ -17,14 +17,14 @@
         "networkName": "Goerli",
         "rpcUrls": "https://goerli.infura.io/v3/",
         "chainExplorer": "https://goerli.etherscan.io/",
-        "currencySymbol":"GoerliETH"
+        "currencySymbol":"Goerli"
     },
     {
         "chainID": "11155111",
         "networkName": "Sepolia",
         "rpcUrls": "https://sepolia.infura.io/v3/",
         "chainExplorer": "https://sepolia.etherscan.io/",
-        "currencySymbol":"SepoliaETH"
+        "currencySymbol":"Sepolia"
     },
     {
         "chainID": "137",
@@ -38,7 +38,7 @@
         "networkName": "Mumbai",
         "rpcUrls": "https://endpoints.omniatech.io/v1/matic/mumbai/public",
         "chainExplorer": "https://mumbai.polygonscan.com/",
-        "currencySymbol":"Mumbai MATIC"
+        "currencySymbol":"Mumbai"
     },
     {
         "chainID": "56",
