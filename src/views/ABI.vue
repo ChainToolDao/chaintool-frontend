@@ -214,8 +214,8 @@
 											<el-button>上传ABI文件</el-button>
 										</el-upload>
 									</li>
-									<li class="upload-demo" @click="getABIFromEtherscan">
-										<el-button>Etherscan获取</el-button>
+									<li class="upload-demo" >
+										<el-button @click="getABIFromEtherscan" :loading="btnChangEnable" :disabled="btnChangEnable">Etherscan获取</el-button>
 									</li>
 								</ul>
 							</div>
@@ -305,7 +305,7 @@ export default {
 				value == undefined ||
 				!ethers.utils.isAddress(value)
 			) {
-						callback(new Error('请输入正确的合约地址'))
+				callback(new Error('请输入正确的合约地址'))
 			} else {
 				callback()
 			}
@@ -396,6 +396,8 @@ export default {
 			pageData: null,
 			//查看ABI
 			checkABI: [],
+			//按钮使用
+			btnChangEnable:false
 		}
 	},
 
@@ -578,10 +580,12 @@ export default {
 				this.$message.error('请输入项目地址和输入网络后重试')
 				return
 			}
+			this.btnChangEnable=true
 			let abi = await this.getNameAndABI(
 				this.form.network,
 				this.form.address
 			)
+			this.btnChangEnable=false
 			if (abi) {
 				this.form.abi = abi[1]
 				return abi[0]
