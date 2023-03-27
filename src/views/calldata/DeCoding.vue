@@ -104,10 +104,11 @@ export default {
                 let typeArray = []
                 let nameArray = []
                 for (let i = 0; i < iface.fragments[0].inputs.length; i++) {
+                   
                     nameArray.push(iface.fragments[0].inputs[i].name)
-                    if (iface.fragments[0].inputs[0].type == "tuple") {
+                    if (iface.fragments[0].inputs[i].type == "tuple") {
                         let subTypeArray = []
-                        for (let k = 0; k < iface.fragments[0].inputs[0].components.length; k++) {
+                        for (let k = 0; k < iface.fragments[0].inputs[i].components.length; k++) {
                             subTypeArray.push(iface.fragments[0].inputs[i].components[k].type)
                         }
                         typeArray.push(subTypeArray)
