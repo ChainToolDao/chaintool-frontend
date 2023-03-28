@@ -29,7 +29,7 @@
 							<el-main>
 								<div v-if="this.clickItem.length != 0" class="shop" ref="shop">
 									<ul>
-										<el-tooltip effect="dark" content="将链接复制到剪切板，通过访问该链接即可自动添加合约"
+										<el-tooltip effect="dark" content="链接分享给好友，将自动加载合约"
 											placement="bottom">
 											<li @click="shareContract(clickItem)" class="view">
 												<i class="el-icon-share"></i>
@@ -1068,10 +1068,12 @@ export default {
 
 		//函数运行
 		async callFunctions(abiObj, Item) {
+			console.log("函数正在运行")
 			// 连接MetaMask
 			await this.connectMetaMask()
 			// 通过abi调用函数
 			if (abiObj != null) {
+					console.log("运行位置2")
 				try {
 					// 期望调用的abi函数对象
 					let ItemAbiObj = []
@@ -1081,43 +1083,54 @@ export default {
 							ItemAbiObj.push(abiObj[i])
 						}
 					}
+						console.log("运行位置3")
 					let contract = new ethers.Contract(
 						this.clickItem.address,
 						abiObj,
 						this.signer
 					)
+						console.log("运行位置4")
 					let args = []
 					for (let i = 0; i < Item.inputs.length; i++) {
 						args.push(Item.inputs[i].value)
 					}
+						console.log("运行位置5")
 					// 调用函数
 					args = await this.arrayParsing.stringArrayParsing(args)
 					let overrides = {
 						value: '',
 					}
+						console.log("运行位置6")
 					overrides.value = this.overrides.value.toString()
 					let cardContent = ''
+						console.log("运行位置7")
 					if (
 						this.overrides.value != '' &&
 						ItemAbiObj[0].stateMutability == 'payable'
 					) {
+							console.log("运行位置71")
 						if (this.unit == 'Gwei') {
 							overrides.value = (
 								overrides.value * 1000000000
 							).toString()
 						}
+							console.log("运行位置72")
 						if (this.unit == 'Ether') {
 							overrides.value = (
 								overrides.value * 1000000000000000000
 							).toString()
 						}
+							console.log("运行位置73")
 						cardContent = await contract[Item.name](
 							...args,
 							overrides
 						)
 					} else {
+						console.log("运行位置74")
 						cardContent = await contract[Item.name](...args)
+						console.log("运行位置75")
 					}
+						console.log("运行位置8")
 					// 接收返回的数据
 					let cardContentData = ''
 					// 根据不同的 stateMutability 类型处理 返回的结果
@@ -1126,6 +1139,7 @@ export default {
 					} else {
 						cardContentData = cardContent
 					}
+						console.log("运行位置9")
 					let typeFlag = ''
 					if (
 						Item.stateMutability == 'payable' ||
@@ -1135,14 +1149,17 @@ export default {
 					} else {
 						typeFlag = 'read'
 					}
+						console.log("运行位置10")
 					// eslint-disable-next-line no-underscore-dangle
 					const cardData = {
 						function: Item.name,
 						content: cardContentData,
 						typeFlag: typeFlag,
 					}
+						console.log("运行位置11")
 					this.abiCardData.unshift(cardData)
 				} catch (err) {
+					console.log("正在报错",err)
 					const cardData = {
 						function: Item.name,
 						content: JSON.parse(JSON.stringify(err)),
@@ -1151,6 +1168,7 @@ export default {
 					this.abiCardData.unshift(cardData)
 				}
 			}
+			console.log("运行位置1")
 		},
 
 		//匹配网络
