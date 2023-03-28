@@ -62,7 +62,7 @@ export default new Router({
         },
         {
             path: '/address',
-            name: 'Address',
+            name: 'AddresAndEMS',
             component: Address
         },
         {
