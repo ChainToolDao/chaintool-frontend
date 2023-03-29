@@ -215,8 +215,7 @@ export default {
       } else {
         console.log("Need install MetaMask");
       }
-      console.log("Verify Accounts!");
-      console.log(this.accounts.toString());
+      console.log("Verify Accounts!");  
     },
   },
 };
