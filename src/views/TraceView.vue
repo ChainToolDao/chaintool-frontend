@@ -217,10 +217,16 @@ export default {
 
         // -------------------树的可视化-------------------
         async traceVisualization() {
-            if (this.txid.length != 66 || this.txid.slice(0, 2) != '0x') {
-                this.$message.error('请输入正确的交易hash值')
-                return
-            }
+			if(this.txid!=null){
+				if (this.txid.length != 66 || this.txid.slice(0, 2) != '0x') {
+                	this.$message.error('请输入正确的交易hash值')
+                	return
+            	}
+			}else{
+				this.$message.error('请输入交易hash值后重试')
+				return
+			}
+           
 
             this.loading = true
 
