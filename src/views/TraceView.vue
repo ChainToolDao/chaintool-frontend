@@ -4,7 +4,7 @@
 
 		<div class="scroll">
 			<div class="container">
-				<div class="title">交易堆栈 Trace 分析工具</div>
+				<div class="title">交易堆栈 Trace 分析工具 <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BA%A4%E6%98%93%E5%A0%86%E6%A0%88-Trace-%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
 
 				<div class="tips">交易哈希</div>
 
@@ -311,6 +311,30 @@ export default {
         font-weight: 700;
         margin-bottom: 24px;
     }
+
+
+	.title span a{
+		text-decoration:none;
+		cursor:pointer;
+		position: absolute;
+		font-size: 15px;
+		margin-left:5% ;
+		margin-bottom: 0px;
+		margin-top: 10px;
+		color: #909399;
+		width: 90px;
+		display: inline-block;
+	}
+
+	.title span a:hover{
+		color: #409eff;
+	}
+
+ 	.title span img{
+		margin-bottom: -3px;
+		width: 15px;
+		display: inline-block;
+	}
 
 	.container .tips {
         font-size: 14px;
