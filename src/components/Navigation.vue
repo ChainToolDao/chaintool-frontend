@@ -53,10 +53,10 @@ export default {
 
     async mounted() {
         let that = this
-        window.ethereum.on('accountsChanged', function (accounts) {
-            that.address = that.formatAccount(accounts[0])
-        })
         try {
+            window.ethereum.on('accountsChanged', function (accounts) {
+                that.address = that.formatAccount(accounts[0])
+            })
             const provider = new ethers.providers.Web3Provider(window.ethereum)
             const owner = provider.getSigner()
             this.address = this.formatAccount(await owner.getAddress())   

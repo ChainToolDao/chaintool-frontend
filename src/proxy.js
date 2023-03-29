@@ -12,11 +12,15 @@ export default {
                 await window.ethereum.enable();
             } catch (error) {
                 callback(false)
-                Message.error("连接失败, MetaMask连接被拒绝");
+                this.$message.error(
+                    '连接失败, MetaMask连接被拒绝。'
+                )
             }
             callback(provider)
         } else {
-            Message.error("连接失败, 请先安装MetaMask");
+            this.$message.error(
+                '连接失败, 请先安装MetaMask.'
+            )
         }
     },
 }
