@@ -4,7 +4,7 @@
 
         <div class="scroll">
             <div class="container">
-                <div class="title">以太 ETH 单位转换器</div>
+                <div class="title">以太 ETH 单位转换器 <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BB%A5%E5%A4%AA-ETH-%E5%8D%95%E4%BD%8D%E8%BD%AC%E6%8D%A2%E5%99%A8"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
 
                 <div class="ether" v-for="(item, index) in ether_list" :key="'ether_list' + index">
                     <el-input :class="item.type" v-model="item.value" @input="inputValue(item.type, item.value)">
@@ -306,6 +306,29 @@ export default {
 .container .tips.title {
     font-weight: 700;
     margin: 0;
+}
+
+.title span a{
+	text-decoration:none;
+	cursor:pointer;
+	position: absolute;
+	font-size: 15px;
+	margin-left:5% ;
+	margin-bottom: 0px;
+	margin-top: 10px;
+	color: #909399;
+	width: 90px;
+	display: inline-block;
+}
+
+.title span a:hover{
+	color: #409eff;
+}
+
+ .title span img{
+	margin-bottom: -3px;
+	width: 15px;
+	display: inline-block;
 }
 
 @media (max-width: 808px) {

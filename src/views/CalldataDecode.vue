@@ -3,7 +3,7 @@
     <Navigation></Navigation>
     <div class="scroll">
       <div class="container">
-        <div class="title">交易输入数据(Calldata)编解码</div>
+        <div class="title">交易输入数据(Calldata)编解码 <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BA%A4%E6%98%93%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE(Calldata)%E7%BC%96%E8%A7%A3%E7%A0%81"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
         <div class="mainRow">
           <el-menu  :default-active="preferredPage" class="el-menu-demo" mode="horizontal"  @select="cutoverTop">
             <el-menu-item index="deCoding">解码</el-menu-item>
@@ -110,6 +110,29 @@ export default {
 .container .title {
   font-size: 18px;
   font-weight: 700;
+}
+
+.title span a{
+	text-decoration:none;
+	cursor:pointer;
+	position: absolute;
+	font-size: 15px;
+	margin-left:5% ;
+	margin-bottom: 0px;
+	margin-top: 10px;
+	color: #909399;
+	width: 90px;
+	display: inline-block;
+}
+
+.title span a:hover{
+	color: #409eff;
+}
+
+ .title span img{
+	margin-bottom: -3px;
+	width: 15px;
+	display: inline-block;
 }
 
 /deep/ .copyButton {

@@ -4,7 +4,7 @@
     <div class="scroll">
       <div class="container">
         <div class="title">批量查询钱包余额</div>
-        <div class="tips">查询网络</div>
+        <!-- <div class="tips">查询网络</div>
         <el-select v-model="select">
           <el-option
             v-for="(item, index) in chainlist"
@@ -12,7 +12,7 @@
             :value="item.value"
           >
           </el-option>
-        </el-select>
+        </el-select> -->
         <div class="tips">代币地址</div>
         <el-input v-model="tokenAdress" placeholder="默认 ETH 地址"></el-input>
         <div class="tips">钱包地址</div>
