@@ -3,7 +3,9 @@
 		<Navigation></Navigation>
 		<div class="scroll">
 			<div class="container">
-				<div class="title">ABI 可视化调用 <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/ABI%E5%8F%AF%E8%A7%86%E5%8C%96%E8%B0%83%E7%94%A8"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
+				<div class="title">ABI 可视化调用 <span><a
+							href="https://github.com/ChainToolDao/chaintool-frontend/wiki/ABI%E5%8F%AF%E8%A7%86%E5%8C%96%E8%B0%83%E7%94%A8"
+							target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
 				<div class="buttons">
 				</div>
 				<div class="contract-list">
@@ -138,7 +140,7 @@
 												</div>
 												<div class="rightButton">
 													<el-button type="danger" @click="clearOutput">清空输出</el-button>
-													<el-button type="primary" class=""
+													<el-button type="primary"
 														@click="submitAbiForm(parameter[0], parameter[1])">运行</el-button>
 												</div>
 											</div>
@@ -987,6 +989,11 @@ export default {
 
 		// ABI 函数 表单 提交事件
 		async submitAbiForm(Item, index) {
+			if (Item.stateMutability == 'Read'&&await this.matchRpcUrl(this.clickItem.network)) {
+				//调用读函数的运行方法
+				this.readFunctionRun(Item)
+				return
+			}
 			// 连接MetaMask
 			await this.connectMetaMask()
 			// Item是当前运行框 合约函数的对象 包含了函数名 函数类型 以及有多少个输入框等
@@ -1045,6 +1052,25 @@ export default {
 			}
 		},
 
+		//匹配RpcUrl
+		matchRpcUrl(network) {
+			if (network != 'Hardhat(localhost)') {
+				for (let i in this.network) {
+					if (network == this.network[i].networkName) {
+						return this.network[i].rpcUrls[1]
+					}
+				}
+			}
+			return false
+		},
+
+		//读函数运行
+		async readFunctionRun(Item) {
+			let rpcUrl = await this.matchRpcUrl(this.clickItem.network)
+			this.signer = new ethers.providers.JsonRpcProvider(rpcUrl)
+			this.callFunctions(this.clickItem.abi, Item)
+		},
+
 		//查看JSONABI
 		checkJSONABI() {
 			this.ABIVisible = true
@@ -1068,8 +1094,6 @@ export default {
 
 		//函数运行
 		async callFunctions(abiObj, Item) {
-			// 连接MetaMask
-			await this.connectMetaMask()
 			// 通过abi调用函数
 			if (abiObj != null) {
 				try {
@@ -1188,7 +1212,7 @@ export default {
 								{
 									chainId: chainID,
 									chainName: network.networkName,
-									rpcUrls: [network.rpcUrls],
+									rpcUrls: [network.rpcUrls[0]],
 								},
 							],
 						})
@@ -1562,12 +1586,12 @@ input::-webkit-input-placeholder {
 	position: relative;
 }
 
-.title span a{
-	text-decoration:none;
-	cursor:pointer;
+.title span a {
+	text-decoration: none;
+	cursor: pointer;
 	position: absolute;
 	font-size: 15px;
-	margin-left:5% ;
+	margin-left: 5%;
 	margin-bottom: 0px;
 	margin-top: 10px;
 	color: #909399;
@@ -1575,11 +1599,11 @@ input::-webkit-input-placeholder {
 	display: inline-block;
 }
 
-.title span a:hover{
+.title span a:hover {
 	color: #409eff;
 }
 
- .title span img{
+.title span img {
 	margin-bottom: -3px;
 	width: 15px;
 	display: inline-block;

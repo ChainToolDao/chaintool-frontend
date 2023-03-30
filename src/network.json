@@ -2,56 +2,79 @@
     {
         "chainID": "31337",
         "networkName": "Hardhat(localhost)",
-        "rpcUrls": "http://localhost:8545",
+        "rpcUrls": [
+            "http://localhost:8545"
+        ],
         "chainExplorer": ""
     },
     {
         "chainID": "1",
         "networkName": "Ethereum Mainnet",
-        "rpcUrls": "https://mainnet.infura.io/v3/",
+        "rpcUrls": [
+            "https://mainnet.infura.io/v3/",
+            "https://eth.llamarpc.com"
+        ],
         "chainExplorer": "https://etherscan.io/",
-        "currencySymbol":"ETH"
+        "currencySymbol": "ETH"
     },
     {
         "chainID": "5",
         "networkName": "Goerli",
-        "rpcUrls": "https://goerli.infura.io/v3/",
+        "rpcUrls": [
+            "https://goerli.infura.io/v3/",
+            "https://eth-goerli.api.onfinality.io/public"
+        ],
         "chainExplorer": "https://goerli.etherscan.io/",
-        "currencySymbol":"Goerli"
+        "currencySymbol": "Goerli"
     },
     {
         "chainID": "11155111",
         "networkName": "Sepolia",
-        "rpcUrls": "https://sepolia.infura.io/v3/",
+        "rpcUrls": [
+            "https://sepolia.infura.io/v3/",
+            "https://endpoints.omniatech.io/v1/eth/sepolia/public"
+        ],
         "chainExplorer": "https://sepolia.etherscan.io/",
-        "currencySymbol":"Sepolia"
+        "currencySymbol": "Sepolia"
     },
     {
         "chainID": "137",
         "networkName": "Polygon Mainnet",
-        "rpcUrls": "https://endpoints.omniatech.io/v1/matic/mainnet/public",
+        "rpcUrls": [
+            "https://endpoints.omniatech.io/v1/matic/mainnet/public",
+            "https://polygon.llamarpc.com"
+        ],
         "chainExplorer": "https://polygonscan.com/",
-        "currencySymbol":"MATIC"
+        "currencySymbol": "MATIC"
     },
     {
         "chainID": "80001",
         "networkName": "Mumbai",
-        "rpcUrls": "https://endpoints.omniatech.io/v1/matic/mumbai/public",
+        "rpcUrls": [
+            "https://endpoints.omniatech.io/v1/matic/mumbai/public",
+            "https://endpoints.omniatech.io/v1/matic/mumbai/public"
+        ],
         "chainExplorer": "https://mumbai.polygonscan.com/",
-        "currencySymbol":"Mumbai"
+        "currencySymbol": "Mumbai"
     },
     {
         "chainID": "56",
         "networkName": "BNB Chain",
-        "rpcUrls": "https://rpc.ankr.com/bsc",
+        "rpcUrls": [
+            "https://rpc.ankr.com/bsc",
+            "https://endpoints.omniatech.io/v1/bsc/mainnet/public"
+        ],
         "chainExplorer": "https://bscscan.com/",
-        "currencySymbol":"BNB"
+        "currencySymbol": "BNB"
     },
     {
         "chainID": "97",
         "networkName": "BNB Testnet Chain",
-        "rpcUrls": "https://endpoints.omniatech.io/v1/bsc/testnet/public",
+        "rpcUrls": [
+            "https://endpoints.omniatech.io/v1/bsc/testnet/public",
+            "https://endpoints.omniatech.io/v1/bsc/testnet/public"
+        ],
         "chainExplorer": "https://testnet.bscscan.com/",
-        "currencySymbol":"Testnet BNB"
+        "currencySymbol": "Testnet BNB"
     }
 ]
