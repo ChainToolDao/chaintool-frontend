@@ -141,7 +141,8 @@
 												<div class="rightButton">
 													<el-button type="danger" @click="clearOutput">清空输出</el-button>
 													<el-button type="primary"
-														@click="submitAbiForm(parameter[0], parameter[1])">运行</el-button>
+														@click="submitAbiForm(parameter[0], parameter[1])"
+														:loading="isRun">运行</el-button>
 												</div>
 											</div>
 										</div>
@@ -400,6 +401,8 @@ export default {
 			checkABI: [],
 			//按钮使用
 			btnChangEnable: false,
+			//是运行
+			isRun: false,
 		}
 	},
 
@@ -989,7 +992,10 @@ export default {
 
 		// ABI 函数 表单 提交事件
 		async submitAbiForm(Item, index) {
-			if (Item.stateMutability == 'Read'&&await this.matchRpcUrl(this.clickItem.network)) {
+			if (
+				Item.stateMutability == 'Read' &&
+				(await this.matchRpcUrl(this.clickItem.network))
+			) {
 				//调用读函数的运行方法
 				this.readFunctionRun(Item)
 				return
@@ -1094,6 +1100,7 @@ export default {
 
 		//函数运行
 		async callFunctions(abiObj, Item) {
+			this.isRun = true
 			// 通过abi调用函数
 			if (abiObj != null) {
 				try {
@@ -1175,6 +1182,7 @@ export default {
 					this.abiCardData.unshift(cardData)
 				}
 			}
+			this.isRun = false
 		},
 
 		//匹配网络
