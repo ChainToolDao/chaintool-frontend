@@ -307,6 +307,7 @@ export default {
 }
 
 .containe .network img {
+	filter: invert(6%);
 	width: 26px;
 	height: 26px;
 	margin-bottom: -5px;
