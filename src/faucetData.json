@@ -4,6 +4,7 @@
         "remark":"以太坊测试网",
         "chainID": "5",
         "currency": "GETH",
+        "img":"tool_list1.png",
         "faucet": [
             {
                 "url": "https://goerlifaucet.com",
@@ -40,6 +41,7 @@
         "chainID": "11155111",
         "remark":"以太坊测试网",
         "currency": "SETH",
+        "img":"tool_list1.png",
         "faucet": [
             {
                 "url": "https://sepoliafaucet.com/",
@@ -71,6 +73,7 @@
         "remark":"Polygon 测试网 ",
         "chainID": "80001",
         "currency": "tMATIC",
+        "img":"PolygonLogo.png",
         "faucet": [
             {
                 "url": "https://mumbaifaucet.com/",
@@ -83,6 +86,7 @@
         "remark":"BSC 测试网",
         "chainID": "97",
         "currency": "tBNB",
+        "img":"BscScanLogo.png",
         "faucet": [
             {
                 "url": "https://unitap.app/gas-tap",

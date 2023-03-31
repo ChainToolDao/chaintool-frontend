@@ -13,7 +13,7 @@
 			<div class="content" id="content">
 				<div class="content-list" v-for="item,index in faucetData" :key=item.chainID>
 					<div class="containe" v-if="item.chainID!=''&& item.chainID!=undefined">
-						<div class="network"><img src="../assets/imgs/tool_list1.png" alt="">{{item.network}}</div>
+						<div class="network"><img :src="require('../assets/imgs/'+item.img) " alt="">{{item.network}}</div>
 						<div class="remark">{{item.remark}}</div>
 						<table>
 							<tr>
