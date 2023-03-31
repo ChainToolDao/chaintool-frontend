@@ -1198,12 +1198,10 @@ export default {
 		//切换网络
 		async switchNetwork(chainId, runParameter) {
 			try {
-				try {
 					await ethereum.request({
 						method: 'wallet_switchEthereumChain',
 						params: [{ chainId: chainId }],
 					})
-				} catch (error) {}
 				//这里继续执行函数
 				this.callFunctions(runParameter[0], runParameter[1])
 			} catch (switchError) {
