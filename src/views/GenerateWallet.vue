@@ -3,7 +3,7 @@
     <Navigation></Navigation>
     <div class="wallet">
       <div class="container">
-        <h3>批量生成EVM钱包</h3>
+        <h3 class="title">批量生成EVM钱包<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E7%94%9F%E6%88%90EVM%E9%92%B1%E5%8C%85"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
         <div class="tips">
           <span>Tips: 钱包生成过程均在本地完成，代码完全<a href="https://github.com/ChainToolDao" target="_blank">开源</a>。任何人都无法获取到您的助记词及私钥，请放心使用。<br></span>
         </div>
@@ -298,6 +298,29 @@ export default {
 .container div div {
   display: flex;
   flex-wrap: nowrap;
+}
+
+.title span a{
+	text-decoration:none;
+	cursor:pointer;
+	position: absolute;
+	font-size: 15px;
+	margin-left:5% ;
+	margin-bottom: 0px;
+	margin-top: 10px;
+	color: #909399;
+	width: 90px;
+	display: inline-block;
+}
+
+.title span a:hover{
+	color: #409eff;
+}
+
+ .title span img{
+	margin-bottom: -3px;
+	width: 15px;
+	display: inline-block;
 }
 
 .container div div .el-input {

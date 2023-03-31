@@ -3,8 +3,8 @@
     <Navigation></Navigation>
     <div class="scroll">
       <div class="container">
-        <div class="title">批量查询钱包余额</div>
-        <div class="tips">查询网络</div>
+        <div class="title">批量查询钱包余额 <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E6%9F%A5%E8%AF%A2%E9%92%B1%E5%8C%85%E4%BD%99%E9%A2%9D"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
+        <!-- <div class="tips">查询网络</div>
         <el-select v-model="select">
           <el-option
             v-for="(item, index) in chainlist"
@@ -12,7 +12,7 @@
             :value="item.value"
           >
           </el-option>
-        </el-select>
+        </el-select> -->
         <div class="tips">代币地址</div>
         <el-input v-model="tokenAdress" placeholder="默认 ETH 地址"></el-input>
         <div class="tips">钱包地址</div>
@@ -215,8 +215,7 @@ export default {
       } else {
         console.log("Need install MetaMask");
       }
-      console.log("Verify Accounts!");
-      console.log(this.accounts.toString());
+      console.log("Verify Accounts!");  
     },
   },
 };
@@ -255,6 +254,29 @@ export default {
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 24px;
+}
+
+.title span a{
+	text-decoration:none;
+	cursor:pointer;
+	position: absolute;
+	font-size: 15px;
+	margin-left:5% ;
+	margin-bottom: 0px;
+	margin-top: 10px;
+	color: #909399;
+	width: 90px;
+	display: inline-block;
+}
+
+.title span a:hover{
+	color: #409eff;
+}
+
+ .title span img{
+	margin-bottom: -3px;
+	width: 15px;
+	display: inline-block;
 }
 
 .container .tips {

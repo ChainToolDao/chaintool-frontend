@@ -1,0 +1,371 @@
+<template>
+	<div>
+		<Navigation></Navigation>
+		<div class="main">
+			<h3 class="title">测试币水龙头</h3>
+			<div class="tips">
+				<span>水龙头（Faucet）是一个平台，为你提供测试币（或 Token ），以便在测试智能合约时使用。<br>
+					ChainTool 水龙头为大家收集了主要测试的水龙头网站，方便开发者们享用。<br>
+					如果你有我们没有列出的水龙头网站，欢迎提交 <a href="https://github.com/ChainToolDao/chaintool-frontend/issues/3"
+						target="_blank">PR</a> 或 <a href="https://github.com/ChainToolDao/chaintool-frontend/issues/3"
+						target="_blank">ISSUE</a> 帮我们改进，你的支持是我们无限的动力。<br></span>
+			</div>
+			<div class="content" id="content">
+				<div class="content-list" v-for="item,index in faucetData" :key=item.chainID>
+					<div class="containe" v-if="item.chainID!=''&& item.chainID!=undefined">
+						<div class="network"><img src="../assets/imgs/tool_list1.png" alt="">{{item.network}}</div>
+						<div class="remark">{{item.remark}}</div>
+						<table>
+							<tr>
+								<td>Chain ID</td>
+								<td>货币</td>
+							</tr>
+							<tr>
+								<td>{{item.chainID}}</td>
+								<td>{{item.currency}}</td>
+							</tr>
+						</table>
+						<div class="expand" @click="expand(item,index,false)" :class="item.chainID"><span><img
+									src="../assets/imgs/dropDown.png" alt="" :id="item.chainID"></span></div>
+					</div>
+					<div v-else class="list" id="list" :style="{'--width' : width}">
+						<el-table :data="item">
+							<el-table-column label="网址">
+								<template slot-scope="scope">
+									<span style="margin-left: 10px">{{ scope.row.url }}</span>
+								</template>
+							</el-table-column>
+							<el-table-column label="备注">
+								<template slot-scope="scope">
+									<div slot="reference" class="name-wrapper" v-if="scope.row.remark!=''">
+										<el-tag size="medium">{{ scope.row.remark }}</el-tag>
+									</div>
+								</template>
+							</el-table-column>
+							<el-table-column label="操作">
+								<template slot-scope="scope">
+									<el-button size="mini" @click="openUrl(scope.$index, scope.row)">前往领取</el-button>
+									<el-button size="mini" @click="copyUrl(scope.$index, scope.row)"
+										class="copy">复制网址</el-button>
+								</template>
+							</el-table-column>
+						</el-table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script>
+import Navigation from '../components/Navigation.vue'
+import faucetData from '../faucetData.json'
+import Clipboard from 'clipboard'
+
+export default {
+	name: 'faucet',
+	components: {
+		Navigation,
+	},
+
+	metaInfo() {
+		return {
+			title: 'Chaintool - 测试币水龙头',
+
+			meta: [
+				{
+					name: 'keyword',
+					content: '测试网水龙头测试币获取',
+				},
+			],
+		}
+	},
+
+	data() {
+		return {
+			width: '500px',
+			// 水龙头数据
+			faucetData: faucetData,
+			// 打开列表的ChaintID
+			ChainID: false,
+			// 序号
+			serialNumber: false,
+			// 屏幕宽度
+			screenWidth: null,
+			//记录打开的value值
+			listValue: {},
+			//记录上次点击的序号
+			index: '',
+		}
+	},
+
+	async mounted() {
+		this.screenWidth = document.body.clientWidth
+		window.onresize = () => {
+			return (() => {
+				this.screenWidth = document.body.clientWidth
+				if (this.ChainID != false) {
+					this.expand(this.listValue, this.index - 1, true)
+				}
+			})()
+		}
+	},
+
+	methods: {
+		//打开网址
+		openUrl(index, row) {
+			window.open(row.url, '_blank')
+		},
+
+		//复制网址
+		copyUrl(index, row) {
+			this.copy(row.url, '复制网址成功', '.copy')
+		},
+
+		//展开列表
+		async expand(value, index, isWidthChanges) {
+			if (this.ChainID) {
+				//关闭上次打开的列表
+				let box = document.getElementById(this.ChainID)
+				box.style.transform = 'rotate(0deg)'
+				//删除上次打开列表添加的数据
+				if (index > this.serialNumber) {
+					index--
+				}
+				this.faucetData.splice(this.serialNumber, 1)
+			}
+			//上次打开的内容，在执行关闭后就返回
+			if (value.chainID == this.ChainID && !isWidthChanges) {
+				this.ChainID = false
+				this.listValue = false
+				this.index = ''
+				return
+			}
+			//修改图标
+			let box = document.getElementById(value.chainID)
+			box.style.transition = '0.3s'
+			box.style.transform = 'rotate(180deg)'
+			//记录打开的列表的chainID
+			this.ChainID = value.chainID
+			//添加数组
+			await this.addList(value, index + 1)
+		},
+
+		// 添加列表
+		addList(value, index) {
+			let data = [index]
+			this.index = data[0]
+			let box = document.getElementById('content')
+			let width = box.offsetWidth
+			// 板块
+			let plate = (box.offsetWidth / 400) | 0
+			if (index % plate != 0) {
+				if (index + plate - (index % plate) > this.faucetData.length) {
+					index = this.faucetData.length
+				} else {
+					index = index + plate - (index % plate)
+				}
+			}
+			this.faucetData.splice(index, 0, value.faucet)
+			//记录添加数据的位置
+			this.serialNumber = index
+			this.width = width + 'px'
+			this.listValue = value
+		},
+
+		//调用复制的方法
+		async copy(text, output, className) {
+			const clipboard = new Clipboard(className, {
+				text: () => {
+					return text
+				},
+			})
+			clipboard.on('success', () => {
+				this.$message.success(output)
+				clipboard.destroy()
+			})
+			clipboard.on('error', () => {
+				this.$message.error('复制失败')
+				clipboard.destroy()
+			})
+		},
+	},
+}
+</script>
+
+<style scoped>
+.main {
+	width: 95%;
+	height: auto;
+	background-color: #ffffff;
+	margin: 30px auto;
+	padding: 40px;
+}
+
+.main .title {
+	text-align: center;
+}
+
+.content {
+	margin: 0 auto;
+	width: auto;
+}
+
+@media (min-width: 2310px) {
+	.content {
+		width: 2100px;
+	}
+}
+
+@media (max-width: 2309px) {
+	.content {
+		width: 1680px;
+	}
+}
+
+@media (max-width: 1867px) {
+	.content {
+		width: 1260px;
+	}
+}
+
+@media (max-width: 1425px) {
+	.content {
+		width: 840px;
+	}
+}
+
+@media (max-width: 983px) {
+	.content {
+		width: 400px;
+	}
+}
+
+.content div {
+	display: inline-block;
+}
+
+.containe {
+	width: 400px;
+	height: 197px;
+	display: inline-block;
+	margin-right: 20px;
+	margin-top: 30px;
+	border-radius: 10px;
+	padding: 23px 23px 0 23px;
+	background-color: #f2f2f2;
+	vertical-align: top;
+	position: relative;
+}
+
+.title span a {
+	text-decoration: none;
+	cursor: pointer;
+	position: absolute;
+	font-size: 15px;
+	margin-left: 5%;
+	margin-bottom: 0px;
+	margin-top: 10px;
+	color: #909399;
+	width: 90px;
+	display: inline-block;
+}
+
+.title span a:hover {
+	color: #409eff;
+}
+
+.title span img {
+	margin-bottom: -3px;
+	width: 15px;
+	display: inline-block;
+}
+
+.tips {
+	width: 100%;
+	text-align: center;
+	margin-bottom: 20px;
+	color: #a5a5a5;
+	font-size: 15px;
+}
+
+.tips span a {
+	color: #409eff;
+	text-decoration: none;
+}
+
+.tips span a:hover {
+	color: #0080ff;
+}
+
+.containe .network {
+	width: 354px;
+	height: 30px;
+	text-align: center;
+	font-size: 22px;
+	margin: 0 auto;
+}
+
+.containe .network img {
+	width: 26px;
+	height: 26px;
+	margin-bottom: -5px;
+	padding-right: 10px;
+}
+
+.containe table tr:first-child {
+	color: #797979;
+}
+
+.containe table tr td {
+	width: 170px;
+	display: inline-block;
+	text-align: center;
+	margin-top: 10px;
+}
+
+.expand {
+	margin-bottom: 5px;
+	position: absolute;
+	bottom: 9px;
+	left: 100px;
+	width: 200px;
+	height: 32px;
+	padding: 8px 0;
+	text-align: center;
+}
+
+.expand:hover {
+	background-color: rgb(218, 218, 218);
+	border-radius: 100px;
+	cursor: pointer;
+}
+
+.expand span {
+	font-size: 18px;
+	display: inline-block;
+}
+
+.expand span img {
+	width: 20px;
+	height: 20px;
+	font-size: 18px;
+	display: inline-block;
+}
+.column {
+	bottom: 50px;
+	position: absolute;
+}
+
+.list {
+	width: var(--width);
+}
+
+.remark {
+	width: 354px;
+	height: 20px;
+	text-align: center;
+	color: #909399;
+	font-size: 15px;
+}
+</style>

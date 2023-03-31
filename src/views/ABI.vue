@@ -3,7 +3,9 @@
 		<Navigation></Navigation>
 		<div class="scroll">
 			<div class="container">
-				<div class="title">ABI 可视化调用</div>
+				<div class="title">ABI 可视化调用 <span><a
+							href="https://github.com/ChainToolDao/chaintool-frontend/wiki/ABI%E5%8F%AF%E8%A7%86%E5%8C%96%E8%B0%83%E7%94%A8"
+							target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
 				<div class="buttons">
 				</div>
 				<div class="contract-list">
@@ -29,9 +31,8 @@
 							<el-main>
 								<div v-if="this.clickItem.length != 0" class="shop" ref="shop">
 									<ul>
-										<el-tooltip effect="dark" content="将链接复制到剪切板，通过访问该链接即可自动添加合约"
-											placement="bottom">
-											<li @click="shareContract(clickItem)">
+										<el-tooltip effect="dark" content="链接分享给好友，将自动加载合约" placement="bottom">
+											<li @click="shareContract(clickItem)" class="view">
 												<i class="el-icon-share"></i>
 												<span>分享</span>
 											</li>
@@ -139,8 +140,9 @@
 												</div>
 												<div class="rightButton">
 													<el-button type="danger" @click="clearOutput">清空输出</el-button>
-													<el-button type="primary" class=""
-														@click="submitAbiForm(parameter[0], parameter[1])">运行</el-button>
+													<el-button type="primary"
+														@click="submitAbiForm(parameter[0], parameter[1])"
+														:loading="isRun">运行</el-button>
 												</div>
 											</div>
 										</div>
@@ -214,8 +216,9 @@
 											<el-button>上传ABI文件</el-button>
 										</el-upload>
 									</li>
-									<li class="upload-demo" @click="getABIFromEtherscan">
-										<el-button>Etherscan获取</el-button>
+									<li class="upload-demo">
+										<el-button @click="getABIFromEtherscan" :loading="btnChangEnable"
+											:disabled="btnChangEnable">Etherscan获取</el-button>
 									</li>
 								</ul>
 							</div>
@@ -396,6 +399,10 @@ export default {
 			pageData: null,
 			//查看ABI
 			checkABI: [],
+			//按钮使用
+			btnChangEnable: false,
+			//是运行
+			isRun: false,
 		}
 	},
 
@@ -578,10 +585,12 @@ export default {
 				this.$message.error('请输入项目地址和输入网络后重试')
 				return
 			}
+			this.btnChangEnable = true
 			let abi = await this.getNameAndABI(
 				this.form.network,
 				this.form.address
 			)
+			this.btnChangEnable = false
 			if (abi) {
 				this.form.abi = abi[1]
 				return abi[0]
@@ -628,9 +637,41 @@ export default {
 		},
 
 		//添加合约
-		addContract() {
+		async addContract() {
+			this.addCurrentNetwork()
 			this.isUpdate = false
 			this.dialogFormVisible = true
+		},
+
+		// 添加当前网络
+		async addCurrentNetwork() {
+			try {
+				//当前钱包网络
+				let network = parseInt(
+					await window.ethereum.request({
+						method: 'eth_chainId',
+					})
+				)
+				for (let i in this.network) {
+					if (this.network[i].chainID == network) {
+						return
+					}
+				}
+				this.network.push({
+					networkName: '使用当前连接网络：chainID=' + network,
+				})
+			} catch {}
+		},
+
+		//去除当前网络
+		async removeCurrentNetwork() {
+			if (
+				this.network[this.network.length - 1].networkName.indexOf(
+					'使用当前连接网络'
+				) != -1
+			) {
+				this.network.pop()
+			}
 		},
 
 		// 初始化数据
@@ -656,6 +697,7 @@ export default {
 
 		// 关闭输入框
 		closureInputBox() {
+			this.removeCurrentNetwork()
 			this.$refs['form'].resetFields()
 			this.dialogFormVisible = false
 			// 清空表单
@@ -734,10 +776,19 @@ export default {
 				// 清空localData
 				this.localData = []
 			}
+
 			// 校验规则
 			this.$refs[formName].validate(async (valid) => {
 				if (valid) {
 					if (await this.validABI(this.form.abi)) {
+						if (
+							this.form.network.indexOf('使用当前连接网络') != -1
+						) {
+							this.form.network = this.form.network.substring(
+								9,
+								this.form.network.length
+							)
+						}
 						if (this.form.abi[1].indexOf('{') == -1) {
 							const iface = new ethers.utils.Interface(
 								eval(this.form.abi)
@@ -870,6 +921,7 @@ export default {
 				abi: this.clickItem.abi,
 				network: this.clickItem.network,
 			}
+			this.addCurrentNetwork()
 			//打开编辑窗口
 			this.dialogFormVisible = true
 		},
@@ -878,6 +930,10 @@ export default {
 		checkEtherscan() {
 			if (this.clickItem.length == 0) {
 				this.$message('当前暂未选择合约')
+				return
+			}
+			if (this.clickItem.network.indexOf('chainID') != -1) {
+				this.$message('该合约Etherscan暂未被记录')
 				return
 			}
 			for (let i in this.network) {
@@ -936,6 +992,14 @@ export default {
 
 		// ABI 函数 表单 提交事件
 		async submitAbiForm(Item, index) {
+			if (
+				Item.stateMutability == 'Read' &&
+				(await this.matchRpcUrl(this.clickItem.network))
+			) {
+				//调用读函数的运行方法
+				this.readFunctionRun(Item)
+				return
+			}
 			// 连接MetaMask
 			await this.connectMetaMask()
 			// Item是当前运行框 合约函数的对象 包含了函数名 函数类型 以及有多少个输入框等
@@ -953,6 +1017,12 @@ export default {
 			// 判断网络是否正确
 			let thisChainId = this.convertChainId(this.clickItem.network)
 			let that = this
+			if (this.clickItem.network.indexOf('chainID') != -1) {
+				thisChainId = this.clickItem.network.substring(
+					8,
+					this.clickItem.network.length
+				)
+			}
 			// 执行网络切换，并返回切换状态
 			if (thisChainId != this.chainId) {
 				await this.$confirm(
@@ -966,6 +1036,13 @@ export default {
 					}
 				)
 					.then(async () => {
+						if (this.clickItem.network.indexOf('chainID') != -1) {
+							thisChainId = this.clickItem.network.substring(
+								8,
+								this.clickItem.network.length
+							)
+						}
+						thisChainId = Number(thisChainId)
 						thisChainId = '0x' + thisChainId.toString(16)
 						that.switchNetwork(thisChainId, [abiObj, Item])
 					})
@@ -980,13 +1057,32 @@ export default {
 			}
 		},
 
+		//匹配RpcUrl
+		matchRpcUrl(network) {
+			if (network != 'Hardhat(localhost)') {
+				for (let i in this.network) {
+					if (network == this.network[i].networkName) {
+						return this.network[i].rpcUrls[1]
+					}
+				}
+			}
+			return false
+		},
+
+		//读函数运行
+		async readFunctionRun(Item) {
+			let rpcUrl = await this.matchRpcUrl(this.clickItem.network)
+			this.signer = new ethers.providers.JsonRpcProvider(rpcUrl)
+			this.callFunctions(this.clickItem.abi, Item)
+		},
+
 		//查看JSONABI
 		checkJSONABI() {
 			this.ABIVisible = true
 			this.checkABI = this.clickItem.abi
 		},
 
-		//查看人类可读ABI
+		//查看可读ABI
 		checkHumanReadableABI() {
 			const iface = new ethers.utils.Interface(this.clickItem.abi)
 			const FormatTypes = ethers.utils.FormatTypes
@@ -1003,8 +1099,7 @@ export default {
 
 		//函数运行
 		async callFunctions(abiObj, Item) {
-			// 连接MetaMask
-			await this.connectMetaMask()
+			this.isRun = true
 			// 通过abi调用函数
 			if (abiObj != null) {
 				try {
@@ -1086,6 +1181,7 @@ export default {
 					this.abiCardData.unshift(cardData)
 				}
 			}
+			this.isRun = false
 		},
 
 		//匹配网络
@@ -1102,10 +1198,10 @@ export default {
 		//切换网络
 		async switchNetwork(chainId, runParameter) {
 			try {
-				await ethereum.request({
-					method: 'wallet_switchEthereumChain',
-					params: [{ chainId: chainId }],
-				})
+					await ethereum.request({
+						method: 'wallet_switchEthereumChain',
+						params: [{ chainId: chainId }],
+					})
 				//这里继续执行函数
 				this.callFunctions(runParameter[0], runParameter[1])
 			} catch (switchError) {
@@ -1121,7 +1217,7 @@ export default {
 								{
 									chainId: chainID,
 									chainName: network.networkName,
-									rpcUrls: [network.rpcUrls],
+									rpcUrls: [network.rpcUrls[0]],
 								},
 							],
 						})
@@ -1261,6 +1357,10 @@ input::-webkit-input-placeholder {
 
 .clearfix:after {
 	clear: both;
+}
+
+/deep/ .el-input--suffix .el-input__inner {
+	width: 300px;
 }
 
 .box-card {
@@ -1487,6 +1587,30 @@ input::-webkit-input-placeholder {
 	margin-top: 10px;
 	color: #909399;
 	width: 90px;
+	display: inline-block;
+	position: relative;
+}
+
+.title span a {
+	text-decoration: none;
+	cursor: pointer;
+	position: absolute;
+	font-size: 15px;
+	margin-left: 5%;
+	margin-bottom: 0px;
+	margin-top: 10px;
+	color: #909399;
+	width: 90px;
+	display: inline-block;
+}
+
+.title span a:hover {
+	color: #409eff;
+}
+
+.title span img {
+	margin-bottom: -3px;
+	width: 15px;
 	display: inline-block;
 }
 

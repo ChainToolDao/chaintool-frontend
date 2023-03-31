@@ -12,6 +12,7 @@ import GenerateWallet from '../views/GenerateWallet.vue'
 import ConvertTopicID from '../views/ConvertTopicID.vue'
 import HashTool from '../views/HashTool.vue'
 import CalldataDecode from '../views/CalldataDecode.vue'
+import Faucet from '../views/Faucet.vue'
 
 
 Vue.use(Router)
@@ -62,7 +63,7 @@ export default new Router({
         },
         {
             path: '/address',
-            name: 'Address',
+            name: 'AddresAndEMS',
             component: Address
         },
         {
@@ -89,6 +90,11 @@ export default new Router({
             path: '/calldata',
             name: 'CalldataDecode',
             component: CalldataDecode
+        },
+        {
+            path: '/faucet',
+            name: 'Faucet',
+            component: Faucet
         },
         {
             path: '/*',

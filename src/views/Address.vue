@@ -3,7 +3,7 @@
     <Navigation></Navigation>
     <div class="address">
       <div class="container">
-        <h3>地址转换与ENS查询</h3>
+        <h3 class="title">地址转换与ENS查询<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2%E4%B8%8EENS%E6%9F%A5%E8%AF%A2"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
         <div>
           <h5>地址</h5>
           <div>
@@ -51,7 +51,7 @@ import Navigation from "../components/Navigation.vue";
 import Clipboard from "clipboard";
 import { ethers } from "ethers";
 export default {
-  name: "address",
+  name: "addresAndEMS",
   components: {
     Navigation,
   },
@@ -88,14 +88,14 @@ export default {
   methods: {
     //地址转换
     addressTranslation() {
-      this.enterAddress = this.enterAddress.toLowerCase();
-      if (ethers.utils.isAddress(this.enterAddress)) {
-        this.outputAddress = ethers.utils.getAddress(this.enterAddress);
+      let enterAddress = this.enterAddress.toLowerCase();
+      if (ethers.utils.isAddress(enterAddress)) {
+        this.outputAddress = ethers.utils.getAddress(enterAddress);
         this.outputAddress = this.outputAddress;
         this.canCopyAddress = true;
       } else {
         this.outputAddress =
-          "您输入的地址不合法，请重新输入。输入示例：0x8ba1f109551bd432803012645ac136ddd64dba72";
+          "您输入的地址不合法，请重新输入。";
         this.canCopyAddress = false;
       }
     },
@@ -115,7 +115,7 @@ export default {
       this.load = false;
       if (!pendingENS && typeof pendingENS !== "undefined" && pendingENS != 0) {
         pendingENS =
-          "没有查询到对应的ENS，也没有查询到对应的地址 例”0x8ba1f109551bD432803012645Ac136ddd64DBA72“或“ricmoo.firefly.eth”";
+          "没有查询到对应的ENS，也没有查询到对应的地址。";
       } else {
         this.canCopyENS = true;
       }
@@ -146,6 +146,7 @@ export default {
   width: 100%;
   height: 100%;
 }
+
 .address {
   width: 100%;
   height: calc(100vh - 70px);
@@ -153,6 +154,7 @@ export default {
   justify-content: center;
   overflow: auto;
 }
+
 .container {
   max-width: 768px;
   padding: 32px;
@@ -167,18 +169,22 @@ export default {
   border-radius: 8px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
+
 .container div {
   width: 100%;
 }
+
 .container div div {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
 }
+
 .container div div .el-input {
   width: 100%;
   margin-right: 0px
 }
+
 /deep/ .container div .el-input input {
   padding: 0 15px !important;
   -webkit-appearance: none;
@@ -217,27 +223,53 @@ export default {
   background-color: #409eff;
   border-color: #409eff;
 }
+
 .container h3 {
   font-size: 18px;
   font-weight: 700;
 }
-.container h3 {
+
+.title span a{
+	text-decoration:none;
+	cursor:pointer;
+	position: absolute;
+	font-size: 15px;
+	margin-left:5% ;
+	margin-bottom: 0px;
+	margin-top: 10px;
+	color: #909399;
+	width: 90px;
+	display: inline-block;
 }
+
+.title span a:hover{
+	color: #409eff;
+}
+
+ .title span img{
+	margin-bottom: -3px;
+	width: 15px;
+	display: inline-block;
+}
+
 .container h5 {
   margin: 10px 0;
   font-size: 14px;
   color: #000;
   font-weight: 700;
 }
+
 .container .result {
   width: 100%;
   margin-left: 10px;
 }
+
 .copyButton {
   width: 15px;
   height: 15px;
   margin-left: 10px;
 }
+
 .load {
   width: 30px;
   height: 30px;

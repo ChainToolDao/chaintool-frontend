@@ -3,7 +3,7 @@
     <Navigation></Navigation>
     <div class="TopicID">
       <div class="container">
-        <h3>查询事件主题(TopicID)</h3>
+        <h3 class="title">查询事件主题(TopicID)<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%9F%A5%E8%AF%A2%E4%BA%8B%E4%BB%B6%E4%B8%BB%E9%A2%98(TopicID)"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
         <div>
           <h5>根据事件名查询主题(TopicID)</h5>
           <div>
@@ -317,6 +317,29 @@ export default {
 .container h3 {
   font-size: 18px;
   font-weight: 700;
+}
+
+.title span a{
+	text-decoration:none;
+	cursor:pointer;
+	position: absolute;
+	font-size: 15px;
+	margin-left:5% ;
+	margin-bottom: 0px;
+	margin-top: 10px;
+	color: #909399;
+	width: 90px;
+	display: inline-block;
+}
+
+.title span a:hover{
+	color: #409eff;
+}
+
+ .title span img{
+	margin-bottom: -3px;
+	width: 15px;
+	display: inline-block;
 }
 
 .container h5 {
