@@ -127,6 +127,12 @@ export default {
                     router: '/calldata',
                     url: require('../assets/imgs/tool_list11.png'),
                 },
+                {
+                    title: '测试币水龙头',
+                    detail: '测试网水龙头测试币获取',
+                    router: '/faucet',
+                    url: require('../assets/imgs/tool_list11.png'),
+                },
             ],
         }
     },

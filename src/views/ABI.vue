@@ -1041,7 +1041,6 @@ export default {
 								8,
 								this.clickItem.network.length
 							)
-							// thisChainId= parseInt(this.clickItem.network)
 						}
 						thisChainId = Number(thisChainId)
 						thisChainId = '0x' + thisChainId.toString(16)
