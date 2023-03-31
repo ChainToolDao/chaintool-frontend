@@ -9332,6 +9332,11 @@ range-parser@^1.2.1, range-parser@~1.2.1:
   resolved "https://registry.npmjs.org/range-parser/-/range-parser-1.2.1.tgz"
   integrity sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
 
+raven-js@^3.22.3:
+  version "3.27.2"
+  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.27.2.tgz#6c33df952026cd73820aa999122b7b7737a66775"
+  integrity sha512-mFWQcXnhRFEQe5HeFroPaEghlnqy7F5E2J3Fsab189ondqUzcjwSVi7el7F36cr6PvQYXoZ1P2F5CSF2/azeMQ==
+
 raw-body@2.5.1:
   version "2.5.1"
   resolved "https://registry.npmjs.org/raw-body/-/raw-body-2.5.1.tgz"
@@ -11173,6 +11178,13 @@ vue-meta-info@^0.1.7:
     rollup-plugin-node-resolve "^3.0.0"
     vue "^2.4.2"
     vue-router "^2.7.0"
+
+vue-raven@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/vue-raven/-/vue-raven-1.0.3.tgz#cce941a9255e9694a5793c384fd8ab2e576ce764"
+  integrity sha512-GF5ZB8ouZQy7bgFzGzjMwbHLeNeCI/V+vSFba/av0vPNUH6obFZK/l9pmLCKJRD+Hyh+6OnVjAAAAGwwqHQS4A==
+  dependencies:
+    raven-js "^3.22.3"
 
 vue-router@^2.7.0:
   version "2.8.1"

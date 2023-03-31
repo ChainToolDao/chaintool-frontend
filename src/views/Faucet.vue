@@ -6,7 +6,7 @@
 			<div class="tips">
 				<span>水龙头（Faucet）是一个平台，为你提供测试币（或 Token ），以便在测试智能合约时使用。<br>
 					ChainTool 水龙头为大家收集了主要测试的水龙头网站，方便开发者们享用。<br>
-					如果你有我们没有列出的水龙头网站，欢迎提交 <a href="https://github.com/ChainToolDao/chaintool-frontend/issues/3"
+					如果你有我们没有列出的水龙头网站，欢迎提交 <a href="https://github.com/ChainToolDao/chaintool-frontend/blob/main/src/faucetData.json"
 						target="_blank">PR</a> 或 <a href="https://github.com/ChainToolDao/chaintool-frontend/issues/3"
 						target="_blank">ISSUE</a> 帮我们改进，你的支持是我们无限的动力。<br></span>
 			</div>
