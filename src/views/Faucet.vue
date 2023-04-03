@@ -83,7 +83,7 @@ export default {
 
 	data() {
 		return {
-			width: '500px',
+			width: '1300px',
 			// 水龙头数据
 			faucetData: faucetData,
 			// 打开列表的ChaintID
@@ -100,6 +100,7 @@ export default {
 	},
 
 	async mounted() {
+		this.delectList()
 		this.screenWidth = document.body.clientWidth
 		window.onresize = () => {
 			return (() => {
@@ -149,6 +150,15 @@ export default {
 			this.ChainID = value.chainID
 			//添加数组
 			await this.addList(value, index + 1)
+		},
+
+		//清理列表
+		delectList(){
+			for (let i in this.faucetData){
+				if(this.faucetData[i].length!=undefined){
+					this.faucetData.splice(i, 1)
+				}
+			}
 		},
 
 		// 添加列表
