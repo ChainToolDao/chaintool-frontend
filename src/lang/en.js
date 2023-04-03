@@ -1,4 +1,10 @@
 export default {
+    overall:{
+        usingHelp:"使用帮助"
+    },
+    navigation:{
+        connectWallet:"连接钱包"
+    },
     home: {
         title: ["开源", "工具箱", "让区块链开发更轻松"],
         describe: "开源才值得信赖，好用才提高效率，你所需的工具尽在于此。",
@@ -51,5 +57,10 @@ export default {
                 detail: '测试网水龙头测试币获取',
             },
         ],
+    },
+    uintConvert:{
+        title:"以太 ETH 单位转换器",
+        describe:"以太币的最小单位是Wei，1个ETH等于10的18次方Wei。在支付Gas费时大家习惯使用Gwei作为展示单位，日常使用的单位是ETH、Gwei 和 Wei；",
+        illustrate:["以太坊 Ethereum 和以太币 Ether 的区别：","以太坊 Ethereum 是一个允许任何人在其上创建和使用分布式应用的开放的区块链平台。","以太币 Ether 是以太坊 Ethereum 中通用的货币，它主要用于支付转账及执行智能合约所消耗的汽油(Gas)，在交易中以太币被缩写为ETH。"],
     }
 }

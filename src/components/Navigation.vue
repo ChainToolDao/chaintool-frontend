@@ -19,7 +19,7 @@
 				</div>
 				<div v-else class="connect" @click="login">
 					<div></div>
-					<div>连接钱包</div>
+					<div>{{$t("navigation.connectWallet")}}</div>
 				</div>
 				<el-select v-model="lang" @change="cutoverLang" placeholder="请选择" class="lang">
 					<el-option label="简体中文" value="zh"></el-option>

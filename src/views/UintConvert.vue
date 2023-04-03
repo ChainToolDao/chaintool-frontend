@@ -4,7 +4,7 @@
 
         <div class="scroll">
             <div class="container">
-                <div class="title">以太 ETH 单位转换器 <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BB%A5%E5%A4%AA-ETH-%E5%8D%95%E4%BD%8D%E8%BD%AC%E6%8D%A2%E5%99%A8"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
+                <div class="title">{{$t("uintConvert.title")}} <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BB%A5%E5%A4%AA-ETH-%E5%8D%95%E4%BD%8D%E8%BD%AC%E6%8D%A2%E5%99%A8"  target="_blank">{{$t("overall.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
 
                 <div class="ether" v-for="(item, index) in ether_list" :key="'ether_list' + index">
                     <el-input :class="item.type" v-model="item.value" @input="inputValue(item.type, item.value)">
@@ -13,11 +13,11 @@
                     </el-input>
                 </div>
 
-                <div class="tips">以太币的最小单位是Wei，1个ETH等于10的18次方Wei。在支付Gas费时大家习惯使用Gwei作为展示单位，日常使用的单位是ETH、Gwei 和 Wei；</div>
+                <div class="tips">{{$t("uintConvert.describe")}}</div>
                 <br />
-                <div class="tips title">以太坊 Ethereum 和以太币 Ether 的区别：</div>
-                <div class="tips">以太坊 Ethereum 是一个允许任何人在其上创建和使用分布式应用的开放的区块链平台。</div>
-                <div class="tips">以太币 Ether 是以太坊 Ethereum 中通用的货币，它主要用于支付转账及执行智能合约所消耗的汽油(Gas)，在交易中以太币被缩写为ETH；</div>
+                <div class="tips title">{{$t("uintConvert.illustrate[0]")}}</div>
+                <div class="tips">{{$t("uintConvert.illustrate[1]")}}</div>
+                <div class="tips">{{$t("uintConvert.illustrate[2]")}}</div>
             </div>
         </div>
     </div>
