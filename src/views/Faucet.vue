@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="faucet">
 		<Navigation></Navigation>
 		<div class="main">
 			<h3 class="title">测试币水龙头</h3>
@@ -204,6 +204,10 @@ export default {
 </script>
 
 <style scoped>
+.faucet{
+	width: 100%;
+	height: 94%;
+}
 .main {
 	width: 95%;
 	height: auto;

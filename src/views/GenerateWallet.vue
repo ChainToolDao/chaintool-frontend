@@ -264,7 +264,7 @@ export default {
 .generateWallet {
   min-width: 636px;
   width: 100%;
-  height: 100%;
+  height: 94%;
 }
 
 .wallet {

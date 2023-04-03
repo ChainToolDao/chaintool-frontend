@@ -241,7 +241,7 @@ export default {
 <style scoped>
 .unitconvert {
     width: 100%;
-    height: 100%;
+    height: 94%;
 }
 
 .scroll {

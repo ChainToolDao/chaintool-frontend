@@ -144,7 +144,7 @@ export default {
 <style scoped>
 .addressView {
   width: 100%;
-  height: 100%;
+  height: 94%;
 }
 
 .address {

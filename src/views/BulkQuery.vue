@@ -224,7 +224,7 @@ export default {
 <style scoped>
 .bulkQuery {
   width: 100%;
-  height: 100%;
+  height: 94%;
 }
 
 .scroll {

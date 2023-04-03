@@ -146,7 +146,7 @@ export default {
 <style scoped>
 .ABIView {
   width: 100%;
-  height: 100%;
+  height: 94%;
 }
 
 .ABI {
