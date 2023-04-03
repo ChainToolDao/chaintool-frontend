@@ -11,7 +11,7 @@
 						target="_blank">ISSUE</a> 帮我们改进，你的支持是我们无限的动力。<br></span>
 			</div>
 			<div class="content" id="content">
-				<div class="content-list" v-for="item,index in faucetData" :key=item.chainID>
+				<div class="content-list" v-for="item,index in faucetData" :key=item.chainID :id="item.network">
 					<div class="containe" v-if="item.chainID!=''&& item.chainID!=undefined">
 						<div class="network"><img :src="require('../assets/imgs/'+item.img) " alt="">{{item.network}}</div>
 						<div class="remark">{{item.remark}}</div>
@@ -110,6 +110,16 @@ export default {
 				}
 			})()
 		}
+		if(window.location.hash!=""){
+			let url= window.location.hash;
+			// %20转换为空格
+			url=url.replace(/%20/g," ").substring(1, url.length)
+			for(let i in this.faucetData){
+				if(this.faucetData[i].network==url){
+					this.expand(this.faucetData[i],i,false)
+				}
+			}
+		}
 	},
 
 	methods: {
@@ -125,6 +135,7 @@ export default {
 
 		//展开列表
 		async expand(value, index, isWidthChanges) {
+			window.location.hash=value.network
 			if (this.ChainID) {
 				//关闭上次打开的列表
 				let box = document.getElementById(this.ChainID)
@@ -140,6 +151,7 @@ export default {
 				this.ChainID = false
 				this.listValue = false
 				this.index = ''
+				window.location.hash=""
 				return
 			}
 			//修改图标
@@ -149,7 +161,7 @@ export default {
 			//记录打开的列表的chainID
 			this.ChainID = value.chainID
 			//添加数组
-			await this.addList(value, index + 1)
+			await this.addList(value,  parseInt(index) + 1)
 		},
 
 		//清理列表
