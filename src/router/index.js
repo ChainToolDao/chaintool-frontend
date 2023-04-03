@@ -38,12 +38,12 @@ export default new Router({
         },
         {
             path: '/unitConvert/:weiValue',
-            name: 'Unitconvert',
+            name: 'Unitconvert-Value',
             component: Unitconvert
         },
         {
             path: '/abi/:currencySymbol/:address',
-            name: 'Abi',
+            name: 'Abi-Value',
             component: Abi
         },
         {

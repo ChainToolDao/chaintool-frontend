@@ -4,8 +4,8 @@ import VueI18n from 'vue-i18n' // 引入国际化的插件包
 
 import locale from 'element-ui/lib/locale' 
 
-import zh from './zh.json'
-import en from  './en.json'
+import zh from './zh'
+import en from  './en'
 
 Vue.use(VueI18n) // 全局注册国际化包
  
