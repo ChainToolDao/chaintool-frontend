@@ -218,12 +218,16 @@ export default {
 <style scoped>
 .faucet{
 	width: 100%;
-	height: 94%;
+	height: auto;
+	min-height: 94%;
+	margin-bottom: 20px;
 }
+
 .main {
 	width: 95%;
 	height: auto;
 	background-color: #ffffff;
+	border-radius: 15px;
 	margin: 30px auto;
 	padding: 40px;
 }

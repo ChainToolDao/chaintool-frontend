@@ -264,12 +264,13 @@ export default {
 .generateWallet {
   min-width: 636px;
   width: 100%;
-  height: 94%;
+  height: auto;
+  min-height: 94%;
 }
 
 .wallet {
   min-width: 636px;
-  height: calc(100vh - 70px);
+  height: auto;
   display: flex;
   justify-content: center;
   overflow: auto;

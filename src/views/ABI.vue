@@ -1271,7 +1271,8 @@ export default {
 <style scoped>
 .abi {
 	width: 100%;
-	height: 94%;
+	height: auto;
+	min-height: 94%;
 }
 
 .scroll {

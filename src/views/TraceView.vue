@@ -287,7 +287,8 @@ export default {
 <style scoped>
 	.traceView {
         width: 100%;
-        height: 94%;
+		height: auto;
+        min-height: 94%;
     }
 
 	.scroll {
@@ -324,7 +325,7 @@ export default {
 		cursor:pointer;
 		position: absolute;
 		font-size: 15px;
-		margin-left:5% ;
+		margin-left:4% ;
 		margin-bottom: 0px;
 		margin-top: 10px;
 		color: #909399;

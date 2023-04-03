@@ -70,12 +70,13 @@ export default {
 <style scoped>
 .transactionData {
   width: 100%;
-  height: 94%;
+  height: auto;
+  min-height: 94%;
 }
 
 .scroll {
   width: 100%;
-  height: calc(93vh - 70px);
+  height: auto;
   display: flex;
   justify-content: center;
   overflow: auto;
@@ -107,6 +108,10 @@ export default {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
+.title{
+  position: relative;
+}
+
 .container .title {
   font-size: 18px;
   font-weight: 700;
@@ -117,7 +122,7 @@ export default {
 	cursor:pointer;
 	position: absolute;
 	font-size: 15px;
-	margin-left:5% ;
+	margin-left:25% ;
 	margin-bottom: 0px;
 	margin-top: 10px;
 	color: #909399;

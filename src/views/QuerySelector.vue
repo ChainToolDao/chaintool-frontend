@@ -146,12 +146,13 @@ export default {
 <style scoped>
 .ABIView {
   width: 100%;
-  height: 94%;
+  height: auto;
+  min-height: 94%;
 }
 
 .ABI {
   width: 100%;
-  height: calc(100vh - 70px);
+  height: auto;
   display: flex;
   justify-content: center;
   overflow: auto;
@@ -187,12 +188,16 @@ export default {
   margin-right: 0px;
 }
 
+.title{
+  position: relative;
+}
+
 .title span a{
 	text-decoration:none;
 	cursor:pointer;
 	position: absolute;
 	font-size: 15px;
-	margin-left:5% ;
+	margin-left:25% ;
 	margin-bottom: 0px;
 	margin-top: 10px;
 	color: #909399;
