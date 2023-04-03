@@ -9,6 +9,7 @@ import MetaInfo from "vue-meta-info";
 import JsonViewer from 'vue-json-viewer';
 import functionSelector from "./functionSelector";
 import arrayParsing from './ arrayParsing'
+import i18n from '@/lang'
 
 Vue.use(JsonViewer);
 Vue.use(MetaInfo);
@@ -23,5 +24,6 @@ new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   render: h => h(App),
 })
