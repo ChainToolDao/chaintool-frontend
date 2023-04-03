@@ -29,7 +29,7 @@
 									src="../assets/imgs/dropDown.png" alt="" :id="item.chainID"></span></div>
 					</div>
 					<div v-else class="list" id="list" :style="{'--width' : width}">
-						<el-table :data="item">
+						<el-table :data="item" border stripe>  
 							<el-table-column label="网址">
 								<template slot-scope="scope">
 									<span style="margin-left: 10px">{{ scope.row.url }}</span>
@@ -374,6 +374,7 @@ export default {
 
 .list {
 	width: var(--width);
+	margin-top: 15px;
 }
 
 .remark {
