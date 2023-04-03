@@ -23,7 +23,9 @@ const i18n = new VueI18n({
     zh: {
       ...zh
     }
-  }
+  },
+  // 隐藏警告
+  silentTranslationWarn: true
 })
 
 // 配置elementUI语言转换关系
