@@ -189,8 +189,14 @@ export default {
 	align-items: center;
 }
 
-/deep/ .lang div input {
-	border: 0px solid;
-	width: 100px;
+/deep/ .rightcontainer .lang div input {
+	border: 0px solid !important; 
+	width: 100px !important; 
+    background: none !important;
+    margin: 0 0 1px 0  !important;
+}
+
+/deep/ .rightcontainer .lang div span span i{
+    line-height: 0px ;
 }
 </style>
