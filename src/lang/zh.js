@@ -194,4 +194,15 @@ export default {
         querying: "正在查询",
         noRecord: "你所查找的选择器暂未被记录",
     },
+    topicID: {
+        title: "查询事件主题(TopicID)",
+        EventSignature: '根据事件名查询主题(TopicID)',
+        inputEventSignature: "输入事件签名",
+        inquire: "查询",
+        TopicID: "根据TopicID查询事件名",
+        InputTopicID: "输入主题ID",
+        signatureInputError: "输入错误，输入示例：event Transfer(address indexed from, address indexed to, uint256 amount)",
+        querying: "正在查询",
+        topicIDInputError: "暂未查询到对应的事件签名。输入示例：0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+    }
 }
