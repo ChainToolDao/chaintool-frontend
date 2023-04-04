@@ -237,5 +237,14 @@ export default {
         signatureInputError: "输入错误，输入示例：event Transfer(address indexed from, address indexed to, uint256 amount)",
         querying: "正在查询",
         topicIDInputError: "暂未查询到对应的事件签名。输入示例：0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+    },
+    hashTool: {
+        title: "Hash 工具",
+        confirm: "确认",
+        coding: "编码",
+        decoding: "解码",
+        errorHexadecimal: "你的输入不是16进制的字符，请重新输入",
+        decodingError: "解码失败，请检查你的输入后重试",
+        noInput: "你的输入为空，请重新输入"
     }
 }

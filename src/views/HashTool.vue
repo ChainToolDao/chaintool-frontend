@@ -3,9 +3,9 @@
     <Navigation></Navigation>
     <div class="Hash">
       <div class="container">
-        <h3 class="title">Hash 工具<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/Hash-%E5%B7%A5%E5%85%B7"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
+        <h3 class="title">{{$t("hashTool.title")}}<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/Hash-%E5%B7%A5%E5%85%B7"  target="_blank">{{$t("overall.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
         <div>
-          <h5>Hash 工具</h5>
+          <h5>{{$t("hashTool.title")}}</h5>
           <div>
             <el-radio-group v-model="algorithmSelection" @change="clearInputAndOutput">
               <el-radio label="Keccak-256" border size="medium" @change="clearInputAndOutput">Keccak-256</el-radio>
@@ -13,8 +13,8 @@
             </el-radio-group>
           </div>
           <div v-if="algorithmSelection == 'Base64'">
-            <el-radio v-model="isCoding" label="coding" @change="clearInputAndOutput">编码</el-radio>
-            <el-radio v-model="isCoding" label="deCoding" @change="clearInputAndOutput">解码</el-radio>
+            <el-radio v-model="isCoding" label="coding" @change="clearInputAndOutput">{{$t("hashTool.coding")}}</el-radio>
+            <el-radio v-model="isCoding" label="deCoding" @change="clearInputAndOutput">{{$t("hashTool.decoding")}}</el-radio>
           </div>
           <div>
             <select name="" v-model="encodingType" id="">
@@ -22,7 +22,7 @@
               <option value="hex"> Hex </option>
             </select>
             <el-input v-model="inputHash" placeholder="Input" type="textarea" autosize></el-input>
-            <el-button class="button" @click="getHash">确认</el-button>
+            <el-button class="button" @click="getHash">{{$t("hashTool.confirm")}}</el-button>
           </div>
         </div>
         <h5 class="bottom">
@@ -93,7 +93,7 @@ export default {
           this.outputHash = ethers.utils.keccak256(inputHash);
           this.canCopyHash = true;
         } catch (error) {
-          this.outputHash = "你的输入不是16进制的字符，请重新输入";
+          this.outputHash = this.$t("hashTool.errorHexadecimal")
           this.canCopyHash = false;
         }
       } else {
@@ -122,7 +122,7 @@ export default {
             this.outputHash = ethers.utils.base64.encode(inputHash);
             this.canCopyHash = true;
           } catch (error) {
-            this.outputHash = "你的输入不是16进制的字符，请重新输入";
+            this.outputHash = this.$t("hashTool.errorHexadecimal")
           }
         } else {
           //Text 编码
@@ -143,7 +143,7 @@ export default {
             this.outputHash = HEX;
             this.canCopyHash = true;
           } catch (error) {
-            this.outputHash = "解码失败，请检查你的输入后重试";
+            this.outputHash = this.$t("hashTool.decodingError")
           }
         } else {
           //Text解码
@@ -151,7 +151,7 @@ export default {
             this.outputHash = new Buffer(this.inputHash, "base64").toString();
             this.canCopyHash = true;
           } catch (error) {
-            this.outputHash = "解码失败，请检查你的输入后重试";
+            this.outputHash = this.$t("hashTool.decodingError")
           }
         }
       }
@@ -161,7 +161,7 @@ export default {
     // 获取Hash
     getHash() {
       if (this.inputHash == "") {
-        this.outputHash = "你的输入为空，请重新输入";
+        this.outputHash = this.$t("hashTool.noInput")
         return;
       }
       this.canCopyHash = false;
@@ -179,11 +179,11 @@ export default {
         },
       });
       clipboard.on("success", () => {
-        this.$message.success("复制成功");
+        this.$message.success(this.$t("overall.copySauccessfully"));
         clipboard.destroy();
       });
       clipboard.on("error", () => {
-        this.$message.error("复制失败");
+        this.$message.error(this.$t("overall.copyFailed"));
         clipboard.destroy();
       });
     },
