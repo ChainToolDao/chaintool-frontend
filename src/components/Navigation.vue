@@ -50,6 +50,7 @@ export default {
 	},
 
 	async created() {
+		this.lang=this.$i18n.locale
 		if (this.account) {
 			this.address = this.formatAccount(this.account)
 		}
