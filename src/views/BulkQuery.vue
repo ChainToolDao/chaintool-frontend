@@ -25,6 +25,8 @@
         <el-table
           :data="searchResult"
           border
+          slot="empty"
+          empty-text="暂无数据"
           v-loading="isloading"
           id="outExcel"
           class="table"
