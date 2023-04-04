@@ -199,10 +199,8 @@ export default {
     // ----------初始化账户-------------
     async initAccount() {
       if (window.ethereum) {
-        console.log(window.ethereum);
         try {
           this.accounts = await window.ethereum.enable();
-          console.log("accounts:" + this.accounts);
           this.account = this.accounts[0];
           this.provider = window.ethereum;
           this.signer = new ethers.providers.Web3Provider(
@@ -212,12 +210,12 @@ export default {
             await window.ethereum.request({ method: "eth_chainId" })
           );
         } catch (error) {
-          console.log("User denied account access", error);
+          // User denied account access
         }
       } else {
-        console.log("Need install MetaMask");
+        // Need install MetaMask
       }
-      console.log("Verify Accounts!");  
+      // Verify Accounts!
     },
   },
 };
