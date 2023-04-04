@@ -3,16 +3,16 @@
 		<Navigation></Navigation>
 		<div class="scroll">
 			<div class="container">
-				<div class="title">ABI 可视化调用 <span><a
+				<div class="title">{{$t("abi.title")}} <span><a
 							href="https://github.com/ChainToolDao/chaintool-frontend/wiki/ABI%E5%8F%AF%E8%A7%86%E5%8C%96%E8%B0%83%E7%94%A8"
-							target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
+							target="_blank">{{$t("overall.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
 				<div class="buttons">
 				</div>
 				<div class="contract-list">
 					<el-container class="main">
 						<el-aside width="184px" class="sidebar">
 							<el-menu>
-								<el-button class="btn" type="primary" @click="addContract()">添加合约</el-button>
+								<el-button class="btn" type="primary" @click="addContract()">{{$t("abi.addContract")}}</el-button>
 								<div v-if="localData != null">
 									<div v-for="item in contractList" :key="item.network">
 										<el-submenu :index=item.network>
@@ -31,43 +31,43 @@
 							<el-main>
 								<div v-if="this.clickItem.length != 0" class="shop" ref="shop">
 									<ul>
-										<el-tooltip effect="dark" content="链接分享给好友，将自动加载合约" placement="bottom">
+										<el-tooltip effect="dark" :content="$t('abi.sharePrompt')" placement="bottom">
 											<li @click="shareContract(clickItem)" class="view">
 												<i class="el-icon-share"></i>
-												<span>分享</span>
+												<span>{{$t('abi.share')}}</span>
 											</li>
 										</el-tooltip>
-										<el-tooltip effect="dark" content="点击可查看ABI，还可以复制ABI" placement="bottom">
+										<el-tooltip effect="dark" :content="$t('abi.ABIPrompt')" placement="bottom">
 											<li @click="checkJSONABI" class="view">
 												<i class="el-icon-view"></i>
-												<span>查看ABI</span>
+												<span>{{$t('abi.ABI')}}</span>
 											</li>
 										</el-tooltip>
-										<el-tooltip effect="dark" content="点击可跳转到对应区块链浏览器" placement="bottom">
+										<el-tooltip effect="dark" :content="$t('abi.EtherscanPrompt')" placement="bottom">
 											<li @click="checkEtherscan" class="paperclip">
 												<img src="../assets/imgs/etherscanLogo.svg" alt=""
 													class="etherscanLogo">
-												<span>查看Etherscan</span>
+												<span>{{$t('abi.Etherscan')}}</span>
 											</li>
 										</el-tooltip>
-										<el-tooltip effect="dark" content="可修改合约的名称、网络、地址、ABI" placement="bottom">
+										<el-tooltip effect="dark" :content="$t('abi.editPrompt')" placement="bottom">
 											<li @click="updateContract" class="edit">
 												<i class="el-icon-edit"></i>
-												<span>编辑</span>
+												<span>{{$t('abi.edit')}}</span>
 											</li>
 										</el-tooltip>
-										<el-tooltip effect="dark" content="点击可删除合约" placement="bottom">
+										<el-tooltip effect="dark" :content="$t('abi.delectPrompt')" placement="bottom">
 											<li @click="deleteContract" class="delete">
 												<i class="el-icon-delete"></i>
-												<span>删除</span>
+												<span>{{$t('abi.delect')}}</span>
 											</li>
 										</el-tooltip>
 									</ul>
 								</div>
 								<el-table :data="tableData">
-									<el-table-column prop="ItemName" label="合约名称"> </el-table-column>
-									<el-table-column prop="ItemNetwork" label="区块链网络"> </el-table-column>
-									<el-table-column prop="ItemAddress" label="合约地址"> </el-table-column>
+									<el-table-column prop="ItemName" :label="$t('abi.contractName')"> </el-table-column>
+									<el-table-column prop="ItemNetwork" :label="$t('abi.blockchainAddress')"> </el-table-column>
+									<el-table-column prop="ItemAddress" :label="$t('abi.contractAddress')"> </el-table-column>
 								</el-table>
 								<div class="sol-body">
 									<div class="sol-body-left">
@@ -102,7 +102,7 @@
 									<div class="contentRight">
 										<div class="rightList">
 											<div v-if="parameter != null">
-												<div class="title">调用函数： </div>
+												<div class="title">{{$t('abi.callFunctions')}} </div>
 												<div class="title">{{ parameter[0].name }} </div>
 												<el-table :data="parameter[0].inputs" class="list"
 													v-if="parameter[0].inputs.length > 0">
@@ -126,10 +126,10 @@
 													<div>
 														<span>value:</span>
 														<span>
-															<el-input placeholder="请输入Value" v-model="overrides.value"
+															<el-input :placeholder="$t('abi.inputValue')" v-model="overrides.value"
 																class="input-with-select">
 																<el-select v-model="unit" slot="prepend"
-																	placeholder="请选择">
+																	:placeholder="$t('abi.pleaseChoose')">
 																	<el-option label="Wei" value="Wei"></el-option>
 																	<el-option label="Gwei" value="Gwei"></el-option>
 																	<el-option label="Ether" value="Ether"></el-option>
@@ -139,10 +139,10 @@
 													</div>
 												</div>
 												<div class="rightButton">
-													<el-button type="danger" @click="clearOutput">清空输出</el-button>
+													<el-button type="danger" @click="clearOutput">{{ $t('abi.clearOutput') }}</el-button>
 													<el-button type="primary"
 														@click="submitAbiForm(parameter[0], parameter[1])"
-														:loading="isRun">运行</el-button>
+														:loading="isRun">{{ $t('abi.run') }}</el-button>
 												</div>
 											</div>
 										</div>
@@ -153,11 +153,11 @@
 														:key="index" :index="index + 'card'">
 														<div slot="header" class="clearfix">
 															<div><span v-if="item.typeFlag == 'error'">❌ </span>
-																调用函数：{{ item.function }}</div>
+																{{ $t('abi.callFunctions') }}{{ item.function }}</div>
 														</div>
 														<pre>
-                                                            <span v-if="item.typeFlag == 'write'">交易详情：</span>
-                                                            <span v-if="item.typeFlag=='read'||item.typeFlag=='error'">返回内容：</span>
+                                                            <span v-if="item.typeFlag == 'write'">{{ $t('abi.transactionDetails') }}</span>
+                                                            <span v-if="item.typeFlag=='read'||item.typeFlag=='error'">{{ $t('abi.returnContent') }}</span>
                                                             <json-viewer :value="item.content" ></json-viewer>
                                                         </pre>
 													</el-card>
@@ -171,8 +171,8 @@
 					</el-container>
 				</div>
 				<div class="dialog">
-					<el-dialog title="合约" :visible.sync="dialogFormVisible" @close='closureInputBox'>
-						<el-dialog width="45%" title="常见ABI" :visible.sync="innerVisible" append-to-body>
+					<el-dialog :title="$t('abi.contract')" :visible.sync="dialogFormVisible" @close='closureInputBox'>
+						<el-dialog width="45%" :title="$t('abi.commonABIs')" :visible.sync="innerVisible" append-to-body>
 							<div class="innerFrame">
 								<div v-for="piece in presetsABI" :key="piece.standard">
 									<div class="inner-title">{{ piece.standard }}</div>
@@ -187,16 +187,16 @@
 							</div>
 						</el-dialog>
 						<el-form :model="form" :rules="rules" ref="form">
-							<el-form-item label="合约名称" prop="name" :label-width="formLabelWidth">
-								<el-input v-model="form.name" autocomplete="off" placeholder="unique name"></el-input>
+							<el-form-item :label="$t('abi.contractName')" prop="name" :label-width="formLabelWidth">
+								<el-input v-model="form.name" autocomplete="off" :placeholder="$t('abi.uniqueName')"></el-input>
 							</el-form-item>
-							<el-form-item label="区块链网络" prop="network" :label-width="formLabelWidth">
-								<el-select v-model="form.network" placeholder="请选择要连接的网络">
+							<el-form-item :label="$t('abi.blockchainNetwork')" prop="network" :label-width="formLabelWidth">
+								<el-select v-model="form.network"  :placeholder="$t('abi.selectNetwork')">
 									<el-option v-for="item in network" :key="item.chainID" :label="item.networkName"
 										:value="item.networkName"></el-option>
 								</el-select>
-							</el-form-item>
-							<el-form-item label="合约地址" prop="address" :label-width="formLabelWidth">
+							</el-form-item> 
+							<el-form-item :label="$t('abi.contractAddress')" prop="address" :label-width="formLabelWidth">
 								<el-input v-model="form.address" autocomplete="off" placeholder="address"></el-input>
 							</el-form-item>
 							<el-form-item label="ABI" prop="abi" :label-width="formLabelWidth" class="el-textarea">
@@ -207,38 +207,38 @@
 							<div class="popUpBox">
 								<ul>
 									<li class="upload-demo" @click="innerVisible = true">
-										<el-button>选择常见ABI</el-button>
+										<el-button> {{ $t('abi.chooseCommonABI') }}</el-button>
 									</li>
 									<li class="">
 										<el-upload class="upload-demo"
 											action="https://jsonplaceholder.typicode.com/posts/" accept=".ABI,.txt"
 											:on-success="readFile">
-											<el-button>上传ABI文件</el-button>
+											<el-button>{{$t('abi.uploadABIFile') }}</el-button>
 										</el-upload>
 									</li>
 									<li class="upload-demo">
 										<el-button @click="getABIFromEtherscan" :loading="btnChangEnable"
-											:disabled="btnChangEnable">Etherscan获取</el-button>
+											:disabled="btnChangEnable">{{$t('abi.etherscanGet')  }}</el-button>
 									</li>
 								</ul>
 							</div>
 						</el-form>
 						<div slot="footer" class="dialog-footer">
-							<el-button @click="cancelDialog">取 消</el-button>
-							<el-button type="primary" @click="onSubmit('form')">确 定</el-button>
+							<el-button @click="cancelDialog">{{$t('abi.cancel') }}</el-button>
+							<el-button type="primary" @click="onSubmit('form')"> {{$t('abi.sure')  }}</el-button>
 						</div>
 					</el-dialog>
-					<el-dialog title="查看ABI" :visible.sync="ABIVisible" width="30%" center>
+					<el-dialog :title="$t('abi.checkABI') " :visible.sync="ABIVisible" width="30%" center>
 						<div class="visible">
-							<el-button round @click="checkJSONABI">JSON ABI</el-button>
-							<el-button round @click="checkHumanReadableABI">Human-Readable ABI</el-button>
+							<el-button round @click="checkJSONABI"> {{$t('abi.jsonABI')}}</el-button>
+							<el-button round @click="checkHumanReadableABI">{{$t('abi.readableABI')}} </el-button>
 						</div>
 						<el-input type="textarea" class="checkABI" :disabled="true"
-							:autosize="{ minRows: 5, maxRows: 20}" placeholder="请输入内容" v-model="checkABI">
+							:autosize="{ minRows: 5, maxRows: 20}" :placeholder="$t('abi.inputPrompt')" v-model="checkABI">
 						</el-input>
 						<span slot="footer" class="dialog-footer">
-							<el-button type="primary" @click="copy(checkABI,'复制成功','.dialog-footer')">复 制</el-button>
-							<el-button type="danger" @click="ABIVisible = false">退 出</el-button>
+							<el-button type="primary" @click="copy(checkABI,'复制成功','.dialog-footer')">{{$t('abi.copy')}}</el-button>
+							<el-button type="danger" @click="ABIVisible = false">{{$t('abi.quit')}}</el-button>
 						</span>
 					</el-dialog>
 				</div>
@@ -282,7 +282,7 @@ export default {
 		// 表单验证 - 项目名称
 		let validateName = (rule, value, callback) => {
 			if (value === '' || value == undefined) {
-				callback(new Error('请输入合约名称'))
+				callback(new Error(this.$t('abi.validateName')))
 			} else {
 				const localData = localStorage.getItem('localData')
 				if (localData == '' || localData == null) callback()
@@ -293,7 +293,7 @@ export default {
 							data[i].name === value &&
 							!(this.isUpdate && this.chooseContractName == value)
 						) {
-							callback(new Error('已有相同名称的合约存在！'))
+							callback(new Error(this.$t('abi.sameName')))
 						}
 					}
 					callback()
@@ -308,7 +308,7 @@ export default {
 				value == undefined ||
 				!ethers.utils.isAddress(value)
 			) {
-				callback(new Error('请输入正确的合约地址'))
+				callback(new Error(this.$t('abi.validateAddress')))
 			} else {
 				callback()
 			}
@@ -317,7 +317,7 @@ export default {
 		// 表单验证 - ABI
 		let checkAbi = (rule, value, callback) => {
 			if (value === '' || value == undefined) {
-				callback(new Error('请输入 ABI'))
+				callback(new Error(this.$t('abi.checkAbi')))
 			} else {
 				callback()
 			}
@@ -326,7 +326,7 @@ export default {
 		// 表单验证 - 网络
 		let checkNetwork = (rule, value, callback) => {
 			if (value === '' || value == undefined) {
-				callback(new Error('请选择区块链网络'))
+				callback(new Error(this.$t('abi.checkNetwork')))
 			} else {
 				callback()
 			}
@@ -429,7 +429,7 @@ export default {
 					// 获取ABI
 					this.form.name = await this.getABIFromEtherscan()
 					if (this.form.name == '' || this.form.name == undefined) {
-						this.$message.error('自动添加合约失败')
+						this.$message.error(this.$t('abi.autoAddError'))
 						this.form = {
 							name: '',
 							address: '',
@@ -531,7 +531,7 @@ export default {
 			let url
 			let abi = await this.getNameAndABI(Item.network, Item.address)
 			if (!abi) {
-				this.$message.error('当前合约暂不支持分享')
+				this.$message.error(this.$t('abi.doesNotSupportSharing'))
 				return
 			}
 			for (let i in this.network) {
@@ -541,7 +541,7 @@ export default {
 						this.network[i].currencySymbol +
 						'/' +
 						Item.address
-					this.copy(url, '复制分享链接成功', '.shop')
+					this.copy(url, this.$t('abi.copyShareSuccess'), '.shop')
 					this.$refs.shop.click()
 				}
 			}
@@ -582,7 +582,7 @@ export default {
 		//从Etherscan获取ABI
 		async getABIFromEtherscan() {
 			if (this.form.address == '' || this.form.network == '') {
-				this.$message.error('请输入项目地址和输入网络后重试')
+				this.$message.error(this.$t('abi.examineAddressAndNetwork'))
 				return
 			}
 			this.btnChangEnable = true
@@ -595,7 +595,7 @@ export default {
 				this.form.abi = abi[1]
 				return abi[0]
 			}
-			this.$message.error('ABI获取失败')
+			this.$message.error(this.$t('abi.getABIeroor'))
 		},
 
 		//读取localdata
@@ -658,7 +658,7 @@ export default {
 					}
 				}
 				this.network.push({
-					networkName: '使用当前连接网络：chainID=' + network,
+					networkName: this.$t('abi.useCurrentNetwork')+ ':chainID=' + network,
 				})
 			} catch {}
 		},
@@ -667,7 +667,7 @@ export default {
 		async removeCurrentNetwork() {
 			if (
 				this.network[this.network.length - 1].networkName.indexOf(
-					'使用当前连接网络'
+					this.$t('abi.useCurrentNetwork')
 				) != -1
 			) {
 				this.network.pop()
@@ -782,7 +782,7 @@ export default {
 				if (valid) {
 					if (await this.validABI(this.form.abi)) {
 						if (
-							this.form.network.indexOf('使用当前连接网络') != -1
+							this.form.network.indexOf(this.$t('abi.useCurrentNetwork')) != -1
 						) {
 							this.form.network = this.form.network.substring(
 								9,
@@ -837,12 +837,12 @@ export default {
 				try {
 					abiObj = JSON.parse(abiObj)
 					if (typeof abiObj !== 'object') {
-						this.$message.error('ABI有误！添加失败，请检查后重试')
+						this.$message.error(this.$t('abi.checkAbiError'))
 						return false
 					}
 					return abiObj
 				} catch (err) {
-					this.$message.error('ABI有误！添加失败，请检查后重试')
+					this.$message.error(this.$t('abi.checkAbiError'))
 					return false
 				}
 			}
@@ -906,7 +906,7 @@ export default {
 		//更新合约
 		updateContract() {
 			if (this.clickItem.length == 0) {
-				this.$message('当前暂未选择合约')
+				this.$message(this.$t('abi.notSelectedContractPrompt'))
 				return
 			}
 			this.isUpdate = true
@@ -929,17 +929,17 @@ export default {
 		//查看Etherscan
 		checkEtherscan() {
 			if (this.clickItem.length == 0) {
-				this.$message('当前暂未选择合约')
+				this.$message(this.$t('abi.notSelectedContractPrompt'))
 				return
 			}
 			if (this.clickItem.network.indexOf('chainID') != -1) {
-				this.$message('该合约Etherscan暂未被记录')
+				this.$message(this.$t('abi.contractNotRecorded'))
 				return
 			}
 			for (let i in this.network) {
 				if (this.clickItem.network == this.network[i].networkName) {
 					if (this.network[i].chainExplorer == '') {
-						this.$message('该合约Etherscan暂未被记录')
+						this.$message(this.$t('abi.contractNotRecorded'))
 					} else {
 						window.open(
 							this.network[i].chainExplorer +
@@ -955,7 +955,7 @@ export default {
 		// 删除合约事件
 		deleteContract() {
 			if (this.clickItem.length == 0) {
-				this.$message('当前暂未选择合约')
+				this.$message(this.$t('abi.notSelectedContractPrompt'))
 				return
 			}
 			// 清空 abiCardData
@@ -983,10 +983,10 @@ export default {
 						await window.ethereum.request({ method: 'eth_chainId' })
 					)
 				} catch (error) {
-					this.$message.error('User denied account access', error)
+					this.$message.error(this.$t('abi.deniedAccess'), error)
 				}
 			} else {
-				this.$message.error('Need install MetaMask')
+				this.$message.error(this.$t('abi.notInstalledMetaMaskPrompt'))
 			}
 		},
 
@@ -1010,7 +1010,7 @@ export default {
 					abiObj = JSON.parse(abiObj)
 				} catch (err) {
 					abiObj = null
-					this.$message.error('ABI有误！')
+					this.$message.error(this.$t('abi.abiError'))
 				}
 			}
 			const data = {}
@@ -1026,13 +1026,13 @@ export default {
 			// 执行网络切换，并返回切换状态
 			if (thisChainId != this.chainId) {
 				await this.$confirm(
-					'当前钱包连接的链与本合约连接的链不同。将为你切换到对应网络' +
+					this.$t('abi.switchNetworkPrompt') +
 						this.clickItem.network +
 						'?',
-					'当前网络错误',
+					this.$t('abi.currentNetworkError'),
 					{
-						confirmButtonText: '确定切换',
-						cancelButtonText: '取消',
+						confirmButtonText: 	this.$t('abi.sure'),
+						cancelButtonText: this.$t('abi.cancel'),
 					}
 				)
 					.then(async () => {
@@ -1048,7 +1048,7 @@ export default {
 					})
 					.catch(() => {
 						this.$message.error(
-							'连接请求错误，请尝试手动连接。连接后刷新页面重试。'
+								this.$t('abi.connectionRequestError')
 						)
 						return
 					})
@@ -1223,12 +1223,12 @@ export default {
 						})
 					} catch (addError) {
 						this.$message.error(
-							'连接请求错误，请尝试手动连接。连接后刷新页面重试。'
+							this.$t('abi.connectionRequestError')
 						)
 					}
 				} else {
 					this.$message.error(
-						'连接请求错误，请尝试手动连接。连接后刷新页面重试。'
+						this.$t('abi.connectionRequestError')
 					)
 				}
 			}
