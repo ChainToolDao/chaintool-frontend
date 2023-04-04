@@ -168,12 +168,12 @@ export default {
             })
 
             clipboard.on('success', () => {
-                this.$message.success('复制成功');
+                this.$message.success(this.$t('overall.copySauccessfully'));
                 clipboard.destroy()
             })
 
             clipboard.on('error', () => {
-                this.$message.error('复制失败');
+                this.$message.error(this.$t('overall.copyFailed')); 
                 clipboard.destroy()
             })
         },

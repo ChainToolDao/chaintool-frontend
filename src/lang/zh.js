@@ -1,9 +1,11 @@
 export default {
-    overall:{
-        usingHelp:"使用帮助"
+    overall: {
+        usingHelp: "使用帮助",
+        copySauccessfully: "复制成功",
+        copyFailed: "复制失败"
     },
-    navigation:{
-        connectWallet:"连接钱包"
+    navigation: {
+        connectWallet: "连接钱包"
     },
     home: {
         title: ["开源", "工具箱", "让区块链开发更轻松"],
@@ -58,9 +60,22 @@ export default {
             },
         ],
     },
-    uintConvert:{
-        title:"以太 ETH 单位转换器",
-        describe:"以太币的最小单位是Wei，1个ETH等于10的18次方Wei。在支付Gas费时大家习惯使用Gwei作为展示单位，日常使用的单位是ETH、Gwei 和 Wei；",
-        illustrate:["以太坊 Ethereum 和以太币 Ether 的区别：","以太坊 Ethereum 是一个允许任何人在其上创建和使用分布式应用的开放的区块链平台。","以太币 Ether 是以太坊 Ethereum 中通用的货币，它主要用于支付转账及执行智能合约所消耗的汽油(Gas)，在交易中以太币被缩写为ETH。"],
+    uintConvert: {
+        title: "以太 ETH 单位转换器",
+        describe: "以太币的最小单位是Wei，1个ETH等于10的18次方Wei。在支付Gas费时大家习惯使用Gwei作为展示单位，日常使用的单位是ETH、Gwei 和 Wei；",
+        illustrate: ["以太坊 Ethereum 和以太币 Ether 的区别：", "以太坊 Ethereum 是一个允许任何人在其上创建和使用分布式应用的开放的区块链平台。", "以太币 Ether 是以太坊 Ethereum 中通用的货币，它主要用于支付转账及执行智能合约所消耗的汽油(Gas)，在交易中以太币被缩写为ETH。"],
+    },
+    bulkQuery: {
+        title: "批量查询钱包余额",
+        enterAddress: "代币地址",
+        enterAddressPrompt: "默认 ETH 地址",
+        enterWalletAddress: "钱包地址",
+        enterWalletAddressPrompt: "一行输入一个地址",
+        inquireResult: "查询结果",
+        list: ["钱包地址", "代币", "余额", "暂无数据"],
+        checkBalance: "查询余额",
+        exportExcel: "下载excal",
+        exportExcelPrompt: "你当前还没有查询余额，请查询余额后再进行下载表格",
+        checkBalancePrompt: ["你还没有输入钱包地址，请输入钱包地址后重试", "你输入代币地址错误，请重新输入后重试"],
     }
 }

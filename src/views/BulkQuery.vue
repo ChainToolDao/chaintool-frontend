@@ -3,7 +3,7 @@
     <Navigation></Navigation>
     <div class="scroll">
       <div class="container">
-        <div class="title">批量查询钱包余额 <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E6%9F%A5%E8%AF%A2%E9%92%B1%E5%8C%85%E4%BD%99%E9%A2%9D"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
+        <div class="title">{{$t("bulkQuery.title")}} <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E6%9F%A5%E8%AF%A2%E9%92%B1%E5%8C%85%E4%BD%99%E9%A2%9D"  target="_blank">{{$t("overall.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
         <!-- <div class="tips">查询网络</div>
         <el-select v-model="select">
           <el-option
@@ -13,34 +13,34 @@
           >
           </el-option>
         </el-select> -->
-        <div class="tips">代币地址</div>
-        <el-input v-model="tokenAdress" placeholder="默认 ETH 地址"></el-input>
-        <div class="tips">钱包地址</div>
+        <div class="tips">{{$t("bulkQuery.enterAddress")}}</div>
+        <el-input v-model="tokenAdress" :placeholder="$t('bulkQuery.enterAddressPrompt')"></el-input>
+        <div class="tips">{{$t("bulkQuery.enterWalletAddress")}}</div>
         <el-input
           type="textarea"
           v-model="walletAddress"
-          placeholder="一行输入一个地址"
+         :placeholder="$t('bulkQuery.enterWalletAddressPrompt')"
         ></el-input>
-        <div class="tips">查询结果</div>
+        <div class="tips">{{$t("bulkQuery.inquireResult")}}</div>
         <el-table
           :data="searchResult"
           border
           slot="empty"
-          empty-text="暂无数据"
+          :empty-text="$t('bulkQuery.list[3]')"
           v-loading="isloading"
           id="outExcel"
           class="table"
         >
-          <el-table-column prop="walletAddress" label="钱包地址" width="403">
+          <el-table-column prop="walletAddress" :label="$t('bulkQuery.list[0]')" width="363">
           </el-table-column>
-          <el-table-column prop="token" label="代币" width="50">
+          <el-table-column prop="token" :label="$t('bulkQuery.list[1]')" width="90">
           </el-table-column>
-          <el-table-column prop="balance" label="余额" width="250">
+          <el-table-column prop="balance" :label="$t('bulkQuery.list[2]')" width="250">
           </el-table-column>
         </el-table>
         <div>
-          <div class="bottomBtn" @click="checkBalance">查询余额</div>
-          <span class="bottomBtn" @click="exportexcel">下载表格</span>
+          <div class="bottomBtn" @click="checkBalance">{{$t("bulkQuery.checkBalance")}}</div>
+          <span class="bottomBtn" @click="exportexcel">{{$t("bulkQuery.exportExcel")}}</span>
         </div>
       </div>
     </div>
@@ -110,7 +110,7 @@ export default {
     //导出excel
     exportexcel() {
       if (this.searchResult.length == 0) {
-        this.$message("你当前还没有查询余额，请查询余额后再进行下载表格");
+        this.$message(this.$t('bulkQuery.exportExcelPrompt'));
         return;
       }
       /** 从表生成工作簿对象*/
@@ -142,7 +142,7 @@ export default {
       let walletAddress = this.walletAddress.split("\n");
       let provider = new ethers.providers.InfuraProvider("mainnet");
       if (this.walletAddress == "") {
-        this.$message("你还没有输入钱包地址，请输入钱包地址后重试");
+        this.$message(this.$t('bulkQuery.checkBalancePrompt[0]'));
         return;
       }
       this.isloading = true;
@@ -164,7 +164,7 @@ export default {
           var source = 1;
         }
         if (source == 1 || source.length == 2) {
-          this.$message("你输入代币地址错误，请重新输入后重试");
+          this.$message(this.$t('bulkQuery.checkBalancePrompt[1]'));
           return;
         }
         let abi = [
