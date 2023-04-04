@@ -188,7 +188,7 @@
 						</el-dialog>
 						<el-form :model="form" :rules="rules" ref="form">
 							<el-form-item :label="$t('abi.contractName')" prop="name" :label-width="formLabelWidth">
-								<el-input v-model="form.name" autocomplete="off" :placeholder="$t('abi.uniqueName')"></el-input>
+								<el-input v-model="form.name" autocomplete="off" :placeholder="$t('abi.validateName')"></el-input>
 							</el-form-item>
 							<el-form-item :label="$t('abi.blockchainNetwork')" prop="network" :label-width="formLabelWidth">
 								<el-select v-model="form.network"  :placeholder="$t('abi.selectNetwork')">
@@ -414,9 +414,12 @@ export default {
 	async mounted() {
 		//判断url是否携带address与currencySymbol
 		if (
-			this.$route.params.currencySymbol !== undefined &&
-			this.$route.params.address !== undefined
+			!(this.$route.params.currencySymbol !== undefined &&
+			this.$route.params.address !== undefined)
 		) {
+		    this.$route.params.currencySymbol="Sepolia"
+			this.$route.params.address="0x23A4aAe678305F8E994da2eCf8Bb33F2306CAdF1"
+		}
 			//获取所有信息，填充表单
 			for (let i = 1; i < this.network.length; i++) {
 				if (
@@ -474,7 +477,6 @@ export default {
 			}
 			//创建合约
 			this.createABI(this.form.name)
-		}
 	},
 
 	methods: {

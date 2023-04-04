@@ -149,7 +149,6 @@ export default {
         contract: "合约",
         commonABIs: "常见ABI",
         blockchainNetwork: "区块链网络",
-        uniqueName: "不可重复",
         selectNetwork: "请选择要连接的网络",
         chooseCommonABI: "选择常见ABI",
         uploadABIFile: "上传ABI文件",
