@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="mainRow">输入函数</div>
-    <el-input v-model="codingSelector" placeholder="请输入函数"></el-input>
-    <div class="mainRow">参数</div>
-    <el-input v-model="codingParameter" placeholder="一行输入一个参数，数组类型参数输入格式:[0x2222,0x4444]" type="textarea"></el-input>
+    <div class="mainRow">{{$t("calldata.inputFunction")}}</div>
+    <el-input v-model="codingSelector" :placeholder="$t('calldata.inputFunction')"></el-input>
+    <div class="mainRow">{{$t("calldata.parameter")}}</div>
+    <el-input v-model="codingParameter" :placeholder="$t('calldata.inputParameterPrompt')" type="textarea"></el-input>
     <h5 class="result"> {{ encodingResult }}<img class="copyButton" v-if="canCopy" src="../../assets/imgs/copy.png"
         @click="copy(encodingResult)" /> </h5>
-        <div class="bottomButton" @click="coding()">编码</div>
+        <div class="bottomButton" @click="coding()">{{$t("calldata.coding")}}</div>
   </div>
 </template>
 
@@ -47,7 +47,7 @@ export default {
         this.functionSelector.submitFunctionSelector(codingSelector, (this.encodingResult.substring(0, 10)))
         this.canCopy = true
       } catch (error) {
-        this.encodingResult = "你的输入有误，请检查后重试"
+        this.encodingResult = this.$t("calldata.inputError")
       }
     },
 
@@ -59,11 +59,11 @@ export default {
         },
       });
       clipboard.on("success", () => {
-        this.$message.success("复制成功");
+        this.$message.success(this.$t("overall.copySauccessfully"));
         clipboard.destroy();
       });
       clipboard.on("error", () => {
-        this.$message.error("复制失败");
+        this.$message.error(this.$t("overall.copyFailed"));
         clipboard.destroy();
       });
     },

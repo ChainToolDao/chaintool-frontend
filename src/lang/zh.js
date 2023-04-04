@@ -213,5 +213,24 @@ export default {
         errorHexadecimal: "你的输入不是16进制的字符，请重新输入",
         decodingError: "解码失败，请检查你的输入后重试",
         noInput: "你的输入为空，请重新输入"
+    },
+    calldata: {
+        title: "交易输入数据(Calldata)编解码",
+        decoding: "解码",
+        coding: "编码",
+        inputFunction: "输入函数",
+        inputFunctionPrompt: "请输入函数",
+        parameter: "参数",
+        inputParameterPrompt: "一行输入一个参数，数组类型参数输入格式:[0x2222,0x4444]",
+        inputError: "你的输入有误，请检查后重试",
+        inputCalldata: "输入Calldata",
+        selectFunction: "选择函数",
+        autoChoose: "自动选择",
+        manualInput: "手动输入",
+        decodingResult: "解码结果",
+        parameter: "参数",
+        parameterType: "参数类型",
+        value: "值",
+        queryFailed: "查询失败，请检查你的输入后重试",
     }
 }

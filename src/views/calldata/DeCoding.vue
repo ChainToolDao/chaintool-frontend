@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class="mainRow"> Input Calldata</div>
+        <div class="mainRow">{{$t("calldata.inputCalldata")}}</div>
         <el-input v-model="calldata" placeholder="Enter Calldata" @input="getFunctionSignAuto()" type="textarea"
             autosize></el-input>
-        <div class="mainRow">选择函数 <span> <el-radio-group v-model="isManualInput" @click="selectInputWay">
-                    <el-radio :label="false" border size="medium" @change="selectInputWay">自动选择</el-radio>
-                    <el-radio :label="true" border size="medium" @change="selectInputWay">手动输入</el-radio>
+        <div class="mainRow">{{$t("calldata.selectFunction")}} <span> <el-radio-group v-model="isManualInput" @click="selectInputWay">
+                    <el-radio :label="false" border size="medium" @change="selectInputWay">{{$t("calldata.autoChoose")}} </el-radio>
+                    <el-radio :label="true" border size="medium" @change="selectInputWay">{{$t("calldata.manualInput")}} </el-radio>
                 </el-radio-group></span>
         </div>
         <el-select v-model="chooseSignature" placeholder="Please Choose" v-if="!isManualInput">
@@ -13,19 +13,19 @@
             </el-option>
         </el-select>
         <el-input v-model="chooseSignature" placeholder="Input Function " v-if="isManualInput"></el-input>
-        <div class="bottomButton contentButton" @click="decoding">解码
+        <div class="bottomButton contentButton" @click="decoding">{{$t("calldata.decoding")}}
         </div>
-        <div class="mainRow">解码结果</div>
+        <div class="mainRow">{{$t("calldata.decodingResult")}}</div>
         <el-table :data="decodingResult" class="list" row-key="id" border :row-class-name="increaseTableStyle"
             :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-            <el-table-column prop="id" label="参数" width="150">
+            <el-table-column prop="id" :label="$t('calldata.parameter')" width="150">
             </el-table-column>
-            <el-table-column label="参数类型" width="150">
+            <el-table-column :label="$t('calldata.parameterType')" width="150">
                 <template slot-scope="scope">
                     <DataType :data=scope.row.argument></DataType>
                 </template>
             </el-table-column>
-            <el-table-column label="值" width="420">
+            <el-table-column :label="$t('calldata.value')" width="420">
                 <template slot-scope="scope">
                     <DataValue :data=scope.row></DataValue>
                 </template>
@@ -218,7 +218,7 @@ export default {
             let searchResult = await this.$options.methods.decodingTransactionData(this.calldata, this.chooseSignature, this.functionSelector.getFunctionSignature, this.functionSelector.submitFunctionSelector);
             this.decodingResult = await this.$options.methods.processingCalldata(searchResult, this.functionSelector.getFunctionSignature, this.functionSelector.submitFunctionSelector);
             if (this.decodingResult == undefined) {
-                this.$message.error("查询失败，请检查你的输入后重试");
+                this.$message.error(this.$t("calldata.queryFailed"));
             }
         },
     },

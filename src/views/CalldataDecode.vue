@@ -3,11 +3,11 @@
     <Navigation></Navigation>
     <div class="scroll">
       <div class="container">
-        <div class="title">交易输入数据(Calldata)编解码 <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BA%A4%E6%98%93%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE(Calldata)%E7%BC%96%E8%A7%A3%E7%A0%81"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
+        <div class="title">{{$t("calldata.title")}}<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BA%A4%E6%98%93%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE(Calldata)%E7%BC%96%E8%A7%A3%E7%A0%81"  target="_blank">{{$t("overall.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
         <div class="mainRow">
           <el-menu  :default-active="preferredPage" class="el-menu-demo" mode="horizontal"  @select="cutoverTop">
-            <el-menu-item index="deCoding">解码</el-menu-item>
-            <el-menu-item index="coding">编码</el-menu-item>
+            <el-menu-item index="deCoding">{{$t("calldata.decoding")}}</el-menu-item>
+            <el-menu-item index="coding">{{$t("calldata.coding")}}</el-menu-item>
           </el-menu>
         </div>
         <div v-if="selectFunction">
