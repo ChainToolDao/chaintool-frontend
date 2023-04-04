@@ -3,17 +3,17 @@
     <Navigation></Navigation>
     <div class="wallet">
       <div class="container">
-        <h3 class="title">批量生成EVM钱包<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E7%94%9F%E6%88%90EVM%E9%92%B1%E5%8C%85"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
+        <h3 class="title">{{$t('generateWallet.title')}}<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E7%94%9F%E6%88%90EVM%E9%92%B1%E5%8C%85"  target="_blank">{{$t("overall.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
         <div class="tips">
-          <span>Tips: 钱包生成过程均在本地完成，代码完全<a href="https://github.com/ChainToolDao" target="_blank">开源</a>。任何人都无法获取到您的助记词及私钥，请放心使用。<br></span>
+          <span> {{$t('generateWallet.tips[0]')}}<a href="https://github.com/ChainToolDao" target="_blank">{{$t('generateWallet.tips[1]')}}</a>{{$t('generateWallet.tips[2]')}}<br></span>
         </div>
         <div>
-          <el-radio v-model="generateMethod" label="randomBatch" @change="emptyWalletData">随机批量生成</el-radio>
-          <el-radio v-model="generateMethod" label="customize" @change="emptyWalletData">自定义私钥或助记词创建</el-radio>
+          <el-radio v-model="generateMethod" label="randomBatch" @change="emptyWalletData">{{$t('generateWallet.randomBatch')}}</el-radio>
+          <el-radio v-model="generateMethod" label="customize" @change="emptyWalletData">{{$t('generateWallet.customize')}}</el-radio>
         </div>
         <div v-if="generateMethod == 'randomBatch'">
           <div>
-            <h5>选择助记词长度</h5>
+            <h5>{{$t('generateWallet.mnemonicLength')}}</h5>
           </div>
           <div>
             <el-radio v-model="mnemonicLength" label="12" border size="medium">12位</el-radio>
@@ -23,25 +23,25 @@
             <el-radio v-model="mnemonicLength" label="24" border size="medium">24位</el-radio>
           </div>
           <div>
-            <h5>生成钱包的地址数量</h5>
+            <h5>{{$t('generateWallet.quantity')}}</h5>
           </div>
           <div>
             <div>
-              <el-input v-model="walletQuantity" placeholder="Input Number Of Wallets"></el-input>
-              <el-button v-if="!hasBuildState" @click="generateWallet()">立即生成</el-button>
-              <el-button v-if="hasBuildState" @click="generateWallet">重新生成</el-button>
-              <el-button v-if="hasBuildState" @click="exportexcel">下载表格</el-button>
+              <el-input v-model="walletQuantity" :placeholder="$t('generateWallet.walletsNumber')"></el-input>
+              <el-button v-if="!hasBuildState" @click="generateWallet()">{{$t('generateWallet.generateImmediately')}}</el-button>
+              <el-button v-if="hasBuildState" @click="generateWallet">{{$t('generateWallet.regenerate')}}</el-button>
+              <el-button v-if="hasBuildState" @click="exportexcel">{{$t('generateWallet.exportexcel')}}</el-button>
             </div>
           </div>
         </div>
         <div v-if="generateMethod == 'customize'">
           <div>
-            <h5>通过私钥或助记词创建钱包</h5>
+            <h5>{{$t('generateWallet.subtitle')}}</h5>
           </div>
           <div>
             <div>
-              <el-input v-model="inputPrivateKey" placeholder="Enter private key or mnemonic"></el-input>
-              <el-button @click="createWallet()">立即创建</el-button>
+              <el-input v-model="inputPrivateKey" :placeholder="$t('generateWallet.enterPrompt')"></el-input>
+              <el-button @click="createWallet()">{{$t('generateWallet.createNow')}}</el-button>
             </div>
           </div>
         </div>
@@ -49,28 +49,28 @@
           <div class="data" v-for="(data, index) in walletdata" :key="index">
             <div>
               <h5>
-                <span class="dataTitle"> 地址</span><span class="verticalLine"></span>
+                <span class="dataTitle"> {{$t('generateWallet.address')}}</span><span class="verticalLine"></span>
                 <span class="dataBox"><span class="roll">{{ data.address }}</span></span><span class="dataReplication"
-                  @click="copy(data.address)">复制</span>
+                  @click="copy(data.address)">{{$t('generateWallet.copy')}}</span>
               </h5>
               <h5>
-                <span class="dataTitle">助记词</span><span class="verticalLine"></span>
+                <span class="dataTitle">{{$t('generateWallet.mnemonic')}}</span><span class="verticalLine"></span>
                 <span class="dataBox"><span class="roll">{{ data.mnemonic }}</span></span><span class="dataReplication"
-                  @click="copy(data.mnemonic)">复制</span>
+                  @click="copy(data.mnemonic)">{{$t('generateWallet.copy')}}</span>
               </h5>
               <h5>
-                <span class="dataTitle">密钥</span><span class="verticalLine"></span>
+                <span class="dataTitle">{{$t('generateWallet.privateKey')}}</span><span class="verticalLine"></span>
                 <span class="dataBox"><span class="roll">{{ data.privateKey }}</span></span>
-                <span class="dataReplication" @click="copy(data.privateKey)">复制</span>
+                <span class="dataReplication" @click="copy(data.privateKey)">{{$t('generateWallet.copy')}}</span>
               </h5>
             </div>
           </div>
         </div>
 
         <el-table :data="walletdata" class="el-table" id="outExcel">
-          <el-table-column prop="address" label="地址"> </el-table-column>
-          <el-table-column prop="mnemonic" label="助记词"> </el-table-column>
-          <el-table-column prop="privateKey" label="私钥"> </el-table-column>
+          <el-table-column prop="address" :label="$t('generateWallet.address')"> </el-table-column>
+          <el-table-column prop="mnemonic" :label="$t('generateWallet.mnemonic')"> </el-table-column>
+          <el-table-column prop="privateKey" :label="$t('generateWallet.privateKey')"> </el-table-column>
         </el-table>
       </div>
     </div>
@@ -127,7 +127,7 @@ export default {
       this.walletdata = [];
       if (!this.mnemonicLength || !this.walletQuantity) {
         this.$message({
-          message: "你没有选择助记词长度或没有填入生成钱包的地址数量",
+          message: this.$t('generateWallet.nullErrorPrompt'),
           type: "warning",
         });
         this.loading = !this.loading;
@@ -137,7 +137,7 @@ export default {
         if (!this.walletQuantity || this.walletQuantity < 1) {
           this.$message({
             message:
-              "你写入的生成钱包的地址数量非数字或小于1，无法生成，请重新输入",
+              this.$t('generateWallet.IllegalErrorPrompt'),
             type: "warning",
           });
           this.walletQuantity = "";
@@ -148,7 +148,7 @@ export default {
         if (this.walletQuantity > 100) {
           this.$message({
             message:
-              "你写入的钱包数量大于100，无法生成。请输入不大于100的生成数量。",
+              this.$t('generateWallet.beyondErrorPrompt'),
             type: "warning",
           });
           this.walletQuantity = "";
@@ -237,7 +237,7 @@ export default {
         this.walletdata.push(wallet);
       } catch (error) {
         this.inputPrivateKey = ""
-        this.$message.error("创建失败，请检查你的输入");
+        this.$message.error(this.$t('generateWallet.inputErrorPrompt'));
       }
     },
 
@@ -248,11 +248,11 @@ export default {
         },
       });
       clipboard.on("success", () => {
-        this.$message.success("复制成功");
+        this.$message.success(this.$t('overall.copySauccessfully'));
         clipboard.destroy();
       });
       clipboard.on("error", () => {
-        this.$message.error("复制失败");
+        this.$message.error(this.$t('overall.copyFailed'));
         clipboard.destroy();
       });
     },

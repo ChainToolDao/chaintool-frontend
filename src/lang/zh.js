@@ -101,5 +101,28 @@ export default {
         loadPrompt: "正在查询",
         errorAddressPrompt: "您输入的地址不合法，请重新输入。",
         errorENSPrompt: "没有查询到对应的ENS,也没有查询到对应的地址。"
+    },
+    generateWallet: {
+        title: "批量生成EVM钱包",
+        tips: ["Tips:钱包生成过程均在本地完成，代码完全", "开源", "。任何人都无法获取到您的助记词及私钥，请放心使用。"],
+        randomBatch: "随机批量生成",
+        customize: "自定义私钥或助记词创建",
+        mnemonicLength: "选择助记词长度",
+        quantity: "生成钱包的数量",
+        generateImmediately: "立即生成",
+        regenerate: "重新生成",
+        exportexcel: "下载表格",
+        walletsNumber: "输入生成钱包数量",
+        subtitle: "通过私钥或助记词创建钱包",
+        createNow: "立即创建",
+        enterPrompt: "输入私钥或助记词",
+        copy: "复制",
+        address: "地址",
+        privateKey: "私钥",
+        mnemonic: '助记词',
+        nullErrorPrompt: "你没有选择助记词长度或没有填入生成钱包的地址数量",
+        IllegalErrorPrompt: "你写入的生成钱包的地址数量非数字或小于1,无法生成,请重新输入",
+        beyondErrorPrompt: "你写入的钱包数量大于100,无法生成。请输入不大于100的生成数量。",
+        inputErrorPrompt: "创建失败，请检查你的输入"
     }
 }
