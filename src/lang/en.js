@@ -1,7 +1,7 @@
 export default {
     overall: {
         //使用帮助
-        usingHelp: "using help",
+        usingHelp: "Using help",
         //复制成功
         copySauccessfully: "copy successfully",
         // 复制失败
@@ -214,5 +214,15 @@ export default {
         IllegalErrorPrompt: "你写入的生成钱包的地址数量非数字或小于1,无法生成,请重新输入",
         beyondErrorPrompt: "你写入的钱包数量大于100,无法生成。请输入不大于100的生成数量。",
         inputErrorPrompt: "创建失败，请检查你的输入"
+    },
+    querySelector: {
+        title: "函数名查询函数选择器(4字节)",
+        inputFunctionName: '通过函数名查询4字节函数选择器',
+        inputFunctionNamePrompt: "Enter The Function Signature",
+        inquire: "查询",
+        inputByteFunctionSelector: "输入字节函数选择器查询函数签名",
+        functionInputError: "你输入的函数有误，请重新输入!",
+        querying: "正在查询",
+        noRecord: "你所查找的选择器暂未被记录",
     },
 }

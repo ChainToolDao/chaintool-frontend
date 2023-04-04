@@ -3,12 +3,12 @@
     <Navigation></Navigation>
     <div class="ABI">
       <div class="container">
-        <h3 class="title">函数名查询函数选择器(4字节)<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%87%BD%E6%95%B0%E5%90%8D%E6%9F%A5%E8%AF%A2%E5%87%BD%E6%95%B0%E9%80%89%E6%8B%A9%E5%99%A8(4%E5%AD%97%E8%8A%82)"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
+        <h3 class="title">{{$t('querySelector.title')}}<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%87%BD%E6%95%B0%E5%90%8D%E6%9F%A5%E8%AF%A2%E5%87%BD%E6%95%B0%E9%80%89%E6%8B%A9%E5%99%A8(4%E5%AD%97%E8%8A%82)"  target="_blank">{{$t('overall.usingHelp')}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
         <div>
-          <h5>通过函数名查询4字节函数选择器</h5>
+          <h5>{{$t('querySelector.inputFunctionName')}}</h5>
           <div>
-            <el-input v-model="enterFunctionName" placeholder="Enter The Function Signature"></el-input>
-            <el-button @click="queryFunctionSelector">查询</el-button>
+            <el-input v-model="enterFunctionName" :placeholder="$t('querySelector.inputFunctionNamePrompt')"></el-input>
+            <el-button @click="queryFunctionSelector">{{$t('querySelector.inquire')}}</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -16,10 +16,10 @@
           }}<img class="copyButton" v-if="canCopyABI" src="../assets/imgs/copy.png" @click="copy(outputSelector)" />
         </h5>
         <div>
-          <h5>通过字节函数选择器函数名查询函数签名</h5>
+          <h5>{{$t('querySelector.inputByteFunctionSelector')}}</h5>
           <div>
             <el-input v-model="enterSelector" placeholder="Input Selector"></el-input>
-            <el-button @click="querySignature()">查询</el-button>
+            <el-button @click="querySignature()">{{$t('querySelector.inquire')}}</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -88,7 +88,7 @@ export default {
         ABI[0] = "function " + ABI[0];
       } else {
         this.outputSelector =
-          "你输入的函数有误，请重新输入!  请用如下格式输入，例：transfer(address,uint256)";
+          this.$t('querySelector.functionInputError') ;
         return;
       }
       try {
@@ -99,7 +99,7 @@ export default {
         this.functionSelector.submitFunctionSelector(ABI[0],this.outputSelector)
       } catch (error) {
         this.canCopyABI = false;
-        this.outputSelector = "你输入的函数有误，请重新输入";
+        this.outputSelector =  this.$t('querySelector.functionInputError') ;
       }
     },
 
@@ -109,7 +109,7 @@ export default {
       if (enterSelector.indexOf("0x") != 0) {
         enterSelector = "0x" + enterSelector;
       }
-      this.signature = "正在查询";
+      this.signature =  this.$t('querySelector.querying') ;
       this.load = true;
       this.canCopyFunctionSignature = false;
       let signature = []
@@ -119,7 +119,7 @@ export default {
         this.canCopyFunctionSignature = true;
         this.load = false;
       } else {
-        this.signature = "你所查找的选择器暂未被记录，例：0x0dbe671f";
+        this.signature = this.$t('querySelector.noRecord') ;
         this.load = false;
       }
     },
@@ -131,11 +131,11 @@ export default {
         },
       });
       clipboard.on("success", () => {
-        this.$message.success("复制成功");
+        this.$message.success(this.$t('overall.copySauccessfully'));
         clipboard.destroy();
       });
       clipboard.on("error", () => {
-        this.$message.error("复制失败");
+        this.$message.error(this.$t('overall.copyFailed'));
         clipboard.destroy();
       });
     },
