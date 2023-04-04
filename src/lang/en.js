@@ -265,5 +265,16 @@ export default {
         parameterType: "参数类型",
         value: "值",
         queryFailed: "查询失败，请检查你的输入后重试",
+    },
+    faucet: {
+        title: "测试币水龙头",
+        prompt: ["水龙头（Faucet）是一个平台，为你提供测试币（或 Token ），以便在测试智能合约时使用。", "ChainTool 水龙头为大家收集了主要测试的水龙头网站，方便开发者们享用。", "如果你有我们没有列出的水龙头网站，欢迎提交", "PR", "或", "ISSUE", "帮我们改进，你的支持是我们无限的动力。"],
+        currency: "货币",
+        url: "网址",
+        remark: "备注",
+        operate: "操作",
+        receive: "前往领取",
+        copyUrl: "复制网址",
+        copyURLSuccessfully: "复制网址成功",
     }
 }

@@ -2,13 +2,15 @@
 	<div class="faucet">
 		<Navigation></Navigation>
 		<div class="main">
-			<h3 class="title">测试币水龙头</h3>
+			<h3 class="title">{{$t("faucet.title")}}</h3>
 			<div class="tips">
-				<span>水龙头（Faucet）是一个平台，为你提供测试币（或 Token ），以便在测试智能合约时使用。<br>
-					ChainTool 水龙头为大家收集了主要测试的水龙头网站，方便开发者们享用。<br>
-					如果你有我们没有列出的水龙头网站，欢迎提交 <a href="https://github.com/ChainToolDao/chaintool-frontend/blob/main/src/faucetData.json"
-						target="_blank">PR</a> 或 <a href="https://github.com/ChainToolDao/chaintool-frontend/issues/3"
-						target="_blank">ISSUE</a> 帮我们改进，你的支持是我们无限的动力。<br></span>
+				<span>{{$t("faucet.prompt[0]")}}<br>
+					{{$t("faucet.prompt[1]")}}<br>
+					{{$t("faucet.prompt[2]")}}<a
+						href="https://github.com/ChainToolDao/chaintool-frontend/blob/main/src/faucetData.json"
+						target="_blank">{{$t("faucet.prompt[3]")}}</a> {{$t("faucet.prompt[4]")}} <a
+						href="https://github.com/ChainToolDao/chaintool-frontend/issues/3"
+						target="_blank">{{$t("faucet.prompt[5]")}}</a> {{$t("faucet.prompt[6]")}}<br></span>
 			</div>
 			<div class="content" id="content">
 				<div class="content-list" v-for="item,index in faucetData" :key=item.chainID :id="item.network">
@@ -18,7 +20,7 @@
 						<table>
 							<tr>
 								<td>Chain ID</td>
-								<td>货币</td>
+								<td>{{$t("faucet.currency")}}</td>
 							</tr>
 							<tr>
 								<td>{{item.chainID}}</td>
@@ -29,24 +31,24 @@
 									src="../assets/imgs/dropDown.png" alt="" :id="item.chainID"></span></div>
 					</div>
 					<div v-else class="list" id="list" :style="{'--width' : width}">
-						<el-table :data="item" border stripe>  
-							<el-table-column label="网址">
+						<el-table :data="item" border stripe>
+							<el-table-column :label="$t('faucet.url')">
 								<template slot-scope="scope">
 									<span style="margin-left: 10px">{{ scope.row.url }}</span>
 								</template>
 							</el-table-column>
-							<el-table-column label="备注">
+							<el-table-column :label="$t('faucet.remark')">
 								<template slot-scope="scope">
 									<div slot="reference" class="name-wrapper" v-if="scope.row.remark!=''">
 										<el-tag size="medium">{{ scope.row.remark }}</el-tag>
 									</div>
 								</template>
 							</el-table-column>
-							<el-table-column label="操作">
+							<el-table-column :label="$t('faucet.operate')">
 								<template slot-scope="scope">
-									<el-button size="mini" @click="openUrl(scope.$index, scope.row)">前往领取</el-button>
+									<el-button size="mini" @click="openUrl(scope.$index, scope.row)">{{ $t('faucet.receive')}}</el-button>
 									<el-button size="mini" @click="copyUrl(scope.$index, scope.row)"
-										class="copy">复制网址</el-button>
+										class="copy">{{ $t('faucet.copyUrl')}}</el-button>
 								</template>
 							</el-table-column>
 						</el-table>
@@ -110,13 +112,13 @@ export default {
 				}
 			})()
 		}
-		if(window.location.hash!=""){
-			let url= window.location.hash;
+		if (window.location.hash != '') {
+			let url = window.location.hash
 			// %20转换为空格
-			url=url.replace(/%20/g," ").substring(1, url.length)
-			for(let i in this.faucetData){
-				if(this.faucetData[i].network==url){
-					this.expand(this.faucetData[i],i,false)
+			url = url.replace(/%20/g, ' ').substring(1, url.length)
+			for (let i in this.faucetData) {
+				if (this.faucetData[i].network == url) {
+					this.expand(this.faucetData[i], i, false)
 				}
 			}
 		}
@@ -130,12 +132,12 @@ export default {
 
 		//复制网址
 		copyUrl(index, row) {
-			this.copy(row.url, '复制网址成功', '.copy')
+			this.copy(row.url, this.$t('faucet.copyURLSuccessfully') , '.copy')
 		},
 
 		//展开列表
 		async expand(value, index, isWidthChanges) {
-			window.location.hash=value.network
+			window.location.hash = value.network
 			if (this.ChainID) {
 				//关闭上次打开的列表
 				let box = document.getElementById(this.ChainID)
@@ -151,7 +153,7 @@ export default {
 				this.ChainID = false
 				this.listValue = false
 				this.index = ''
-				window.location.hash=""
+				window.location.hash = ''
 				return
 			}
 			//修改图标
@@ -161,13 +163,13 @@ export default {
 			//记录打开的列表的chainID
 			this.ChainID = value.chainID
 			//添加数组
-			await this.addList(value,  parseInt(index) + 1)
+			await this.addList(value, parseInt(index) + 1)
 		},
 
 		//清理列表
-		delectList(){
-			for (let i in this.faucetData){
-				if(this.faucetData[i].length!=undefined){
+		delectList() {
+			for (let i in this.faucetData) {
+				if (this.faucetData[i].length != undefined) {
 					this.faucetData.splice(i, 1)
 				}
 			}
@@ -207,7 +209,7 @@ export default {
 				clipboard.destroy()
 			})
 			clipboard.on('error', () => {
-				this.$message.error('复制失败')
+				this.$message.error(this.$t('overall.copySauccessfully'))
 				clipboard.destroy()
 			})
 		},
@@ -216,7 +218,7 @@ export default {
 </script>
 
 <style scoped>
-.faucet{
+.faucet {
 	width: 100%;
 	height: auto;
 	min-height: 94%;
