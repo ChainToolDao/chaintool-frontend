@@ -77,5 +77,19 @@ export default {
         exportExcel: "下载excal",
         exportExcelPrompt: "你当前还没有查询余额，请查询余额后再进行下载表格",
         checkBalancePrompt: ["你还没有输入钱包地址，请输入钱包地址后重试", "你输入代币地址错误，请重新输入后重试"],
+    },
+    traceView: {
+        title: "交易堆栈 Trace 分析工具",
+        transactionHash: "交易哈希",
+        inputTransactionHash: "输入交易哈希",
+        analyze: "分析",
+        options: "高级选项",
+        inputAddressMap: "请填入Address map",
+        inputFunctionMap: "请填入Function map",
+        example: "例",
+        AddressMap: "地址映射",
+        FunctionMap: "功能图",
+        CallTraces: "CallTraces",
+        prompt: ["请输入正确的交易hash值", "请输入交易hash值后重试"]
     }
 }

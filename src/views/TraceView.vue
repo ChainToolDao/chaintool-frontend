@@ -4,32 +4,32 @@
 
 		<div class="scroll">
 			<div class="container">
-				<div class="title">交易堆栈 Trace 分析工具 <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BA%A4%E6%98%93%E5%A0%86%E6%A0%88-Trace-%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
+				<div class="title">{{$t('traceView.title')}} <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BA%A4%E6%98%93%E5%A0%86%E6%A0%88-Trace-%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7"  target="_blank">{{$t("overall.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
 
-				<div class="tips">交易哈希</div>
+				<div class="tips">{{$t('traceView.transactionHash')}}</div>
 
 				<div class="inputBtn">
-					<el-input v-model="txid" placeholder="Transaction Hash"></el-input>
-					<el-button class="btn" :disabled="loading ? true : false" type="primary" @click="traceVisualization">分析</el-button>
+					<el-input v-model="txid" :placeholder="$t('traceView.inputTransactionHash')"></el-input>
+					<el-button class="btn" :disabled="loading ? true : false" type="primary" @click="traceVisualization">{{$t('traceView.analyze')}}</el-button>
 				</div>
 
-				<div class="tips">高级选项</div>
+				<div class="tips">{{$t('traceView.options')}}</div>
 
 				<el-switch v-model="senior"></el-switch>
 
 				<div v-if="senior" class="senior">
-					<div class="tips">Address Map</div>
-					<el-input type="textarea" v-model="addressMap" :rows="7" placeholder="请填入Address map"></el-input>
+					<div class="tips"> {{$t('traceView.AddressMap')}}</div>
+					<el-input type="textarea" v-model="addressMap" :rows="7" :placeholder="$t('traceView.inputAddressMap')"></el-input>
 
-					<div class="tips">Function Map</div>
-					<el-input class="functionMap" type="textarea" v-model="functionMap" placeholder="请填入Function map"></el-input>
+					<div class="tips">{{$t('traceView.FunctionMap')}}</div>
+					<el-input class="functionMap" type="textarea" v-model="functionMap" :placeholder="$t('traceView.inputFunctionMap')"></el-input>
 
-					<el-link @click="fillDemo">例
+					<el-link @click="fillDemo">{{$t('traceView.example')}}
 						<i class="el-icon-view el-icon--right"></i>
 					</el-link>
 				</div>
 
-				<div class="tips">Call Traces</div>
+				<div class="tips">{{$t('traceView.CallTraces')}}</div>
 
 				<div class="div-center">
 					<div class="tree-container divItem">
@@ -219,11 +219,11 @@ export default {
         async traceVisualization() {
 			if(this.txid!=null){
 				if (this.txid.length != 66 || this.txid.slice(0, 2) != '0x') {
-                	this.$message.error('请输入正确的交易hash值')
+                	this.$message.error(this.$t('traceView.prompt[0]'))
                 	return
             	}
 			}else{
-				this.$message.error('请输入交易hash值后重试')
+				this.$message.error(this.$t('traceView.prompt[1]'))
 				return
 			}
            
