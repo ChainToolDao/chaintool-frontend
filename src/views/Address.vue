@@ -3,15 +3,15 @@
     <Navigation></Navigation>
     <div class="address">
       <div class="container">
-        <h3 class="title">地址转换与ENS查询<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2%E4%B8%8EENS%E6%9F%A5%E8%AF%A2"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
+        <h3 class="title">{{$t('address.title')}}<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2%E4%B8%8EENS%E6%9F%A5%E8%AF%A2"  target="_blank">{{$t("overall.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
         <div>
-          <h5>地址</h5>
+          <h5>{{$t('address.address')}}</h5>
           <div>
             <el-input
               v-model="enterAddress"
               placeholder="Input Address"
             ></el-input>
-            <el-button @click="addressTranslation">确认转换</el-button>
+            <el-button @click="addressTranslation">{{$t('address.convert')}}</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -26,8 +26,8 @@
         <div>
           <h5>ENS</h5>
           <div>
-            <el-input v-model="enterENS" placeholder="Input ENS"></el-input>
-            <el-button @click="queryENS">确认查询</el-button>
+            <el-input v-model="enterENS" :placeholder="$t('address.inputENS')"></el-input>
+            <el-button @click="queryENS">{{$t('address.inquire')}}</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -95,7 +95,7 @@ export default {
         this.canCopyAddress = true;
       } else {
         this.outputAddress =
-          "您输入的地址不合法，请重新输入。";
+          this.$t('address.errorAddressPrompt')
         this.canCopyAddress = false;
       }
     },
@@ -103,7 +103,7 @@ export default {
     //查询ENS
     async queryENS() {
       this.canCopyENS = false;
-      this.outputENS = "正在查询";
+      this.outputENS = this.$t('address.loadPrompt');
       this.load = true;
       let provider = new ethers.providers.InfuraProvider("mainnet");
       let pendingENS = "";
@@ -114,8 +114,7 @@ export default {
       }
       this.load = false;
       if (!pendingENS && typeof pendingENS !== "undefined" && pendingENS != 0) {
-        pendingENS =
-          "没有查询到对应的ENS，也没有查询到对应的地址。";
+        pendingENS = this.$t('address.errorENSPrompt');
       } else {
         this.canCopyENS = true;
       }
@@ -129,11 +128,11 @@ export default {
         },
       });
       clipboard.on("success", () => {
-        this.$message.success("复制成功");
+        this.$message.success(this.$t('overall.copySauccessfully'));
         clipboard.destroy();
       });
       clipboard.on("error", () => {
-        this.$message.error("复制失败");
+        this.$message.error(this.$t('overall.copyFailed'));
         clipboard.destroy();
       });
     },

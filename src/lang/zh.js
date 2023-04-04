@@ -91,5 +91,15 @@ export default {
         FunctionMap: "功能图",
         CallTraces: "CallTraces",
         prompt: ["请输入正确的交易hash值", "请输入交易hash值后重试"]
+    },
+    address: {
+        title: "地址转换与ENS查询",
+        address: "地址",
+        convert: "确认转换",
+        inquire: "确认查询",
+        inputENS: "输入ENS",
+        loadPrompt: "正在查询",
+        errorAddressPrompt: "您输入的地址不合法，请重新输入。",
+        errorENSPrompt: "没有查询到对应的ENS,也没有查询到对应的地址。"
     }
 }
