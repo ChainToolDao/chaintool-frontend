@@ -50,6 +50,9 @@ export default {
 	},
 
 	async created() {
+		if(localStorage.getItem("lang")!=null){
+			this.$i18n.locale=localStorage.getItem("lang")
+		}
 		this.lang=this.$i18n.locale
 		if (this.account) {
 			this.address = this.formatAccount(this.account)
@@ -96,6 +99,7 @@ export default {
 		//切换语言
 		cutoverLang() {
 			this.$i18n.locale = this.lang
+			localStorage.setItem("lang", this.lang)
 		},
 
 		formatAccount(acc) {
