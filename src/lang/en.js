@@ -1,130 +1,130 @@
 export default {
     overall: {
         //使用帮助
-        usingHelp: "Using help",
+        usingHelp: "Help",
         //复制成功
-        copySauccessfully: "copy successfully",
+        copySauccessfully: "Copyed",
         // 复制失败
-        copyFailed: "copy failed"
+        copyFailed: "Copy Failed"
     },
     navigation: {
         // 连接钱包
-        connectWallet: "Connect wallet"
+        connectWallet: "Connect Wallet"
     },
     home: {
         // ["开源", "工具箱", "让区块链开发更轻松"]
-        title: ["Open Source ", "Toolbox", "Make blockchain development easier"],
+        title: ["OpenSource ", "Toolbox", "Make Blockchain Develop More Easier"],
         // 开源才值得信赖，好用才提高效率，你所需的工具尽在于此。
-        describe: "Only open source is trustworthy, and it is easy to use to improve efficiency. All the tools you need are here.",
+        describe: "Open source is trustworthy, good to use to improve efficiency. The tools you need are here.",
         // 问题反馈
         feedback: "Feedback",
         // 工具列表
-        toolList: "Tool list",
+        toolList: "Tools",
         // 免费效率工具，快上手试试吧 
-        listDescribe: "Free efficiency tool, try it out",
+        listDescribe: "Free & Efficiency, try it out",
         tool_list: [
             {
                 // 单位换算
-                title: 'Unit conversion',
+                title: 'Unit Converter',
                 // ETH 单位换算
-                detail: 'ETH Unit conversion',
+                detail: 'ETH Unit Converter',
             },
             {
                 // 批量查询
-                title: 'Batch query',
+                title: 'Balance Querier',
                 // 批量查询钱包余额
                 detail: 'Batch query wallet balance',
             },
             {
                 // 交易分析
-                title: 'Transaction analysis',
+                title: 'Tx Trace Viewer',
                 // 解析 EVM 交易内部详情
-                detail: 'Parsing internal details of EVM transactions',
+                detail: 'Parse internal details of EVM transactions',
             },
             {
                 // ABI 可视化调用 
-                title: 'ABI visualization calls',
+                title: 'ABI Reader & Sender',
                 // 根据 ABI 自动生成可调用函数
-                detail: 'Automatically generate callable functions based on ABI',
+                detail: 'Friendly generate callable functions for ABI',
             },
             {
                 // 地址转换与ENS查询
-                title: 'Address Translation and ENS Lookup',
+                title: 'Address <-> ENS',
                 // 地址查询转换与ENS查询
-                detail: 'Address lookup conversion and ENS lookup',
+                detail: 'Address lookup and ENS lookup',
             },
             {
                 // 生成 EVM 钱包
-                title: 'Generate EVM wallet',
+                title: 'Wallet Generator',
                 // 批量生成 EVM 钱包
-                detail: 'Generate EVM wallets in batches',
+                detail: 'Trustworthy & Batch EVM Wallet Generator',
             },
             {
                 // 签名选择器查询
-                title: 'Signature selector query',
+                title: 'Selector Querier',
                 // 根据函数签名查询 4 字节函数选择器
-                detail: 'Query a 4-byte function selector based on the function signature',
+                detail: 'Function selector <=> Function signature',
             },
             {
                 // 事件签名查询主题(TopicID)
-                title: 'Event Signature Query Topic (TopicID)',
+                title: 'TopicID Querier',
                 // 根据事件签名查询主题TopicID及反向查询
-                detail: 'Query topic TopicID and reverse query based on event signature',
+                detail: 'Event TopicID <=> Event signature',
             },
             {
                 // Hash 工具
-                title: 'Hash tool',
+                title: 'Hash Tools',
                 // 常用 Hash 工具，如keccak-256、base64 等计算
-                detail: 'Commonly used Hash tools, such as keccak-256, base64 and other calculations',
+                detail: 'Commonly used Hash Tools: keccak-256, base64 and so on...',
             },
             {
                 // 交易输入数据编解码
-                title: 'Transaction input data codec',
+                title: 'Input Calldata Decoder & Encoder',
                 // 编码及解码交易输入数据（Input Calldata）
-                detail: 'Encoding and decoding transaction input data (Input Calldata)',
+                detail: 'Encoding and decoding Tx Calldata',
             },
             {
                 // 测试币水龙头
-                title: 'Test Coin Faucet',
+                title: 'Testnet Faucets',
                 // 测试网水龙头测试币获取
-                detail: 'Testnet Faucet Test Coin Acquisition',
+                detail: 'Testnet Faucet All in one',
             },
         ],
     },
     uintConvert: {
-        title: "以太 ETH 单位转换器",
-        describe: "以太币的最小单位是Wei，1个ETH等于10的18次方Wei。在支付Gas费时大家习惯使用Gwei作为展示单位，日常使用的单位是ETH、Gwei 和 Wei；",
-        illustrate: ["以太坊 Ethereum 和以太币 Ether 的区别：", "以太坊 Ethereum 是一个允许任何人在其上创建和使用分布式应用的开放的区块链平台。", "以太币 Ether 是以太坊 Ethereum 中通用的货币，它主要用于支付转账及执行智能合约所消耗的汽油(Gas)，在交易中以太币被缩写为ETH。"],
+        title: "Unit Converter",
+        describe: "The smallest unit of Ether is Wei in EVM, 1 Ether == 10^18 Wei, gwei usual as the unit when paying gas fee.",
+        illustrate: ["The difference between ethereum and ether:", "Ethereum is an open blockchain platform that allows anyone to deploy or interact with smart contracts on it", "Ether is the native coin in Ethereum, ether used to pay for the gas fee"],
     },
     bulkQuery: {
-        title: "批量查询钱包余额",
-        enterAddress: "代币地址",
-        enterAddressPrompt: "默认 ETH 地址",
-        enterWalletAddress: "钱包地址",
-        enterWalletAddressPrompt: "一行输入一个地址",
-        inquireResult: "查询结果",
-        list: ["钱包地址", "代币", "余额", "暂无数据"],
-        checkBalance: "查询余额",
-        exportExcel: "下载excal",
-        exportExcelPrompt: "你当前还没有查询余额，请查询余额后再进行下载表格",
-        checkBalancePrompt: ["你还没有输入钱包地址，请输入钱包地址后重试", "你输入代币地址错误，请重新输入后重试"],
+        title: "Balance Querier",
+        enterAddress: "Token Address",
+        enterAddressPrompt: "Input your wallet address",
+        enterWalletAddress: "Wallet",
+        enterWalletAddressPrompt: "One address per line",
+        inquireResult: "Result",
+        list: ["Wallet", "Token", "Balance", "No Data"],
+        checkBalance: "Get Balance",
+        exportExcel: "Download Excel",
+        exportExcelPrompt: "No balance data",
+        checkBalancePrompt: ["No wallet address", "Token address error, please review"],
     },
     traceView: {
-        title: "交易堆栈 Trace 分析工具",
-        transactionHash: "交易哈希",
-        inputTransactionHash: "输入交易哈希",
-        analyze: "分析",
-        options: "高级选项",
-        inputAddressMap: "请填入Address map",
-        inputFunctionMap: "请填入Function map",
-        example: "例",
-        AddressMap: "地址映射",
-        FunctionMap: "功能图",
-        CallTraces: "CallTraces",
-        prompt: ["请输入正确的交易hash值", "请输入交易hash值后重试"]
+        title: "Tx Trace Viewer",
+        transactionHash: "Tx Hash",
+        inputTransactionHash: "Input transaction hash",
+        analyze: "Analyze",
+        options: "options",
+        inputAddressMap: "Input address alias",
+        inputFunctionMap: "Input function alias",
+        example: "A example",
+        AddressMap: "Address alias",
+        FunctionMap: "Function alias",
+        CallTraces: "Traces",
+        prompt: ["input tx hash", "retry input tx hash and "]
     },
     abi: {
-        title: "ABI 可视化调用",
+        title: "ABI Reader & Sender",
         addContract: "添加合约",
         share: "分享",
         sharePrompt: "链接分享给好友，将自动加载合约",
@@ -183,98 +183,98 @@ export default {
         connectionRequestError: "连接请求错误，请尝试手动连接。连接后刷新页面重试。",
     },
     address: {
-        title: "地址转换与ENS查询",
-        address: "地址",
-        convert: "确认转换",
-        inquire: "确认查询",
-        inputENS: "输入ENS",
-        loadPrompt: "正在查询",
-        errorAddressPrompt: "您输入的地址不合法，请重新输入。",
-        errorENSPrompt: "没有查询到对应的ENS,也没有查询到对应的地址。"
+        title: "Address <-> ENS",
+        address: "wallet address",
+        convert: "Lookup",
+        inquire: "Lookup",
+        inputENS: "ens domain",
+        loadPrompt: "loading",
+        errorAddressPrompt: "invalid wallet address, please retype",
+        errorENSPrompt: "No corresponding results were found."
     },
     generateWallet: {
-        title: "批量生成EVM钱包",
-        tips: ["Tips:钱包生成过程均在本地完成，代码完全", "开源", "。任何人都无法获取到您的助记词及私钥，请放心使用。"],
-        randomBatch: "随机批量生成",
-        customize: "自定义私钥或助记词创建",
-        mnemonicLength: "选择助记词长度",
-        quantity: "生成钱包的数量",
-        generateImmediately: "立即生成",
-        regenerate: "重新生成",
-        exportexcel: "下载表格",
-        walletsNumber: "输入生成钱包数量",
-        subtitle: "通过私钥或助记词创建钱包",
-        createNow: "立即创建",
-        enterPrompt: "输入私钥或助记词",
-        copy: "复制",
-        address: "地址",
-        privateKey: "私钥",
-        mnemonic: '助记词',
-        nullErrorPrompt: "你没有选择助记词长度或没有填入生成钱包的地址数量",
-        IllegalErrorPrompt: "你写入的生成钱包的地址数量非数字或小于1,无法生成,请重新输入",
-        beyondErrorPrompt: "你写入的钱包数量大于100,无法生成。请输入不大于100的生成数量。",
-        inputErrorPrompt: "创建失败，请检查你的输入"
+        title: "Wallet Generator",
+        tips: ["Tips:  only run in your browser, totally", "Open Source", ". No one can get your mnemonic or private key, feel free to use."],
+        randomBatch: "By Random",
+        customize: "By Pri-key or Mnemonic",
+        mnemonicLength: "How many mnemonic words",
+        quantity: "Address numbers",
+        generateImmediately: "Create",
+        regenerate: "Re-create",
+        exportexcel: "Download",
+        walletsNumber: "Address numbers",
+        subtitle: "Create Wallet by Private key or mnemonic",
+        createNow: "Create",
+        enterPrompt: "Private key or mnemonic",
+        copy: "Copy",
+        address: "Address",
+        privateKey: "Pri-key",
+        mnemonic: 'Mnemonic',
+        nullErrorPrompt: "Invalid input",
+        IllegalErrorPrompt: "Invalid address numbers",
+        beyondErrorPrompt: "Address number too big, must be smaller than 100",
+        inputErrorPrompt: "Create failed"
     },
     querySelector: {
-        title: "函数名查询函数选择器(4字节)",
-        inputFunctionName: '通过函数名查询4字节函数选择器',
+        title: "Selector Querier",
+        inputFunctionName: 'Get selector by function signature',
         // 输入函数签名
-        inputFunctionNamePrompt: "Enter The Function Signature",
-        inquire: "查询",
-        inputByteFunctionSelector: "输入字节函数选择器查询函数签名",
-        functionInputError: "你输入的函数有误，请重新输入!",
-        querying: "正在查询",
-        noRecord: "你所查找的选择器暂未被记录",
+        inputFunctionNamePrompt: "enter the function signature",
+        inquire: "query",
+        inputByteFunctionSelector: "Get function signature by selector",
+        functionInputError: "Input error",
+        querying: "loading",
+        noRecord: "no record",
     },
     topicID: {
-        title: "查询事件主题(TopicID)",
-        EventSignature: '根据事件名查询主题(TopicID)',
+        title: "TopicID Querier",
+        EventSignature: 'Get topicId by event signature',
         // 输入事件签名
         inputEventSignature: "Input Event Signature",
-        inquire: "查询",
-        TopicID: "根据TopicID查询事件名",
-        InputTopicID: "输入主题ID",
-        signatureInputError: "输入错误，输入示例：event Transfer(address indexed from, address indexed to, uint256 amount)",
-        querying: "正在查询",
-        topicIDInputError: "暂未查询到对应的事件签名。输入示例：0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+        inquire: "query",
+        TopicID: "Get event signature by topicId",
+        InputTopicID: "Input topicId",
+        signatureInputError: "Such as: event Transfer(address indexed from, address indexed to, uint256 amount)",
+        querying: "loading",
+        topicIDInputError: "no record"
     },
     hashTool: {
-        title: "Hash 工具",
-        confirm: "确认",
-        coding: "编码",
-        decoding: "解码",
-        errorHexadecimal: "你的输入不是16进制的字符，请重新输入",
-        decodingError: "解码失败，请检查你的输入后重试",
-        noInput: "你的输入为空，请重新输入"
+        title: "Hash Tools",
+        confirm: "Confirm",
+        coding: "Encoding",
+        decoding: "Decoding",
+        errorHexadecimal: "Invalid hex data",
+        decodingError: "Decoding Error",
+        noInput: "No input data"
     },
     calldata: {
-        title: "交易输入数据(Calldata)编解码",
-        decoding: "解码",
-        coding: "编码",
-        inputFunction: "输入函数",
-        inputFunctionPrompt: "请输入函数",
-        parameter: "参数",
-        inputParameterPrompt: "一行输入一个参数，数组类型参数输入格式:[0x2222,0x4444]",
-        inputError: "你的输入有误，请检查后重试",
-        inputCalldata: "输入Calldata",
-        selectFunction: "选择函数",
-        autoChoose: "自动选择",
-        manualInput: "手动输入",
-        decodingResult: "解码结果",
-        parameter: "参数",
-        parameterType: "参数类型",
-        value: "值",
-        queryFailed: "查询失败，请检查你的输入后重试",
+        title: "Input Calldata Decoder & Encoder",
+        decoding: "Decoding",
+        coding: "Encoding",
+        inputFunction: "input function",
+        inputFunctionPrompt: "function signaturs",
+        parameter: "Params",
+        inputParameterPrompt: "A param per line, Array like this:[0x2222,0x4444]",
+        inputError: "Input Error",
+        inputCalldata: "Calldata:",
+        selectFunction: "Function",
+        autoChoose: "Auto",
+        manualInput: "Manual",
+        decodingResult: "Result",
+        parameter: "Param",
+        parameterType: "Type",
+        value: "Value",
+        queryFailed: "An error has occurred",
     },
     faucet: {
-        title: "测试币水龙头",
-        prompt: ["水龙头（Faucet）是一个平台，为你提供测试币（或 Token ），以便在测试智能合约时使用。", "ChainTool 水龙头为大家收集了主要测试的水龙头网站，方便开发者们享用。", "如果你有我们没有列出的水龙头网站，欢迎提交", "PR", "或", "ISSUE", "帮我们改进，你的支持是我们无限的动力。"],
-        currency: "货币",
-        url: "网址",
-        remark: "备注",
-        operate: "操作",
-        receive: "前往领取",
-        copyUrl: "复制网址",
-        copyURLSuccessfully: "复制网址成功",
+        title: "Testnet Faucets",
+        prompt: ["Request testnet coins and tokens for test you smart contract.", "ChainTool Faucets collet commonly used faucet websites for developers to enjoy.", "If you have a faucet website that we don't list, feel free to submit ", "PR", " or ", "ISSUE", ", Your support is our motivation."],
+        currency: "Currency",
+        url: "Website",
+        remark: "Comment",
+        operate: "Operate",
+        receive: "Go",
+        copyUrl: "Copy",
+        copyURLSuccessfully: "URL Copied",
     }
 }
