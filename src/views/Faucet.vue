@@ -61,7 +61,7 @@
 
 <script>
 import Navigation from '../components/Navigation.vue'
-import faucetData from '../faucetData.json'
+import { faucetData } from '../faucetData.js'
 import Clipboard from 'clipboard'
 
 export default {
@@ -87,7 +87,7 @@ export default {
 		return {
 			width: '1300px',
 			// 水龙头数据
-			faucetData: faucetData,
+			faucetData: faucetData(this),
 			// 打开列表的ChaintID
 			ChainID: false,
 			// 序号
