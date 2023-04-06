@@ -1,8 +1,8 @@
 <template>
     <div>
         <img :src="img">
-        <p>未到找指定页面</p>
-        <Button class="back" @click="back">返回页面</Button>
+        <p>{{$t('notfind.title')}}</p>
+        <Button class="back" @click="back">{{$t('notfind.return')}}</Button>
     </div>
 </template>
 
@@ -13,6 +13,11 @@ export default {
         return {
             img: require('../assets/imgs/404.jpg'),
         }
+    },
+    created() {
+		if(localStorage.getItem("lang")!=null){
+			this.$i18n.locale=localStorage.getItem("lang")
+		}
     },
     methods: {
         back() {

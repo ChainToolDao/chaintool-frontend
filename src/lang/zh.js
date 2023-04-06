@@ -93,6 +93,7 @@ export default {
         prompt: ["请输入正确的交易hash值", "请输入交易hash值后重试"],
         analyzing: "全力分析中...",
         noData: "暂无数据",
+        parsingFailed: ["解析失败，请稍后再试", "解析失败"]
     },
     abi: {
         title: "ABI 可视化调用",
@@ -245,5 +246,9 @@ export default {
         receive: "前往领取",
         copyUrl: "复制网址",
         copyURLSuccessfully: "复制网址成功",
+    },
+    notfind: {
+        title: "未到找指定页面",
+        return: "返回页面"
     }
 }

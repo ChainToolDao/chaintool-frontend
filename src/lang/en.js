@@ -93,6 +93,7 @@ export default {
         prompt: ["input tx hash", "retry input tx hash and "],
         analyzing: "全力分析中...",
         noData: "暂无数据",
+        parsingFailed: ["解析失败，请稍后再试", "解析失败"]
     },
     abi: {
         title: "ABI Reader & Sender",
@@ -246,5 +247,9 @@ export default {
         receive: "Go",
         copyUrl: "Copy",
         copyURLSuccessfully: "URL Copied",
+    },
+    notfind: {
+        title: "未到找指定页面",
+        return: "返回页面"
     }
 }

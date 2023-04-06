@@ -259,12 +259,12 @@ export default {
                         }
                     } else {
                         this.loading = false
-                        this.$message.error('解析失败，请稍后再试')
+                        this.$message.error(this.$t('traceView.parsingFailed[0]'))
                     }
                 })
             } catch (error) {
                 this.loading = false
-                this.$message.error('解析失败...')
+                this.$message.error(this.$t('traceView.parsingFailed[1]'))
                 console.log(error)
             }
 
