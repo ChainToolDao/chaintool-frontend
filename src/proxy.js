@@ -10,14 +10,14 @@ export default {
             } catch (error) {
                 callback(false)
                 that.$message.error(
-                    '连接失败, MetaMask连接被拒绝。'
+                    that.$t('connectWallet.walleAccessDenied')
                 )
                 return
             }
             callback(provider)
         } else {
             that.$message.error(
-                '连接失败, 请先安装MetaMask.'
+                that.$t('connectWallet.notInstalledMetaMask')
             )
         }
     },

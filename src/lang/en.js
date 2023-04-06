@@ -260,5 +260,9 @@ export default {
         remarkMumbai: ["每天0.5 Mumbai MATIC"],
         remarkHarmony: ["包含Shard 0、Shard 1、Shard 2、Shard 3"],
         remarkCelo: ["需要使用Github进行身份验证"]
+    },
+    connectWallet: {
+        walleAccessDenied: "连接失败, MetaMask连接被拒绝。",
+        notInstalledMetaMask: "连接失败, 请先安装MetaMask."
     }
 }
