@@ -2,26 +2,26 @@ export function faucetData(that) {
     return [
         {
             "network": "Goerli",
-            "remark": "以太坊测试网",
+            "remark": that.$t('faucetData.ethereum')+that.$t('faucetData.testnet'),
             "chainID": "5",
             "currency": "GETH",
             "img": "tool_list1.png",
             "faucet": [
                 {
                     "url": "https://goerlifaucet.com",
-                    "remark": "每天0.1 Goerli ETH"
+                    "remark": that.$t('faucetData.remarkGoerli[0]')
                 },
                 {
                     "url": "https://goerli-faucet.pk910.de",
-                    "remark": "需要通过挖矿获取"
+                    "remark": that.$t('faucetData.remarkGoerli[1]')
                 },
                 {
                     "url": "https://faucet.paradigm.xyz",
-                    "remark": "可领取ETH、wETH、DAI、NFTs，要求登录Twitter"
+                    "remark": that.$t('faucetData.remarkGoerli[2]')
                 },
                 {
                     "url": "https://grabteeth.xyz/",
-                    "remark": "在 2022 年11之前部署过合约的，可以领 10 个"
+                    "remark": that.$t('faucetData.remarkGoerli[3]')
                 },
                 {
                     "url": "https://unitap.app/",
@@ -40,21 +40,21 @@ export function faucetData(that) {
         {
             "network": "Sepolia",
             "chainID": "11155111",
-            "remark": "以太坊测试网",
+            "remark": that.$t('faucetData.ethereum')+that.$t('faucetData.testnet'),
             "currency": "SETH",
             "img": "tool_list1.png",
             "faucet": [
                 {
                     "url": "https://sepoliafaucet.com/",
-                    "remark": "每天0.5 Sepolia ETH"
+                    "remark": that.$t('faucetData.remarkSepolia[0]')
                 },
                 {
                     "url": "https://sepolia-faucet.pk910.de/",
-                    "remark": "需要通过挖矿获取"
+                    "remark": that.$t('faucetData.remarkSepolia[1]')
                 },
                 {
                     "url": "https://grabteeth.xyz/",
-                    "remark": "在 2022 年11之前部署过合约的，可以领 10 个"
+                    "remark": that.$t('faucetData.remarkSepolia[2]')
                 },
                 {
                     "url": "https://faucet.quicknode.com/drip",
@@ -71,14 +71,14 @@ export function faucetData(that) {
         },
         {
             "network": "Mumbai",
-            "remark": "Polygon 测试网 ",
+            "remark": "Polygon "+that.$t('faucetData.testnet'),
             "chainID": "80001",
             "currency": "tMATIC",
             "img": "PolygonLogo.png",
             "faucet": [
                 {
                     "url": "https://mumbaifaucet.com/",
-                    "remark": "每天0.5 Mumbai MATIC"
+                    "remark":  that.$t('faucetData.remarkMumbai[0]')
                 },
                 {
                     "url": "https://faucet.polygon.technology",
@@ -88,7 +88,7 @@ export function faucetData(that) {
         },
         {
             "network": "BNB Chain Testnet",
-            "remark": "BSC 测试网",
+            "remark": "BSC "+that.$t('faucetData.testnet'),
             "chainID": "97",
             "currency": "tBNB",
             "img": "BscScanLogo.png",
@@ -105,7 +105,7 @@ export function faucetData(that) {
         },
         {
             "network": "Gnosis Chain",
-            "remark": "Gnosis 测试网",
+            "remark": "Gnosis "+that.$t('faucetData.testnet'),
             "chainID": "300",
             "currency": "xDai",
             "img": "gnosisLogo.webp",
@@ -118,7 +118,7 @@ export function faucetData(that) {
         },
         {
             "network": "Avalanche Testnet",
-            "remark": "Avalanche 测试网",
+            "remark": "Avalanche "+that.$t('faucetData.testnet'),
             "chainID": "43113",
             "currency": "AVAX",
             "img": "avalancheLogo.webp",
@@ -131,7 +131,7 @@ export function faucetData(that) {
         },
         {
             "network": "OKExChain Testnet",
-            "remark": "OKExChain 测试网",
+            "remark": "OKExChain "+that.$t('faucetData.testnet'),
             "chainID": "65",
             "currency": "OKT",
             "img": "okexLogo.webp",
@@ -144,20 +144,20 @@ export function faucetData(that) {
         },
         {
             "network": "Harmony Testnet",
-            "remark": "Harmony 测试网",
+            "remark": "Harmony "+that.$t('faucetData.testnet'),
             "chainID": "1666700000",
             "currency": "ONE",
             "img": "harmonyLogo.webp",
             "faucet": [
                 {
                     "url": "https://faucet.pops.one",
-                    "remark": "包含Shard 0、Shard 1、Shard 2、Shard 3"
+                    "remark": that.$t('faucetData.remarkHarmony[0]')
                 }
             ]
         },
         {
             "network": "Aurora Testnet",
-            "remark": "Aurora 测试网",
+            "remark": "Aurora "+that.$t('faucetData.testnet'),
             "chainID": "1313161555",
             "currency": "ETH",
             "img": "auroraLogo.webp",
@@ -170,33 +170,29 @@ export function faucetData(that) {
         },
         {
             "network": "Celo Alfajores Testnet",
-            "remark": "Celo 测试网",
+            "remark": "Celo "+that.$t('faucetData.testnet'),
             "chainID": "44787",
             "currency": "CELO",
             "img": "celoLogo.webp",
             "faucet": [
                 {
                     "url": "https://faucet.celo.org/",
-                    "remark": "需要使用Github进行身份验证"
+                    "remark": that.$t('faucetData.remarkCelo[0]')
                 }
             ]
         },
         {
             "network": "Cube Chain Testnet",
-            "remark": "Cube 测试网",
+            "remark": "Cube "+that.$t('faucetData.testnet'),
             "chainID": "1819",
             "currency": "CUBET",
             "img": "cubeLogo.png",
             "faucet": [
                 {
-                    "url": "https://faucet.celo.org/",
-                    "remark": "需要使用Github进行身份验证"
-                },
-                {
                     "url": "https://faucet.cube.network/",
-                    "remark": "需要使用Github进行身份验证"
+                    "remark": ""
                 },
-            ]
+            ] 
         }
     ]
 } 

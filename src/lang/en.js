@@ -251,5 +251,14 @@ export default {
     notfind: {
         title: "未到找指定页面",
         return: "返回页面"
+    },
+    faucetData: {
+        ethereum: "Ethereum",
+        testnet: " Testnet",
+        remarkGoerli: ["每天0.1 Goerli ETH", "需要通过挖矿获取", "可领取ETH、wETH、DAI、NFTs，要求登录Twitter", "在 2022 年11之前部署过合约的，可以领 10 个"],
+        remarkSepolia: ["每天0.5 Sepolia ETH", "需要通过挖矿获取", "在 2022 年11之前部署过合约的，可以领 10 个"],
+        remarkMumbai: ["每天0.5 Mumbai MATIC"],
+        remarkHarmony: ["包含Shard 0、Shard 1、Shard 2、Shard 3"],
+        remarkCelo: ["需要使用Github进行身份验证"]
     }
 }
