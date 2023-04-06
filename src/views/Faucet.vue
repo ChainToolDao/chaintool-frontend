@@ -135,8 +135,17 @@ export default {
 			this.copy(row.url, this.$t('faucet.copyURLSuccessfully') , '.copy')
 		},
 
+		// 更改滚动条
+		changeScrollbar(position){
+			document.documentElement.scrollTop=position
+		},
+
 		//展开列表
 		async expand(value, index, isWidthChanges) {
+			let position=document.documentElement.scrollTop
+			setTimeout(()=>{
+				this.changeScrollbar(position)
+			},1);
 			window.location.hash = value.network
 			if (this.ChainID) {
 				//关闭上次打开的列表
