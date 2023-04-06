@@ -83,6 +83,12 @@ export default {
 		}
 	},
 
+	watch: { 
+		"$i18n.locale"(){
+			this.init()
+		}
+	},
+
 	data() {
 		return {
 			width: '1300px',
@@ -125,6 +131,11 @@ export default {
 	},
 
 	methods: {
+		//初始化数据
+		init(){
+			this.faucetData=faucetData(this)
+		},
+		
 		//打开网址
 		openUrl(index, row) {
 			window.open(row.url, '_blank')
