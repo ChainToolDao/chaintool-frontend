@@ -363,7 +363,8 @@ export default {
 	width: 26px;
 	height: 26px;
 	margin-bottom: -5px;
-	padding-right: 10px;
+	margin-right: 10px;
+	border-radius: 13px;
 }
 
 .containe table tr:first-child {
