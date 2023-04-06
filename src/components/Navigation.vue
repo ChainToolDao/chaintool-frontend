@@ -88,12 +88,15 @@ export default {
 						let provider = new ethers.providers.Web3Provider(
 							web3Provider
 						)
-						let account = await provider.getSigner().getAddress()
-						this.$store.commit('updataAccount', account)
-						this.address = this.formatAccount(account)
+						try{
+							let account = await provider.getSigner().getAddress()
+							this.$store.commit('updataAccount', account)
+							this.address = this.formatAccount(account)
+						}catch(error){
+						}
 					}
 				}
-			)
+			,this)
 		},
 
 		//切换语言
