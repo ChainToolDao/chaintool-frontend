@@ -347,6 +347,7 @@ export default {
 }
 
 .container .bottomBtn {
+  vertical-align:top;
   flex-direction: row;
   display: inline-block;
   text-align: center;

@@ -1,5 +1,5 @@
 <template>
-	<div class="traceView" v-loading="loading" element-loading-text="全力分析中...">
+	<div class="traceView" v-loading="loading" :element-loading-text="$t('traceView.analyzing')">
         <Navigation></Navigation>
 
 		<div class="scroll">
@@ -42,7 +42,7 @@
 							</template>
 						</div>
 
-						<el-tree id="tree" ref="tree" node-key="id" :indent="0" :data="treeData">
+						<el-tree id="tree" ref="tree" node-key="id" :indent="0" :empty-text="$t('traceView.noData')" :data="treeData">
 							<span class="custom-tree-node" slot-scope="{ data }">
 								<template v-if="data.init">
 									<!-- 如果该交易为创建合约 -->

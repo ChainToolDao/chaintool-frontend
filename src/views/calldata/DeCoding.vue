@@ -16,7 +16,7 @@
         <div class="bottomButton contentButton" @click="decoding">{{$t("calldata.decoding")}}
         </div>
         <div class="mainRow">{{$t("calldata.decodingResult")}}</div>
-        <el-table :data="decodingResult" class="list" row-key="id" border :row-class-name="increaseTableStyle"
+        <el-table :data="decodingResult" class="list" row-key="id" border :row-class-name="increaseTableStyle"  slot="empty" :empty-text="$t('calldata.noData')"
             :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
             <el-table-column prop="id" :label="$t('calldata.parameter')" width="150">
             </el-table-column>

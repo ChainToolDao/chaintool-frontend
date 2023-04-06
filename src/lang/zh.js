@@ -90,7 +90,9 @@ export default {
         AddressMap: "地址映射",
         FunctionMap: "功能图",
         CallTraces: "CallTraces",
-        prompt: ["请输入正确的交易hash值", "请输入交易hash值后重试"]
+        prompt: ["请输入正确的交易hash值", "请输入交易hash值后重试"],
+        analyzing: "全力分析中...",
+        noData: "暂无数据",
     },
     abi: {
         title: "ABI 可视化调用",

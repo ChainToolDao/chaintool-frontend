@@ -1,92 +1,61 @@
 export default {
     overall: {
-        //使用帮助
         usingHelp: "Help",
-        //复制成功
         copySauccessfully: "Copyed",
-        // 复制失败
         copyFailed: "Copy Failed"
     },
     navigation: {
-        // 连接钱包
         connectWallet: "Connect Wallet"
     },
     home: {
-        // ["开源", "工具箱", "让区块链开发更轻松"]
         title: ["OpenSource ", "Toolbox", "Make Blockchain Develop More Easier"],
-        // 开源才值得信赖，好用才提高效率，你所需的工具尽在于此。
         describe: "Open source is trustworthy, good to use to improve efficiency. The tools you need are here.",
-        // 问题反馈
         feedback: "Feedback",
-        // 工具列表
         toolList: "Tools",
-        // 免费效率工具，快上手试试吧 
         listDescribe: "Free & Efficiency, try it out",
         tool_list: [
             {
-                // 单位换算
                 title: 'Unit Converter',
-                // ETH 单位换算
                 detail: 'ETH Unit Converter',
             },
             {
-                // 批量查询
                 title: 'Balance Querier',
-                // 批量查询钱包余额
                 detail: 'Batch query wallet balance',
             },
             {
-                // 交易分析
                 title: 'Tx Trace Viewer',
-                // 解析 EVM 交易内部详情
                 detail: 'Parse internal details of EVM transactions',
             },
             {
-                // ABI 可视化调用 
                 title: 'ABI Reader & Sender',
-                // 根据 ABI 自动生成可调用函数
                 detail: 'Friendly generate callable functions for ABI',
             },
             {
-                // 地址转换与ENS查询
                 title: 'Address <-> ENS',
-                // 地址查询转换与ENS查询
                 detail: 'Address lookup and ENS lookup',
             },
             {
-                // 生成 EVM 钱包
                 title: 'Wallet Generator',
-                // 批量生成 EVM 钱包
                 detail: 'Trustworthy & Batch EVM Wallet Generator',
             },
             {
-                // 签名选择器查询
                 title: 'Selector Querier',
-                // 根据函数签名查询 4 字节函数选择器
                 detail: 'Function selector <=> Function signature',
             },
             {
-                // 事件签名查询主题(TopicID)
                 title: 'TopicID Querier',
-                // 根据事件签名查询主题TopicID及反向查询
                 detail: 'Event TopicID <=> Event signature',
             },
             {
-                // Hash 工具
                 title: 'Hash Tools',
-                // 常用 Hash 工具，如keccak-256、base64 等计算
                 detail: 'Commonly used Hash Tools: keccak-256, base64 and so on...',
             },
             {
-                // 交易输入数据编解码
                 title: 'Input Calldata Decoder & Encoder',
-                // 编码及解码交易输入数据（Input Calldata）
                 detail: 'Encoding and decoding Tx Calldata',
             },
             {
-                // 测试币水龙头
                 title: 'Testnet Faucets',
-                // 测试网水龙头测试币获取
                 detail: 'Testnet Faucet All in one',
             },
         ],
@@ -121,7 +90,9 @@ export default {
         AddressMap: "Address alias",
         FunctionMap: "Function alias",
         CallTraces: "Traces",
-        prompt: ["input tx hash", "retry input tx hash and "]
+        prompt: ["input tx hash", "retry input tx hash and "],
+        analyzing: "全力分析中...",
+        noData: "暂无数据",
     },
     abi: {
         title: "ABI Reader & Sender",
@@ -218,7 +189,6 @@ export default {
     querySelector: {
         title: "Selector Querier",
         inputFunctionName: 'Get selector by function signature',
-        // 输入函数签名
         inputFunctionNamePrompt: "enter the function signature",
         inquire: "query",
         inputByteFunctionSelector: "Get function signature by selector",
@@ -229,7 +199,6 @@ export default {
     topicID: {
         title: "TopicID Querier",
         EventSignature: 'Get topicId by event signature',
-        // 输入事件签名
         inputEventSignature: "Input Event Signature",
         inquire: "query",
         TopicID: "Get event signature by topicId",
@@ -265,6 +234,7 @@ export default {
         parameterType: "Type",
         value: "Value",
         queryFailed: "An error has occurred",
+        noData: "暂无数据"
     },
     faucet: {
         title: "Testnet Faucets",
