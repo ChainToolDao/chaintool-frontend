@@ -123,7 +123,7 @@ export default {
         delect: "删除",
         delectPrompt: "点击可删除合约",
         contractName: "合约名称",
-        blockchainAddress: "区块链地址",
+        blockchainAddress: "区块链",
         contractAddress: "合约地址",
         callFunctions: "调用函数：",
         inputValue: "请输入Value",
