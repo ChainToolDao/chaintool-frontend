@@ -4,6 +4,20 @@ export default {
         copySauccessfully: "复制成功",
         copyFailed: "复制失败"
     },
+    title: {
+        home: "区块链开发者的工具箱",
+        unitConvert: "Ether单位换算",
+        bulkQuery: "批量查询钱包余额",
+        traceview: "交易分析工具",
+        abi: "ABI 图形化",
+        address: "地址转换与ENS查询",
+        generateWallet: "批量生成EVM钱包",
+        querySelector: "函数名查询函数选择器",
+        topicID: "查询事件主题(TopicID)",
+        hashTool: "Hash工具",
+        calldata: "交易输入数据(Calldata)编解码",
+        faucet: "测试币水龙头"
+    },
     navigation: {
         connectWallet: "连接钱包"
     },

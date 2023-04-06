@@ -263,7 +263,7 @@ export default {
 
 	metaInfo() {
 		return {
-			title: 'Chaintool - ABI 图形化',
+			title: "Chaintool - " + this.title,
 
 			meta: [
 				{
@@ -478,6 +478,12 @@ export default {
 			//创建合约
 			this.createABI(this.form.name)
 	},
+
+	computed:{
+      title(){
+	      return this.$t("title.abi")
+	    }
+  	},
 
 	methods: {
 		//创建合约

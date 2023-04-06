@@ -30,9 +30,7 @@
 						<div>{{ item.detail }}</div>
 					</div>
 				</div>
-
 			</div>
-
 		</div>
 	</div>
 </template>
@@ -47,7 +45,7 @@ export default {
 	},
 	metaInfo() {
 		return {
-			title: 'Chaintool - 区块链开发者的工具箱',
+			title:  "Chaintool - " + this.title,
 
 			meta: [
 				{
@@ -140,7 +138,11 @@ export default {
 				},
 			]
 		},
+		title(){
+	        return this.$t("title.home")
+	    }
 	},
+
 	methods: {
 		toRouter(router) {
 			this.$router.push(router)
@@ -164,7 +166,6 @@ a {
 
 .container {
 	max-width: 1280px;
-	/* min-height: calc(100vh - 130px); */
 	padding-top: 20px;
 	padding-bottom: 50px;
 	width: 100%;
@@ -219,9 +220,6 @@ a {
 	background: linear-gradient(313deg, #5ef4cb 0%, #19aae2 100%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
-}
-
-.container .topTips div div {
 }
 
 .container .topTips > img {

@@ -163,7 +163,7 @@ export default {
     },
 	metaInfo() {
         return {
-            title: 'Chaintool - 交易分析工具',
+            title: "Chaintool - " + this.title,
 
             meta: [
                 {
@@ -189,6 +189,12 @@ export default {
             senior: false,
         }
     },
+
+	computed:{
+      title(){
+	      return this.$t("title.traceview")
+	    }
+  	},
 
     methods: {
         fillDemo() {

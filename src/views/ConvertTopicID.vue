@@ -45,7 +45,8 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Chaintool - 查询事件主题(TopicID)",
+      title: "Chaintool - " + this.title,
+      
       meta: [
         {
           name: "keyword",
@@ -72,6 +73,13 @@ export default {
       load: false,
     };
   },
+
+  computed:{
+    title(){
+	    return this.$t("title.topicID")
+	  }
+  },
+
   methods: {
     //格式化事件名
     formatEventName(signature) {

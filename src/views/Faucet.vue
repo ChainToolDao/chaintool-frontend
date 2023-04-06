@@ -72,7 +72,7 @@ export default {
 
 	metaInfo() {
 		return {
-			title: 'Chaintool - 测试币水龙头',
+			title: "Chaintool - " + this.title,
 
 			meta: [
 				{
@@ -129,6 +129,13 @@ export default {
 			}
 		}
 	},
+
+
+    computed:{
+      title(){
+	      return this.$t("title.faucet")
+	    }
+  },
 
 	methods: {
 		//初始化数据
@@ -241,7 +248,7 @@ export default {
 .faucet {
 	width: 100%;
 	height: auto;
-	min-height: 94%;
+	min-height: 92%;
 	margin-bottom: 20px;
 }
 

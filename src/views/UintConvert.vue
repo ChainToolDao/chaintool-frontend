@@ -37,7 +37,7 @@ export default {
     },
     metaInfo() {
         return {
-            title: 'Chaintool - Ether单位换算',
+            title: "Chaintool - " + this.title,
 
             meta: [
                 {
@@ -97,7 +97,13 @@ export default {
             ]
         }
     },
-    
+
+    computed:{
+        title(){
+	        return this.$t("title.unitConvert")
+	    }
+    },
+
     mounted(){
         if (this.$route.params.weiValue) {
             this.ether_list[0].value = this.$route.params.weiValue

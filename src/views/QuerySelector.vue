@@ -43,7 +43,8 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Chaintool - 函数名查询函数选择器(4字节)",
+      title: "Chaintool - " + this.title,
+      
       meta: [
         {
           name: "keyword",
@@ -69,6 +70,12 @@ export default {
       // 加载
       load: false,
     };
+  },
+
+  computed:{
+      title(){
+	      return this.$t("title.querySelector")
+	    }
   },
   
   methods: {

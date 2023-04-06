@@ -35,7 +35,8 @@ export default {
 
   metaInfo() {
     return {
-      title: "Chaintool - 交易输入数据(Calldata)编解码",
+      title: "Chaintool - " + this.title,
+      
       meta: [
         {
           name: "keyword",
@@ -52,6 +53,12 @@ export default {
       // 是解码
       selectFunction: true,
     };
+  },
+
+    computed:{
+      title(){
+	      return this.$t("title.calldata")
+	    }
   },
 
   methods: {

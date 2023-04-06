@@ -57,7 +57,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Chaintool - 地址转换与ENS查询",
+      title: "Chaintool - " + this.title,
 
       meta: [
         {
@@ -85,6 +85,13 @@ export default {
       load: false,
     };
   },
+
+  computed:{
+      title(){
+	      return this.$t("title.address")
+	    }
+  },
+
   methods: {
     //地址转换
     addressTranslation() {

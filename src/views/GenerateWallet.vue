@@ -89,7 +89,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Chaintool - 批量生成 EVM 钱包",
+      title: "Chaintool - " + this.title,
 
       meta: [
         {
@@ -116,6 +116,13 @@ export default {
       inputPrivateKey: "",
     };
   },
+
+  computed:{
+      title(){
+	      return this.$t("title.generateWallet")
+	    }
+  },
+
   methods: {
     //清空钱包数据
     emptyWalletData: function () {

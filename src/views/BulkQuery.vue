@@ -60,7 +60,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Chaintool - 批量查询钱包余额",
+      title: "Chaintool - " + this.title,
 
       meta: [
         {
@@ -104,6 +104,12 @@ export default {
 
   async created() {
     await this.initAccount();
+  },
+
+  computed:{
+      title(){
+	      return this.$t("title.bulkQuery")
+	    }
   },
 
   methods: {

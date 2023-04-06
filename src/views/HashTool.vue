@@ -44,7 +44,8 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Chaintool - Hash工具",
+      title: "Chaintool - " + this.title,
+      
       meta: [
         {
           name: "keyword",
@@ -69,6 +70,13 @@ export default {
       isCoding: "coding",
     };
   },
+
+  computed:{
+      title(){
+	      return this.$t("title.hashTool")
+	    }
+  },
+
   methods: {
     //清空输入与输出
     clearInputAndOutput: function () {
