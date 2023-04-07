@@ -50,10 +50,10 @@ export default {
 	},
 
 	async created() {
-		if(localStorage.getItem("lang")!=null){
-			this.$i18n.locale=localStorage.getItem("lang")
+		if (localStorage.getItem('lang') != null) {
+			this.$i18n.locale = localStorage.getItem('lang')
 		}
-		this.lang=this.$i18n.locale
+		this.lang = this.$i18n.locale
 		if (this.account) {
 			this.address = this.formatAccount(this.account)
 		}
@@ -88,21 +88,23 @@ export default {
 						let provider = new ethers.providers.Web3Provider(
 							web3Provider
 						)
-						try{
-							let account = await provider.getSigner().getAddress()
+						try {
+							let account = await provider
+								.getSigner()
+								.getAddress()
 							this.$store.commit('updataAccount', account)
 							this.address = this.formatAccount(account)
-						}catch(error){
-						}
+						} catch (error) {}
 					}
-				}
-			,this)
+				},
+				this
+			)
 		},
 
 		//切换语言
 		cutoverLang() {
 			this.$i18n.locale = this.lang
-			localStorage.setItem("lang", this.lang)
+			localStorage.setItem('lang', this.lang)
 		},
 
 		formatAccount(acc) {
@@ -198,13 +200,13 @@ export default {
 }
 
 /deep/ .rightcontainer .lang div input {
-	border: 0px solid !important; 
-	width: 100px !important; 
-    background: none !important;
-    margin: 0 0 1px 0  !important;
+	border: 0px solid !important;
+	width: 100px !important;
+	background: none !important;
+	margin: 0 0 1px 0 !important;
 }
 
-/deep/ .rightcontainer .lang div span span i{
-    line-height: 0px ;
+/deep/ .rightcontainer .lang div span span i {
+	line-height: 0px;
 }
 </style>
