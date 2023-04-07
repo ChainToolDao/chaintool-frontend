@@ -5,8 +5,8 @@ export default {
         copyFailed: "Copy Failed"
     },
     title: {
-        home: "区块链开发者的工具箱",
-        unitConvert: "Ether单位换算",
+        home: "Toolbox for blockchain developer",
+        unitConvert: "Unit Converter",
         bulkQuery: "批量查询钱包余额",
         traceview: "交易分析工具",
         abi: "ABI 图形化",
@@ -14,9 +14,9 @@ export default {
         generateWallet: "批量生成EVM钱包",
         querySelector: "函数名查询函数选择器",
         topicID: "查询事件主题(TopicID)",
-        hashTool: "Hash工具",
+        hashTool: "Hash Tools",
         calldata: "交易输入数据(Calldata)编解码",
-        faucet: "测试币水龙头"
+        faucet: "Testnet 水龙头"
     },
     navigation: {
         connectWallet: "Connect Wallet"
@@ -41,11 +41,11 @@ export default {
                 detail: 'Parse internal details of EVM transactions',
             },
             {
-                title: 'ABI Reader & Sender',
+                title: 'ABI Caller',
                 detail: 'Friendly generate callable functions for ABI',
             },
             {
-                title: 'Address <-> ENS',
+                title: 'Address & ENS lookup',
                 detail: 'Address lookup and ENS lookup',
             },
             {
@@ -65,7 +65,7 @@ export default {
                 detail: 'Commonly used Hash Tools: keccak-256, base64 and so on...',
             },
             {
-                title: 'Input Calldata Decoder & Encoder',
+                title: 'Calldata Decoder & Encoder',
                 detail: 'Encoding and decoding Tx Calldata',
             },
             {
@@ -110,7 +110,7 @@ export default {
         parsingFailed: ["An error has occurred", "Failed"]
     },
     abi: {
-        title: "ABI Reader & Sender",
+        title: "ABI Caller",
         addContract: "Add Contract",
         share: "Share",
         sharePrompt: "Share to friends, will auto load contract",
@@ -141,35 +141,35 @@ export default {
         etherscanGet: "From Etherscan",
         cancel: "Cancel",
         sure: "OK",
-        checkABI: "Shoe ABI",
+        checkABI: "Show ABI",
         jsonABI: "JSON ABI",
         readableABI: "Humanable ABI",
-        inputPrompt: "请输入内容",
-        copy: "复 制",
-        quit: "退 出",
-        validateName: "请输入合约名称",
-        sameName: "已有相同名称合约存在",
-        validateAddress: "请输入正确的合约地址",
-        checkAbi: "请输入 ABI",
-        checkNetwork: "请选择区块链网络",
-        autoAddError: '自动添加合约失败',
-        doesNotSupportSharing: "当前合约暂不支持分享",
-        copyShareSuccess: "复制分享链接成功",
-        examineAddressAndNetwork: "请输入项目地址和输入网络后重试",
-        getABIeroor: "ABI获取失败",
-        useCurrentNetwork: "使用当前连接网络",
-        checkAbiError: "ABI有误!添加失败,请检查后重试",
-        notSelectedContractPrompt: "当前暂未选择合约",
-        contractNotRecorded: "该合约Etherscan暂未被记录",
+        inputPrompt: "Please input",
+        copy: "Copy",
+        quit: "Exit",
+        validateName: "Contract name",
+        sameName: "Contract name existed",
+        validateAddress: "Please check contract address",
+        checkAbi: "Input ABI",
+        checkNetwork: "Choose network",
+        autoAddError: 'Load contract error',
+        doesNotSupportSharing: "Current contract not support share",
+        copyShareSuccess: "Copy share link success",
+        examineAddressAndNetwork: "Please input contract address and network",
+        getABIeroor: "Fail to get ABI ",
+        useCurrentNetwork: "Network by wallet",
+        checkAbiError: "ABI Error",
+        notSelectedContractPrompt: "none contract selected",
+        contractNotRecorded: "No source on Etherscan",
         deniedAccess: "User denied account access",
         notInstalledMetaMaskPrompt: "Need install MetaMask",
-        abiError: "ABI有误",
-        switchNetworkPrompt: "当前钱包连接的链与本合约连接的链不同。将为你切换到对应网络",
-        currentNetworkError: "当前网络错误",
-        connectionRequestError: "连接请求错误，请尝试手动连接。连接后刷新页面重试。",
+        abiError: "ABI Invalid",
+        switchNetworkPrompt: "Network are mismatch, switch network ...",
+        currentNetworkError: "Network error",
+        connectionRequestError: "Network error, please retry connect and reload",
     },
     address: {
-        title: "Address <-> ENS",
+        title: "Address & ENS lookup",
         address: "wallet address",
         convert: "Lookup",
         inquire: "Lookup",
@@ -263,20 +263,20 @@ export default {
         copyURLSuccessfully: "URL Copied",
     },
     notfind: {
-        title: "未到找指定页面",
-        return: "返回页面"
+        title: "No Page Found",
+        return: "Go back"
     },
     faucetData: {
         ethereum: "Ethereum",
         testnet: " Testnet",
-        remarkGoerli: ["每天 0.1 Goerli ETH", "需要通过挖矿获取", "可领取ETH、wETH、DAI、NFTs，要求登录Twitter", "在 2022 年11之前部署过合约的，可以领 10 个"],
-        remarkSepolia: ["每天 0.5 Sepolia ETH", "需要通过挖矿获取", "在 2022 年11之前部署过合约的，可以领 10 个"],
-        remarkMumbai: ["每天 0.5 Mumbai MATIC"],
-        remarkHarmony: ["包含 Shard 0、Shard 1、Shard 2、Shard 3"],
-        remarkCelo: ["需要使用Github进行身份验证"]
+        remarkGoerli: ["0.1 Goerli ETH per day", "by pow", "Twitter Auth,  faucet ETH, wETH, DAI, NFTs", "10 for those who have deployed contracts before 202211"],
+        remarkSepolia: ["0.5 Sepolia ETH per day", "by pow", "10 for those who have deployed contracts before 202211"],
+        remarkMumbai: ["0.5 Mumbai MATIC per day"],
+        remarkHarmony: ["Shard 0、Shard 1、Shard 2、Shard 3"],
+        remarkCelo: ["need github auth"]
     },
     connectWallet: {
-        walleAccessDenied: "连接失败, MetaMask连接被拒绝。",
-        notInstalledMetaMask: "连接失败, 请先安装MetaMask."
+        walleAccessDenied: "MetaMask refused",
+        notInstalledMetaMask: "Please install MetaMask."
     }
 }
