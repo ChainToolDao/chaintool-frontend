@@ -283,21 +283,8 @@ export default {
 		let validateName = (rule, value, callback) => {
 			if (value === '' || value == undefined) {
 				callback(new Error(this.$t('abi.validateName')))
-			} else {
-				const localData = localStorage.getItem('localData')
-				if (localData == '' || localData == null) callback()
-				else {
-					const data = JSON.parse(localData)
-					for (let i = 0; i < data.length; i++) {
-						if (
-							data[i].name === value &&
-							!(this.isUpdate && this.chooseContractName == value)
-						) {
-							callback(new Error(this.$t('abi.sameName')))
-						}
-					}
-					callback()
-				}
+			} else{
+				callback()
 			}
 		}
 
@@ -445,7 +432,6 @@ export default {
 						1,
 						this.form.name.length - 1
 					)
-					this.form.name += '-' + this.network[i].currencySymbol
 				}
 			}
 			//获取浏览器保存的数据，用于下面的判断
@@ -755,7 +741,7 @@ export default {
 			let localData = this.storage.get(name)
 			if (localData.length != 0 || localData != null) {
 				for (let i = 0; i < localData.length; i++) {
-					if (localData[i].name === target) {
+					if (localData[i].address === target[0] && localData[i].network === target[1]) {
 						localData.splice(i, 1)
 					}
 				}
@@ -971,8 +957,8 @@ export default {
 			//清空 parameter
 			this.parameter = null
 			if (this.clickItem.name !== undefined) {
-				// 删除合约
-				this.storage.remove('localData', this.clickItem.name)
+				// 删除合约	
+				this.storage.remove('localData', [this.clickItem.address,this.clickItem.network])
 				// 重新载入数据
 				this.init()
 			}
@@ -1536,8 +1522,8 @@ input::-webkit-input-placeholder {
 
 .popUpBox ul li {
 	display: inline-block;
-	width: 115px;
-	margin-right: 19px;
+	width: auto;
+	margin-right: 8px;
 	max-width: 220px;
 	min-width: 100px;
 }
