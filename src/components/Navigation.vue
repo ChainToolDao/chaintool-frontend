@@ -21,7 +21,7 @@
 					<div></div>
 					<div>{{$t("navigation.connectWallet")}}</div>
 				</div>
-				<el-select v-model="lang" @change="cutoverLang(lang)"  class="lang">
+				<el-select v-model="lang" @change="cutoverLang(lang)" class="lang">
 					<el-option label="中文" value="zh"></el-option>
 					<el-option label="English" value="en"></el-option>
 				</el-select>
@@ -53,7 +53,7 @@
 						</el-collapse-item>
 						<el-collapse-item :title="$t('navigation.nav.folloUs')" name="3">
 							<a href="https://github.com/ChainToolDao" target="_blank">Github</a>
-							<a href="https://twitter.com/NUpchain" target="_blank">Twitter</a> 
+							<a href="https://twitter.com/NUpchain" target="_blank">Twitter</a>
 						</el-collapse-item>
 					</el-collapse>
 				</div>
@@ -86,6 +86,13 @@ export default {
 	async created() {
 		if (localStorage.getItem('lang') != null) {
 			this.$i18n.locale = localStorage.getItem('lang')
+		} else {
+			let lan = navigator.systemLanguage || navigator.language
+			if (lan.toLowerCase().indexOf('zh') !== -1) {
+				this.$i18n.locale="zh"
+			} else if (lan.toLowerCase().indexOf('en') !== -1) {
+				this.$i18n.locale="en"
+			}
 		}
 		this.lang = this.$i18n.locale
 		if (this.account) {
@@ -157,7 +164,7 @@ export default {
 				this.$router.push('/')
 				this.$router.go(0)
 			}
-		}
+		},
 	},
 }
 </script>
@@ -282,7 +289,7 @@ export default {
 }
 
 @media (max-width: 768px) {
-	.container{
+	.container {
 		margin: 4px 20px;
 	}
 	.collapse-item {
@@ -353,7 +360,7 @@ export default {
 	background-color: rgb(214, 214, 214);
 	border-radius: 10px;
 }
-.el-collapse-item__content  a {
+.el-collapse-item__content a {
 	margin-top: 10px;
 	margin-right: 10px;
 	padding: 10px 10px 10px 15px;
