@@ -1,7 +1,7 @@
 <template>
     <div class="footer">
         <div class="container">
-            <div class="footer">© 2023 Chaintool.tech &nbsp;&nbsp;| &nbsp;&nbsp;<a href="https://beian.miit.gov.cn/">粤ICP备17140514号-4</a></div>
+            <div class="footer">© 2023 Chaintool.tech &nbsp;&nbsp;<span v-if="this.$i18n.locale=='zh'">| &nbsp;&nbsp;<a href="https://beian.miit.gov.cn/">粤ICP备17140514号-4</a></span></div>
         </div>
     </div>
 </template>
