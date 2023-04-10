@@ -45,7 +45,7 @@ export default {
 	},
 	metaInfo() {
 		return {
-			title:  "Chaintool - " + this.title,
+			title: 'Chaintool - ' + this.title,
 
 			meta: [
 				{
@@ -138,9 +138,9 @@ export default {
 				},
 			]
 		},
-		title(){
-	        return this.$t("title.home")
-	    }
+		title() {
+			return this.$t('title.home')
+		},
 	},
 
 	methods: {
@@ -201,7 +201,7 @@ a {
 .container .topTips > div div:first-child {
 	color: #000;
 	font-weight: 700;
-	font-size: 44px;
+	font-size: 2vw;
 }
 
 .container .topTips > div div:last-child {
@@ -223,7 +223,8 @@ a {
 }
 
 .container .topTips > img {
-	width: 512px;
+	width: 40vw;
+	max-width: 512px;
 	object-fit: contain;
 }
 
@@ -269,7 +270,7 @@ a {
 
 .container .listTool .text {
 	margin-left: 16px;
-	width: 100%;
+	width: 84%;
 }
 
 .container .listTool .text img {
@@ -318,5 +319,117 @@ a {
 
 .summary {
 	color: #0e1f59;
+}
+
+@media (min-width: 769px) and (max-width: 900px) {
+	.container .topTips > div div:last-child {
+		font-size: 4vw;
+		font-weight: bold;
+		color: #333333;
+		line-height: 0;
+	}
+
+	.summary {
+		width: 250px;
+	}
+
+	.container .topTips > div div:last-child span {
+		font-size: 6vw;
+	}
+
+	.container .topTips > div {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		margin-top: 100px;
+		max-width: 31%;
+	}
+
+	.container .topTips div div {
+		width: 41vw;
+	}
+
+	.container .topTips > div > div > div {
+		height: 112px;
+	}
+}
+
+@media (max-width: 768px) {
+	.container .topTips > div div:last-child span{
+		font-size: 40px;
+	}
+
+	.container .title {
+		font-size: 6vw;
+	}
+	
+	.container .topTips > img {
+		width: 30vw;
+		max-width: 512px;
+		object-fit: contain;
+	}
+
+	.topTips {
+		text-align: center;
+	}
+
+	.container .topTips > div div:first-child {
+		font-size: 5vw;
+	}
+
+	.container .topTips > div {
+		max-width: 100%;
+		margin: 0;
+	}
+
+	.theFeedback {
+		margin: 0 auto;
+	}
+
+	.container .topTips > div div:last-child {
+		font-size: 5vw;
+		text-align: center;
+	}
+
+	.summary {
+		font-size: 3vw;
+	}
+
+	.topTips img {
+		display: none;
+	}
+
+	.title {
+		display: none;
+	}
+
+	.detail {
+		display: none;
+	}
+
+	.container .listTool > div {
+		width: 80%;
+	}
+}
+
+@media (min-width: 790px) and (max-width: 1139px) {
+	.container .listTool {
+		width: 728px;
+	}
+
+	.listTool > div {
+		width: 25vw;
+	}
+}
+
+@media (max-width: 767px) {
+	.container .listTool {
+		width: 100%;
+	}
+
+	.listTool > div {
+		margin: 0 auto;
+		width: 47vw;
+	}
 }
 </style>

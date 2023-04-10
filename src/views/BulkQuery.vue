@@ -388,4 +388,13 @@ export default {
 .table{
   width: 100%;
 }
+@media (max-width:500px){
+    .title span a {
+        top: 25px;
+        margin-left: 0;
+    }
+    .container .title{
+        margin-bottom: 50px;
+    }
+}
 </style>

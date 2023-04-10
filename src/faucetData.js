@@ -137,7 +137,11 @@ export function faucetData(that) {
             "img": "okexLogo.webp",
             "faucet": [
                 {
-                    "url": "https://gitter.im/kovan-testnet/faucet",
+                    "url": "https://gitter.im/okexchain-testnet/faucet",
+                    "remark": ""
+                },
+                {
+                    "url": "https://discord.gg/B5nMs6qK5F",
                     "remark": ""
                 }
             ]

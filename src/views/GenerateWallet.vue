@@ -16,11 +16,11 @@
             <h5>{{$t('generateWallet.mnemonicLength')}}</h5>
           </div>
           <div>
-            <el-radio v-model="mnemonicLength" label="12" border size="medium">12位</el-radio>
-            <el-radio v-model="mnemonicLength" label="15" border size="medium">15位</el-radio>
-            <el-radio v-model="mnemonicLength" label="18" border size="medium">18位</el-radio>
-            <el-radio v-model="mnemonicLength" label="21" border size="medium">21位</el-radio>
-            <el-radio v-model="mnemonicLength" label="24" border size="medium">24位</el-radio>
+            <el-radio v-model="mnemonicLength" label="12" border size="medium">12</el-radio>
+            <el-radio v-model="mnemonicLength" label="15" border size="medium">15</el-radio>
+            <el-radio v-model="mnemonicLength" label="18" border size="medium">18</el-radio>
+            <el-radio v-model="mnemonicLength" label="21" border size="medium">21</el-radio>
+            <el-radio v-model="mnemonicLength" label="24" border size="medium">24</el-radio>
           </div>
           <div>
             <h5>{{$t('generateWallet.quantity')}}</h5>
