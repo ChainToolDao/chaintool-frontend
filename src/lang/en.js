@@ -19,7 +19,12 @@ export default {
         faucet: "Testnet 水龙头"
     },
     navigation: {
-        connectWallet: "Connect Wallet"
+        connectWallet: "Connect Wallet",
+        nav:{
+            home:"首页",
+            languageSelection:"语言选择",
+            folloUs:"关注我们",
+        }
     },
     home: {
         title: ["OpenSource ", "Toolbox", "Make Blockchain Develop More Easier"],

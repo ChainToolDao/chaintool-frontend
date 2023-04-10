@@ -21,7 +21,7 @@
 					<div></div>
 					<div>{{$t("navigation.connectWallet")}}</div>
 				</div>
-				<el-select v-model="lang" @change="cutoverLang(lang)" placeholder="请选择" class="lang">
+				<el-select v-model="lang" @change="cutoverLang(lang)"  class="lang">
 					<el-option label="中文" value="zh"></el-option>
 					<el-option label="English" value="en"></el-option>
 				</el-select>
@@ -43,15 +43,15 @@
 				<div v-show="show" class="collapse-item">
 					<el-collapse accordion @change="activeNamesList">
 						<el-collapse-item name="home">
-							<template slot="title">首页
+							<template slot="title">{{$t('navigation.nav.home')}}
 							</template>
 							<div></div>
 						</el-collapse-item>
-						<el-collapse-item title="语言选择" name="2">
+						<el-collapse-item :title="$t('navigation.nav.languageSelection')" name="2">
 							<div @click="cutoverLang('zh')">中文</div>
 							<div @click="cutoverLang('en')">English</div>
 						</el-collapse-item>
-						<el-collapse-item title="联系我们" name="3">
+						<el-collapse-item :title="$t('navigation.nav.folloUs')" name="3">
 							<a href="https://github.com/ChainToolDao" target="_blank">Github</a>
 							<a href="https://twitter.com/NUpchain" target="_blank">Twitter</a> 
 						</el-collapse-item>
@@ -282,12 +282,15 @@ export default {
 }
 
 @media (max-width: 768px) {
+	.container{
+		margin: 4px 20px;
+	}
 	.collapse-item {
 		display: block;
 	}
 
 	.btn {
-		margin: 15px 0 0 0;
+		margin: 20px 0 0 0;
 		display: inline-block;
 		float: left;
 	}
@@ -309,7 +312,7 @@ export default {
 	}
 
 	.container .connect {
-		width: 155px;
+		width: 160px;
 	}
 
 	.connect {
@@ -352,8 +355,9 @@ export default {
 }
 .el-collapse-item__content  a {
 	margin-top: 10px;
+	margin-right: 10px;
 	padding: 10px 10px 10px 15px;
-	width: 100%;
+	width: 93%;
 	text-decoration: none;
 	display: inline-block;
 	color: block !important;

@@ -19,7 +19,12 @@ export default {
         faucet: "测试币水龙头"
     },
     navigation: {
-        connectWallet: "连接钱包"
+        connectWallet: "连接钱包",
+        nav:{
+            home:"首页",
+            languageSelection:"语言选择",
+            folloUs:"关注我们",
+        }
     },
     home: {
         title: ["开源", "工具箱", "让区块链开发更轻松"],
