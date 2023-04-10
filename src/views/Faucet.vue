@@ -15,7 +15,8 @@
 			<div class="content" id="content">
 				<div class="content-list" v-for="item,index in faucetData" :key=item.chainID :id="item.network">
 					<div class="containe" v-if="item.chainID!=''&& item.chainID!=undefined">
-						<div class="network"><img :src="require('../assets/imgs/'+item.img) " alt="">{{item.network}}</div>
+						<div class="network"><img :src="require('../assets/imgs/'+item.img) " alt="">{{item.network}}
+						</div>
 						<div class="remark">{{item.remark}}</div>
 						<table>
 							<tr>
@@ -39,14 +40,13 @@
 							</el-table-column>
 							<el-table-column :label="$t('faucet.remark')">
 								<template slot-scope="scope">
-									<div slot="reference" class="name-wrapper" v-if="scope.row.remark!=''">
-										<el-tag size="medium">{{ scope.row.remark }}</el-tag>
-									</div>
+									<span style="margin-left: 10px">{{ scope.row.remark }}</span>
 								</template>
 							</el-table-column>
 							<el-table-column :label="$t('faucet.operate')">
 								<template slot-scope="scope">
-									<el-button size="mini" @click="openUrl(scope.$index, scope.row)">{{ $t('faucet.receive')}}</el-button>
+									<el-button size="mini"
+										@click="openUrl(scope.$index, scope.row)">{{ $t('faucet.receive')}}</el-button>
 									<el-button size="mini" @click="copyUrl(scope.$index, scope.row)"
 										class="copy">{{ $t('faucet.copyUrl')}}</el-button>
 								</template>
@@ -72,7 +72,7 @@ export default {
 
 	metaInfo() {
 		return {
-			title: "Chaintool - " + this.title,
+			title: 'Chaintool - ' + this.title,
 
 			meta: [
 				{
@@ -83,10 +83,10 @@ export default {
 		}
 	},
 
-	watch: { 
-		"$i18n.locale"(){
+	watch: {
+		'$i18n.locale'() {
 			this.init()
-		}
+		},
 	},
 
 	data() {
@@ -130,19 +130,18 @@ export default {
 		}
 	},
 
-
-    computed:{
-      title(){
-	      return this.$t("title.faucet")
-	    }
-  },
+	computed: {
+		title() {
+			return this.$t('title.faucet')
+		},
+	},
 
 	methods: {
 		//初始化数据
-		init(){
-			this.faucetData=faucetData(this)
+		init() {
+			this.faucetData = faucetData(this)
 		},
-		
+
 		//打开网址
 		openUrl(index, row) {
 			window.open(row.url, '_blank')
@@ -150,20 +149,20 @@ export default {
 
 		//复制网址
 		copyUrl(index, row) {
-			this.copy(row.url, this.$t('faucet.copyURLSuccessfully') , '.copy')
+			this.copy(row.url, this.$t('faucet.copyURLSuccessfully'), '.copy')
 		},
 
 		// 更改滚动条
-		changeScrollbar(position){
-			document.documentElement.scrollTop=position
+		changeScrollbar(position) {
+			document.documentElement.scrollTop = position
 		},
 
 		//展开列表
 		async expand(value, index, isWidthChanges) {
-			let position=document.documentElement.scrollTop
-			setTimeout(()=>{
+			let position = document.documentElement.scrollTop
+			setTimeout(() => {
 				this.changeScrollbar(position)
-			},1);
+			}, 1)
 			window.location.hash = value.network
 			if (this.ChainID) {
 				//关闭上次打开的列表
@@ -208,9 +207,9 @@ export default {
 			this.index = data[0]
 			let box = document.getElementById('content')
 			let width = box.offsetWidth
-			// 板块
+			// 板块(取整)
 			let plate = (box.offsetWidth / 400) | 0
-			if (index % plate != 0) {
+			if (index % plate != 0 && plate!=0) {
 				if (index + plate - (index % plate) > this.faucetData.length) {
 					index = this.faucetData.length
 				} else {
@@ -429,5 +428,53 @@ export default {
 	text-align: center;
 	color: #909399;
 	font-size: 15px;
+}
+
+@media (max-width: 983px) {
+	.el-button + .el-button,
+	.el-checkbox.is-bordered + .el-checkbox.is-bordered {
+		margin-left: 0px;
+		margin-top: 10px;
+	}
+}
+
+@media (max-width: 500px) {
+	.content {
+		width: 100%;
+	}
+	.containe {
+		width: 100%;
+		padding: 9px 9px 0 9px;
+	}
+	.containe .network {
+		width: 100%;
+	}
+	.remark {
+		width: 100%;
+	}
+	table tr {
+		width: 50%;
+	}
+	.containe table tr td {
+		width: 48%;
+	}
+	.expand {
+		left: 10%;
+	}
+	.el-button--mini {
+		padding: 7px 7px;
+	}
+	.content-list {
+		width: 100%;
+	}
+	table {
+		width: 100%;
+	}
+	.expand {
+		width: 84%;
+		margin: 0 auto;
+		margin-top: 30px;
+		position: relative;
+	}
 }
 </style>
