@@ -89,9 +89,9 @@ export default {
 		} else {
 			let lan = navigator.systemLanguage || navigator.language
 			if (lan.toLowerCase().indexOf('zh') !== -1) {
-				this.$i18n.locale="zh"
+				this.$i18n.locale = 'zh'
 			} else if (lan.toLowerCase().indexOf('en') !== -1) {
-				this.$i18n.locale="en"
+				this.$i18n.locale = 'en'
 			}
 		}
 		this.lang = this.$i18n.locale
@@ -376,5 +376,13 @@ export default {
 }
 a:-webkit-any-link {
 	color: black;
+}
+@media (max-width: 370px) {
+	.collapse-item {
+		margin-top: 100px;
+	}
+	.container{
+		margin: 0 10px  10px 10px;
+	}
 }
 </style>
