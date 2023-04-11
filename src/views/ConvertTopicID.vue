@@ -3,7 +3,7 @@
     <Navigation></Navigation>
     <div class="TopicID">
       <div class="container">
-        <h3 class="title">{{$t('topicID.title')}} <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%9F%A5%E8%AF%A2%E4%BA%8B%E4%BB%B6%E4%B8%BB%E9%A2%98(TopicID)"  target="_blank">{{$t('overall.usingHelp')}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
+        <h3 class="title">{{$t('topicID.title')}} <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%9F%A5%E8%AF%A2%E4%BA%8B%E4%BB%B6%E4%B8%BB%E9%A2%98(TopicID)"  target="_blank">{{$t('pubilc.usingHelp')}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
         <div>
           <h5>{{$t('topicID.EventSignature')}}</h5>
           <div>
@@ -223,11 +223,11 @@ export default {
         },
       });
       clipboard.on("success", () => {
-        this.$message.success(this.$t('overall.copySauccessfully'));
+        this.$message.success(this.$t('pubilc.copySauccessfully'));
         clipboard.destroy();
       });
       clipboard.on("error", () => {
-        this.$message.error(this.$t('overall.copyFailed'));
+        this.$message.error(this.$t('pubilc.copyFailed'));
         clipboard.destroy();
       });
     },

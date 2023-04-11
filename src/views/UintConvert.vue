@@ -4,7 +4,7 @@
 
         <div class="scroll">
             <div class="container">
-                <div class="title">{{$t("uintConvert.title")}} <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BB%A5%E5%A4%AA-ETH-%E5%8D%95%E4%BD%8D%E8%BD%AC%E6%8D%A2%E5%99%A8"  target="_blank">{{$t("overall.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
+                <div class="title">{{$t("uintConvert.title")}} <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BB%A5%E5%A4%AA-ETH-%E5%8D%95%E4%BD%8D%E8%BD%AC%E6%8D%A2%E5%99%A8"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
 
                 <div class="ether" v-for="(item, index) in ether_list" :key="'ether_list' + index">
                     <el-input :class="item.type" v-model="item.value" @input="inputValue(item.type, item.value)">
@@ -174,12 +174,12 @@ export default {
             })
 
             clipboard.on('success', () => {
-                this.$message.success(this.$t('overall.copySauccessfully'));
+                this.$message.success(this.$t('pubilc.copySauccessfully'));
                 clipboard.destroy()
             })
 
             clipboard.on('error', () => {
-                this.$message.error(this.$t('overall.copyFailed')); 
+                this.$message.error(this.$t('pubilc.copyFailed')); 
                 clipboard.destroy()
             })
         },

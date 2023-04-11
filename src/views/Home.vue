@@ -17,10 +17,10 @@
 				</div>
 				<img src="../assets/imgs/main.png">
 			</div>
-			<div class="title">{{$t("home.toolList")}}</div>
+			<div class="title">{{$t("home.subheadingToolList")}}</div>
 			<div class="detail">{{$t("home.listDescribe")}}</div>
 			<div class="listTool">
-				<div v-for="(item, index) in tool_list" :key="'tool_list' + index" @click="toRouter(item.router)">
+				<div v-for="(item, index) in toolList" :key="'toolList' + index" @click="toRouter(item.router)">
 					<img :src='item.url'>
 					<div class="text">
 						<div class="textTitle">
@@ -62,17 +62,17 @@ export default {
 	},
 
 	computed: {
-		tool_list() {
+		toolList() {
 			return [
 				{
-					title: this.$t('home.tool_list[0].title'),
-					detail: this.$t('home.tool_list[0].detail'),
+					title: this.$t('home.toolList[0].title'),
+					detail: this.$t('home.toolList[0].detail'),
 					router: '/unitConvert',
 					url: require('../assets/imgs/toolList1.png'),
 				},
 				{
-					title: this.$t('home.tool_list[1].title'),
-					detail: this.$t('home.tool_list[1].detail'),
+					title: this.$t('home.toolList[1].title'),
+					detail: this.$t('home.toolList[1].detail'),
 					router: '/bulkQuery',
 					url: require('../assets/imgs/toolList2.png'),
 				},
@@ -80,59 +80,59 @@ export default {
 				//     title: '批量转账',
 				//     detail: '批量转账',
 				//     router: '/bulkTransfer',
-				//     url: require('../assets/imgs/tool_list3.png'),
+				//     url: require('../assets/imgs/toolList3.png'),
 				// },
 				{
-					title: this.$t('home.tool_list[2].title'),
-					detail: this.$t('home.tool_list[2].detail'),
+					title: this.$t('home.toolList[2].title'),
+					detail: this.$t('home.toolList[2].detail'),
 					router: '/traceview',
 					url: require('../assets/imgs/toolList4.png'),
 				},
 				{
-					title: this.$t('home.tool_list[3].title'),
-					detail: this.$t('home.tool_list[3].detail'),
+					title: this.$t('home.toolList[3].title'),
+					detail: this.$t('home.toolList[3].detail'),
 					router: '/abi',
 					url: require('../assets/imgs/toolList5.png'),
 				},
 				{
-					title: this.$t('home.tool_list[4].title'),
-					detail: this.$t('home.tool_list[4].detail'),
+					title: this.$t('home.toolList[4].title'),
+					detail: this.$t('home.toolList[4].detail'),
 					router: '/address',
 					url: require('../assets/imgs/toolList6.png'),
 				},
 				{
-					title: this.$t('home.tool_list[5].title'),
-					detail: this.$t('home.tool_list[5].detail'),
+					title: this.$t('home.toolList[5].title'),
+					detail: this.$t('home.toolList[5].detail'),
 					router: '/generateWallet',
 					url: require('../assets/imgs/toolList8.png'),
 				},
 				{
-					title: this.$t('home.tool_list[6].title'),
-					detail: this.$t('home.tool_list[6].detail'),
+					title: this.$t('home.toolList[6].title'),
+					detail: this.$t('home.toolList[6].detail'),
 					router: '/querySelector',
 					url: require('../assets/imgs/toolList7.png'),
 				},
 				{
-					title: this.$t('home.tool_list[7].title'),
-					detail: this.$t('home.tool_list[7].detail'),
+					title: this.$t('home.toolList[7].title'),
+					detail: this.$t('home.toolList[7].detail'),
 					router: '/topicID',
 					url: require('../assets/imgs/toolList9.png'),
 				},
 				{
-					title: this.$t('home.tool_list[8].title'),
-					detail: this.$t('home.tool_list[8].detail'),
+					title: this.$t('home.toolList[8].title'),
+					detail: this.$t('home.toolList[8].detail'),
 					router: '/hashTool',
 					url: require('../assets/imgs/toolList10.png'),
 				},
 				{
-					title: this.$t('home.tool_list[9].title'),
-					detail: this.$t('home.tool_list[9].detail'),
+					title: this.$t('home.toolList[9].title'),
+					detail: this.$t('home.toolList[9].detail'),
 					router: '/calldata',
 					url: require('../assets/imgs/toolList11.png'),
 				},
 				{
-					title: this.$t('home.tool_list[10].title'),
-					detail: this.$t('home.tool_list[10].detail'),
+					title: this.$t('home.toolList[10].title'),
+					detail: this.$t('home.toolList[10].detail'),
 					router: '/faucet',
 					url: require('../assets/imgs/toolList11.png'),
 				},

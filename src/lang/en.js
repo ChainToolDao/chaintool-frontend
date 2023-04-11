@@ -1,22 +1,23 @@
 export default {
-    overall: {
+    pubilc: {
         usingHelp: "Help",
         copySauccessfully: "Copyed",
-        copyFailed: "Copy Failed"
+        copyFailed: "Copy Failed",
+        noData: "No data"
     },
     title: {
-        home: "Toolbox for blockchain developer",
+        home: "Toolbox For Blockchain Developer",
         unitConvert: "Unit Converter",
         bulkQuery: "批量查询钱包余额",
         traceview: "交易分析工具",
         abi: "ABI 图形化",
-        address: "地址转换与ENS查询",
-        generateWallet: "批量生成EVM钱包",
-        querySelector: "函数名查询函数选择器",
+        address: "Address & ENS Lookup",
+        generateWallet: "Wallet Generator",
+        querySelector: "Selector By Function Signature",
         topicID: "查询事件主题(TopicID)",
         hashTool: "Hash Tools",
-        calldata: "交易输入数据(Calldata)编解码",
-        faucet: "Testnet 水龙头"
+        calldata: "Input Calldata Decoder & Encoder",
+        faucet: "Testnet Faucets"
     },
     navigation: {
         connectWallet: "Connect Wallet",
@@ -30,9 +31,9 @@ export default {
         title: ["OpenSource ", "Toolbox", "Make Blockchain Develop More Easier"],
         describe: "Open source is trustworthy, good to use to improve efficiency. The tools you need are here.",
         feedback: "Feedback",
-        toolList: "Tools",
+        subheadingToolList: "Tools",
         listDescribe: "Free & Efficiency, try it out",
-        tool_list: [
+        toolList: [
             {
                 title: 'Unit Converter',
                 detail: 'ETH Unit Converter',
@@ -85,13 +86,12 @@ export default {
         illustrate: ["The difference between ethereum and ether:", "Ethereum is an open blockchain platform that allows anyone to deploy or interact with smart contracts on it", "Ether is the native coin in Ethereum, ether used to pay for the gas fee"],
     },
     bulkQuery: {
-        title: "Balance Querier",
         enterAddress: "Token Address",
         enterAddressPrompt: "Input your wallet address",
         enterWalletAddress: "Wallet",
         enterWalletAddressPrompt: "One address per line",
         inquireResult: "Result",
-        list: ["Wallet", "Token", "Balance", "No Data"],
+        list: ["Wallet", "Token", "Balance"],
         checkBalance: "Get Balance",
         exportExcel: "Download Excel",
         exportExcelPrompt: "No balance data",
@@ -111,7 +111,6 @@ export default {
         CallTraces: "Traces",
         prompt: ["input tx hash", "retry input tx hash and "],
         analyzing: "analyzing...",
-        noData: "No data",
         parsingFailed: ["An error has occurred", "Failed"]
     },
     abi: {
@@ -174,7 +173,6 @@ export default {
         connectionRequestError: "Network error, please retry connect and reload",
     },
     address: {
-        title: "Address & ENS lookup",
         address: "wallet address",
         convert: "Lookup",
         inquire: "Lookup",
@@ -184,7 +182,6 @@ export default {
         errorENSPrompt: "No corresponding results were found."
     },
     generateWallet: {
-        title: "Wallet Generator",
         tips: ["Tips:  only run in your browser, totally", "Open Source", ". No one can get your mnemonic or private key, feel free to use."],
         randomBatch: "By Random",
         customize: "By Pri-key or Mnemonic",
@@ -237,7 +234,6 @@ export default {
         noInput: "No input data"
     },
     calldata: {
-        title: "Input Calldata Decoder & Encoder",
         decoding: "Decoding",
         coding: "Encoding",
         inputFunction: "input function",
@@ -254,10 +250,8 @@ export default {
         parameterType: "Type",
         value: "Value",
         queryFailed: "An error has occurred",
-        noData: "No data"
     },
     faucet: {
-        title: "Testnet Faucets",
         prompt: ["Request testnet coins and tokens for test you smart contract.", "ChainTool Faucets collet commonly used faucet websites for developers to enjoy.", "If you have a faucet website that we don't list, feel free to submit ", "PR", " or ", "ISSUE", ", Your support is our motivation."],
         currency: "Currency",
         url: "Website",

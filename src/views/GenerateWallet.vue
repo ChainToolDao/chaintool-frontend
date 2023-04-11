@@ -3,7 +3,7 @@
     <Navigation></Navigation>
     <div class="wallet">
       <div class="container">
-        <h3 class="title">{{$t('generateWallet.title')}}<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E7%94%9F%E6%88%90EVM%E9%92%B1%E5%8C%85"  target="_blank">{{$t("overall.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
+        <h3 class="title">{{$t('title.generateWallet')}}<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E7%94%9F%E6%88%90EVM%E9%92%B1%E5%8C%85"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
         <div class="tips">
           <span> {{$t('generateWallet.tips[0]')}}<a href="https://github.com/ChainToolDao" target="_blank">{{$t('generateWallet.tips[1]')}}</a>{{$t('generateWallet.tips[2]')}}<br></span>
         </div>
@@ -255,11 +255,11 @@ export default {
         },
       });
       clipboard.on("success", () => {
-        this.$message.success(this.$t('overall.copySauccessfully'));
+        this.$message.success(this.$t('pubilc.copySauccessfully'));
         clipboard.destroy();
       });
       clipboard.on("error", () => {
-        this.$message.error(this.$t('overall.copyFailed'));
+        this.$message.error(this.$t('pubilc.copyFailed'));
         clipboard.destroy();
       });
     },

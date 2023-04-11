@@ -4,7 +4,7 @@
 
 		<div class="scroll">
 			<div class="container">
-				<div class="title">{{$t('traceView.title')}} <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BA%A4%E6%98%93%E5%A0%86%E6%A0%88-Trace-%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7"  target="_blank">{{$t("overall.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
+				<div class="title">{{$t('traceView.title')}} <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BA%A4%E6%98%93%E5%A0%86%E6%A0%88-Trace-%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
 
 				<div class="tips">{{$t('traceView.transactionHash')}}</div>
 
@@ -42,7 +42,7 @@
 							</template>
 						</div>
 
-						<el-tree id="tree" ref="tree" node-key="id" :indent="0" :empty-text="$t('traceView.noData')" :data="treeData">
+						<el-tree id="tree" ref="tree" node-key="id" :indent="0" :empty-text="$t('pubilc.noData')" :data="treeData">
 							<span class="custom-tree-node" slot-scope="{ data }">
 								<template v-if="data.init">
 									<!-- 如果该交易为创建合约 -->

@@ -5,7 +5,7 @@
 			<div class="container">
 				<div class="title">{{$t("abi.title")}} <span><a
 							href="https://github.com/ChainToolDao/chaintool-frontend/wiki/ABI%E5%8F%AF%E8%A7%86%E5%8C%96%E8%B0%83%E7%94%A8"
-							target="_blank">{{$t("overall.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
+							target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
 				<div class="buttons">
 				</div>
 				<div class="contract-list">

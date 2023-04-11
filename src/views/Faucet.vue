@@ -2,7 +2,7 @@
 	<div class="faucet">
 		<Navigation></Navigation>
 		<div class="main">
-			<h3 class="title">{{$t("faucet.title")}}</h3>
+			<h3 class="title">{{$t("title.faucet")}}</h3>
 			<div class="tips">
 				<span>{{$t("faucet.prompt[0]")}}<br>
 					{{$t("faucet.prompt[1]")}}<br>
@@ -235,7 +235,7 @@ export default {
 				clipboard.destroy()
 			})
 			clipboard.on('error', () => {
-				this.$message.error(this.$t('overall.copySauccessfully'))
+				this.$message.error(this.$t('pubilc.copySauccessfully'))
 				clipboard.destroy()
 			})
 		},

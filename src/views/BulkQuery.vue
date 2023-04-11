@@ -3,7 +3,7 @@
     <Navigation></Navigation>
     <div class="scroll">
       <div class="container">
-        <div class="title">{{$t("bulkQuery.title")}} <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E6%9F%A5%E8%AF%A2%E9%92%B1%E5%8C%85%E4%BD%99%E9%A2%9D"  target="_blank">{{$t("overall.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
+        <div class="title">{{$t("title.bulkQuery")}} <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E6%9F%A5%E8%AF%A2%E9%92%B1%E5%8C%85%E4%BD%99%E9%A2%9D"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
         <!-- <div class="tips">查询网络</div>
         <el-select v-model="select">
           <el-option
@@ -26,7 +26,7 @@
           :data="searchResult"
           border
           slot="empty"
-          :empty-text="$t('bulkQuery.list[3]')"
+          :empty-text="$t('pubilc.noData')"
           v-loading="isloading"
           id="outExcel"
           class="table"

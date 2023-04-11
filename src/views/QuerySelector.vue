@@ -3,7 +3,7 @@
     <Navigation></Navigation>
     <div class="ABI">
       <div class="container">
-        <h3 class="title">{{$t('querySelector.title')}}<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%87%BD%E6%95%B0%E5%90%8D%E6%9F%A5%E8%AF%A2%E5%87%BD%E6%95%B0%E9%80%89%E6%8B%A9%E5%99%A8(4%E5%AD%97%E8%8A%82)"  target="_blank">{{$t('overall.usingHelp')}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
+        <h3 class="title">{{$t('querySelector.title')}}<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%87%BD%E6%95%B0%E5%90%8D%E6%9F%A5%E8%AF%A2%E5%87%BD%E6%95%B0%E9%80%89%E6%8B%A9%E5%99%A8(4%E5%AD%97%E8%8A%82)"  target="_blank">{{$t('pubilc.usingHelp')}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
         <div>
           <h5>{{$t('querySelector.inputFunctionName')}}</h5>
           <div>
@@ -138,11 +138,11 @@ export default {
         },
       });
       clipboard.on("success", () => {
-        this.$message.success(this.$t('overall.copySauccessfully'));
+        this.$message.success(this.$t('pubilc.copySauccessfully'));
         clipboard.destroy();
       });
       clipboard.on("error", () => {
-        this.$message.error(this.$t('overall.copyFailed'));
+        this.$message.error(this.$t('pubilc.copyFailed'));
         clipboard.destroy();
       });
     },

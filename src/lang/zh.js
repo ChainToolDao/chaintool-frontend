@@ -1,8 +1,9 @@
 export default {
-    overall: {
+    pubilc: {
         usingHelp: "使用帮助",
         copySauccessfully: "复制成功",
-        copyFailed: "复制失败"
+        copyFailed: "复制失败",
+        noData: "暂无数据",
     },
     title: {
         home: "区块链开发者的工具箱",
@@ -20,19 +21,19 @@ export default {
     },
     navigation: {
         connectWallet: "连接钱包",
-        nav:{
-            home:"首页",
-            languageSelection:"语言选择",
-            folloUs:"关注我们",
+        nav: {
+            home: "首页",
+            languageSelection: "语言选择",
+            folloUs: "关注我们",
         }
     },
     home: {
         title: ["开源", "工具箱", "让区块链开发更轻松"],
         describe: "开源才值得信赖，好用才提高效率，你所需的工具尽在于此。",
         feedback: "问题反馈",
-        toolList: "工具列表",
+        subheadingToolList: "工具列表",
         listDescribe: "免费效率工具，快上手试试吧",
-        tool_list: [
+        toolList: [
             {
                 title: '单位换算',
                 detail: 'ETH 单位换算',
@@ -85,13 +86,12 @@ export default {
         illustrate: ["以太坊 Ethereum 和以太币 Ether 的区别：", "以太坊 Ethereum 是一个允许任何人在其上创建和使用分布式应用的开放的区块链平台。", "以太币 Ether 是以太坊 Ethereum 中通用的货币，它主要用于支付转账及执行智能合约所消耗的汽油(Gas)，在交易中以太币被缩写为ETH。"],
     },
     bulkQuery: {
-        title: "批量查询钱包余额",
         enterAddress: "代币地址",
         enterAddressPrompt: "默认 ETH 地址",
         enterWalletAddress: "钱包地址",
         enterWalletAddressPrompt: "一行输入一个地址",
         inquireResult: "查询结果",
-        list: ["钱包地址", "代币", "余额", "暂无数据"],
+        list: ["钱包地址", "代币", "余额"],
         checkBalance: "查询余额",
         exportExcel: "下载 Excel",
         exportExcelPrompt: "你当前还没有查询余额，请查询余额后再进行下载表格",
@@ -111,7 +111,6 @@ export default {
         CallTraces: "CallTraces",
         prompt: ["请输入正确的交易 Hash 值", "请输入交易hash值后重试"],
         analyzing: "全力分析中...",
-        noData: "暂无数据",
         parsingFailed: ["解析失败，请稍后再试", "解析失败"]
     },
     abi: {
@@ -174,7 +173,6 @@ export default {
         connectionRequestError: "连接请求错误，请尝试手动连接。连接后刷新页面重试。",
     },
     address: {
-        title: "地址转换与ENS查询",
         address: "地址",
         convert: "确认转换",
         inquire: "确认查询",
@@ -184,7 +182,6 @@ export default {
         errorENSPrompt: "没有查询到对应的ENS,也没有查询到对应的地址。"
     },
     generateWallet: {
-        title: "批量生成EVM钱包",
         tips: ["Tips:钱包生成过程均在本地完成，代码完全", "开源", "。任何人都无法获取到您的助记词及私钥，请放心使用。"],
         randomBatch: "随机批量生成",
         customize: "自定义私钥或助记词创建",
@@ -237,7 +234,6 @@ export default {
         noInput: "你的输入为空，请重新输入"
     },
     calldata: {
-        title: "交易输入数据(Calldata)编解码",
         decoding: "解码",
         coding: "编码",
         inputFunction: "输入函数",
@@ -254,10 +250,8 @@ export default {
         parameterType: "参数类型",
         value: "值",
         queryFailed: "查询失败，请检查你的输入后重试",
-        noData: "暂无数据"
     },
     faucet: {
-        title: "测试币水龙头",
         prompt: ["水龙头（Faucet）是一个平台，为你提供测试币（或 Token ），以便在测试智能合约时使用。", "ChainTool 水龙头为大家收集了常用测试网的水龙头网站，方便开发者们享用。", "如果你有我们没有列出的水龙头网站，欢迎提交", "PR", "或", "ISSUE", "帮我们改进，你的支持是我们无限的动力。"],
         currency: "货币",
         url: "网址",

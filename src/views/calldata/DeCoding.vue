@@ -24,7 +24,7 @@
 			</div>
 			<div class="mainRow">{{$t("calldata.decodingResult")}}</div>
 			<el-table :data="decodingResult" class="list" row-key="id" border :row-class-name="increaseTableStyle"
-				slot="empty" :empty-text="$t('calldata.noData')"
+				slot="empty" :empty-text="$t('pubilc.noData')"
 				:tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
 				<el-table-column prop="id" :label="$t('calldata.parameter')" width="150">
 				</el-table-column>

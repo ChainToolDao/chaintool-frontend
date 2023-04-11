@@ -3,7 +3,7 @@
     <Navigation></Navigation>
     <div class="address">
       <div class="container">
-        <h3 class="title">{{$t('address.title')}}<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2%E4%B8%8EENS%E6%9F%A5%E8%AF%A2"  target="_blank">{{$t("overall.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
+        <h3 class="title">{{$t('title.address')}}<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2%E4%B8%8EENS%E6%9F%A5%E8%AF%A2"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
         <div>
           <h5>{{$t('address.address')}}</h5>
           <div>
@@ -135,11 +135,11 @@ export default {
         },
       });
       clipboard.on("success", () => {
-        this.$message.success(this.$t('overall.copySauccessfully'));
+        this.$message.success(this.$t('pubilc.copySauccessfully'));
         clipboard.destroy();
       });
       clipboard.on("error", () => {
-        this.$message.error(this.$t('overall.copyFailed'));
+        this.$message.error(this.$t('pubilc.copyFailed'));
         clipboard.destroy();
       });
     },

@@ -59,11 +59,11 @@ export default {
         },
       });
       clipboard.on("success", () => {
-        this.$message.success(this.$t("overall.copySauccessfully"));
+        this.$message.success(this.$t("pubilc.copySauccessfully"));
         clipboard.destroy();
       });
       clipboard.on("error", () => {
-        this.$message.error(this.$t("overall.copyFailed"));
+        this.$message.error(this.$t("pubilc.copyFailed"));
         clipboard.destroy();
       });
     },

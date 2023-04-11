@@ -3,7 +3,7 @@
     <Navigation></Navigation>
     <div class="Hash">
       <div class="container">
-        <h3 class="title">{{$t("hashTool.title")}}<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/Hash-%E5%B7%A5%E5%85%B7"  target="_blank">{{$t("overall.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
+        <h3 class="title">{{$t("hashTool.title")}}<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/Hash-%E5%B7%A5%E5%85%B7"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
         <div>
           <h5>{{$t("hashTool.title")}}</h5>
           <div>
@@ -187,11 +187,11 @@ export default {
         },
       });
       clipboard.on("success", () => {
-        this.$message.success(this.$t("overall.copySauccessfully"));
+        this.$message.success(this.$t("pubilc.copySauccessfully"));
         clipboard.destroy();
       });
       clipboard.on("error", () => {
-        this.$message.error(this.$t("overall.copyFailed"));
+        this.$message.error(this.$t("pubilc.copyFailed"));
         clipboard.destroy();
       });
     },
