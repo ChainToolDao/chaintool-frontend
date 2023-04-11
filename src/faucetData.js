@@ -5,7 +5,7 @@ export function faucetData(that) {
             "remark": that.$t('faucetData.ethereum')+that.$t('faucetData.testnet'),
             "chainID": "5",
             "currency": "GETH",
-            "img": "tool_list1.png",
+            "img": "toolList1.png",
             "faucet": [
                 {
                     "url": "https://goerlifaucet.com",
@@ -42,7 +42,7 @@ export function faucetData(that) {
             "chainID": "11155111",
             "remark": that.$t('faucetData.ethereum')+that.$t('faucetData.testnet'),
             "currency": "SETH",
-            "img": "tool_list1.png",
+            "img": "toolList1.png",
             "faucet": [
                 {
                     "url": "https://sepoliafaucet.com/",
@@ -74,7 +74,7 @@ export function faucetData(that) {
             "remark": "Polygon "+that.$t('faucetData.testnet'),
             "chainID": "80001",
             "currency": "tMATIC",
-            "img": "PolygonLogo.png",
+            "img": "polygonLogo.png",
             "faucet": [
                 {
                     "url": "https://mumbaifaucet.com/",
@@ -91,7 +91,7 @@ export function faucetData(that) {
             "remark": "BSC "+that.$t('faucetData.testnet'),
             "chainID": "97",
             "currency": "tBNB",
-            "img": "BscScanLogo.png",
+            "img": "bscScanLogo.png",
             "faucet": [
                 {
                     "url": "https://unitap.app/gas-tap",

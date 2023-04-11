@@ -25,7 +25,7 @@
 					<div class="text">
 						<div class="textTitle">
 							<span>{{ item.title }}</span>
-							<img src="../assets/imgs/arrow-right.svg">
+							<img src="../assets/imgs/arrowRight.svg">
 						</div>
 						<div>{{ item.detail }}</div>
 					</div>
@@ -68,13 +68,13 @@ export default {
 					title: this.$t('home.tool_list[0].title'),
 					detail: this.$t('home.tool_list[0].detail'),
 					router: '/unitConvert',
-					url: require('../assets/imgs/tool_list1.png'),
+					url: require('../assets/imgs/toolList1.png'),
 				},
 				{
 					title: this.$t('home.tool_list[1].title'),
 					detail: this.$t('home.tool_list[1].detail'),
 					router: '/bulkQuery',
-					url: require('../assets/imgs/tool_list2.png'),
+					url: require('../assets/imgs/toolList2.png'),
 				},
 				// {
 				//     title: '批量转账',
@@ -86,55 +86,55 @@ export default {
 					title: this.$t('home.tool_list[2].title'),
 					detail: this.$t('home.tool_list[2].detail'),
 					router: '/traceview',
-					url: require('../assets/imgs/tool_list4.png'),
+					url: require('../assets/imgs/toolList4.png'),
 				},
 				{
 					title: this.$t('home.tool_list[3].title'),
 					detail: this.$t('home.tool_list[3].detail'),
 					router: '/abi',
-					url: require('../assets/imgs/tool_list5.png'),
+					url: require('../assets/imgs/toolList5.png'),
 				},
 				{
 					title: this.$t('home.tool_list[4].title'),
 					detail: this.$t('home.tool_list[4].detail'),
 					router: '/address',
-					url: require('../assets/imgs/tool_list6.png'),
+					url: require('../assets/imgs/toolList6.png'),
 				},
 				{
 					title: this.$t('home.tool_list[5].title'),
 					detail: this.$t('home.tool_list[5].detail'),
 					router: '/generateWallet',
-					url: require('../assets/imgs/tool_list8.png'),
+					url: require('../assets/imgs/toolList8.png'),
 				},
 				{
 					title: this.$t('home.tool_list[6].title'),
 					detail: this.$t('home.tool_list[6].detail'),
 					router: '/querySelector',
-					url: require('../assets/imgs/tool_list7.png'),
+					url: require('../assets/imgs/toolList7.png'),
 				},
 				{
 					title: this.$t('home.tool_list[7].title'),
 					detail: this.$t('home.tool_list[7].detail'),
 					router: '/topicID',
-					url: require('../assets/imgs/tool_list9.png'),
+					url: require('../assets/imgs/toolList9.png'),
 				},
 				{
 					title: this.$t('home.tool_list[8].title'),
 					detail: this.$t('home.tool_list[8].detail'),
 					router: '/hashTool',
-					url: require('../assets/imgs/tool_list10.png'),
+					url: require('../assets/imgs/toolList10.png'),
 				},
 				{
 					title: this.$t('home.tool_list[9].title'),
 					detail: this.$t('home.tool_list[9].detail'),
 					router: '/calldata',
-					url: require('../assets/imgs/tool_list11.png'),
+					url: require('../assets/imgs/toolList11.png'),
 				},
 				{
 					title: this.$t('home.tool_list[10].title'),
 					detail: this.$t('home.tool_list[10].detail'),
 					router: '/faucet',
-					url: require('../assets/imgs/tool_list11.png'),
+					url: require('../assets/imgs/toolList11.png'),
 				},
 			]
 		},
