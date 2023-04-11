@@ -10,7 +10,7 @@
 
 				<div class="inputBtn">
 					<el-input v-model="txid" :placeholder="$t('traceView.inputTransactionHash')"></el-input>
-					<el-button class="btn" :disabled="loading ? true : false" type="primary" @click="traceVisualization">{{$t('traceView.analyze')}}</el-button>
+					<el-button class="btn" :disabled="loading ? true : false" type="primary" @click="traceVisualization">{{$t('traceView.btnAnalyze')}}</el-button>
 				</div>
 
 				<div class="tips">{{$t('traceView.options')}}</div>

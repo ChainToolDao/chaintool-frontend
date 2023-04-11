@@ -12,7 +12,7 @@
 					<div class="summary"> {{$t("home.describe")}}</div>
 					<button class="theFeedback">
 						<a href="https://github.com/ChainToolDao/chaintool-frontend/issues" class="theFeedback"
-							target="_blank">{{$t("home.feedback")}}</a>
+							target="_blank">{{$t("home.btnFeedback")}}</a>
 					</button>
 				</div>
 				<img src="../assets/imgs/main.png">

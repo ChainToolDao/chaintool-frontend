@@ -12,7 +12,7 @@
 					<el-container class="main">
 						<el-aside width="184px" class="sidebar">
 							<el-menu>
-								<el-button class="btn" type="primary" @click="addContract()">{{$t("abi.addContract")}}</el-button>
+								<el-button class="btn" type="primary" @click="addContract()">{{$t("abi.btnAddContract")}}</el-button>
 								<div v-if="localData != null">
 									<div v-for="item in contractList" :key="item.network">
 										<el-submenu :index=item.network>
@@ -34,32 +34,32 @@
 										<el-tooltip effect="dark" :content="$t('abi.sharePrompt')" placement="bottom">
 											<li @click="shareContract(clickItem)" class="view">
 												<i class="el-icon-share"></i>
-												<span>{{$t('abi.share')}}</span>
+												<span>{{$t('abi.btnShare')}}</span>
 											</li>
 										</el-tooltip>
 										<el-tooltip effect="dark" :content="$t('abi.ABIPrompt')" placement="bottom">
 											<li @click="checkJSONABI" class="view">
 												<i class="el-icon-view"></i>
-												<span>{{$t('abi.ABI')}}</span>
+												<span>{{$t('abi.btnABI')}}</span>
 											</li>
 										</el-tooltip>
 										<el-tooltip effect="dark" :content="$t('abi.EtherscanPrompt')" placement="bottom">
 											<li @click="checkEtherscan" class="paperclip">
 												<img src="../assets/imgs/etherscanLogo.svg" alt=""
 													class="etherscanLogo">
-												<span>{{$t('abi.Etherscan')}}</span>
+												<span>{{$t('abi.btnEtherscan')}}</span>
 											</li>
 										</el-tooltip>
 										<el-tooltip effect="dark" :content="$t('abi.editPrompt')" placement="bottom">
 											<li @click="updateContract" class="edit">
 												<i class="el-icon-edit"></i>
-												<span>{{$t('abi.edit')}}</span>
+												<span>{{$t('abi.btnEdit')}}</span>
 											</li>
 										</el-tooltip>
 										<el-tooltip effect="dark" :content="$t('abi.delectPrompt')" placement="bottom">
 											<li @click="deleteContract" class="delete">
 												<i class="el-icon-delete"></i>
-												<span>{{$t('abi.delect')}}</span>
+												<span>{{$t('abi.btnDelect')}}</span>
 											</li>
 										</el-tooltip>
 									</ul>
@@ -224,8 +224,8 @@
 							</div>
 						</el-form>
 						<div slot="footer" class="dialog-footer">
-							<el-button @click="cancelDialog">{{$t('abi.cancel') }}</el-button>
-							<el-button type="primary" @click="onSubmit('form')"> {{$t('abi.sure')  }}</el-button>
+							<el-button @click="cancelDialog">{{$t('pubilc.cancel') }}</el-button>
+							<el-button type="primary" @click="onSubmit('form')"> {{$t('pubilc.sure')  }}</el-button>
 						</div>
 					</el-dialog>
 					<el-dialog :title="$t('abi.checkABI') " :visible.sync="ABIVisible" width="30%" center>
@@ -237,7 +237,7 @@
 							:autosize="{ minRows: 5, maxRows: 20}" :placeholder="$t('abi.inputPrompt')" v-model="checkABI">
 						</el-input>
 						<span slot="footer" class="dialog-footer">
-							<el-button type="primary" @click="copy(checkABI,'复制成功','.dialog-footer')">{{$t('abi.copy')}}</el-button>
+							<el-button type="primary" @click="copy(checkABI,'复制成功','.dialog-footer')">{{$t('pubilc.copy')}}</el-button>
 							<el-button type="danger" @click="ABIVisible = false">{{$t('abi.quit')}}</el-button>
 						</span>
 					</el-dialog>
@@ -535,7 +535,7 @@ export default {
 						this.network[i].currencySymbol +
 						'/' +
 						Item.address
-					this.copy(url, this.$t('abi.copyShareSuccess'), '.shop')
+					this.copy(url, this.$t('pubilc.copyShareSuccess'), '.shop')
 					this.$refs.shop.click()
 				}
 			}
@@ -1025,8 +1025,8 @@ export default {
 						'?',
 					this.$t('abi.currentNetworkError'),
 					{
-						confirmButtonText: 	this.$t('abi.sure'),
-						cancelButtonText: this.$t('abi.cancel'),
+						confirmButtonText: 	this.$t('pubilc.sure'),
+						cancelButtonText: this.$t('pubilc.cancel'),
 					}
 				)
 					.then(async () => {

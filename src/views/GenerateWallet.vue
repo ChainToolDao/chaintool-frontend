@@ -28,7 +28,7 @@
           <div>
             <div>
               <el-input v-model="walletQuantity" :placeholder="$t('generateWallet.walletsNumber')"></el-input>
-              <el-button v-if="!hasBuildState" @click="generateWallet()">{{$t('generateWallet.generateImmediately')}}</el-button>
+              <el-button v-if="!hasBuildState" @click="generateWallet()">{{$t('generateWallet.btnGenerateImmediately')}}</el-button>
               <el-button v-if="hasBuildState" @click="generateWallet">{{$t('generateWallet.regenerate')}}</el-button>
               <el-button v-if="hasBuildState" @click="exportexcel">{{$t('generateWallet.exportexcel')}}</el-button>
             </div>
@@ -51,17 +51,17 @@
               <h5>
                 <span class="dataTitle"> {{$t('generateWallet.address')}}</span><span class="verticalLine"></span>
                 <span class="dataBox"><span class="roll">{{ data.address }}</span></span><span class="dataReplication"
-                  @click="copy(data.address)">{{$t('generateWallet.copy')}}</span>
+                  @click="copy(data.address)">{{$t('pubilc.copy')}}</span>
               </h5>
               <h5>
                 <span class="dataTitle">{{$t('generateWallet.mnemonic')}}</span><span class="verticalLine"></span>
                 <span class="dataBox"><span class="roll">{{ data.mnemonic }}</span></span><span class="dataReplication"
-                  @click="copy(data.mnemonic)">{{$t('generateWallet.copy')}}</span>
+                  @click="copy(data.mnemonic)">{{$t('pubilc.copy')}}</span>
               </h5>
               <h5>
                 <span class="dataTitle">{{$t('generateWallet.privateKey')}}</span><span class="verticalLine"></span>
                 <span class="dataBox"><span class="roll">{{ data.privateKey }}</span></span>
-                <span class="dataReplication" @click="copy(data.privateKey)">{{$t('generateWallet.copy')}}</span>
+                <span class="dataReplication" @click="copy(data.privateKey)">{{$t('pubilc.copy')}}</span>
               </h5>
             </div>
           </div>

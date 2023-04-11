@@ -39,8 +39,8 @@
           </el-table-column>
         </el-table>
         <div>
-          <div class="bottomBtn" @click="checkBalance">{{$t("bulkQuery.checkBalance")}}</div>
-          <span class="bottomBtn" @click="exportexcel">{{$t("bulkQuery.exportExcel")}}</span>
+          <div class="bottomBtn" @click="checkBalance">{{$t("bulkQuery.bntCheckBalance")}}</div>
+          <span class="bottomBtn" @click="exportexcel">{{$t("bulkQuery.btnExportExcel")}}</span>
         </div>
       </div>
     </div>

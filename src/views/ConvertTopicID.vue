@@ -8,7 +8,7 @@
           <h5>{{$t('topicID.EventSignature')}}</h5>
           <div>
             <el-input v-model="inputEventSignature" :placeholder="$t('topicID.inputEventSignature')"></el-input>
-            <el-button @click="getTopicID">{{$t('topicID.inquire')}}</el-button>
+            <el-button @click="getTopicID">{{$t('pubilc.btnInquire')}}</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -19,7 +19,7 @@
           <h5>{{$t('topicID.TopicID')}}</h5>
           <div>
             <el-input v-model="inputTopicID" :placeholder="$t('topicID.InputTopicID')"></el-input>
-            <el-button @click="getEventSignature()">{{$t('topicID.inquire')}}</el-button>
+            <el-button @click="getEventSignature()">{{$t('pubilc.btnInquire')}}</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -196,7 +196,7 @@ export default {
     //获取事件签名
     async getEventSignature() {
       this.load = true;
-      this.outputEventSignature = this.$t('topicID.querying');
+      this.outputEventSignature = this.$t('pubilc.querying');
       this.canCopyEventSignature = false;
       this.inputTopicID = this.inputTopicID.replace(/(^\s*)/g, "");
       let outputEventSignature = [];

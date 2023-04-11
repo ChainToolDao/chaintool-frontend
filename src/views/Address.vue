@@ -11,7 +11,7 @@
               v-model="enterAddress"
               placeholder="Input Address"
             ></el-input>
-            <el-button @click="addressTranslation">{{$t('address.convert')}}</el-button>
+            <el-button @click="addressTranslation">{{$t('address.btnConvert')}}</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -27,7 +27,7 @@
           <h5>ENS</h5>
           <div>
             <el-input v-model="enterENS" :placeholder="$t('address.inputENS')"></el-input>
-            <el-button @click="queryENS">{{$t('address.inquire')}}</el-button>
+            <el-button @click="queryENS">{{$t('address.btnInquire')}}</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -110,7 +110,7 @@ export default {
     //查询ENS
     async queryENS() {
       this.canCopyENS = false;
-      this.outputENS = this.$t('address.loadPrompt');
+      this.outputENS = this.$t('pubilc.querying');
       this.load = true;
       let provider = new ethers.providers.InfuraProvider("mainnet");
       let pendingENS = "";

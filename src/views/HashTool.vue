@@ -22,7 +22,7 @@
               <option value="hex"> Hex </option>
             </select>
             <el-input v-model="inputHash" placeholder="Input" type="textarea" autosize></el-input>
-            <el-button class="button" @click="getHash">{{$t("hashTool.confirm")}}</el-button>
+            <el-button class="button" @click="getHash">{{$t("hashTool.btnConfirm")}}</el-button>
           </div>
         </div>
         <h5 class="bottom">

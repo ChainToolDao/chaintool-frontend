@@ -8,7 +8,7 @@
           <h5>{{$t('querySelector.inputFunctionName')}}</h5>
           <div>
             <el-input v-model="enterFunctionName" :placeholder="$t('querySelector.inputFunctionNamePrompt')"></el-input>
-            <el-button @click="queryFunctionSelector">{{$t('querySelector.inquire')}}</el-button>
+            <el-button @click="queryFunctionSelector">{{$t('pubilc.btnInquire')}}</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -19,7 +19,7 @@
           <h5>{{$t('querySelector.inputByteFunctionSelector')}}</h5>
           <div>
             <el-input v-model="enterSelector" placeholder="Input Selector"></el-input>
-            <el-button @click="querySignature()">{{$t('querySelector.inquire')}}</el-button>
+            <el-button @click="querySignature()">{{$t('pubilc.btnInquire')}}</el-button>
           </div>
         </div>
         <h5 class="result">
