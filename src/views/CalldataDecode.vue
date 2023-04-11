@@ -10,8 +10,8 @@
             <el-menu-item index="coding">{{$t("calldata.coding")}}</el-menu-item>
           </el-menu>
         </div>
-        <div v-if="selectFunction">
-          <DeCoding></DeCoding>
+        <div v-if="selectFunction" class="deCoding">
+          <DeCoding ></DeCoding>
         </div>
         <div v-if="!selectFunction" class="contentSection">
           <Coding></Coding>
@@ -97,7 +97,7 @@ export default {
 }
 
 .contentSection {
-  width: 704px;
+  width: 100%;
 }
 
 .container {
@@ -358,5 +358,16 @@ export default {
   margin-left: -1px;
   width: 421px;
   height: auto;
+}
+
+.deCoding{
+  width: 100%;
+}
+
+@media (max-width: 590px){
+  .title span a{
+    top: 35px;
+    left: 45%;
+  }
 }
 </style>

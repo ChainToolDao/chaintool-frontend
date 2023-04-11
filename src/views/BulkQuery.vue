@@ -390,7 +390,8 @@ export default {
 }
 @media (max-width:500px){
     .title span a {
-        top: 25px;
+        top: 26px;
+        left: 50%;
         margin-left: 0;
     }
     .container .title{

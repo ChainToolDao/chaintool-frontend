@@ -359,6 +359,10 @@ a {
 		font-size: 40px;
 	}
 
+	.container .listTool > div {
+		height: auto;
+	}
+
 	.container .title {
 		font-size: 6vw;
 	}

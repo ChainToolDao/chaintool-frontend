@@ -287,4 +287,17 @@ export default {
   filter: invert(100%);
   vertical-align: middle;
 }
+@media (max-width:500px){
+    .title span a {
+        top: 28px;
+		left: 50%;
+        margin-left: 0;
+    }
+    .container .title{
+        margin-bottom: 50px;
+    }
+    .container .result{
+      word-break: break-all;
+    }
+}
 </style>

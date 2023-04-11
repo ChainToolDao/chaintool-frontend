@@ -361,6 +361,7 @@ export default {
 .container .result {
   width: 100%;
   margin-left: 10px;
+  word-break: break-all;
 }
 
 .copyButton {
@@ -374,5 +375,15 @@ export default {
   height: 30px;
   filter: invert(100%);
   vertical-align: middle;
+}
+@media (max-width:500px){
+    .title span a {
+        top: 25px;
+        left: 50%;
+        margin-left: 0;
+    }
+    .container .title{
+        margin-bottom: 50px;
+    }
 }
 </style>

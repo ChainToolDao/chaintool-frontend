@@ -320,6 +320,7 @@ export default {
     }
 
     .container .title {
+		position: relative;
         font-size: 18px;
         font-weight: 700;
         margin-bottom: 24px;
@@ -651,4 +652,15 @@ export default {
 	/deep/ .el-textarea__inner {
 		height: 200px;
 	}
+
+	@media (max-width:500px){
+    .title span a {
+        top: 20px;
+		left: 50%;
+        margin-left: 0;
+    }
+    .container .title{
+        margin-bottom: 50px;
+    }
+}
 </style>

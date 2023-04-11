@@ -289,8 +289,12 @@ export default {
 }
 
 @media (max-width: 768px) {
+	.navigation{
+		display: inline-block;
+	}
 	.container {
 		margin: 4px 20px;
+		width: 94%;
 	}
 	.collapse-item {
 		display: block;
@@ -379,10 +383,14 @@ a:-webkit-any-link {
 }
 @media (max-width: 370px) {
 	.collapse-item {
-		margin-top: 100px;
+		margin-top: 10px;
 	}
 	.container{
 		margin: 0 10px  10px 10px;
+	}
+	.connect{
+		float: none;
+		margin: 0 30vw ;
 	}
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mainRow">{{$t("calldata.inputFunction")}}</div>
-    <el-input v-model="codingSelector" :placeholder="$t('calldata.inputFunction')"></el-input>
+    <el-input class="funInput" v-model="codingSelector" :placeholder="$t('calldata.inputFunction')" ></el-input>
     <div class="mainRow">{{$t("calldata.parameter")}}</div>
     <el-input v-model="codingParameter" :placeholder="$t('calldata.inputParameterPrompt')" type="textarea"></el-input>
     <h5 class="result"> {{ encodingResult }}<img class="copyButton" v-if="canCopy" src="../../assets/imgs/copy.png"
@@ -81,4 +81,9 @@ export default {
 .bottomButton{
   margin: 15px 40%;
 }
+.result{
+  width: 100% !important;
+  word-break: break-all;
+}
+
 </style>

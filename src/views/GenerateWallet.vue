@@ -269,14 +269,12 @@ export default {
 
 <style scoped>
 .generateWallet {
-  min-width: 636px;
   width: 100%;
   height: auto;
   min-height: 94%;
 }
 
 .wallet {
-  min-width: 636px;
   height: auto;
   display: flex;
   justify-content: center;
@@ -284,7 +282,6 @@ export default {
 }
 
 .container {
-  min-width: 700px;
   max-width: 768px;
   padding: 32px;
   width: 100%;
@@ -305,7 +302,11 @@ export default {
 
 .container div div {
   display: flex;
-  flex-wrap: nowrap;
+   flex-wrap: wrap;
+}
+
+.title{
+  position:relative;
 }
 
 .title span a{
@@ -391,6 +392,11 @@ export default {
 .container .result {
   width: 100%;
   margin-left: 10px;
+}
+
+.el-radio.is-bordered+.el-radio.is-bordered {
+   margin-left: 0px;
+   margin-bottom: 10px;
 }
 
 .stateCopy {
@@ -499,5 +505,16 @@ export default {
   width: 15px;
   height: 15px;
   margin-left: 10px;
+}
+
+@media (max-width:500px){
+    .title span a {
+        top: 25px;
+        left: 50%;
+        margin-left: 0;
+    }
+    .container .title{
+        margin-bottom: 50px;
+    }
 }
 </style>
