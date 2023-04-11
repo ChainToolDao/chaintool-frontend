@@ -29,7 +29,7 @@
 			<div class="more pcHide" @click="show = !show">
 				<div><img src="../assets/imgs/more.png" alt=""></div>
 			</div>
-			<div class="pcHide">
+			<div class="pcHide wallet">
 				<div v-if="address" class="connect connected ">
 					<div></div>
 					<div>{{ address }}</div>
@@ -289,7 +289,7 @@ export default {
 }
 
 @media (max-width: 768px) {
-	.navigation{
+	.navigation {
 		display: inline-block;
 	}
 	.container {
@@ -381,16 +381,12 @@ export default {
 a:-webkit-any-link {
 	color: black;
 }
-@media (max-width: 370px) {
-	.collapse-item {
-		margin-top: 10px;
+@media(max-width:375px){
+	.more{
+		margin-left: 5px;
 	}
-	.container{
-		margin: 0 10px  10px 10px;
-	}
-	.connect{
-		float: none;
-		margin: 0 30vw ;
+	.pcHide{
+		margin-right: 0px;
 	}
 }
 </style>

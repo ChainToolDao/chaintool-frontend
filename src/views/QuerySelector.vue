@@ -301,5 +301,11 @@ export default {
     .container .title{
         margin-bottom: 50px;
     }
+    .container div div {
+      flex-wrap: wrap;
+    }
+    .container .el-button{
+      margin-top: 15px;
+    }
 }
 </style>

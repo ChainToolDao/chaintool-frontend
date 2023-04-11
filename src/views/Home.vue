@@ -436,4 +436,9 @@ a {
 		width: 47vw;
 	}
 }
+@media (max-width: 350px) {
+	.container .topTips > div div:last-child span{
+		font-size: 10vw;
+	}
+}
 </style>
