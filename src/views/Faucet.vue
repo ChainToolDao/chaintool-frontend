@@ -209,7 +209,7 @@ export default {
 			let width = box.offsetWidth
 			// 板块(取整)
 			let plate = (box.offsetWidth / 400) | 0
-			if (index % plate != 0 && plate!=0) {
+			if (index % plate != 0 && plate != 0) {
 				if (index + plate - (index % plate) > this.faucetData.length) {
 					index = this.faucetData.length
 				} else {
@@ -475,6 +475,11 @@ export default {
 		margin: 0 auto;
 		margin-top: 30px;
 		position: relative;
+	}
+}
+@media (max-width: 358px) {
+	.containe {
+		height: 220px;
 	}
 }
 </style>
