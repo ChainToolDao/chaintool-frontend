@@ -3,7 +3,8 @@
     <Navigation></Navigation>
     <div class="TopicID">
       <div class="container">
-        <h3 class="title">{{$t('topicID.title')}} <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%9F%A5%E8%AF%A2%E4%BA%8B%E4%BB%B6%E4%B8%BB%E9%A2%98(TopicID)"  target="_blank">{{$t('pubilc.usingHelp')}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
+        <h3 class="title">{{$t('topicID.title')}}  </h3>
+        <div class="usingHelp"><span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%9F%A5%E8%AF%A2%E4%BA%8B%E4%BB%B6%E4%B8%BB%E9%A2%98(TopicID)"  target="_blank">{{$t('pubilc.usingHelp')}} <img src="../assets/imgs/explain.png" alt=""></a></span></div>
         <div>
           <h5>{{$t('topicID.EventSignature')}}</h5>
           <div>
@@ -323,32 +324,40 @@ export default {
   font-size: 18px;
   font-weight: 700;
 }
-
-.title{
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
   position:relative;
 }
 
-.title span a{
-	text-decoration:none;
-	cursor:pointer;
-	position: absolute;
-	font-size: 15px;
-	margin-left:25% ;
-	margin-bottom: 0px;
-	margin-top: 10px;
-	color: #909399;
-	width: 90px;
-	display: inline-block;
+.usingHelp {
+  width: 100%;
+  height: 21px;
+  margin-bottom: 5px;
 }
 
-.title span a:hover{
-	color: #409eff;
+.usingHelp span{
+  float: right;
 }
 
- .title span img{
-	margin-bottom: -3px;
-	width: 15px;
-	display: inline-block;
+.usingHelp span a{
+  text-decoration:none;
+  cursor:pointer;
+  font-size: 15px;
+  color: #909399;
+  width: 90px;
+  display: inline-block;
+}
+
+.usingHelp span a:hover{
+  color: #409eff;
+}
+
+.usingHelp span img{
+  margin-bottom: -3px;
+  width: 15px;
+  display: inline-block;
 }
 
 .container h5 {
@@ -375,15 +384,5 @@ export default {
   height: 30px;
   filter: invert(100%);
   vertical-align: middle;
-}
-@media (max-width:500px){
-    .title span a {
-        top: 25px;
-        left: 50%;
-        margin-left: 0;
-    }
-    .container .title{
-        margin-bottom: 50px;
-    }
 }
 </style>

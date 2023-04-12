@@ -3,7 +3,8 @@
     <Navigation></Navigation>
     <div class="scroll">
       <div class="container">
-        <div class="title">{{$t("title.calldata")}}<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BA%A4%E6%98%93%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE(Calldata)%E7%BC%96%E8%A7%A3%E7%A0%81"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
+        <div class="title">{{$t("title.calldata")}}</div>
+        <div class="usingHelp"><span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BA%A4%E6%98%93%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE(Calldata)%E7%BC%96%E8%A7%A3%E7%A0%81"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
         <div class="mainRow">
           <el-menu  :default-active="preferredPage" class="el-menu-demo" mode="horizontal"  @select="cutoverTop">
             <el-menu-item index="deCoding">{{$t("calldata.decoding")}}</el-menu-item>
@@ -115,36 +116,39 @@ export default {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-.title{
-  position: relative;
-}
-
-.container .title {
+.title {
   font-size: 18px;
   font-weight: 700;
+  margin-bottom: 15px;
+  position:relative;
 }
 
-.title span a{
-	text-decoration:none;
-	cursor:pointer;
-	position: absolute;
-	font-size: 15px;
-	margin-left:25% ;
-	margin-bottom: 0px;
-	margin-top: 10px;
-	color: #909399;
-	width: 90px;
-	display: inline-block;
+.usingHelp {
+  width: 100%;
+  height: 21px;
 }
 
-.title span a:hover{
-	color: #409eff;
+.usingHelp span{
+  float: right;
 }
 
- .title span img{
-	margin-bottom: -3px;
-	width: 15px;
-	display: inline-block;
+.usingHelp span a{
+  text-decoration:none;
+  cursor:pointer;
+  font-size: 15px;
+  color: #909399;
+  width: 90px;
+  display: inline-block;
+}
+
+.usingHelp span a:hover{
+  color: #409eff;
+}
+
+.usingHelp span img{
+  margin-bottom: -3px;
+  width: 15px;
+  display: inline-block;
 }
 
 /deep/ .copyButton {

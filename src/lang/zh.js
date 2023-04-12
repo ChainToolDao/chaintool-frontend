@@ -148,7 +148,7 @@ export default {
         chooseCommonABI: "从常见 ABI 选择",
         uploadABIFile: "上传 ABI 文件",
         etherscanGet: "从 Etherscan 获取",
-        checkABI: "查看 ABI",
+        lookOverABI: "查看 ABI",
         jsonABI: "JSON ABI",
         readableABI: "可读友好的 ABI",
         inputPrompt: "请输入内容",

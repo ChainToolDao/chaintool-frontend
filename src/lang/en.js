@@ -148,7 +148,7 @@ export default {
         chooseCommonABI: "From Commonly ABI",
         uploadABIFile: "Upload ABI File",
         etherscanGet: "From Etherscan",
-        checkABI: "Show ABI",
+        lookOverABI: "Show ABI",
         jsonABI: "JSON ABI",
         readableABI: "Humanable ABI",
         inputPrompt: "Please input",

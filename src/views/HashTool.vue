@@ -3,7 +3,8 @@
     <Navigation></Navigation>
     <div class="Hash">
       <div class="container">
-        <h3 class="title">{{$t("hashTool.title")}}<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/Hash-%E5%B7%A5%E5%85%B7"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
+        <h3 class="title">{{$t("hashTool.title")}} </h3>
+        <div class="usingHelp"><span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/Hash-%E5%B7%A5%E5%85%B7"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span></div>
         <div>
           <h5>{{$t("hashTool.title")}}</h5>
           <div>
@@ -256,31 +257,40 @@ select {
   margin-right: 0px;
 }
 
-.title{
-  position: relative;
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  position:relative;
 }
 
-.title span a{
-	text-decoration:none;
-	cursor:pointer;
-	position: absolute;
-	font-size: 15px;
-	margin-left:25% ;
-	margin-bottom: 0px;
-	margin-top: 10px;
-	color: #909399;
-	width: 90px;
-	display: inline-block;
+.usingHelp {
+  width: 100%;
+  height: 21px;
+  margin-bottom: 5px;
 }
 
-.title span a:hover{
-	color: #409eff;
+.usingHelp span{
+  float: right;
 }
 
- .title span img{
-	margin-bottom: -3px;
-	width: 15px;
-	display: inline-block;
+.usingHelp span a{
+  text-decoration:none; 
+  cursor:pointer;
+  font-size: 15px;  
+  color: #909399;
+  width: 90px;
+  display: inline-block;
+}
+
+.usingHelp span a:hover{
+  color: #409eff;
+}
+
+.usingHelp span img{
+  margin-bottom: -3px;
+  width: 15px;
+  display: inline-block;
 }
 
 /deep/ .container div .el-input input {

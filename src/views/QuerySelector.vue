@@ -3,7 +3,8 @@
     <Navigation></Navigation>
     <div class="ABI">
       <div class="container">
-        <h3 class="title">{{$t('querySelector.title')}}<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%87%BD%E6%95%B0%E5%90%8D%E6%9F%A5%E8%AF%A2%E5%87%BD%E6%95%B0%E9%80%89%E6%8B%A9%E5%99%A8(4%E5%AD%97%E8%8A%82)"  target="_blank">{{$t('pubilc.usingHelp')}} <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
+        <h3 class="title">{{$t('querySelector.title')}}</h3>
+        <div class="usingHelp"><span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%87%BD%E6%95%B0%E5%90%8D%E6%9F%A5%E8%AF%A2%E5%87%BD%E6%95%B0%E9%80%89%E6%8B%A9%E5%99%A8(4%E5%AD%97%E8%8A%82)"  target="_blank">{{$t('pubilc.usingHelp')}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
         <div>
           <h5>{{$t('querySelector.inputFunctionName')}}</h5>
           <div>
@@ -194,32 +195,40 @@ export default {
   width: 100%;
   margin-right: 0px;
 }
-
-.title{
-  position: relative;
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  position:relative;
 }
 
-.title span a{
-	text-decoration:none;
-	cursor:pointer;
-	position: absolute;
-	font-size: 15px;
-	margin-left:25% ;
-	margin-bottom: 0px;
-	margin-top: 10px;
-	color: #909399;
-	width: 90px;
-	display: inline-block;
+.usingHelp {
+  width: 100%;
+  height: 21px;
+  margin-bottom: 5px;
 }
 
-.title span a:hover{
-	color: #409eff;
+.usingHelp span{
+  float: right;
 }
 
- .title span img{
-	margin-bottom: -3px;
-	width: 15px;
-	display: inline-block;
+.usingHelp span a{
+  text-decoration:none;
+  cursor:pointer;
+  font-size: 15px;
+  color: #909399;
+  width: 90px;
+  display: inline-block;
+}
+
+.usingHelp span a:hover{
+  color: #409eff;
+}
+
+.usingHelp span img{
+  margin-bottom: -3px;
+  width: 15px;
+  display: inline-block;
 }
 
 /deep/ .container div .el-input input {
@@ -293,14 +302,6 @@ export default {
 }
 
 @media (max-width:500px){
-    .title span a {
-        top: 25px;
-        left: 50%;
-        margin-left: 0;
-    }
-    .container .title{
-        margin-bottom: 50px;
-    }
     .container div div {
       flex-wrap: wrap;
     }

@@ -3,7 +3,8 @@
     <Navigation></Navigation>
     <div class="scroll">
       <div class="container">
-        <div class="title">{{$t("title.bulkQuery")}} <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E6%9F%A5%E8%AF%A2%E9%92%B1%E5%8C%85%E4%BD%99%E9%A2%9D"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
+        <div class="title">{{$t("title.bulkQuery")}}</div>
+       <div class="usingHelp">  <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E6%9F%A5%E8%AF%A2%E9%92%B1%E5%8C%85%E4%BD%99%E9%A2%9D"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
         <!-- <div class="tips">查询网络</div>
         <el-select v-model="select">
           <el-option
@@ -257,34 +258,40 @@ export default {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-.container .title {
+.title {
   font-size: 18px;
   font-weight: 700;
-  margin-bottom: 24px;
+  margin-bottom: 15px;
   position:relative;
 }
 
-.title span a{
-	text-decoration:none;
-	cursor:pointer;
-	position: absolute;
-	font-size: 15px;
-	margin-left:25% ;
-	margin-bottom: 0px;
-	margin-top: 10px;
-	color: #909399;
-	width: 90px;
-	display: inline-block;
+.usingHelp {
+  width: 100%;
+  height: 21px;
+  margin-bottom: 15px;
 }
 
-.title span a:hover{
-	color: #409eff;
+.usingHelp span{
+  float: right;
 }
 
- .title span img{
-	margin-bottom: -3px;
-	width: 15px;
-	display: inline-block;
+.usingHelp span a{
+  text-decoration:none;
+  cursor:pointer;
+  font-size: 15px;
+  color: #909399;
+  width: 90px;
+  display: inline-block;
+}
+
+.usingHelp span a:hover{
+  color: #409eff;
+}
+
+.usingHelp span img{
+  margin-bottom: -3px;
+  width: 15px;
+  display: inline-block;
 }
 
 .container .tips {
@@ -387,15 +394,5 @@ export default {
 }
 .table{
   width: 100%;
-}
-@media (max-width:500px){
-    .title span a {
-        top: 26px;
-        left: 50%;
-        margin-left: 0;
-    }
-    .container .title{
-        margin-bottom: 50px;
-    }
 }
 </style>

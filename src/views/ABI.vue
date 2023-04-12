@@ -3,11 +3,13 @@
 		<Navigation></Navigation>
 		<div class="scroll">
 			<div class="container">
-				<div class="title">{{$t("abi.title")}} <span><a
-							href="https://github.com/ChainToolDao/chaintool-frontend/wiki/ABI%E5%8F%AF%E8%A7%86%E5%8C%96%E8%B0%83%E7%94%A8"
-							target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
-				<div class="buttons">
-				</div>
+				<div class="title">{{$t("abi.title")}} </div>
+						<div class="usingHelp"><span>
+							<a  href="https://github.com/ChainToolDao/chaintool-frontend/wiki/ABI%E5%8F%AF%E8%A7%86%E5%8C%96%E8%B0%83%E7%94%A8" target="_blank">{{$t("pubilc.usingHelp")}} 
+								<img src="../assets/imgs/explain.png" alt="">
+							</a>
+							</span>
+						</div>
 				<div class="contract-list">
 					<el-container class="main">
 						<el-aside width="184px" class="sidebar">
@@ -228,7 +230,7 @@
 							<el-button type="primary" @click="onSubmit('form')"> {{$t('pubilc.sure')  }}</el-button>
 						</div>
 					</el-dialog>
-					<el-dialog :title="$t('abi.checkABI') " :visible.sync="ABIVisible" width="30%" center>
+					<el-dialog :title="$t('abi.lookOverABI') " :visible.sync="ABIVisible" width="30%" center>
 						<div class="visible">
 							<el-button round @click="checkJSONABI"> {{$t('abi.jsonABI')}}</el-button>
 							<el-button round @click="checkHumanReadableABI">{{$t('abi.readableABI')}} </el-button>
@@ -1292,12 +1294,6 @@ export default {
 	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-.container .title {
-	font-size: 18px;
-	font-weight: 700;
-	margin-bottom: 24px;
-}
-
 .container .tips {
 	font-size: 14px;
 	color: #000;
@@ -1577,33 +1573,37 @@ input::-webkit-input-placeholder {
 	width: 100%;
 }
 
-.rightList .title {
-	margin-bottom: 0px;
-	margin-top: 10px;
-	color: #909399;
-	width: 90px;
-	display: inline-block;
-	position: relative;
+.title {
+	font-size: 18px;
+	font-weight: 700;
+	margin-bottom: 15px;
+	position:relative;
 }
 
-.title span a {
-	text-decoration: none;
-	cursor: pointer;
-	position: absolute;
+.usingHelp {
+	width: 100%;
+	height: 21px;
+	margin-bottom: 15px;
+}
+
+.usingHelp span{
+	float: right;
+}
+
+.usingHelp span a{
+	text-decoration:none;
+	cursor:pointer;
 	font-size: 15px;
-	margin-left: 5%;
-	margin-bottom: 0px;
-	margin-top: 10px;
 	color: #909399;
 	width: 90px;
 	display: inline-block;
 }
 
-.title span a:hover {
+.usingHelp span a:hover{
 	color: #409eff;
 }
 
-.title span img {
+.usingHelp span img{
 	margin-bottom: -3px;
 	width: 15px;
 	display: inline-block;

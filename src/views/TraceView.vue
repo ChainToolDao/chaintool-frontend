@@ -4,8 +4,8 @@
 
 		<div class="scroll">
 			<div class="container">
-				<div class="title">{{$t('traceView.title')}} <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BA%A4%E6%98%93%E5%A0%86%E6%A0%88-Trace-%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
-
+				<div class="title">{{$t('traceView.title')}}</div>
+				<div class="usingHelp"><span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BA%A4%E6%98%93%E5%A0%86%E6%A0%88-Trace-%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
 				<div class="tips">{{$t('traceView.transactionHash')}}</div>
 
 				<div class="inputBtn">
@@ -319,36 +319,43 @@ export default {
         box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
     }
 
-    .container .title {
-		position: relative;
-        font-size: 18px;
-        font-weight: 700;
-        margin-bottom: 24px;
-    }
+.title {
+	font-size: 18px;
+	font-weight: 700;
+	margin-bottom: 15px;
+	position:relative;
+}
 
 
-	.title span a{
-		text-decoration:none;
-		cursor:pointer;
-		position: absolute;
-		font-size: 15px;
-		margin-left:4% ;
-		margin-bottom: 0px;
-		margin-top: 10px;
-		color: #909399;
-		width: 90px;
-		display: inline-block;
-	}
 
-	.title span a:hover{
-		color: #409eff;
-	}
+.usingHelp {
+  width: 100%;
+  height: 21px;
+  margin-bottom: 15px;
+}
 
- 	.title span img{
-		margin-bottom: -3px;
-		width: 15px;
-		display: inline-block;
-	}
+.usingHelp span{
+	float: right;
+}
+
+.usingHelp span a{
+	text-decoration:none;
+	cursor:pointer;
+	font-size: 15px;
+	color: #909399;
+	width: 90px;
+	display: inline-block;
+}
+
+.usingHelp span a:hover{
+	color: #409eff;
+}
+
+.usingHelp span img{
+	margin-bottom: -3px;
+	width: 15px;
+	display: inline-block;
+}
 
 	.container .tips {
         font-size: 14px;
@@ -652,15 +659,4 @@ export default {
 	/deep/ .el-textarea__inner {
 		height: 200px;
 	}
-
-	@media (max-width:500px){
-    .title span a {
-        top: 20px;
-		left: 50%;
-        margin-left: 0;
-    }
-    .container .title{
-        margin-bottom: 50px;
-    }
-}
 </style>
