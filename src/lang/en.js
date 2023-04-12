@@ -201,7 +201,8 @@ export default {
         nullErrorPrompt: "Invalid input",
         IllegalErrorPrompt: "Invalid address numbers",
         beyondErrorPrompt: "Address number too big, must be smaller than 100",
-        inputErrorPrompt: "Create failed"
+        inputErrorPrompt: "Create failed",
+        popoverBtnLookOver: "查看"
     },
     querySelector: {
         title: "Selector Querier",
@@ -211,7 +212,6 @@ export default {
         inputByteFunctionSelector: "Get function signature by selector",
         functionInputError: "Input error",
         noRecord: "no record",
-        popoverBtnLookOver: "查看"
     },
     topicID: {
         title: "TopicID Querier",

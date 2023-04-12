@@ -55,7 +55,7 @@
                   <el-popover placement="bottom-start"   width="200" trigger="hover"  >
                   <div style="text-align: left; margin: 0">
                     <div v-for="item in network" :key="item.chainID">
-                      <el-button type="primary" v-if="item.chainID!='31337'" size="mini" class="btnPopover" @click="lookOverEtherscan(item.chainExplorer,data.address)">{{ item.networkName }}{{$t('generateWallet.inputErrorPrompt')}}</el-button>
+                      <el-button type="primary" v-if="item.chainID!='31337'" size="mini" class="btnPopover" @click="lookOverEtherscan(item.chainExplorer,data.address)">{{ item.networkName }}{{$t('generateWallet.popoverBtnLookOver')}}</el-button>
                     </div>
                   </div>
                   <span class="roll" slot="reference">{{ data.address }}</span>
