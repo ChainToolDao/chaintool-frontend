@@ -8,10 +8,8 @@
 			</div>
 			<div class="rightcontainer">
 				<div>
-					<a href="https://github.com/ChainToolDao" target="_blank"> <img class="github"
-							src="../assets/imgs/github.png" alt=""></a>
-					<a href="https://twitter.com/NUpchain" target="_blank"> <img class="twitter"
-							src="../assets/imgs/twitter.png" alt=""></a>
+					<a href="https://github.com/ChainToolDao" target="_blank"> <img class="github" src="../assets/imgs/github.png" alt=""></a>
+					<a href="https://twitter.com/NUpchain" target="_blank"> <img class="twitter" src="../assets/imgs/twitter.png" alt=""></a>
 				</div>
 				<div v-if="address" class="connect connected">
 					<div></div>
@@ -381,11 +379,11 @@ export default {
 a:-webkit-any-link {
 	color: black;
 }
-@media(max-width:375px){
-	.more{
+@media (max-width: 375px) {
+	.more {
 		margin-left: 5px;
 	}
-	.pcHide{
+	.pcHide {
 		margin-right: 0px;
 	}
 }

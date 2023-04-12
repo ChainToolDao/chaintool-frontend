@@ -5,14 +5,12 @@
 			<div class="topTips">
 				<div>
 					<div>
-						<div>Chaintool - <span><a href="https://github.com/ChainToolDao"
-									target="_blank">{{$t("home.title[0]")}}</a></span>{{$t("home.title[1]")}}</div>
+						<div>Chaintool - <span><a href="https://github.com/ChainToolDao" target="_blank">{{$t("home.title[0]")}}</a></span>{{$t("home.title[1]")}}</div>
 						{{$t("home.title[2]")}}
 					</div>
 					<div class="summary"> {{$t("home.describe")}}</div>
 					<button class="theFeedback">
-						<a href="https://github.com/ChainToolDao/chaintool-frontend/issues" class="theFeedback"
-							target="_blank">{{$t("home.btnFeedback")}}</a>
+						<a href="https://github.com/ChainToolDao/chaintool-frontend/issues" class="theFeedback" target="_blank">{{$t("home.btnFeedback")}}</a>
 					</button>
 				</div>
 				<img src="../assets/imgs/main.png">
@@ -355,7 +353,7 @@ a {
 }
 
 @media (max-width: 768px) {
-	.container .topTips > div div:last-child span{
+	.container .topTips > div div:last-child span {
 		font-size: 40px;
 	}
 
@@ -366,7 +364,7 @@ a {
 	.container .title {
 		font-size: 6vw;
 	}
-	
+
 	.container .topTips > img {
 		width: 30vw;
 		max-width: 512px;
@@ -437,7 +435,7 @@ a {
 	}
 }
 @media (max-width: 350px) {
-	.container .topTips > div div:last-child span{
+	.container .topTips > div div:last-child span {
 		font-size: 10vw;
 	}
 }
