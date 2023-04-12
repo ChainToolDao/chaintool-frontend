@@ -50,7 +50,16 @@
             <div>
               <h5>
                 <span class="dataTitle"> {{$t('generateWallet.address')}}</span><span class="verticalLine"></span>
-                <span class="dataBox"><span class="roll">{{ data.address }}</span></span><span class="dataReplication"
+                <span class="dataBox">
+                  <el-popover placement="bottom-start"   width="200" trigger="hover"  >
+                  <div style="text-align: left; margin: 0">
+                    <div v-for="item in network" :key="item.chainID">
+                      <el-button type="primary" v-if="item.chainID!='31337'" size="mini" class="btnPopover" @click="lookOverEtherscan(item.chainExplorer,data.address)">{{ item.networkName }}{{$t('generateWallet.inputErrorPrompt')}}</el-button>
+                    </div>
+                  </div>
+                  <span class="roll" slot="reference">{{ data.address }}</span>
+                </el-popover>
+                </span><span class="dataReplication"
                   @click="copy(data.address)">{{$t('pubilc.copy')}}</span>
               </h5>
               <h5>
@@ -82,6 +91,7 @@ import Clipboard from "clipboard";
 import { ethers } from "ethers";
 import * as XLSX from "xlsx";
 import FileSaver from "file-saver";
+import network   from "../network.json"
 export default {
   name: "generateWallet",
   components: {
@@ -114,6 +124,8 @@ export default {
       //生成方式   
       generateMethod: "randomBatch",
       inputPrivateKey: "",
+      //网络
+      network:network
     };
   },
 
@@ -124,6 +136,11 @@ export default {
   },
 
   methods: {
+    //查看Etherscan
+    lookOverEtherscan(url,address){
+      window.open(url+"address/"+address, '_blank');
+    },
+
     //清空钱包数据
     emptyWalletData: function () {
       this.walletdata = [];
@@ -302,7 +319,7 @@ export default {
 
 .container div div {
   display: flex;
-   flex-wrap: wrap;
+   flex-wrap: nowrap;
 }
 
 .title{
@@ -507,6 +524,10 @@ export default {
   margin-left: 10px;
 }
 
+.btnPopover{
+  margin: 5px;
+}
+
 @media (max-width:500px){
     .title span a {
         top: 25px;
@@ -515,6 +536,9 @@ export default {
     }
     .container .title{
         margin-bottom: 50px;
+    }
+    .container div div {
+      flex-wrap: wrap;
     }
 }
 </style>

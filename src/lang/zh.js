@@ -211,6 +211,7 @@ export default {
         inputByteFunctionSelector: "输入函数选择器查询函数签名",
         functionInputError: "你输入的函数有误，请重新输入!",
         noRecord: "你所查找的选择器暂未被记录",
+        popoverBtnLookOver: "查看"
     },
     topicID: {
         title: "事件 <=> 主题(TopicID)",

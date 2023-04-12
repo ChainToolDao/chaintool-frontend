@@ -26,10 +26,10 @@ export default {
     },
     navigation: {
         connectWallet: "Connect Wallet",
-        nav:{
-            home:"首页",
-            languageSelection:"语言选择",
-            folloUs:"关注我们",
+        nav: {
+            home: "首页",
+            languageSelection: "语言选择",
+            folloUs: "关注我们",
         }
     },
     home: {
@@ -211,6 +211,7 @@ export default {
         inputByteFunctionSelector: "Get function signature by selector",
         functionInputError: "Input error",
         noRecord: "no record",
+        popoverBtnLookOver: "查看"
     },
     topicID: {
         title: "TopicID Querier",
