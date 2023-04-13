@@ -7,7 +7,7 @@
         <div class="usingHelp"><span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2%E4%B8%8EENS%E6%9F%A5%E8%AF%A2"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
         <div>
           <h5>{{$t('address.address')}}</h5>
-          <div>
+          <div class="unctionalArea">
             <el-input
               v-model="enterAddress"
               placeholder="Input Address"
@@ -26,7 +26,7 @@
         </h5>
         <div>
           <h5>ENS</h5>
-          <div>
+          <div class="unctionalArea">
             <el-input v-model="enterENS" :placeholder="$t('address.inputENS')"></el-input>
             <el-button @click="queryENS">{{$t('address.btnInquire')}}</el-button>
           </div>
@@ -297,9 +297,17 @@ export default {
   filter: invert(100%);
   vertical-align: middle;
 }
-@media (max-width:500px){
+@media (max-width:768px){
     .container .result{
       word-break: break-all;
+    }
+    
+    .container div .unctionalArea{
+        flex-wrap: wrap;
+    }
+
+    .unctionalArea .el-button{
+        margin-top: 20px;
     }
 }
 </style>
