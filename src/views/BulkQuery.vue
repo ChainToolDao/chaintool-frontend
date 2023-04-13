@@ -1,5 +1,5 @@
 <template>
-	<div class="bulkQuery">
+	<div class="bulkQuery" v-loading="isloading">
 		<Navigation></Navigation>
 		<div class="scroll">
 			<div class="container">
@@ -14,8 +14,8 @@
 				<el-input v-model="tokenAdress" :placeholder="$t('bulkQuery.enterAddressPrompt')"></el-input>
 				<div class="tips">{{$t("bulkQuery.enterWalletAddress")}}</div>
 				<el-input type="textarea" v-model="walletAddress" :placeholder="$t('bulkQuery.enterWalletAddressPrompt')"></el-input>
-				<div class="tips">{{$t("bulkQuery.inquireResult")}}</div>
-				<el-table :data="searchResult" border slot="empty" :empty-text="$t('pubilc.noData')" v-loading="isloading" id="outExcel" class="table">
+				<div class="tips" v-if="searchResult.length>0">{{$t("bulkQuery.inquireResult")}}</div>
+				<el-table v-if="searchResult.length>0" :data="searchResult" border slot="empty" :empty-text="$t('pubilc.noData')"  id="outExcel" class="table">
 					<el-table-column prop="walletAddress" :label="$t('bulkQuery.list[0]')" width="363">
 					</el-table-column>
 					<el-table-column prop="token" :label="$t('bulkQuery.list[1]')" width="90">
@@ -23,6 +23,17 @@
 					<el-table-column prop="balance" :label="$t('bulkQuery.list[2]')" width="250">
 					</el-table-column>
 				</el-table>
+                <div class="collapse">
+                  <el-collapse accordion v-for="item in searchResult" :key="item.walletAddress">
+                    <el-collapse-item>
+                    <template slot="title">
+                    {{$t('bulkQuery.list[0]')}}: {{item.walletAddress}}
+                    </template>
+                    <div>{{$t('bulkQuery.list[1]')}}: {{item.token}}</div>
+                    <div>{{$t('bulkQuery.list[2]')}}: {{item.balance}}</div>
+                </el-collapse-item>
+                </el-collapse>
+                </div>
 				<div>
 					<div class="bottomBtn" @click="checkBalance">{{$t("bulkQuery.bntCheckBalance")}}</div>
 					<span class="bottomBtn" @click="exportexcel">{{$t("bulkQuery.btnExportExcel")}}</span>
@@ -381,9 +392,27 @@ export default {
 	width: 100%;
 }
 
-@media (max-width: 808px) {
-	.container {
+.collapse{
+    display: none;
+}
+
+@media (max-width:768px){
+    .collapse{
+        display: inline-block;
+        width: 100%;
+    }
+    .table{
+        display: none;
+    }
+    .container {
 		max-width: calc(100vw - 40px);
 	}
+    /deep/ .el-collapse-item__header{
+        line-height: 15px;
+        height:auto;
+        padding-top:10px;
+        padding-bottom:10px;
+        word-break:break-all;
+    }
 }
 </style>
