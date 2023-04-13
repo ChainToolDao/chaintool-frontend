@@ -7,7 +7,7 @@
         <div class="usingHelp"><span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%9F%A5%E8%AF%A2%E4%BA%8B%E4%BB%B6%E4%B8%BB%E9%A2%98(TopicID)"  target="_blank">{{$t('pubilc.usingHelp')}} <img src="../assets/imgs/explain.png" alt=""></a></span></div>
         <div>
           <h5>{{$t('topicID.EventSignature')}}</h5>
-          <div>
+          <div class="unctionalArea">
             <el-input v-model="inputEventSignature" :placeholder="$t('topicID.inputEventSignature')"></el-input>
             <el-button @click="getTopicID">{{$t('pubilc.btnInquire')}}</el-button>
           </div>
@@ -18,7 +18,7 @@
         </h5>
         <div>
           <h5>{{$t('topicID.TopicID')}}</h5>
-          <div>
+          <div class="unctionalArea">
             <el-input v-model="inputTopicID" :placeholder="$t('topicID.InputTopicID')"></el-input>
             <el-button @click="getEventSignature()">{{$t('pubilc.btnInquire')}}</el-button>
           </div>
@@ -384,5 +384,19 @@ export default {
   height: 30px;
   filter: invert(100%);
   vertical-align: middle;
+}
+
+@media (max-width:768px){
+    .container .result{
+      word-break: break-all;
+    }
+    
+    .container div .unctionalArea{
+        flex-wrap: wrap;
+    }
+
+    .unctionalArea .el-button{
+        margin-top: 20px;
+    }
 }
 </style>

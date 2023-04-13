@@ -385,7 +385,7 @@ export default {
   border-radius: 6px;
   width: 95%;
   margin-right: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .container .el-button {

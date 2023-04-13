@@ -212,6 +212,7 @@ export default {
         inputByteFunctionSelector: "Get function signature by selector",
         functionInputError: "Input error",
         noRecord: "no record",
+        pointOutQuerying:"loading"
     },
     topicID: {
         title: "TopicID Querier",

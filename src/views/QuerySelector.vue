@@ -7,7 +7,7 @@
         <div class="usingHelp"><span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%87%BD%E6%95%B0%E5%90%8D%E6%9F%A5%E8%AF%A2%E5%87%BD%E6%95%B0%E9%80%89%E6%8B%A9%E5%99%A8(4%E5%AD%97%E8%8A%82)"  target="_blank">{{$t('pubilc.usingHelp')}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
         <div>
           <h5>{{$t('querySelector.inputFunctionName')}}</h5>
-          <div>
+          <div class="unctionalArea">
             <el-input v-model="enterFunctionName" :placeholder="$t('querySelector.inputFunctionNamePrompt')"></el-input>
             <el-button @click="queryFunctionSelector">{{$t('pubilc.btnInquire')}}</el-button>
           </div>
@@ -18,7 +18,7 @@
         </h5>
         <div>
           <h5>{{$t('querySelector.inputByteFunctionSelector')}}</h5>
-          <div>
+          <div class="unctionalArea">
             <el-input v-model="enterSelector" placeholder="Input Selector"></el-input>
             <el-button @click="querySignature()">{{$t('pubilc.btnInquire')}}</el-button>
           </div>
@@ -117,7 +117,7 @@ export default {
       if (enterSelector.indexOf("0x") != 0) {
         enterSelector = "0x" + enterSelector;
       }
-      this.signature =  this.$t('querySelector.querying') ;
+      this.signature =  this.$t('querySelector.pointOutQuerying') ;
       this.load = true;
       this.canCopyFunctionSignature = false;
       let signature = []
@@ -301,10 +301,19 @@ export default {
   vertical-align: middle;
 }
 
-@media (max-width:500px){
-    .container div div {
-      flex-wrap: wrap;
+@media (max-width:768px){
+    .container .result{
+      word-break: break-all;
     }
+    
+    .container div .unctionalArea{
+        flex-wrap: wrap;
+    }
+
+    .unctionalArea .el-button{
+        margin-top: 20px;
+    }
+
     .container .el-button{
       margin-top: 15px;
     }
