@@ -11,8 +11,55 @@
 							</span>
 						</div>
 				<div class="contract-list">
+                 <div class="mobileContract" v-if="Object.keys(clickItem).length!=0">
+                  <div>
+                    <el-button size="mini" @click="clickItem=[]">返回选择合约</el-button>
+                    <el-button size="mini" @click="actionBar=!actionBar" v-if="!actionBar">展开操作栏</el-button>
+                    <el-button size="mini" @click="actionBar=!actionBar" v-if="actionBar">收起操作栏</el-button>
+                  </div>
+                  <div class="actionBar" v-if="actionBar">
+                        <ul>
+										<div effect="dark"  placement="bottom">
+											<li @click="shareContract(clickItem)" >
+												<i class="el-icon-share"></i>
+												<span>{{$t('abi.btnShare')}}</span>
+											</li>
+										</div>
+										<div effect="dark"  placement="bottom">
+											<li @click="checkJSONABI" >
+												<i class="el-icon-view"></i>
+												<span>{{$t('abi.btnABI')}}</span>
+											</li>
+										</div>
+										<div effect="dark" placement="bottom">
+											<li @click="checkEtherscan" >
+												<img src="../assets/imgs/etherscanLogo.svg" alt=""
+													class="etherscanLogo">
+												<span>{{$t('abi.btnEtherscan')}}</span>
+											</li>
+										</div>
+										<div effect="dark"  placement="bottom">
+											<li @click="updateContract" >
+												<i class="el-icon-edit"></i>
+												<span>{{$t('abi.btnEdit')}}</span>
+											</li>
+										</div>
+										<div effect="dark"  placement="bottom">
+											<li @click="deleteContract" >
+												<i class="el-icon-delete"></i>
+												<span>{{$t('abi.btnDelect')}}</span>
+											</li>
+										</div>
+									</ul>
+                  </div>
+                  <div class="contractInfo">
+                   <div><span>合约名称：</span>{{clickItem.name}}</div>
+                   <div><span>区块链：</span>{{clickItem.network}}</div>
+                   <div><span>合约地址：</span>{{ clickItem.address }}</div>
+                  </div>
+                </div>
 					<el-container class="main">
-						<el-aside width="184px" class="sidebar">
+						<el-aside  class="sidebar">
 							<el-menu>
 								<el-button class="btn" type="primary" @click="addContract()">{{$t("abi.btnAddContract")}}</el-button>
 								<div v-if="localData != null">
@@ -108,12 +155,12 @@
 												<div class="title">{{ parameter[0].name }} </div>
 												<el-table :data="parameter[0].inputs" class="list"
 													v-if="parameter[0].inputs.length > 0">
-													<el-table-column label="Type" width="100">
+													<el-table-column label="Type" >
 														<template slot-scope="scope">
 															<span>{{ scope.row.type }}</span>
 														</template>
 													</el-table-column>
-													<el-table-column label="Name" width="100">
+													<el-table-column label="Name" >
 														<template slot-scope="scope">
 															<span>{{ scope.row.name }}</span>
 														</template>
@@ -189,19 +236,19 @@
 							</div>
 						</el-dialog>
 						<el-form :model="form" :rules="rules" ref="form">
-							<el-form-item :label="$t('abi.contractName')" prop="name" :label-width="formLabelWidth">
+							<el-form-item :label="$t('abi.contractName')" prop="name" :label-width="formLabelWidth" class="formLabelWidth">
 								<el-input v-model="form.name" autocomplete="off" :placeholder="$t('abi.validateName')"></el-input>
 							</el-form-item>
-							<el-form-item :label="$t('abi.blockchainNetwork')" prop="network" :label-width="formLabelWidth">
+							<el-form-item :label="$t('abi.blockchainNetwork')" prop="network" :label-width="formLabelWidth" class="formLabelWidth">
 								<el-select v-model="form.network"  :placeholder="$t('abi.selectNetwork')">
 									<el-option v-for="item in network" :key="item.chainID" :label="item.networkName"
 										:value="item.networkName"></el-option>
 								</el-select>
 							</el-form-item> 
-							<el-form-item :label="$t('abi.contractAddress')" prop="address" :label-width="formLabelWidth">
+							<el-form-item :label="$t('abi.contractAddress')" prop="address" :label-width="formLabelWidth" class="formLabelWidth">
 								<el-input v-model="form.address" autocomplete="off" placeholder="address"></el-input>
 							</el-form-item>
-							<el-form-item label="ABI" prop="abi" :label-width="formLabelWidth" class="el-textarea">
+							<el-form-item label="ABI" prop="abi" :label-width="formLabelWidth" class="el-textarea formLabelWidth">
 								<textarea autocomplete="off" v-model="form.abi" rows="5"
 									placeholder='[{"anonymous": false,"inputs": [],"name": "Approval","type": "event"}]'
 									class="el-textarea__inner"></textarea>
@@ -392,6 +439,8 @@ export default {
 			btnChangEnable: false,
 			//是运行
 			isRun: false,
+            //操作栏
+            actionBar:false,
 		}
 	},
 
@@ -537,7 +586,7 @@ export default {
 						this.network[i].currencySymbol +
 						'/' +
 						Item.address
-					this.copy(url, this.$t('pubilc.copyShareSuccess'), '.shop')
+					this.copy(url, this.$t('abi.copyShareSuccess'), '.shop')
 					this.$refs.shop.click()
 				}
 			}
@@ -1528,11 +1577,6 @@ input::-webkit-input-placeholder {
 	display: none;
 }
 
-/deep/ .el-dialog {
-	max-width: 834px;
-	min-width: 650px;
-}
-
 .popUpBox ul li:hover {
 	color: #409eff;
 }
@@ -1576,8 +1620,10 @@ input::-webkit-input-placeholder {
 .title {
 	font-size: 18px;
 	font-weight: 700;
+    margin-top: 15px;
 	margin-bottom: 15px;
 	position:relative;
+    display: inline-block;
 }
 
 .usingHelp {
@@ -1731,5 +1777,124 @@ input::-webkit-input-placeholder {
 
 .el-textarea__inner {
 	min-height: 33px;
+}
+
+.contract-list .main .el-aside{
+        width: 184px !important;
+}
+
+/deep/ .el-dialog {
+	max-width: 834px;
+	min-width: 650px;
+}
+
+.mobileContract{
+    display: none;
+}
+
+@media (max-width:768px){
+    .contract-list{
+        position: relative;
+    }
+    .contract-list .main .el-container{
+        display: none;
+    }
+    .contract-list .main .el-aside{
+        width: 101% !important; 
+    }
+    /deep/ .el-dialog{
+        max-width: none;
+        min-width: auto ;
+        width: 94%;
+    }
+    /deep/ .el-form-item__label{
+        font-size: 13px;
+        padding-right: 5px;
+        display: inline-block;
+    }
+    /deep/ .el-dialog__body{
+        padding: 0px 15px ;
+    }
+    /deep/ .el-form {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+    /deep/ .formLabelWidth label{
+        width: 70px !important;
+        text-align: right;
+    }
+    /deep/ .el-form-item{
+        width: 100%;
+    }
+    /deep/ .formLabelWidth div{
+        margin-left: 0px !important;
+        display: inline-block;
+        width: calc(100% - 70px);
+    }
+    /deep/ .formLabelWidth div div{
+        margin-left: 0px !important;
+        display: inline-block;
+        width: 100%;
+    }
+    /deep/ .el-input--suffix .el-input__inner{
+        width: 100%;
+    }
+    /deep/ .el-form-item{
+        margin-bottom: 18px;
+        vertical-align:top;
+    }
+    /deep/ .popUpBox ul{
+        margin-left: 0px;
+    }
+    /deep/ .popUpBox ul li{
+        margin-top: 5px;
+    }
+    /deep/ .el-dialog{
+        margin-top: 10vh !important;
+        width: 96% !important;
+    }
+    .innerFrame ul li{
+        height: auto;
+        margin-bottom: 10px;
+    }
+    .mobileContract{
+        z-index:999;
+        position: absolute;
+        display: inline-block;
+        background-color: rgb(255, 255, 255);
+        height: 800px;
+        width: 101%;
+    }
+    .mobileContract >div:nth-child(1){
+        display: flex;
+    }
+    .contractInfo{
+        border: 1px solid rgb(230, 230, 230) ;
+        padding: 5px;
+        margin: 10px 0;
+        border-radius: 5px;
+    }
+    .contractInfo div{
+        margin: 5px 0;
+        word-break: break-all;
+    }
+    .contractInfo div span{
+        color: #909399;
+    }
+    .actionBar{
+        margin: 10px 0;
+        border: 1px solid #909399;
+        border-radius: 7px;
+    }
+    .etherscanLogo{
+        padding: 0;
+    }
+    /deep/  .actionBar ul div li{
+        border: 1px solid #909399;
+        margin: 10px;
+        padding: 8px;
+        border-radius: 7px;
+    }
 }
 </style>

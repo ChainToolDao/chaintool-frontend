@@ -267,8 +267,8 @@ export default {
     faucetData: {
         ethereum: "Ethereum",
         testnet: " Testnet",
-        remarkGoerli: ["0.1 Goerli ETH per day", "by pow", "Twitter Auth,  faucet ETH, wETH, DAI, NFTs", "10 for those who have deployed contracts before 202211"],
-        remarkSepolia: ["0.5 Sepolia ETH per day", "by pow", "10 for those who have deployed contracts before 202211"],
+        remarkGoerli: ["要求在主网至少有 0.001ETH 才能领取", "by pow", "Twitter Auth,  faucet ETH, wETH, DAI, NFTs", "10 for those who have deployed contracts before 202211"],
+        remarkSepolia: ["1 Sepolia ETH per day", "by pow", "10 for those who have deployed contracts before 202211"],
         remarkMumbai: ["0.5 Mumbai MATIC per day"],
         remarkHarmony: ["Shard 0、Shard 1、Shard 2、Shard 3"],
         remarkCelo: ["need github auth"]

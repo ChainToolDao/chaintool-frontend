@@ -271,7 +271,6 @@ export default {
 }
 
 .more div img {
-	margin-right: 20px;
 	width: 22px;
 	height: 22px;
 }

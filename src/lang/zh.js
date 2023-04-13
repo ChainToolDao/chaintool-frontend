@@ -161,7 +161,7 @@ export default {
         autoAddError: '自动添加合约失败',
         doesNotSupportSharing: "当前合约暂不支持分享",
         copyShareSuccess: "复制分享链接成功",
-        examineAddressAndNetwork: "请输如合约地址和网络后重试",
+        examineAddressAndNetwork: "请输入合约地址和网络后重试",
         getABIeroor: "ABI获取失败",
         useCurrentNetwork: "使用当前连接网络",
         checkAbiError: "ABI有误!添加失败,请检查后重试",
@@ -267,8 +267,8 @@ export default {
     faucetData: {
         ethereum: "以太坊",
         testnet: "测试网",
-        remarkGoerli: ["每天0.1 Goerli ETH", "需要通过挖矿获取", "可领取ETH、wETH、DAI、NFTs，要求登录Twitter", "在 2022 年11之前部署过合约的，可以领 10 个"],
-        remarkSepolia: ["每天0.5 Sepolia ETH", "需要通过挖矿获取", "在 2022 年11之前部署过合约的，可以领 10 个"],
+        remarkGoerli: ["要求在主网至少有 0.001ETH 才能领取", "需要通过挖矿获取", "可领取ETH、wETH、DAI、NFTs，要求登录Twitter", "在 2022 年11之前部署过合约的，可以领 10 个"],
+        remarkSepolia: ["每天 1 Sepolia ETH", "需要通过挖矿获取", "在 2022 年11之前部署过合约的，可以领 10 个"],
         remarkMumbai: ["每天0.5 Mumbai MATIC"],
         remarkHarmony: ["包含Shard 0、Shard 1、Shard 2、Shard 3"],
         remarkCelo: ["需要使用Github进行身份验证"]
