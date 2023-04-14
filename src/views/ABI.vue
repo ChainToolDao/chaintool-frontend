@@ -14,9 +14,9 @@
                             <div class="contract-list">
                             <div class="mobileContract" v-if="Object.keys(clickItem).length!=0">
                             <div>
-                                <el-button size="mini" @click="clickItem=[],styleHeight('init')">返回选择合约</el-button>
-                                <el-button size="mini" @click="actionBar=!actionBar,styleHeight(500)" v-if="!actionBar">展开操作栏</el-button>
-                                <el-button size="mini" @click="actionBar=!actionBar,styleHeight(500)" v-if="actionBar">收起操作栏</el-button>
+                                <el-button size="mini" @click="clickItem=[],styleHeight('init')">{{$t('abi.btnReturn')}}</el-button>
+                                <el-button size="mini" @click="actionBar=!actionBar,styleHeight(500)" v-if="!actionBar">{{$t('abi.btnDevelop')}}</el-button>
+                                <el-button size="mini" @click="actionBar=!actionBar,styleHeight(500)" v-if="actionBar">{{$t('abi.btnFold')}}</el-button>
                             </div>
                                 <el-collapse-transition>
                             <div class="actionBar" v-if="actionBar">
@@ -56,9 +56,9 @@
                   </div>
                     </el-collapse-transition>
                   <div class="contractInfo">
-                   <div><span>合约名称：</span>{{clickItem.name}}</div>
-                   <div><span>区块链：</span>{{clickItem.network}}</div>
-                   <div><span>合约地址：</span>{{ clickItem.address }}</div>
+                   <div><span>{{ $t('abi.contractName') }}:</span>{{clickItem.name}}</div>
+                   <div><span>{{ $t('abi.blockchainAddress') }}:</span>{{clickItem.network}}</div>
+                   <div><span>{{ $t('abi.contractAddress') }}:</span>{{ clickItem.address }}</div>
                   </div>
                   <div class="mobileMainBox">
                     <div  v-for="item in tableData[0].ItemAbi" :key="item.name">
@@ -2011,6 +2011,9 @@ input::-webkit-input-placeholder {
         width: 22px;
         height: 22px;
         margin-left: 80px;
+    }
+    .contractInfo div span{
+        margin-right: 10px;
     }
 }
 </style>

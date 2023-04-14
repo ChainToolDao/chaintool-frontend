@@ -173,6 +173,9 @@ export default {
         switchNetworkPrompt: "当前钱包连接的链与本合约连接的链不同。将为你切换到对应网络",
         currentNetworkError: "当前网络错误",
         connectionRequestError: "连接请求错误，请尝试手动连接。连接后刷新页面重试。",
+        btnReturn:"返回",
+        btnDevelop:"展开操作栏",
+        btnFold:"收起操作栏"
     },
     address: {
         address: "地址",

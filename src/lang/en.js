@@ -173,6 +173,9 @@ export default {
         switchNetworkPrompt: "Network are mismatch, switch network ...",
         currentNetworkError: "Network error",
         connectionRequestError: "Network error, please retry connect and reload",
+        btnReturn:"返回",
+        btnDevelop:"展开操作栏",
+        btnFold:"收起操作栏"
     },
     address: {
         address: "wallet address",
@@ -267,7 +270,7 @@ export default {
     faucetData: {
         ethereum: "Ethereum",
         testnet: " Testnet",
-        remarkGoerli: ["要求在主网至少有 0.001ETH 才能领取", "by pow", "Twitter Auth,  faucet ETH, wETH, DAI, NFTs", "10 for those who have deployed contracts before 202211"],
+        remarkGoerli: ["requires a minimum mainnet balance of 0.001 ETH", "by pow", "Twitter Auth,  faucet ETH, wETH, DAI, NFTs", "10 for those who have deployed contracts before 202211"],
         remarkSepolia: ["1 Sepolia ETH per day", "by pow", "10 for those who have deployed contracts before 202211"],
         remarkMumbai: ["0.5 Mumbai MATIC per day"],
         remarkHarmony: ["Shard 0、Shard 1、Shard 2、Shard 3"],
