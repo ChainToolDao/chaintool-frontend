@@ -10,14 +10,16 @@
 							</a>
 							</span>
 						</div>
-				<div class="contract-list">
-                 <div class="mobileContract" v-if="Object.keys(clickItem).length!=0">
-                  <div>
-                    <el-button size="mini" @click="clickItem=[]">返回选择合约</el-button>
-                    <el-button size="mini" @click="actionBar=!actionBar" v-if="!actionBar">展开操作栏</el-button>
-                    <el-button size="mini" @click="actionBar=!actionBar" v-if="actionBar">收起操作栏</el-button>
-                  </div>
-                  <div class="actionBar" v-if="actionBar">
+                        <!-- 移动端 -->
+                            <div class="contract-list">
+                            <div class="mobileContract" v-if="Object.keys(clickItem).length!=0">
+                            <div>
+                                <el-button size="mini" @click="clickItem=[],styleHeight('init')">返回选择合约</el-button>
+                                <el-button size="mini" @click="actionBar=!actionBar,styleHeight(500)" v-if="!actionBar">展开操作栏</el-button>
+                                <el-button size="mini" @click="actionBar=!actionBar,styleHeight(500)" v-if="actionBar">收起操作栏</el-button>
+                            </div>
+                                <el-collapse-transition>
+                            <div class="actionBar" v-if="actionBar">
                         <ul>
 										<div effect="dark"  placement="bottom">
 											<li @click="shareContract(clickItem)" >
@@ -52,12 +54,27 @@
 										</div>
 									</ul>
                   </div>
+                    </el-collapse-transition>
                   <div class="contractInfo">
                    <div><span>合约名称：</span>{{clickItem.name}}</div>
                    <div><span>区块链：</span>{{clickItem.network}}</div>
                    <div><span>合约地址：</span>{{ clickItem.address }}</div>
                   </div>
+                  <div class="mobileMainBox">
+                    <div  v-for="item in tableData[0].ItemAbi" :key="item.name">
+                        <div  class="noValue" v-if="item.inputs && item.inputs.length==0 && item.stateMutability=='Read'">
+                            <el-tag>{{ item.stateMutability }}</el-tag>
+                            <span>{{ item.name }} </span>
+                            <div><span>{{$t('abi.returnContent')}}</span><span v-if="item.return"><json-viewer :value="item.return.content" ></json-viewer>
+                            </span><span v-if="!item.return"><img src="../assets/imgs/load.gif" alt="">{{item.return}}
+                            </span></div>
+                            <div></div>
+
+                        </div>
+                    </div>
+                  </div>
                 </div>
+                    <!-- PC端 -->
 					<el-container class="main">
 						<el-aside  class="sidebar">
 							<el-menu>
@@ -190,7 +207,7 @@
 												<div class="rightButton">
 													<el-button type="danger" @click="clearOutput">{{ $t('abi.clearOutput') }}</el-button>
 													<el-button type="primary"
-														@click="submitAbiForm(parameter[0], parameter[1])"
+														@click="submitAbiForm(parameter[0])"
 														:loading="isRun">{{ $t('abi.run') }}</el-button>
 												</div>
 											</div>
@@ -519,11 +536,11 @@ export default {
 	computed:{
       title(){
 	      return this.$t("title.abi")
-	    }
+	    },
   	},
 
 	methods: {
-		//创建合约
+		// 创建合约
 		async createABI(name) {
 			this.dialogFormVisible = true
 			await this.addContract()
@@ -537,7 +554,7 @@ export default {
 				this.parameter[0].inputs.length == 0 &&
 				item.stateMutability != 'Payable'
 			) {
-				this.submitAbiForm(this.parameter[0], this.parameter[1])
+				this.submitAbiForm(this.parameter[0])
 			}
 		},
 
@@ -895,6 +912,7 @@ export default {
 
 		// 单击左侧导航栏的事件
 		openItem(Item, network) {
+            this.styleHeight()
 			Item.network = network
 			// 清空 abiCardData
 			this.abiCardData = []
@@ -946,7 +964,20 @@ export default {
 			this.tableData[0].ItemAbi.push(...payableMethod)
 			this.tableData[0].ItemAbi.push(...otherMethod)
 			this.clickItem = Item
+            this.runReadFunction()
 		},
+
+        //运行读函数
+        runReadFunction(){
+            if(document.body.clientWidth>768){
+                return
+            }
+            for (let i in this.tableData[0].ItemAbi){
+                if(this.tableData[0].ItemAbi[i].inputs && this.tableData[0].ItemAbi[i].inputs.length==0 && this.tableData[0].ItemAbi[i].stateMutability=='Read'){
+                    this.submitAbiForm(this.tableData[0].ItemAbi[i])
+                }
+            }
+        },
 
 		//更新合约
 		updateContract() {
@@ -1036,7 +1067,7 @@ export default {
 		},
 
 		// ABI 函数 表单 提交事件
-		async submitAbiForm(Item, index) {
+		async submitAbiForm(Item) {
 			if (
 				Item.stateMutability == 'Read' &&
 				(await this.matchRpcUrl(this.clickItem.network))
@@ -1216,7 +1247,21 @@ export default {
 						content: cardContentData,
 						typeFlag: typeFlag,
 					}
-					this.abiCardData.unshift(cardData)
+                    // 判断宽度是否为移动端设备
+                    if(document.body.clientWidth<=768){
+                        //判断为移动端设备
+                        for(let i  in this.tableData[0].ItemAbi){
+                            if(this.tableData[0].ItemAbi[i].name==Item.name){
+                                this.tableData[0].ItemAbi[i].return=cardData
+                                // 防止数据不刷新
+                                this.tableData[0].ItemAbi[i].name=this.tableData[0].ItemAbi[i].name+" "
+                            }
+                        }
+                    }else{
+                        //判断为pc端设备
+                        this.abiCardData.unshift(cardData)
+                    }
+                    this.styleHeight(10)
 				} catch (err) {
 					const cardData = {
 						function: Item.name,
@@ -1292,6 +1337,21 @@ export default {
 		clearOutput() {
 			this.abiCardData = []
 		},
+
+        //样式高度变化
+         styleHeight(value){
+            if(value=="init"){
+                 document.querySelector('.main').style.height="800px"
+                 return
+            }
+            if (document.body.clientWidth<=768){
+                setTimeout(()=>{
+                    try{
+                        document.querySelector('.main').style.height = document.querySelector('.mobileContract').offsetHeight+"px"
+                    }catch(error){}
+                },value)
+            }
+        },
 
 		//调用复制的方法
 		async copy(text, output, className) {
@@ -1796,105 +1856,161 @@ input::-webkit-input-placeholder {
     .contract-list{
         position: relative;
     }
+
     .contract-list .main .el-container{
         display: none;
     }
+
     .contract-list .main .el-aside{
         width: 101% !important; 
     }
+
     /deep/ .el-dialog{
         max-width: none;
         min-width: auto ;
         width: 94%;
     }
+
     /deep/ .el-form-item__label{
         font-size: 13px;
         padding-right: 5px;
         display: inline-block;
     }
+
     /deep/ .el-dialog__body{
         padding: 0px 15px ;
     }
+
     /deep/ .el-form {
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
     }
+
     /deep/ .formLabelWidth label{
         width: 70px !important;
         text-align: right;
     }
+
     /deep/ .el-form-item{
         width: 100%;
     }
+
     /deep/ .formLabelWidth div{
         margin-left: 0px !important;
         display: inline-block;
         width: calc(100% - 70px);
     }
+
     /deep/ .formLabelWidth div div{
         margin-left: 0px !important;
         display: inline-block;
         width: 100%;
     }
+
     /deep/ .el-input--suffix .el-input__inner{
         width: 100%;
     }
+    
     /deep/ .el-form-item{
         margin-bottom: 18px;
         vertical-align:top;
     }
+
     /deep/ .popUpBox ul{
         margin-left: 0px;
     }
+
     /deep/ .popUpBox ul li{
         margin-top: 5px;
     }
+
     /deep/ .el-dialog{
         margin-top: 10vh !important;
         width: 96% !important;
     }
+
     .innerFrame ul li{
         height: auto;
         margin-bottom: 10px;
     }
+
     .mobileContract{
         z-index:999;
         position: absolute;
         display: inline-block;
         background-color: rgb(255, 255, 255);
-        height: 800px;
         width: 101%;
+        min-height: 800px;
     }
+
     .mobileContract >div:nth-child(1){
         display: flex;
     }
+
     .contractInfo{
         border: 1px solid rgb(230, 230, 230) ;
         padding: 5px;
         margin: 10px 0;
         border-radius: 5px;
     }
+
     .contractInfo div{
         margin: 5px 0;
         word-break: break-all;
     }
+
     .contractInfo div span{
         color: #909399;
     }
+
     .actionBar{
         margin: 10px 0;
-        border: 1px solid #909399;
         border-radius: 7px;
     }
+
     .etherscanLogo{
         padding: 0;
     }
+
+    .actionBar ul div li span {
+        margin-left: 10px;
+    }
+
     /deep/  .actionBar ul div li{
-        border: 1px solid #909399;
+        border: 1px solid #d1d0d0;
         margin: 10px;
         padding: 8px;
         border-radius: 7px;
+    }
+
+    .noValue  .el-tag{
+        margin-right: 10px;
+    }
+
+    .noValue > div {
+        margin: 10px 0;
+        color: #c4c7cd;
+    }
+
+    /deep/ .noValue > div span div  .jv-code{
+        padding: 8px 11px;
+    }
+
+    .noValue div span:nth-child(1){
+        float: left;
+        margin-top: 3px;
+    }
+
+    /deep/ .noValue div span:nth-child(2){
+        display: inline-block;
+    }
+
+    /deep/ .noValue div span:nth-child(2) img{
+        filter: invert(100%);
+        width: 22px;
+        height: 22px;
+        margin-left: 80px;
     }
 }
 </style>

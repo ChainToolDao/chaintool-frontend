@@ -659,4 +659,14 @@ export default {
 	/deep/ .el-textarea__inner {
 		height: 200px;
 	}
+
+    @media (max-width:768px){
+        .inputBtn{
+           flex-wrap: wrap;
+        }
+        .container .inputBtn .btn{
+            margin: 10px 0;
+            margin-left: 0;
+        }
+    }
 </style>
