@@ -535,6 +535,13 @@ export default {
 			}
 			//创建合约
             if(this.form.abi!= ''){
+                // 风险提示
+                if(this.$route.query.id !=undefined){
+                    this.$message({
+                        message: this.$t('abi.riskWarning'),
+                        type: 'warning'
+                    });
+                }
 			    this.createABI(this.form.name)
             }
 	},

@@ -175,7 +175,8 @@ export default {
         connectionRequestError: "连接请求错误，请尝试手动连接。连接后刷新页面重试。",
         btnReturn:"返回",
         btnDevelop:"展开操作栏",
-        btnFold:"收起操作栏"
+        btnFold:"收起操作栏",
+        riskWarning:"当前的合约无法验证真实性，请确保该合约可靠后使用!!!",
     },
     address: {
         address: "地址",
