@@ -159,7 +159,7 @@ export default {
         checkAbi: "请输入 ABI",
         checkNetwork: "请选择区块链网络",
         autoAddError: '自动添加合约失败',
-        doesNotSupportSharing: "当前合约暂不支持分享",
+        promptSharingError: "分享失败，请稍后再试，",
         copyShareSuccess: "复制分享链接成功",
         examineAddressAndNetwork: "请输入合约地址和网络后重试",
         getABIeroor: "ABI获取失败",

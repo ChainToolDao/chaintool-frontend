@@ -159,7 +159,7 @@ export default {
         checkAbi: "Input ABI",
         checkNetwork: "Choose network",
         autoAddError: 'Load contract error',
-        doesNotSupportSharing: "Current contract not support share",
+        promptSharingError: "分享失败，请稍后再试，",
         copyShareSuccess: "Copy share link success",
         examineAddressAndNetwork: "Please input contract address and network",
         getABIeroor: "Fail to get ABI ",

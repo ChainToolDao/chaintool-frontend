@@ -320,6 +320,7 @@ import axios from 'axios'
 import presetsABI from '../presetsABI.json'
 import network from '../network.json'
 import Clipboard from 'clipboard'
+import intefUrl from "../interface";
 
 export default {
 	name: 'abi',
@@ -467,6 +468,7 @@ export default {
 	},
 
 	async mounted() {
+        await this.dbGetABI(this.$route.query.id)
 		//判断url是否携带address与currencySymbol
 		if (
 			!(this.$route.params.currencySymbol !== undefined &&
@@ -475,7 +477,8 @@ export default {
 		    this.$route.params.currencySymbol="Sepolia"
 			this.$route.params.address="0x23A4aAe678305F8E994da2eCf8Bb33F2306CAdF1"
 		}
-			//获取所有信息，填充表单
+	    if(this.$route.query.id  == undefined ||this.form.abi== ''){
+            //获取所有信息，填充表单
 			for (let i = 1; i < this.network.length; i++) {
 				if (
 					this.network[i].currencySymbol ==
@@ -502,6 +505,7 @@ export default {
 					)
 				}
 			}
+            }
 			//获取浏览器保存的数据，用于下面的判断
 			let localData = await this.storage.get('localData')
 			for (let i in localData) {
@@ -530,7 +534,9 @@ export default {
 				}
 			}
 			//创建合约
-			this.createABI(this.form.name)
+            if(this.form.abi!= ''){
+			    this.createABI(this.form.name)
+            }
 	},
 
 	computed:{
@@ -588,21 +594,69 @@ export default {
 			return true
 		},
 
+        // 数据库获取ABI
+        async dbGetABI(id){
+            try {
+                await axios
+                    .get(intefUrl.getABI+"?id="+id)
+                    .then((res) => { 
+                        this.form = {
+                            name: res.data.data.name,
+                            address: res.data.data.address,
+                            abi: res.data.data.abi,
+                            network: "Ethereum Mainnet",
+                        }
+                    });
+            } catch (error) {
+            }
+        },
+
+        //提交ABI
+        async submitABI (Item){
+            let id
+            try { 
+                await axios
+                    .post(intefUrl.submitABI, {
+                    name: Item.name,
+                    chainId: Item.network,
+                    address: Item.address,
+                    abi:Item.abi,
+                    })
+                    .then((res) => {
+                        id= res.data.data.id
+                     });
+            } catch (error) {
+                id= "提交失败"
+            }
+            return id 
+        },
+
 		//分享合约
 		async shareContract(Item) {
 			let url
+            // 获取abi
 			let abi = await this.getNameAndABI(Item.network, Item.address)
+            let id=""
 			if (!abi) {
-				this.$message.error(this.$t('abi.doesNotSupportSharing'))
-				return
+                //网络名称转ChainID
+                let chainID =  await this.networkConvertChainID([Item])
+                // 添加到数据库中
+                id= await this.submitABI(Item,chainID[0].network)
+                if (id=="提交失败"){
+				    this.$message.error(this.$t('abi.promptSharingError'))
+				    return
+                }
 			}
 			for (let i in this.network) {
-				if (this.network[i].networkName == Item.network) {
+				if (this.network[i].networkName == Item.network || this.network[i].chainID == Item.network) {
 					url =
 						'https://chaintool.tech/abi/' +
 						this.network[i].currencySymbol +
 						'/' +
 						Item.address
+                    if (id !=""){
+                       url =url +"?id="+id
+                    }
 					this.copy(url, this.$t('abi.copyShareSuccess'), '.shop')
 					this.$refs.shop.click()
 				}
@@ -619,7 +673,7 @@ export default {
 			this.innerVisible = false
 		},
 
-		//获取ABI
+		//获取名字和ABI
 		async getNameAndABI(network, address) {
 			//请求网络
 			let requestNetwork =

@@ -6,4 +6,6 @@ export default {
     analyze: `${baseUrl}/traceview/analyze`,
     selector: `${baseUrl}/func/selector`,
     topic: `${baseUrl}/event/topic`,
+    getABI:`${baseUrl}/abi/get`,
+    submitABI:`${baseUrl}/abi/submit`,
 }

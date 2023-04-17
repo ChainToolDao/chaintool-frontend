@@ -5,7 +5,8 @@
         "rpcUrls": [
             "http://localhost:8545"
         ],
-        "chainExplorer": ""
+        "chainExplorer": "",
+        "currencySymbol": "Hardhat"
     },
     {
         "chainID": "1",
