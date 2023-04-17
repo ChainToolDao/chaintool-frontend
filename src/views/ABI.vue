@@ -4,79 +4,77 @@
 		<div class="scroll">
 			<div class="container">
 				<div class="title">{{$t("abi.title")}} </div>
-						<div class="usingHelp"><span>
-							<a  href="https://github.com/ChainToolDao/chaintool-frontend/wiki/ABI%E5%8F%AF%E8%A7%86%E5%8C%96%E8%B0%83%E7%94%A8" target="_blank">{{$t("pubilc.usingHelp")}} 
-								<img src="../assets/imgs/explain.png" alt="">
-							</a>
-							</span>
+				<div class="usingHelp"><span>
+						<a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/ABI%E5%8F%AF%E8%A7%86%E5%8C%96%E8%B0%83%E7%94%A8" target="_blank">{{$t("pubilc.usingHelp")}}
+							<img src="../assets/imgs/explain.png" alt="">
+						</a>
+					</span>
+				</div>
+				<!-- 移动端 -->
+				<div class="contract-list">
+					<div class="mobileContract" v-if="Object.keys(clickItem).length!=0">
+						<div>
+							<el-button size="mini" @click="clickItem=[],styleHeight('init')">{{$t('abi.btnReturn')}}</el-button>
+							<el-button size="mini" @click="actionBar=!actionBar,styleHeight(500)" v-if="!actionBar">{{$t('abi.btnDevelop')}}</el-button>
+							<el-button size="mini" @click="actionBar=!actionBar,styleHeight(500)" v-if="actionBar">{{$t('abi.btnFold')}}</el-button>
 						</div>
-                        <!-- 移动端 -->
-                            <div class="contract-list">
-                            <div class="mobileContract" v-if="Object.keys(clickItem).length!=0">
-                            <div>
-                                <el-button size="mini" @click="clickItem=[],styleHeight('init')">{{$t('abi.btnReturn')}}</el-button>
-                                <el-button size="mini" @click="actionBar=!actionBar,styleHeight(500)" v-if="!actionBar">{{$t('abi.btnDevelop')}}</el-button>
-                                <el-button size="mini" @click="actionBar=!actionBar,styleHeight(500)" v-if="actionBar">{{$t('abi.btnFold')}}</el-button>
-                            </div>
-                                <el-collapse-transition>
-                            <div class="actionBar" v-if="actionBar">
-                        <ul>
-										<div effect="dark"  placement="bottom">
-											<li @click="shareContract(clickItem)" >
-												<i class="el-icon-share"></i>
-												<span>{{$t('abi.btnShare')}}</span>
-											</li>
-										</div>
-										<div effect="dark"  placement="bottom">
-											<li @click="checkJSONABI" >
-												<i class="el-icon-view"></i>
-												<span>{{$t('abi.btnABI')}}</span>
-											</li>
-										</div>
-										<div effect="dark" placement="bottom">
-											<li @click="checkEtherscan" >
-												<img src="../assets/imgs/etherscanLogo.svg" alt=""
-													class="etherscanLogo">
-												<span>{{$t('abi.btnEtherscan')}}</span>
-											</li>
-										</div>
-										<div effect="dark"  placement="bottom">
-											<li @click="updateContract" >
-												<i class="el-icon-edit"></i>
-												<span>{{$t('abi.btnEdit')}}</span>
-											</li>
-										</div>
-										<div effect="dark"  placement="bottom">
-											<li @click="deleteContract" >
-												<i class="el-icon-delete"></i>
-												<span>{{$t('abi.btnDelect')}}</span>
-											</li>
-										</div>
-									</ul>
-                  </div>
-                    </el-collapse-transition>
-                  <div class="contractInfo">
-                   <div><span>{{ $t('abi.contractName') }}:</span>{{clickItem.name}}</div>
-                   <div><span>{{ $t('abi.blockchainAddress') }}:</span>{{clickItem.network}}</div>
-                   <div><span>{{ $t('abi.contractAddress') }}:</span>{{ clickItem.address }}</div>
-                  </div>
-                  <div class="mobileMainBox">
-                    <div  v-for="item in tableData[0].ItemAbi" :key="item.name">
-                        <div  class="noValue" v-if="item.inputs && item.inputs.length==0 && item.stateMutability=='Read'">
-                            <el-tag>{{ item.stateMutability }}</el-tag>
-                            <span>{{ item.name }} </span>
-                            <div><span>{{$t('abi.returnContent')}}</span><span v-if="item.return"><json-viewer :value="item.return.content" ></json-viewer>
-                            </span><span v-if="!item.return"><img src="../assets/imgs/load.gif" alt="">{{item.return}}
-                            </span></div>
-                            <div></div>
-
-                        </div>
-                    </div>
-                  </div>
-                </div>
-                    <!-- PC端 -->
+						<el-collapse-transition>
+							<div class="actionBar" v-if="actionBar">
+								<ul>
+									<div effect="dark" placement="bottom">
+										<li @click="shareContract(clickItem)">
+											<i class="el-icon-share"></i>
+											<span>{{$t('abi.btnShare')}}</span>
+										</li>
+									</div>
+									<div effect="dark" placement="bottom">
+										<li @click="checkJSONABI">
+											<i class="el-icon-view"></i>
+											<span>{{$t('abi.btnABI')}}</span>
+										</li>
+									</div>
+									<div effect="dark" placement="bottom">
+										<li @click="checkEtherscan">
+											<img src="../assets/imgs/etherscanLogo.svg" alt="" class="etherscanLogo">
+											<span>{{$t('abi.btnEtherscan')}}</span>
+										</li>
+									</div>
+									<div effect="dark" placement="bottom">
+										<li @click="updateContract">
+											<i class="el-icon-edit"></i>
+											<span>{{$t('abi.btnEdit')}}</span>
+										</li>
+									</div>
+									<div effect="dark" placement="bottom">
+										<li @click="deleteContract">
+											<i class="el-icon-delete"></i>
+											<span>{{$t('abi.btnDelect')}}</span>
+										</li>
+									</div>
+								</ul>
+							</div>
+						</el-collapse-transition>
+						<div class="contractInfo">
+							<div><span>{{ $t('abi.contractName') }}:</span>{{clickItem.name}}</div>
+							<div><span>{{ $t('abi.blockchainAddress') }}:</span>{{clickItem.network}}</div>
+							<div><span>{{ $t('abi.contractAddress') }}:</span>{{ clickItem.address }}</div>
+						</div>
+						<div class="mobileMainBox">
+							<div v-for="item in tableData[0].ItemAbi" :key="item.name">
+								<div class="noValue" v-if="item.inputs && item.inputs.length==0 && item.stateMutability=='Read'">
+									<el-tag>{{ item.stateMutability }}</el-tag>
+									<span>{{ item.name }} </span>
+									<div><span>{{$t('abi.returnContent')}}</span><span v-if="item.return"><json-viewer :value="item.return.content"></json-viewer>
+										</span><span v-if="!item.return"><img src="../assets/imgs/load.gif" alt="">{{item.return}}
+										</span></div>
+									<div></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- PC端 -->
 					<el-container class="main">
-						<el-aside  class="sidebar">
+						<el-aside class="sidebar">
 							<el-menu>
 								<el-button class="btn" type="primary" @click="addContract()">{{$t("abi.btnAddContract")}}</el-button>
 								<div v-if="localData != null">
@@ -86,8 +84,7 @@
 												<i class="el-icon-star-on"></i>
 												<span class="leftTitle">{{ item.network }}</span>
 											</template>
-											<el-menu-item v-for="data, key in item.data" :key=key
-												@click="openItem(data, item.network)">{{ data.name }}</el-menu-item>
+											<el-menu-item v-for="data, key in item.data" :key=key @click="openItem(data, item.network)">{{ data.name }}</el-menu-item>
 										</el-submenu>
 									</div>
 								</div>
@@ -111,8 +108,7 @@
 										</el-tooltip>
 										<el-tooltip effect="dark" :content="$t('abi.EtherscanPrompt')" placement="bottom">
 											<li @click="checkEtherscan" class="paperclip">
-												<img src="../assets/imgs/etherscanLogo.svg" alt=""
-													class="etherscanLogo">
+												<img src="../assets/imgs/etherscanLogo.svg" alt="" class="etherscanLogo">
 												<span>{{$t('abi.btnEtherscan')}}</span>
 											</li>
 										</el-tooltip>
@@ -141,22 +137,16 @@
 											<el-menu :data="tableData">
 												<div v-if="tableData.length>=1">
 													<template v-for="(item, index) in tableData[0].ItemAbi">
-														<div @click="transferParameters(item,index)" class="contentList"
-															:key=index>
-															<el-submenu
-																v-if="item.type == 'function' || item.type == 'view'"
-																:key="index" :index="index + ''">
+														<div @click="transferParameters(item,index)" class="contentList" :key=index>
+															<el-submenu v-if="item.type == 'function' || item.type == 'view'" :key="index" :index="index + ''">
 																<template slot="title">
 																	<el-tag v-if="item.stateMutability == 'Read'"> Read
 																	</el-tag>
-																	<el-tag v-if="item.stateMutability == 'Write'"
-																		type="warning"> Write </el-tag>
-																	<el-tag v-if="item.stateMutability == 'Payable'"
-																		type="danger"> Payable </el-tag>
+																	<el-tag v-if="item.stateMutability == 'Write'" type="warning"> Write </el-tag>
+																	<el-tag v-if="item.stateMutability == 'Payable'" type="danger"> Payable </el-tag>
 																	<el-tag v-if="!item.stateMutability" type="warning">
 																		{{ item.stateMutability }} </el-tag>
-																	<span
-																		class="contentList-text">{{ item.name }}</span>
+																	<span class="contentList-text">{{ item.name }}</span>
 																</template>
 															</el-submenu>
 														</div>
@@ -170,14 +160,13 @@
 											<div v-if="parameter != null">
 												<div class="title">{{$t('abi.callFunctions')}} </div>
 												<div class="title">{{ parameter[0].name }} </div>
-												<el-table :data="parameter[0].inputs" class="list"
-													v-if="parameter[0].inputs.length > 0">
-													<el-table-column label="Type" >
+												<el-table :data="parameter[0].inputs" class="list" v-if="parameter[0].inputs.length > 0">
+													<el-table-column label="Type">
 														<template slot-scope="scope">
 															<span>{{ scope.row.type }}</span>
 														</template>
 													</el-table-column>
-													<el-table-column label="Name" >
+													<el-table-column label="Name">
 														<template slot-scope="scope">
 															<span>{{ scope.row.name }}</span>
 														</template>
@@ -192,10 +181,8 @@
 													<div>
 														<span>value:</span>
 														<span>
-															<el-input :placeholder="$t('abi.inputValue')" v-model="overrides.value"
-																class="input-with-select">
-																<el-select v-model="unit" slot="prepend"
-																	:placeholder="$t('abi.pleaseChoose')">
+															<el-input :placeholder="$t('abi.inputValue')" v-model="overrides.value" class="input-with-select">
+																<el-select v-model="unit" slot="prepend" :placeholder="$t('abi.pleaseChoose')">
 																	<el-option label="Wei" value="Wei"></el-option>
 																	<el-option label="Gwei" value="Gwei"></el-option>
 																	<el-option label="Ether" value="Ether"></el-option>
@@ -206,17 +193,14 @@
 												</div>
 												<div class="rightButton">
 													<el-button type="danger" @click="clearOutput">{{ $t('abi.clearOutput') }}</el-button>
-													<el-button type="primary"
-														@click="submitAbiForm(parameter[0])"
-														:loading="isRun">{{ $t('abi.run') }}</el-button>
+													<el-button type="primary" @click="submitAbiForm(parameter[0])" :loading="isRun">{{ $t('abi.run') }}</el-button>
 												</div>
 											</div>
 										</div>
 										<div>
 											<div class="sol-body-right" :data="abiCardData">
 												<div v-if="abiCardData.length != 0">
-													<el-card class="box-card" v-for="(item, index) in abiCardData"
-														:key="index" :index="index + 'card'">
+													<el-card class="box-card" v-for="(item, index) in abiCardData" :key="index" :index="index + 'card'">
 														<div slot="header" class="clearfix">
 															<div><span v-if="item.typeFlag == 'error'">❌ </span>
 																{{ $t('abi.callFunctions') }}{{ item.function }}</div>
@@ -244,8 +228,7 @@
 									<div class="inner-title">{{ piece.standard }}</div>
 									<div>
 										<ul>
-											<li class="link" v-for="data  in piece.data" @click="getABI(data)"
-												:key="data">{{ data
+											<li class="link" v-for="data  in piece.data" @click="getABI(data)" :key="data">{{ data
                                             }}</li>
 										</ul>
 									</div>
@@ -257,18 +240,15 @@
 								<el-input v-model="form.name" autocomplete="off" :placeholder="$t('abi.validateName')"></el-input>
 							</el-form-item>
 							<el-form-item :label="$t('abi.blockchainNetwork')" prop="network" :label-width="formLabelWidth" class="formLabelWidth">
-								<el-select v-model="form.network"  :placeholder="$t('abi.selectNetwork')">
-									<el-option v-for="item in network" :key="item.chainID" :label="item.networkName"
-										:value="item.networkName"></el-option>
+								<el-select v-model="form.network" :placeholder="$t('abi.selectNetwork')">
+									<el-option v-for="item in network" :key="item.chainID" :label="item.networkName" :value="item.networkName"></el-option>
 								</el-select>
-							</el-form-item> 
+							</el-form-item>
 							<el-form-item :label="$t('abi.contractAddress')" prop="address" :label-width="formLabelWidth" class="formLabelWidth">
 								<el-input v-model="form.address" autocomplete="off" placeholder="address"></el-input>
 							</el-form-item>
 							<el-form-item label="ABI" prop="abi" :label-width="formLabelWidth" class="el-textarea formLabelWidth">
-								<textarea autocomplete="off" v-model="form.abi" rows="5"
-									placeholder='[{"anonymous": false,"inputs": [],"name": "Approval","type": "event"}]'
-									class="el-textarea__inner"></textarea>
+								<textarea autocomplete="off" v-model="form.abi" rows="5" placeholder='[{"anonymous": false,"inputs": [],"name": "Approval","type": "event"}]' class="el-textarea__inner"></textarea>
 							</el-form-item>
 							<div class="popUpBox">
 								<ul>
@@ -276,15 +256,12 @@
 										<el-button> {{ $t('abi.chooseCommonABI') }}</el-button>
 									</li>
 									<li class="">
-										<el-upload class="upload-demo"
-											action="https://jsonplaceholder.typicode.com/posts/" accept=".ABI,.txt"
-											:on-success="readFile">
+										<el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" accept=".ABI,.txt" :on-success="readFile">
 											<el-button>{{$t('abi.uploadABIFile') }}</el-button>
 										</el-upload>
 									</li>
 									<li class="upload-demo">
-										<el-button @click="getABIFromEtherscan" :loading="btnChangEnable"
-											:disabled="btnChangEnable">{{$t('abi.etherscanGet')  }}</el-button>
+										<el-button @click="getABIFromEtherscan" :loading="btnChangEnable" :disabled="btnChangEnable">{{$t('abi.etherscanGet')  }}</el-button>
 									</li>
 								</ul>
 							</div>
@@ -299,8 +276,7 @@
 							<el-button round @click="checkJSONABI"> {{$t('abi.jsonABI')}}</el-button>
 							<el-button round @click="checkHumanReadableABI">{{$t('abi.readableABI')}} </el-button>
 						</div>
-						<el-input type="textarea" class="checkABI" :disabled="true"
-							:autosize="{ minRows: 5, maxRows: 20}" :placeholder="$t('abi.inputPrompt')" v-model="checkABI">
+						<el-input type="textarea" class="checkABI" :disabled="true" :autosize="{ minRows: 5, maxRows: 20}" :placeholder="$t('abi.inputPrompt')" v-model="checkABI">
 						</el-input>
 						<span slot="footer" class="dialog-footer">
 							<el-button type="primary" @click="copy(checkABI,'复制成功','.dialog-footer')">{{$t('pubilc.copy')}}</el-button>
