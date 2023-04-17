@@ -599,12 +599,18 @@ export default {
             try {
                 await axios
                     .get(intefUrl.getABI+"?id="+id)
-                    .then((res) => { 
+                    .then(async (res) => { 
+                        for(let i in this.network){
+                            if(res.data.data.chainId==this.network[i].chainID){
+                                res.data.data.chainID=this.network[i].networkName
+                                break;
+                            }
+                        }
                         this.form = {
                             name: res.data.data.name,
                             address: res.data.data.address,
                             abi: res.data.data.abi,
-                            network: "Ethereum Mainnet",
+                            network:  res.data.data.chainID
                         }
                     });
             } catch (error) {
@@ -617,10 +623,10 @@ export default {
             try { 
                 await axios
                     .post(intefUrl.submitABI, {
-                    name: Item.name,
-                    chainId: Item.network,
-                    address: Item.address,
-                    abi:Item.abi,
+                        name: Item.name,
+                        chainId: Item.network,
+                        address: Item.address,
+                        abi:Item.abi,
                     })
                     .then((res) => {
                         id= res.data.data.id
