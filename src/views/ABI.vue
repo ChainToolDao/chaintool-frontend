@@ -632,7 +632,7 @@ export default {
                         id= res.data.data.id
                      });
             } catch (error) {
-                id= "提交失败"
+                id= "error"
             }
             return id 
         },
@@ -648,7 +648,7 @@ export default {
                 let chainID =  await this.networkConvertChainID([Item])
                 // 添加到数据库中
                 id= await this.submitABI(Item,chainID[0].network)
-                if (id=="提交失败"){
+                if (id=="error"){
 				    this.$message.error(this.$t('abi.promptSharingError'))
 				    return
                 }

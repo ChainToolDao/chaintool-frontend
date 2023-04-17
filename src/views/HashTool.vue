@@ -18,10 +18,10 @@
             <el-radio v-model="isCoding" label="deCoding" @change="clearInputAndOutput">{{$t("hashTool.decoding")}}</el-radio>
           </div>
           <div>
-            <select name="" v-model="encodingType" id="">
-              <option value="test"> Text </option>
-              <option value="hex"> Hex </option>
-            </select>
+              <el-select name="" v-model="encodingType" id="">
+                <el-option value="Test">Text</el-option>
+                <el-option value="Hex">Hex</el-option>
+            </el-select>
             <el-input v-model="inputHash" placeholder="Input" type="textarea" autosize></el-input>
             <el-button class="button" @click="getHash">{{$t("hashTool.btnConfirm")}}</el-button>
           </div>
@@ -64,7 +64,7 @@ export default {
       // 可以复制Hash  
       canCopyHash: false,
       // 编码类型  encodingType
-      encodingType: "test",
+      encodingType: "Test",
       // 算法选择
       algorithmSelection: "Keccak-256",
       // 是编码状态
@@ -88,7 +88,7 @@ export default {
 
     //keccak256计算
     keccak256Count() {
-      if (this.encodingType == "hex") {
+      if (this.encodingType == "Hex") {
         //hex运算
         this.inputHash = this.inputHash.replace(/(^\s*)/g, "");
         let inputHash = this.inputHash;
@@ -117,7 +117,7 @@ export default {
     //base64计算
     base64Count() {
       if (this.isCoding == "coding") {
-        if (this.encodingType == "hex") {
+        if (this.encodingType == "Hex") {
           //Hex 编码
           try {
             this.inputHash = this.inputHash.replace(/(^\s*)/g, "");
@@ -139,7 +139,7 @@ export default {
           this.canCopyHash = true;
         }
       } else if (this.isCoding == "deCoding") {
-        if (this.encodingType == "hex") {
+        if (this.encodingType == "Hex") {
           //Hex 解码
           try {
             let base64 = this.inputHash;
@@ -362,6 +362,19 @@ select {
   height: 30px;
   filter: invert(100%);
   vertical-align: middle;
+}
+
+.container div:nth-child(1){
+    width: 135px;
+}
+
+/deep/ .tree-container .el-tree-node__children{
+    width: 5000px;
+}
+
+/deep/ .container div:nth-child(1) div input{
+    height: 34px;
+    line-height: 34px;
 }
 
 .button {

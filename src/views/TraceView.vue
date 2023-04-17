@@ -29,7 +29,7 @@
 					</el-link>
 				</div>
 
-				<div class="tips">{{$t('traceView.CallTraces')}}</div>
+				<div class="tips"  v-if="treeData!=null" >{{$t('traceView.CallTraces')}}</div>
 
 				<div class="div-center">
 					<div class="tree-container divItem">
@@ -42,7 +42,7 @@
 							</template>
 						</div>
 
-						<el-tree id="tree" ref="tree" node-key="id" :indent="0" :empty-text="$t('pubilc.noData')" :data="treeData">
+						<el-tree id="tree" ref="tree" node-key="id" :indent="0" :empty-text="$t('pubilc.noData')" :data="treeData" v-if="treeData!=null">
 							<span class="custom-tree-node" slot-scope="{ data }">
 								<template v-if="data.init">
 									<!-- 如果该交易为创建合约 -->
@@ -431,10 +431,6 @@ export default {
 	.container .el-link {
 		align-self: flex-start;
 		margin-bottom: 20px;
-	}
-
-	.el-tree {
-		width: 100%;
 	}
 
 	.div-center {
