@@ -6,6 +6,24 @@
 					<img class="topLogo" src="../assets/imgs/topLogo.png" alt="">
 				</span>
 			</div>
+			<div class="nav">
+				<el-menu class="el-menu-demo" mode="horizontal">
+					<el-submenu index="1">
+						<template slot="title">EVM工具</template>
+						<router-link to="/faucet" class="navRouter"><el-menu-item index="2-1">{{$t('home.toolList[10].title')}}</el-menu-item></router-link>
+						<router-link to="/generateWallet" class="navRouter"><el-menu-item index="2-2">{{$t('home.toolList[5].title')}}</el-menu-item></router-link>
+						<router-link to="/abi" class="navRouter"><el-menu-item index="2-3">{{$t('home.toolList[3].title')}}</el-menu-item></router-link>
+						<router-link to="/querySelector" class="navRouter"> <el-menu-item index="2-4">{{$t('home.toolList[6].title')}}</el-menu-item></router-link>
+						<router-link to="/unitConvert" class="navRouter"> <el-menu-item index="2-5">{{$t('home.toolList[0].title')}}</el-menu-item></router-link>
+						<router-link to="/bulkQuery" class="navRouter"><el-menu-item index="2-6">{{$t('home.toolList[1].title')}}</el-menu-item></router-link>
+						<router-link to="/traceview" class="navRouter"> <el-menu-item index="2-7">{{$t('home.toolList[2].title')}}</el-menu-item></router-link>
+						<router-link to="/address" class="navRouter"> <el-menu-item index="2-8">{{$t('home.toolList[4].title')}}</el-menu-item></router-link>
+						<router-link to="/topicID" class="navRouter"> <el-menu-item index="2-9">{{$t('home.toolList[7].title')}}</el-menu-item></router-link>
+						<router-link to="/hashTool" class="navRouter"><el-menu-item index="2-10">{{$t('home.toolList[8].title')}}</el-menu-item></router-link>
+						<router-link to="/calldata" class="navRouter"> <el-menu-item index="2-11">{{$t('home.toolList[9].title')}}</el-menu-item></router-link>
+					</el-submenu>
+				</el-menu>
+			</div>
 			<div class="rightcontainer">
 				<div>
 					<a href="https://github.com/ChainToolDao" target="_blank"> <img class="github" src="../assets/imgs/github.png" alt=""></a>
@@ -41,15 +59,28 @@
 				<div v-show="show" class="collapse-item">
 					<el-collapse accordion @change="activeNamesList">
 						<el-collapse-item name="home">
-							<template slot="title">{{$t('navigation.nav.home')}}
-							</template>
+							<template slot="title">{{$t('navigation.nav.home')}}</template>
 							<div></div>
 						</el-collapse-item>
-						<el-collapse-item :title="$t('navigation.nav.languageSelection')" name="2">
+						<el-collapse-item name="2">
+							<template slot="title">EVM工具</template>
+							<router-link to="/faucet">{{$t('home.toolList[10].title')}}</router-link>
+							<router-link to="/generateWallet">{{$t('home.toolList[5].title')}}</router-link>
+							<router-link to="/abi">{{$t('home.toolList[3].title')}}</router-link>
+							<router-link to="/querySelector">{{$t('home.toolList[6].title')}}</router-link>
+							<router-link to="/unitConvert">{{$t('home.toolList[0].title')}}</router-link>
+							<router-link to="/bulkQuery">{{$t('home.toolList[1].title')}}</router-link>
+							<router-link to="/traceview">{{$t('home.toolList[2].title')}}</router-link>
+							<router-link to="/address">{{$t('home.toolList[4].title')}}</router-link>
+							<router-link to="/topicID">{{$t('home.toolList[7].title')}}</router-link>
+							<router-link to="/hashTool">{{$t('home.toolList[8].title')}}</router-link>
+							<router-link to="/calldata">{{$t('home.toolList[9].title')}}</router-link>
+						</el-collapse-item>
+						<el-collapse-item :title="$t('navigation.nav.languageSelection')" name="3">
 							<div @click="cutoverLang('zh')">中文</div>
 							<div @click="cutoverLang('en')">English</div>
 						</el-collapse-item>
-						<el-collapse-item :title="$t('navigation.nav.folloUs')" name="3">
+						<el-collapse-item :title="$t('navigation.nav.folloUs')" name="4">
 							<a href="https://github.com/ChainToolDao" target="_blank">Github</a>
 							<a href="https://twitter.com/NUpchain" target="_blank">Twitter</a>
 						</el-collapse-item>
@@ -279,20 +310,78 @@ export default {
 	display: none;
 }
 
-@media (min-width: 769px) {
+/deep/ .el-collapse-item__content {
+	border: solid 1px rgb(176, 176, 176);
+	border-radius: 10px;
+	padding: 5px 20px 10px 20px;
+}
+
+.el-collapse-item__content div {
+	margin-top: 10px;
+	padding: 10px 10px 10px 15px;
+}
+
+.el-collapse-item__content div:hover {
+	cursor: pointer;
+	background-color: rgb(214, 214, 214);
+	border-radius: 10px;
+}
+
+.el-collapse-item__content a {
+	margin-top: 10px;
+	margin-right: 10px;
+	padding: 10px 10px 10px 15px;
+	width: 93%;
+	text-decoration: none;
+	display: inline-block;
+	color: block !important;
+}
+
+.el-collapse-item__content a:hover {
+	cursor: pointer;
+	background-color: rgb(214, 214, 214);
+	border-radius: 10px;
+}
+
+a:-webkit-any-link {
+	color: black;
+}
+
+@media (max-width: 400px) {
+	.container {
+		margin: 0 10px;
+	}
+
+	.container .btn span img {
+		width: 125px;
+		height: 25px;
+	}
+}
+
+@media (max-width: 375px) {
+	.more {
+		margin-left: 5px;
+	}
+
 	.pcHide {
-		display: none;
+		margin-right: 0px;
 	}
 }
 
 @media (max-width: 768px) {
+	.nav {
+		display: none;
+	}
+
 	.navigation {
 		display: inline-block;
 	}
+
 	.container {
 		margin: 4px 20px;
 		width: 94%;
 	}
+
 	.collapse-item {
 		display: block;
 	}
@@ -338,52 +427,31 @@ export default {
 		margin-bottom: 20px;
 	}
 }
-@media (max-width: 400px) {
-	.container {
-		margin: 0 10px;
-	}
-	.container .btn span img {
-		width: 125px;
-		height: 25px;
-	}
-}
-/deep/ .el-collapse-item__content {
-	border: solid 1px rgb(176, 176, 176);
-	border-radius: 10px;
-	padding: 5px 20px 10px 20px;
-}
-.el-collapse-item__content div {
-	margin-top: 10px;
-	padding: 10px 10px 10px 15px;
-}
-.el-collapse-item__content div:hover {
-	cursor: pointer;
-	background-color: rgb(214, 214, 214);
-	border-radius: 10px;
-}
-.el-collapse-item__content a {
-	margin-top: 10px;
-	margin-right: 10px;
-	padding: 10px 10px 10px 15px;
-	width: 93%;
-	text-decoration: none;
-	display: inline-block;
-	color: block !important;
-}
-.el-collapse-item__content a:hover {
-	cursor: pointer;
-	background-color: rgb(214, 214, 214);
-	border-radius: 10px;
-}
-a:-webkit-any-link {
-	color: black;
-}
-@media (max-width: 375px) {
-	.more {
-		margin-left: 5px;
-	}
+
+@media (min-width: 769px) {
 	.pcHide {
-		margin-right: 0px;
+		display: none;
+	}
+
+	.nav {
+		width: 30%;
+	}
+
+	.nav ul li {
+		display: inline-block;
+	}
+
+	.el-menu--horizontal {
+		border-bottom: none;
+	}
+
+	/deep/ .nav .el-menu--horizontal > .el-submenu .el-submenu__title {
+		color: black;
+		font-size: 17px;
+	}
+
+	.navRouter {
+		text-decoration: none;
 	}
 }
 </style>
