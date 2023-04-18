@@ -5,7 +5,10 @@
 			<div class="topTips">
 				<div>
 					<div>
-						<div>Chaintool - <span><a href="https://github.com/ChainToolDao" target="_blank">{{$t("home.title[0]")}}</a></span>{{$t("home.title[1]")}}</div>
+						<div>Chaintool -
+							<span><a href="https://github.com/ChainToolDao" target="_blank">{{$t("home.title[0]")}}</a></span>
+							{{$t("home.title[1]")}}
+						</div>
 						{{$t("home.title[2]")}}
 					</div>
 					<div class="summary"> {{$t("home.describe")}}</div>
@@ -63,6 +66,30 @@ export default {
 		toolList() {
 			return [
 				{
+					title: this.$t('home.toolList[10].title'),
+					detail: this.$t('home.toolList[10].detail'),
+					router: '/faucet',
+					url: require('../assets/imgs/toolList11.png'),
+				},
+				{
+					title: this.$t('home.toolList[5].title'),
+					detail: this.$t('home.toolList[5].detail'),
+					router: '/generateWallet',
+					url: require('../assets/imgs/toolList8.png'),
+				},
+				{
+					title: this.$t('home.toolList[3].title'),
+					detail: this.$t('home.toolList[3].detail'),
+					router: '/abi',
+					url: require('../assets/imgs/toolList5.png'),
+				},
+				{
+					title: this.$t('home.toolList[6].title'),
+					detail: this.$t('home.toolList[6].detail'),
+					router: '/querySelector',
+					url: require('../assets/imgs/toolList7.png'),
+				},
+				{
 					title: this.$t('home.toolList[0].title'),
 					detail: this.$t('home.toolList[0].detail'),
 					router: '/unitConvert',
@@ -87,28 +114,10 @@ export default {
 					url: require('../assets/imgs/toolList4.png'),
 				},
 				{
-					title: this.$t('home.toolList[3].title'),
-					detail: this.$t('home.toolList[3].detail'),
-					router: '/abi',
-					url: require('../assets/imgs/toolList5.png'),
-				},
-				{
 					title: this.$t('home.toolList[4].title'),
 					detail: this.$t('home.toolList[4].detail'),
 					router: '/address',
 					url: require('../assets/imgs/toolList6.png'),
-				},
-				{
-					title: this.$t('home.toolList[5].title'),
-					detail: this.$t('home.toolList[5].detail'),
-					router: '/generateWallet',
-					url: require('../assets/imgs/toolList8.png'),
-				},
-				{
-					title: this.$t('home.toolList[6].title'),
-					detail: this.$t('home.toolList[6].detail'),
-					router: '/querySelector',
-					url: require('../assets/imgs/toolList7.png'),
 				},
 				{
 					title: this.$t('home.toolList[7].title'),
@@ -126,12 +135,6 @@ export default {
 					title: this.$t('home.toolList[9].title'),
 					detail: this.$t('home.toolList[9].detail'),
 					router: '/calldata',
-					url: require('../assets/imgs/toolList11.png'),
-				},
-				{
-					title: this.$t('home.toolList[10].title'),
-					detail: this.$t('home.toolList[10].detail'),
-					router: '/faucet',
 					url: require('../assets/imgs/toolList11.png'),
 				},
 			]
@@ -418,7 +421,6 @@ a {
 	.container .listTool {
 		width: 728px;
 	}
-
 	.listTool > div {
 		width: 25vw;
 	}

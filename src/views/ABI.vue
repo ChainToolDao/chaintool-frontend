@@ -60,7 +60,7 @@
 							<div><span>{{ $t('abi.contractAddress') }}:</span>{{ clickItem.address }}</div>
 						</div>
 						<div class="mobileMainBox">
-							<div v-for="item in tableData[0].ItemAbi" :key="item.name">
+							<div v-for="item,index in tableData[0].ItemAbi" :key="index">
 								<div class="noValue" v-if="item.inputs && item.inputs.length==0 && item.stateMutability=='Read'">
 									<el-tag>{{ item.stateMutability }}</el-tag>
 									<span>{{ item.name }} </span>
@@ -70,6 +70,26 @@
 									<div></div>
 								</div>
 							</div>
+                            <div>
+                                <el-collapse v-for="item,index in tableData[0].ItemAbi" :key="index"  @change="styleHeight(400)">
+                                    <el-collapse-item v-if="!(item.inputs && item.inputs.length==0 && item.stateMutability=='Read') &&  (item.stateMutability=='Read'||item.stateMutability=='Write' ) && item.name">
+                                        <template slot="title">
+                                            <el-tag v-if="item.stateMutability=='Read'">{{ item.stateMutability }}</el-tag>  <el-tag v-if="item.stateMutability=='Write'" type="warning">{{ item.stateMutability }}</el-tag><span>{{ item.name }} </span>
+                                        </template>
+                                        <div>
+                                        <div v-if="item.inputs && item.inputs.length>0">
+                                            <div v-for="i in item.inputs" :key="i.name">
+                                               <span> {{ i.type }}</span> <el-input v-model="i.value"  :placeholder="i.name"></el-input>
+                                            </div>
+                                             <el-button type="primary" @click="submitAbiForm(item)" >运行</el-button>
+                                             <div v-if="item.return"><span>{{$t('abi.returnContent')}}</span><span ><json-viewer :value="item.return.content"></json-viewer>
+										</span></div>
+
+                                        </div>
+                                        </div>
+                                    </el-collapse-item>
+                                </el-collapse>
+                            </div>
 						</div>
 					</div>
 					<!-- PC端 -->
@@ -1219,6 +1239,7 @@ export default {
 		//函数运行
 		async callFunctions(abiObj, Item) {
 			this.isRun = true
+            let cardData=[{}]
 			// 通过abi调用函数
 			if (abiObj != null) {
 				try {
@@ -1285,35 +1306,36 @@ export default {
 						typeFlag = 'read'
 					}
 					// eslint-disable-next-line no-underscore-dangle
-					const cardData = {
+					cardData = {
 						function: Item.name,
 						content: cardContentData,
 						typeFlag: typeFlag,
 					}
-                    // 判断宽度是否为移动端设备
+                    this.styleHeight(10)
+				} catch (err) {
+					cardData = {
+						function: Item.name,
+						content: JSON.parse(JSON.stringify(err)),
+						typeFlag: 'error',
+					}
+				}
+			}
+                // 判断宽度是否为移动端设备
                     if(document.body.clientWidth<=768){
                         //判断为移动端设备
                         for(let i  in this.tableData[0].ItemAbi){
                             if(this.tableData[0].ItemAbi[i].name==Item.name){
                                 this.tableData[0].ItemAbi[i].return=cardData
                                 // 防止数据不刷新
-                                this.tableData[0].ItemAbi[i].name=this.tableData[0].ItemAbi[i].name+" "
+                                let name =this.tableData[0].ItemAbi[i].name
+                                this.tableData[0].ItemAbi[i].name=""
+                                this.tableData[0].ItemAbi[i].name=name
                             }
                         }
                     }else{
                         //判断为pc端设备
                         this.abiCardData.unshift(cardData)
                     }
-                    this.styleHeight(10)
-				} catch (err) {
-					const cardData = {
-						function: Item.name,
-						content: JSON.parse(JSON.stringify(err)),
-						typeFlag: 'error',
-					}
-					this.abiCardData.unshift(cardData)
-				}
-			}
 			this.isRun = false
 		},
 
@@ -2058,5 +2080,45 @@ input::-webkit-input-placeholder {
     .contractInfo div span{
         margin-right: 10px;
     }
+    .mobileMainBox>div:last-child{
+        width: 100%;
+        height: 100%;
+    }
+    /deep/ .el-collapse{
+        border: 0px ;
+    }
+    /deep/ .el-collapse .el-collapse-item .el-collapse-item__header span{
+        margin-right: 5px;
+    }
+      /deep/ .el-collapse .el-collapse-item .el-collapse-item__header span:nth-child(2){
+        margin-right: 5px;
+        width: 70%;
+        display: inline-block;
+        overflow:hidden
+    }
+    /deep/  .el-collapse-item__header{
+        font-size: 15px;
+        color: #404040;
+        padding: 15px 0;
+    }
+    /deep/ .el-collapse-item__content div div div span {
+        font-size: 15px;
+    }
+    /deep/ .el-collapse-item__content div div button{
+        margin: 10px 0; 
+    }
+    /deep/ .el-collapse-item__content div div div:last-child span {
+        font-size: 15px;
+        color: #c4c7cd;
+    }
+     /deep/ .el-collapse-item__content div div div:last-child span div .jv-code{
+        padding: 10px 10px ;
+    }
+    .el-collapse-item__arrow{
+        margin-right: 0px;
+    }
+    /deep/ .el-scrollbar .el-select-dropdown__wrap{
+        margin-bottom: 0px;
+    } 
 }
 </style>
