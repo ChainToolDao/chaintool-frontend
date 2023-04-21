@@ -6,7 +6,7 @@
 					<router-link to="/generateWallet/evmWallet"><el-menu-item index="EVM">生成EVM钱包</el-menu-item></router-link>
 					<router-link to="/generateWallet/btcWallet"><el-menu-item index="BTC">生成BTC钱包</el-menu-item></router-link>
 				</el-menu>
-				<h3 class="title">{{$t('title.generateWallet')}} </h3>
+				<h3 class="title">{{$t('title.generateWalletEVM')}} </h3>
 				<div class="usingHelp"><span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E7%94%9F%E6%88%90EVM%E9%92%B1%E5%8C%85" target="_blank">{{$t("pubilc.usingHelp")}} <img src="../../assets/imgs/explain.png" alt=""></a></span></div>
 				<div class="tips">
 					<span> {{$t('generateWallet.tips[0]')}}<a href="https://github.com/ChainToolDao" target="_blank">{{$t('generateWallet.tips[1]')}}</a>{{$t('generateWallet.tips[2]')}}<br></span>
@@ -65,7 +65,7 @@
 						<div>
 							<h5>
 								<span class="dataTitle">推导路径</span><span class="verticalLine"></span>
-								<span class="dataBox"><span class="roll">{{ data.path }}</span></span><span class="dataReplication" @click="copy(data.mnemonic)">{{$t('pubilc.copy')}}</span>
+								<span class="dataBox"><span class="roll">{{ data.path }}</span></span><span class="dataReplication" @click="copy(data.path)">{{$t('pubilc.copy')}}</span>
 							</h5>
 							<h5>
 								<span class="dataTitle"> {{$t('generateWallet.address')}}</span><span class="verticalLine"></span>
@@ -157,12 +157,9 @@ export default {
 	},
 
 	computed: {
-		title() {
-			return this.$t('title.generateWallet')
+        title() {
+			return this.$t('title.generateWalletEVM')
 		},
-	},
-
-	computed: {
 		//推导路径
 		derivationPath() {
 			return (

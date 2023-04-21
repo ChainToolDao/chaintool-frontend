@@ -6,7 +6,7 @@
 					<router-link to="/generateWallet/evmWallet"><el-menu-item index="EVM">生成EVM钱包</el-menu-item></router-link>
 					<router-link to="/generateWallet/btcWallet"><el-menu-item index="BTC">生成BTC钱包</el-menu-item></router-link>
 				</el-menu>
-				<h3 class="title"> 批量生成BTC钱包 </h3>
+				<h3 class="title"> {{$t('title.generateWalletBTC')}} </h3>
 				<div class="usingHelp"><span><a href="" target="_blank">{{$t("pubilc.usingHelp")}} <img src="../../assets/imgs/explain.png" alt=""></a></span></div>
 				<div class="tips">
 					<span> {{$t('generateWallet.tips[0]')}}<a href="https://github.com/ChainToolDao" target="_blank">{{$t('generateWallet.tips[1]')}}</a>{{$t('generateWallet.tips[2]')}}<br></span>
@@ -65,11 +65,11 @@
 						<div>
 							<h5>
 								<span class="dataTitle">推导路径</span><span class="verticalLine"></span>
-								<span class="dataBox"><span class="roll">{{ data.path }}</span></span><span class="dataReplication" @click="copy(data.mnemonic)">{{$t('pubilc.copy')}}</span>
+								<span class="dataBox"><span class="roll">{{ data.path }}</span></span><span class="dataReplication" @click="copy(data.path)">{{$t('pubilc.copy')}}</span>
 							</h5>
 							<h5>
 								<span class="dataTitle">公钥</span><span class="verticalLine"></span>
-								<span class="dataBox"><span class="roll">{{ data.publicKey }}</span></span><span class="dataReplication" @click="copy(data.mnemonic)">{{$t('pubilc.copy')}}</span>
+								<span class="dataBox"><span class="roll">{{ data.publicKey }}</span></span><span class="dataReplication" @click="copy(data.publicKey)">{{$t('pubilc.copy')}}</span>
 							</h5>
 							<h5>
 								<span class="dataTitle"> {{$t('generateWallet.address')}}</span><span class="verticalLine"></span>
@@ -167,12 +167,13 @@ export default {
 	},
 
 	computed: {
-		title() {
-			return this.$t('title.generateWallet')
-		},
+		
 	},
 
 	computed: {
+        title() {
+			return this.$t('title.generateWalletBTC')
+		},
 		//推导路径
 		derivationPath() {
 			return (
@@ -352,7 +353,7 @@ export default {
 				FileSaver.saveAs(
 					new Blob([wbout], { type: 'application/octet-stream' }),
 					//设置导出文件名称
-					'EVM钱包.xlsx'
+					'BTC钱包.xlsx'
 				)
 			} catch (e) {}
 			return wbout
