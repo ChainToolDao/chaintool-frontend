@@ -78,8 +78,8 @@ export default {
 					url: require('../assets/imgs/toolList8.png'),
 				},
                 {
-					title: "生成BTC钱包",
-					detail: "批量生成BTC钱包",
+					title: this.$t('home.toolList[11].title'),
+					detail: this.$t('home.toolList[11].detail'),
 					router: '/generateWallet/btcWallet',
 					url: require('../assets/imgs/toolList8.png'),
 				},

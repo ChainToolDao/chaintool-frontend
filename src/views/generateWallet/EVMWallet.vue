@@ -3,17 +3,17 @@
 		<div class="wallet">
 			<div class="container">
 				<el-menu class="el-menu-demo" mode="horizontal" default-active="EVM">
-					<router-link to="/generateWallet/evmWallet"><el-menu-item index="EVM">生成EVM钱包</el-menu-item></router-link>
-					<router-link to="/generateWallet/btcWallet"><el-menu-item index="BTC">生成BTC钱包</el-menu-item></router-link>
+					<router-link to="/generateWallet/evmWallet"><el-menu-item index="EVM">{{ $t('home.toolList[5].title') }}</el-menu-item></router-link>
+					<router-link to="/generateWallet/btcWallet"><el-menu-item index="BTC">{{ $t('home.toolList[11].title') }}</el-menu-item></router-link>
 				</el-menu>
-				<h3 class="title">{{$t('title.generateWalletEVM')}} </h3>
+				<h3 class="title">{{$t('home.toolList[5].title')}} </h3>
 				<div class="usingHelp"><span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E7%94%9F%E6%88%90EVM%E9%92%B1%E5%8C%85" target="_blank">{{$t("pubilc.usingHelp")}} <img src="../../assets/imgs/explain.png" alt=""></a></span></div>
 				<div class="tips">
 					<span> {{$t('generateWallet.tips[0]')}}<a href="https://github.com/ChainToolDao" target="_blank">{{$t('generateWallet.tips[1]')}}</a>{{$t('generateWallet.tips[2]')}}<br></span>
 				</div>
 				<div>
-					<el-radio v-model="generateMethod" label="randomBatchSame" @change="emptyWalletData">{{$t('generateWallet.randomBatch')}}(相同助记词)</el-radio>
-					<el-radio v-model="generateMethod" label="randomBatchDifferent" @change="emptyWalletData">{{$t('generateWallet.randomBatch')}}(不同助记词)</el-radio>
+					<el-radio v-model="generateMethod" label="randomBatchSame" @change="emptyWalletData">{{$t('generateWallet.randomBatch')}}({{$t('generateWallet.options[0]')}})</el-radio>
+					<el-radio v-model="generateMethod" label="randomBatchDifferent" @change="emptyWalletData">{{$t('generateWallet.randomBatch')}}({{$t('generateWallet.options[1]')}})</el-radio>
 					<el-radio v-model="generateMethod" label="customize" @change="emptyWalletData">{{$t('generateWallet.customize')}}</el-radio>
 				</div>
 				<div v-if="generateMethod == 'randomBatchSame' || generateMethod == 'randomBatchDifferent' ">
@@ -48,23 +48,23 @@
 					</div>
 				</div>
 				<div class="advancedOptions">
-					<span>高级选项</span>
+					<span>{{ $t('generateWallet.advancedOptions.title')}}</span>
 					<span> <el-switch v-model="advancedOptions"></el-switch></span>
 					<div v-if="advancedOptions">
-						<div>有关高级选项，请参阅 <a href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki" target="_blank"> BIP44 规范</a></div>
-						<div><span>协议</span><el-input class="prohibitInput" value="44" :disabled="true"></el-input></div>
-						<div><span>币种</span><el-input class="prohibitInput" value="60" :disabled="true"></el-input></div>
-						<div><span>账户</span><el-input placeholder="请输入内容" v-model="account"></el-input></div>
-						<div><span>外部内部</span><el-input placeholder="请输入内容" v-model="externalorInternal"></el-input></div>
-						<div><span>系数</span><el-input placeholder="请输入内容" v-model="index"></el-input></div>
-						<div><span>推导路径</span><el-input class="prohibitInput" v-model="derivationPath" :disabled="true"></el-input></div>
+						<div>{{ $t('generateWallet.advancedOptions.tips[0]')}} <a href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki" target="_blank"> {{ $t('generateWallet.advancedOptions.tips[1]')}}</a></div>
+						<div><span>{{ $t('generateWallet.advancedOptions.options[0]')}}</span><el-input class="prohibitInput" value="44" :disabled="true"></el-input></div>
+						<div><span>{{ $t('generateWallet.advancedOptions.options[1]')}}</span><el-input class="prohibitInput" value="60" :disabled="true"></el-input></div>
+						<div><span>{{ $t('generateWallet.advancedOptions.options[2]')}}</span><el-input :placeholder="$t('abi.inputPrompt')" v-model="account"></el-input></div>
+						<div><span>{{ $t('generateWallet.advancedOptions.options[3]')}}</span><el-input :placeholder="$t('abi.inputPrompt')" v-model="externalorInternal"></el-input></div>
+						<div><span>{{ $t('generateWallet.advancedOptions.options[4]')}}</span><el-input :placeholder="$t('abi.inputPrompt')" v-model="index"></el-input></div>
+						<div><span>{{ $t('generateWallet.advancedOptions.options[5]')}}</span><el-input class="prohibitInput" v-model="derivationPath" :disabled="true"></el-input></div>
 					</div>
 				</div>
 				<div class="scroll">
 					<div class="data" v-for="(data, index) in walletdata" :key="index">
 						<div>
 							<h5>
-								<span class="dataTitle">推导路径</span><span class="verticalLine"></span>
+								<span class="dataTitle">{{ $t('generateWallet.advancedOptions.options[5]')}}</span><span class="verticalLine"></span>
 								<span class="dataBox"><span class="roll">{{ data.path }}</span></span><span class="dataReplication" @click="copy(data.path)">{{$t('pubilc.copy')}}</span>
 							</h5>
 							<h5>
@@ -73,7 +73,7 @@
 									<el-popover placement="bottom-start" width="200" trigger="hover">
 										<div style="text-align: left; margin: 0">
 											<div v-for="item in network" :key="item.chainID">
-												<el-button type="primary" v-if="item.chainID!='31337'" size="mini" class="btnPopover" @click="lookOverEtherscan(item.chainExplorer,data.address)">{{ item.networkName }}{{$t('generateWallet.popoverBtnLookOver')}}</el-button>
+												<el-button type="primary" v-if="item.chainID!='31337'" size="mini" class="btnPopover" @click="lookOverEtherscan(item.chainExplorer,data.address)">{{ item.networkName }}{{$t('generateWallet.popoverBtnClick')}}</el-button>
 											</div>
 										</div>
 										<span class="roll" slot="reference">{{ data.address }}</span>
@@ -93,7 +93,7 @@
 					</div>
 				</div>
 				<el-table :data="walletdata" class="el-table" id="outExcel">
-					<el-table-column prop="path" label="推导路径"> </el-table-column>
+					<el-table-column prop="path" :label="$t('generateWallet.advancedOptions.options[5]')"> </el-table-column>
 					<el-table-column prop="address" :label="$t('generateWallet.address')"> </el-table-column>
 					<el-table-column prop="mnemonic" :label="$t('generateWallet.mnemonic')"> </el-table-column>
 					<el-table-column prop="privateKey" :label="$t('generateWallet.privateKey')"> </el-table-column>
@@ -158,7 +158,7 @@ export default {
 
 	computed: {
         title() {
-			return this.$t('title.generateWalletEVM')
+			return this.$t('home.toolList[5].title')
 		},
 		//推导路径
 		derivationPath() {
@@ -204,14 +204,14 @@ export default {
 			}
 			if (this.walletQuantity > 100) {
 				this.$message({
-					message: '最大生成钱包数量为100',
+					message: this.$t('generateWallet.tips[0]'),
 					type: 'warning',
 				})
 				return
 			}
 			if (this.walletQuantity > 50) {
 				this.$message({
-					message: '当前生成钱包数量较多，请耐心等待',
+					message: this.$t('generateWallet.tips[1]'),
 					type: 'warning',
 				})
 			}
@@ -321,7 +321,7 @@ export default {
 			if (/\d/.test(this.inputPrivateKey)) {
 				//通过私钥创建
 				this.$message({
-					message: '通过私钥生成钱包，无法改变生成数量及使用高级选项',
+					message: this.$t('generateWallet.tips[2]'),
 					type: 'warning',
 				})
 				this.privateKeyGenerationWallet()
@@ -359,7 +359,7 @@ export default {
 				FileSaver.saveAs(
 					new Blob([wbout], { type: 'application/octet-stream' }),
 					//设置导出文件名称
-					'EVM钱包.xlsx'
+					'EVM' + this.$t('pubilc.wallet') +'.xlsx'
 				)
 			} catch (e) {}
 			return wbout

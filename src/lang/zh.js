@@ -9,6 +9,8 @@ export default {
         copy: "复制",
         querying: "正在查询",
         btnInquire: "查询",
+        tool:"工具",
+        wallet:"钱包"
     },
     title: {
         home: "区块链开发者的工具箱",
@@ -17,8 +19,6 @@ export default {
         traceview: "交易分析工具",
         abi: "ABI 图形化",
         address: "地址转换与ENS查询",
-        generateWalletEVM: "批量生成EVM钱包",
-        generateWalletBTC: "批量生成BTC钱包",
         querySelector: "函数名查询函数选择器",
         topicID: "查询事件主题(TopicID)",
         hashTool: "Hash工具",
@@ -83,6 +83,10 @@ export default {
             {
                 title: '测试币水龙头大全',
                 detail: '测试网水龙头测试币获取',
+            },
+            {
+                title: '生成BTC钱包',
+                detail: '批量生成BTC钱包',
             },
         ],
     },
@@ -207,7 +211,16 @@ export default {
         IllegalErrorPrompt: "你写入的生成钱包的地址数量非数字或小于1,无法生成,请重新输入",
         beyondErrorPrompt: "你写入的钱包数量大于100,无法生成。请输入不大于100的生成数量。",
         inputErrorPrompt: "创建失败，请检查你的输入",
-        popoverBtnLookOver: "查看"
+        popoverBtnClick: "查看",
+        options:["相同助记词","不同助记词","自定义助记词创建"],
+        advancedOptions:{
+            title:"高级选项",
+            tips:["有关高级选项，请参阅","BIP44 规范"],
+            options:["协议","币种","账户","外部内部","系数","推导路径"]
+        },
+        tips:['最大生成钱包数量为100','当前生成钱包数量较多，请耐心等待','通过私钥生成钱包，无法改变生成数量及使用高级选项'],
+        subtitleMnemonicCreate:"通过助记词创建钱包",
+        publicKey:"公钥",
     },
     querySelector: {
         title: "函数名 <=> 函数选择器",

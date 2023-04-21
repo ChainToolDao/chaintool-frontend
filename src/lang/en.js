@@ -9,16 +9,16 @@ export default {
         copy: "Copy",
         querying: "loading",
         btnInquire: "query",
+        tool:"Tool",
+        wallet:"Wallet"
     },
     title: {
         home: "Toolbox For Blockchain Developer",
         unitConvert: "Unit Converter",
-        bulkQuery: "批量查询钱包余额",
+        bulkQuery: "Batch Query Wallet Balance",
         traceview: "交易分析工具",
         abi: "ABI 图形化",
         address: "Address & ENS Lookup",
-        generateWalletEVM: "批量生成EVM钱包",
-        generateWalletBTC: "批量生成BTC钱包",
         querySelector: "Selector By Function Signature",
         topicID: "查询事件主题(TopicID)",
         hashTool: "Hash Tools",
@@ -28,7 +28,7 @@ export default {
     navigation: {
         connectWallet: "Connect Wallet",
         nav: {
-            home: "首页",
+            home: "Home",
             languageSelection: "语言选择",
             folloUs: "关注我们",
         }
@@ -83,6 +83,10 @@ export default {
             {
                 title: 'Testnet Faucets',
                 detail: 'Testnet Faucet All in one',
+            },
+            {
+                title: '生成BTC钱包',
+                detail: 'Trustworthy & Batch BTC Wallet Generator',
             },
         ],
     },
@@ -174,7 +178,7 @@ export default {
         switchNetworkPrompt: "Network are mismatch, switch network ...",
         currentNetworkError: "Network error",
         connectionRequestError: "Network error, please retry connect and reload",
-        btnReturn:"返回",
+        btnReturn:"Return",
         btnDevelop:"展开操作栏",
         btnFold:"收起操作栏",
         riskWarning:"当前的合约无法验证真实性，请确保该合约可靠后使用!!!",
@@ -207,7 +211,16 @@ export default {
         IllegalErrorPrompt: "Invalid address numbers",
         beyondErrorPrompt: "Address number too big, must be smaller than 100",
         inputErrorPrompt: "Create failed",
-        popoverBtnLookOver: "查看"
+        popoverBtnClick: "Click",
+        options:["相同助记词","不同助记词","自定义助记词创建"],
+        advancedOptions:{
+            title:"高级选项",
+            tips:["有关高级选项，请参阅","BIP44 规范"],
+            options:["Purpose","Coin","Account","External / Internal","系数","Path"]
+        },
+        tips:['最大生成钱包数量为100','当前生成钱包数量较多，请耐心等待','通过私钥生成钱包，无法改变生成数量及使用高级选项'],
+        subtitleMnemonicCreate:"通过助记词创建钱包",
+        publicKey:"Public key",
     },
     querySelector: {
         title: "Selector Querier",
