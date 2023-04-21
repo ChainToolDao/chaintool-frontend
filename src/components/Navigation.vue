@@ -22,6 +22,10 @@
 						<router-link to="/hashTool" class="navRouter"><el-menu-item index="2-10">{{$t('home.toolList[8].title')}}</el-menu-item></router-link>
 						<router-link to="/calldata" class="navRouter"> <el-menu-item index="2-11">{{$t('home.toolList[9].title')}}</el-menu-item></router-link>
 					</el-submenu>
+                    <el-submenu index="2">
+						<template slot="title">MOVE工具</template>
+						<router-link to="/generateWallet/btcWallet" class="navRouter"><el-menu-item index="2-1">生成BTC钱包</el-menu-item></router-link>
+					</el-submenu>
 				</el-menu>
 			</div>
 			<div class="rightcontainer">
@@ -76,11 +80,15 @@
 							<router-link to="/hashTool">{{$t('home.toolList[8].title')}}</router-link>
 							<router-link to="/calldata">{{$t('home.toolList[9].title')}}</router-link>
 						</el-collapse-item>
-						<el-collapse-item :title="$t('navigation.nav.languageSelection')" name="3">
+                        <el-collapse-item name="3">
+							<template slot="title">MOVE工具</template>
+							<router-link to="/generateWallet/btcWallet">生成BTC钱包</router-link>
+						</el-collapse-item>
+						<el-collapse-item :title="$t('navigation.nav.languageSelection')" name="4">
 							<div @click="cutoverLang('zh')">中文</div>
 							<div @click="cutoverLang('en')">English</div>
 						</el-collapse-item>
-						<el-collapse-item :title="$t('navigation.nav.folloUs')" name="4">
+						<el-collapse-item :title="$t('navigation.nav.folloUs')" name="5">
 							<a href="https://github.com/ChainToolDao" target="_blank">Github</a>
 							<a href="https://twitter.com/NUpchain" target="_blank">Twitter</a>
 						</el-collapse-item>
@@ -345,6 +353,11 @@ export default {
 
 a:-webkit-any-link {
 	color: black;
+}
+
+.nav ul{
+    display: flex;
+    flex-wrap: nowrap;
 }
 
 @media (max-width: 400px) {
