@@ -185,6 +185,7 @@ export default {
 		//清空钱包数据
 		emptyWalletData: function () {
 			this.walletdata = []
+			this.hasBuildState = false
 		},
 
 		//生成钱包
@@ -203,6 +204,19 @@ export default {
 					type: 'warning',
 				})
 				return
+			}
+			if (this.walletQuantity > 100) {
+				this.$message({
+					message: '最大生成钱包数量为100',
+					type: 'warning',
+				})
+				return
+			}
+			if (this.walletQuantity > 50) {
+				this.$message({
+					message: '当前生成钱包数量较多，请耐心等待',
+					type: 'warning',
+				})
 			}
 			// 打开界面加载状态
 			this.loading = !this.loading
@@ -284,7 +298,7 @@ export default {
 			let mnemonic = this.$parent.generateMnemonic(this.mnemonicLength)
 			this.walletdata = []
 			for (let i = 0; i < this.walletQuantity; i++) {
-				this.mnemonicGenerateWallet(mnemonic, 0)
+				this.mnemonicGenerateWallet(mnemonic, i)
 			}
 			// 关闭界面加载状态
 			this.loading = !this.loading
@@ -298,7 +312,7 @@ export default {
 				let mnemonic = this.$parent.generateMnemonic(
 					this.mnemonicLength
 				)
-				this.mnemonicGenerateWallet(mnemonic, i)
+				this.mnemonicGenerateWallet(mnemonic, 0)
 			}
 			// 关闭界面加载状态
 			this.loading = !this.loading
