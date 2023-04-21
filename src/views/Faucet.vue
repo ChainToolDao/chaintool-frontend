@@ -6,11 +6,7 @@
 			<div class="tips">
 				<span>{{$t("faucet.prompt[0]")}}<br>
 					{{$t("faucet.prompt[1]")}}<br>
-					{{$t("faucet.prompt[2]")}}<a
-						href="https://github.com/ChainToolDao/chaintool-frontend/blob/main/src/faucetData.json"
-						target="_blank">{{$t("faucet.prompt[3]")}}</a> {{$t("faucet.prompt[4]")}} <a
-						href="https://github.com/ChainToolDao/chaintool-frontend/issues/3"
-						target="_blank">{{$t("faucet.prompt[5]")}}</a> {{$t("faucet.prompt[6]")}}<br></span>
+					{{$t("faucet.prompt[2]")}}<a href="https://github.com/ChainToolDao/chaintool-frontend/blob/main/src/faucetData.json" target="_blank">{{$t("faucet.prompt[3]")}}</a> {{$t("faucet.prompt[4]")}} <a href="https://github.com/ChainToolDao/chaintool-frontend/issues/3" target="_blank">{{$t("faucet.prompt[5]")}}</a> {{$t("faucet.prompt[6]")}}<br></span>
 			</div>
 			<div class="content" id="content">
 				<div class="content-list" v-for="item,index in faucetData" :key=item.chainID :id="item.network">
@@ -28,8 +24,7 @@
 								<td>{{item.currency}}</td>
 							</tr>
 						</table>
-						<div class="expand" @click="expand(item,index,false)" :class="item.chainID"><span><img
-									src="../assets/imgs/dropDown.png" alt="" :id="item.chainID"></span></div>
+						<div class="expand" @click="expand(item,index,false)" :class="item.chainID"><span><img src="../assets/imgs/dropDown.png" alt="" :id="item.chainID"></span></div>
 					</div>
 					<div v-else class="list" id="list" :style="{'--width' : width}">
 						<el-table :data="item" border stripe>
@@ -45,10 +40,8 @@
 							</el-table-column>
 							<el-table-column :label="$t('faucet.operate')">
 								<template slot-scope="scope">
-									<el-button size="mini"
-										@click="openUrl(scope.$index, scope.row)">{{ $t('faucet.receive')}}</el-button>
-									<el-button size="mini" @click="copyUrl(scope.$index, scope.row)"
-										class="copy">{{ $t('faucet.copyUrl')}}</el-button>
+									<el-button size="mini" @click="openUrl(scope.$index, scope.row)">{{ $t('faucet.receive')}}</el-button>
+									<el-button size="mini" @click="copyUrl(scope.$index, scope.row)" class="copy">{{ $t('faucet.copyUrl')}}</el-button>
 								</template>
 							</el-table-column>
 						</el-table>
@@ -157,12 +150,25 @@ export default {
 			document.documentElement.scrollTop = position
 		},
 
+		//判断是否为微信内置浏览器
+		isWeixinBrowser() {
+			let ua = navigator.userAgent.toLowerCase()
+			return /micromessenger/.test(ua) ? true : false
+		},
+
 		//展开列表
 		async expand(value, index, isWidthChanges) {
 			let position = document.documentElement.scrollTop
 			setTimeout(() => {
 				this.changeScrollbar(position)
 			}, 1)
+			//微信浏览器端刷新页面
+			let url = window.location.hash
+			url = url.replace(/%20/g, ' ').substring(1, url.length)
+			if (url != value.network && this.isWeixinBrowser()) {
+				window.location.hash = value.network
+				location.reload()
+			}
 			window.location.hash = value.network
 			if (this.ChainID) {
 				//关闭上次打开的列表
