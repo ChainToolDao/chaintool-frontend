@@ -3,15 +3,16 @@
     <Navigation></Navigation>
     <div class="address">
       <div class="container">
-        <h3 class="title">地址转换与ENS查询<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2%E4%B8%8EENS%E6%9F%A5%E8%AF%A2"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
+        <h3 class="title">{{$t('title.address')}}</h3>
+        <div class="usingHelp"><span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2%E4%B8%8EENS%E6%9F%A5%E8%AF%A2"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
         <div>
-          <h5>地址</h5>
-          <div>
+          <h5>{{$t('address.address')}}</h5>
+          <div class="unctionalArea">
             <el-input
               v-model="enterAddress"
               placeholder="Input Address"
             ></el-input>
-            <el-button @click="addressTranslation">确认转换</el-button>
+            <el-button @click="addressTranslation">{{$t('address.btnConvert')}}</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -25,9 +26,9 @@
         </h5>
         <div>
           <h5>ENS</h5>
-          <div>
-            <el-input v-model="enterENS" placeholder="Input ENS"></el-input>
-            <el-button @click="queryENS">确认查询</el-button>
+          <div class="unctionalArea">
+            <el-input v-model="enterENS" :placeholder="$t('address.inputENS')"></el-input>
+            <el-button @click="queryENS">{{$t('address.btnInquire')}}</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -57,7 +58,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Chaintool - 地址转换与ENS查询",
+      title: "Chaintool - " + this.title,
 
       meta: [
         {
@@ -85,6 +86,13 @@ export default {
       load: false,
     };
   },
+
+  computed:{
+      title(){
+	      return this.$t("title.address")
+	    }
+  },
+
   methods: {
     //地址转换
     addressTranslation() {
@@ -95,7 +103,7 @@ export default {
         this.canCopyAddress = true;
       } else {
         this.outputAddress =
-          "您输入的地址不合法，请重新输入。";
+          this.$t('address.errorAddressPrompt')
         this.canCopyAddress = false;
       }
     },
@@ -103,7 +111,7 @@ export default {
     //查询ENS
     async queryENS() {
       this.canCopyENS = false;
-      this.outputENS = "正在查询";
+      this.outputENS = this.$t('pubilc.querying');
       this.load = true;
       let provider = new ethers.providers.InfuraProvider("mainnet");
       let pendingENS = "";
@@ -114,8 +122,7 @@ export default {
       }
       this.load = false;
       if (!pendingENS && typeof pendingENS !== "undefined" && pendingENS != 0) {
-        pendingENS =
-          "没有查询到对应的ENS，也没有查询到对应的地址。";
+        pendingENS = this.$t('address.errorENSPrompt');
       } else {
         this.canCopyENS = true;
       }
@@ -129,11 +136,11 @@ export default {
         },
       });
       clipboard.on("success", () => {
-        this.$message.success("复制成功");
+        this.$message.success(this.$t('pubilc.copySauccessfully'));
         clipboard.destroy();
       });
       clipboard.on("error", () => {
-        this.$message.error("复制失败");
+        this.$message.error(this.$t('pubilc.copyFailed'));
         clipboard.destroy();
       });
     },
@@ -144,12 +151,13 @@ export default {
 <style scoped>
 .addressView {
   width: 100%;
-  height: 100%;
+  height: auto;
+  min-height: 94%;
 }
 
 .address {
   width: 100%;
-  height: calc(100vh - 70px);
+  height: auto;
   display: flex;
   justify-content: center;
   overflow: auto;
@@ -229,27 +237,40 @@ export default {
   font-weight: 700;
 }
 
-.title span a{
-	text-decoration:none;
-	cursor:pointer;
-	position: absolute;
-	font-size: 15px;
-	margin-left:5% ;
-	margin-bottom: 0px;
-	margin-top: 10px;
-	color: #909399;
-	width: 90px;
-	display: inline-block;
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  position:relative;
 }
 
-.title span a:hover{
-	color: #409eff;
+.usingHelp {
+  width: 100%;
+  height: 21px;
+  margin-bottom: 5px;
 }
 
- .title span img{
-	margin-bottom: -3px;
-	width: 15px;
-	display: inline-block;
+.usingHelp span{
+  float: right;
+}
+
+.usingHelp span a{
+  text-decoration:none;
+  cursor:pointer;
+  font-size: 15px;
+  color: #909399;
+  width: 90px;
+  display: inline-block;
+}
+
+.usingHelp span a:hover{
+  color: #409eff;
+}
+
+.usingHelp span img{
+  margin-bottom: -3px;
+  width: 15px;
+  display: inline-block;
 }
 
 .container h5 {
@@ -275,5 +296,18 @@ export default {
   height: 30px;
   filter: invert(100%);
   vertical-align: middle;
+}
+@media (max-width:768px){
+    .container .result{
+      word-break: break-all;
+    }
+    
+    .container div .unctionalArea{
+        flex-wrap: wrap;
+    }
+
+    .unctionalArea .el-button{
+        margin-top: 20px;
+    }
 }
 </style>

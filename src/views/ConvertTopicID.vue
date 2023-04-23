@@ -3,12 +3,13 @@
     <Navigation></Navigation>
     <div class="TopicID">
       <div class="container">
-        <h3 class="title">查询事件主题(TopicID)<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%9F%A5%E8%AF%A2%E4%BA%8B%E4%BB%B6%E4%B8%BB%E9%A2%98(TopicID)"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
+        <h3 class="title">{{$t('topicID.title')}}  </h3>
+        <div class="usingHelp"><span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%9F%A5%E8%AF%A2%E4%BA%8B%E4%BB%B6%E4%B8%BB%E9%A2%98(TopicID)"  target="_blank">{{$t('pubilc.usingHelp')}} <img src="../assets/imgs/explain.png" alt=""></a></span></div>
         <div>
-          <h5>根据事件名查询主题(TopicID)</h5>
-          <div>
-            <el-input v-model="inputEventSignature" placeholder="Input Event Signature"></el-input>
-            <el-button @click="getTopicID">查询</el-button>
+          <h5>{{$t('topicID.EventSignature')}}</h5>
+          <div class="unctionalArea">
+            <el-input v-model="inputEventSignature" :placeholder="$t('topicID.inputEventSignature')"></el-input>
+            <el-button @click="getTopicID">{{$t('pubilc.btnInquire')}}</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -16,10 +17,10 @@
           }}<img class="copyButton" v-if="canCopyTopicID" src="../assets/imgs/copy.png" @click="copy(outputTopicID)" />
         </h5>
         <div>
-          <h5>根据TopicID查询事件名</h5>
-          <div>
-            <el-input v-model="inputTopicID" placeholder="Input TopicID"></el-input>
-            <el-button @click="getEventSignature()">查询</el-button>
+          <h5>{{$t('topicID.TopicID')}}</h5>
+          <div class="unctionalArea">
+            <el-input v-model="inputTopicID" :placeholder="$t('topicID.InputTopicID')"></el-input>
+            <el-button @click="getEventSignature()">{{$t('pubilc.btnInquire')}}</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -45,7 +46,8 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Chaintool - 查询事件主题(TopicID)",
+      title: "Chaintool - " + this.title,
+      
       meta: [
         {
           name: "keyword",
@@ -72,6 +74,13 @@ export default {
       load: false,
     };
   },
+
+  computed:{
+    title(){
+	    return this.$t("title.topicID")
+	  }
+  },
+
   methods: {
     //格式化事件名
     formatEventName(signature) {
@@ -93,13 +102,11 @@ export default {
       let inputEventSignature = [this.inputEventSignature];
       //1.不输入括号时跳出 2.当用户输入的函数括号后面还有内容时，直接跳出
       if (inputEventSignature[0].split(")").length < 2) {
-        this.outputTopicID =
-          "输入错误，输入示例：event Transfer(address indexed from, address indexed to, uint256 amount)";
+        this.outputTopicID = this.$t('topicID.signatureInputError');
         return;
       }
       if (inputEventSignature[0].split(")")[1].length > 0) {
-        this.outputTopicID =
-          "输入错误，输入示例：event Transfer(address indexed from, address indexed to, uint256 amount)";
+        this.outputTopicID = this.$t('topicID.signatureInputError');
         return;
       }
       if (inputEventSignature[0].indexOf("event ") != 0) {
@@ -117,8 +124,7 @@ export default {
         //执行数据库添加操作
         this.submitTopicID(outputTopicID,inputEventSignature[0]);
       } catch (error) {
-        this.outputTopicID =
-          "输入错误，输入示例：event Transfer(address indexed from, address indexed to, uint256 amount)";
+        this.outputTopicID = this.$t('topicID.signatureInputError');
       }
     },
 
@@ -191,7 +197,7 @@ export default {
     //获取事件签名
     async getEventSignature() {
       this.load = true;
-      this.outputEventSignature = "正在查询";
+      this.outputEventSignature = this.$t('pubilc.querying');
       this.canCopyEventSignature = false;
       this.inputTopicID = this.inputTopicID.replace(/(^\s*)/g, "");
       let outputEventSignature = [];
@@ -206,8 +212,7 @@ export default {
         }
       }
       if (outputEventSignature.length == 0) {
-        this.outputEventSignature =
-          "暂未查询到对应的事件签名。输入示例：0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
+        this.outputEventSignature = this.$t('topicID.topicIDInputError');
       }
       this.load = false;
     },
@@ -219,11 +224,11 @@ export default {
         },
       });
       clipboard.on("success", () => {
-        this.$message.success("复制成功");
+        this.$message.success(this.$t('pubilc.copySauccessfully'));
         clipboard.destroy();
       });
       clipboard.on("error", () => {
-        this.$message.error("复制失败");
+        this.$message.error(this.$t('pubilc.copyFailed'));
         clipboard.destroy();
       });
     },
@@ -234,12 +239,13 @@ export default {
 <style scoped>
 .TopicIDView {
   width: 100%;
-  height: 100%;
+  height: auto;
+  min-height: 94%;
 }
 
 .TopicID {
   width: 100%;
-  height: calc(100vh - 70px);
+  height: auto;
   display: flex;
   justify-content: center;
   overflow: auto;
@@ -318,28 +324,40 @@ export default {
   font-size: 18px;
   font-weight: 700;
 }
-
-.title span a{
-	text-decoration:none;
-	cursor:pointer;
-	position: absolute;
-	font-size: 15px;
-	margin-left:5% ;
-	margin-bottom: 0px;
-	margin-top: 10px;
-	color: #909399;
-	width: 90px;
-	display: inline-block;
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  position:relative;
 }
 
-.title span a:hover{
-	color: #409eff;
+.usingHelp {
+  width: 100%;
+  height: 21px;
+  margin-bottom: 5px;
 }
 
- .title span img{
-	margin-bottom: -3px;
-	width: 15px;
-	display: inline-block;
+.usingHelp span{
+  float: right;
+}
+
+.usingHelp span a{
+  text-decoration:none;
+  cursor:pointer;
+  font-size: 15px;
+  color: #909399;
+  width: 90px;
+  display: inline-block;
+}
+
+.usingHelp span a:hover{
+  color: #409eff;
+}
+
+.usingHelp span img{
+  margin-bottom: -3px;
+  width: 15px;
+  display: inline-block;
 }
 
 .container h5 {
@@ -352,6 +370,7 @@ export default {
 .container .result {
   width: 100%;
   margin-left: 10px;
+  word-break: break-all;
 }
 
 .copyButton {
@@ -365,5 +384,19 @@ export default {
   height: 30px;
   filter: invert(100%);
   vertical-align: middle;
+}
+
+@media (max-width:768px){
+    .container .result{
+      word-break: break-all;
+    }
+    
+    .container div .unctionalArea{
+        flex-wrap: wrap;
+    }
+
+    .unctionalArea .el-button{
+        margin-top: 20px;
+    }
 }
 </style>

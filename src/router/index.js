@@ -13,7 +13,8 @@ import ConvertTopicID from '../views/ConvertTopicID.vue'
 import HashTool from '../views/HashTool.vue'
 import CalldataDecode from '../views/CalldataDecode.vue'
 import Faucet from '../views/Faucet.vue'
-
+import BTCWallet from "../views/generateWallet/BTCWallet.vue"
+import EVMWallet from "../views/generateWallet/EVMWallet.vue"
 
 Vue.use(Router)
 
@@ -38,12 +39,12 @@ export default new Router({
         },
         {
             path: '/unitConvert/:weiValue',
-            name: 'Unitconvert',
+            name: 'Unitconvert-Value',
             component: Unitconvert
         },
         {
             path: '/abi/:currencySymbol/:address',
-            name: 'Abi',
+            name: 'Abi-Value',
             component: Abi
         },
         {
@@ -74,7 +75,23 @@ export default new Router({
         {
             path: '/generateWallet',
             name: 'GenerateWallet',
-            component: GenerateWallet
+            component: GenerateWallet,
+            children:[
+                {
+                    path:'',
+                    redirect:'evmWallet'
+                },
+                {
+                    path:'evmWallet',
+                    name:'evmWallet',
+                    component:EVMWallet
+                },
+                {
+                    path:'btcWallet',
+                    name:'btcWallet',
+                    component:BTCWallet
+                }
+            ]
         },
         {
             path: '/topicID',

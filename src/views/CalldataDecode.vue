@@ -3,15 +3,16 @@
     <Navigation></Navigation>
     <div class="scroll">
       <div class="container">
-        <div class="title">交易输入数据(Calldata)编解码 <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BA%A4%E6%98%93%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE(Calldata)%E7%BC%96%E8%A7%A3%E7%A0%81"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
+        <div class="title">{{$t("title.calldata")}}</div>
+        <div class="usingHelp"><span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BA%A4%E6%98%93%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE(Calldata)%E7%BC%96%E8%A7%A3%E7%A0%81"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
         <div class="mainRow">
           <el-menu  :default-active="preferredPage" class="el-menu-demo" mode="horizontal"  @select="cutoverTop">
-            <el-menu-item index="deCoding">解码</el-menu-item>
-            <el-menu-item index="coding">编码</el-menu-item>
+            <el-menu-item index="deCoding">{{$t("calldata.decoding")}}</el-menu-item>
+            <el-menu-item index="coding">{{$t("calldata.coding")}}</el-menu-item>
           </el-menu>
         </div>
-        <div v-if="selectFunction">
-          <DeCoding></DeCoding>
+        <div v-if="selectFunction" class="deCoding">
+          <DeCoding ></DeCoding>
         </div>
         <div v-if="!selectFunction" class="contentSection">
           <Coding></Coding>
@@ -35,7 +36,8 @@ export default {
 
   metaInfo() {
     return {
-      title: "Chaintool - 交易输入数据(Calldata)编解码",
+      title: "Chaintool - " + this.title,
+      
       meta: [
         {
           name: "keyword",
@@ -54,6 +56,12 @@ export default {
     };
   },
 
+    computed:{
+      title(){
+	      return this.$t("title.calldata")
+	    }
+  },
+
   methods: {
     // 切换编码和解码
     cutoverTop(key) {
@@ -70,12 +78,13 @@ export default {
 <style scoped>
 .transactionData {
   width: 100%;
-  height: 100%;
+  height: auto;
+  min-height: 94%;
 }
 
 .scroll {
   width: 100%;
-  height: calc(93vh - 70px);
+  height: auto;
   display: flex;
   justify-content: center;
   overflow: auto;
@@ -89,7 +98,7 @@ export default {
 }
 
 .contentSection {
-  width: 704px;
+  width: 100%;
 }
 
 .container {
@@ -107,32 +116,39 @@ export default {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-.container .title {
+.title {
   font-size: 18px;
   font-weight: 700;
+  margin-bottom: 15px;
+  position:relative;
 }
 
-.title span a{
-	text-decoration:none;
-	cursor:pointer;
-	position: absolute;
-	font-size: 15px;
-	margin-left:5% ;
-	margin-bottom: 0px;
-	margin-top: 10px;
-	color: #909399;
-	width: 90px;
-	display: inline-block;
+.usingHelp {
+  width: 100%;
+  height: 21px;
 }
 
-.title span a:hover{
-	color: #409eff;
+.usingHelp span{
+  float: right;
 }
 
- .title span img{
-	margin-bottom: -3px;
-	width: 15px;
-	display: inline-block;
+.usingHelp span a{
+  text-decoration:none;
+  cursor:pointer;
+  font-size: 15px;
+  color: #909399;
+  width: 90px;
+  display: inline-block;
+}
+
+.usingHelp span a:hover{
+  color: #409eff;
+}
+
+.usingHelp span img{
+  margin-bottom: -3px;
+  width: 15px;
+  display: inline-block;
 }
 
 /deep/ .copyButton {
@@ -346,5 +362,16 @@ export default {
   margin-left: -1px;
   width: 421px;
   height: auto;
+}
+
+.deCoding{
+  width: 100%;
+}
+
+@media (max-width: 590px){
+  .title span a{
+    top: 35px;
+    left: 45%;
+  }
 }
 </style>

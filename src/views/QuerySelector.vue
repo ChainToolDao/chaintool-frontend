@@ -3,12 +3,13 @@
     <Navigation></Navigation>
     <div class="ABI">
       <div class="container">
-        <h3 class="title">函数名查询函数选择器(4字节)<span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%87%BD%E6%95%B0%E5%90%8D%E6%9F%A5%E8%AF%A2%E5%87%BD%E6%95%B0%E9%80%89%E6%8B%A9%E5%99%A8(4%E5%AD%97%E8%8A%82)"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </h3>
+        <h3 class="title">{{$t('querySelector.title')}}</h3>
+        <div class="usingHelp"><span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E5%87%BD%E6%95%B0%E5%90%8D%E6%9F%A5%E8%AF%A2%E5%87%BD%E6%95%B0%E9%80%89%E6%8B%A9%E5%99%A8(4%E5%AD%97%E8%8A%82)"  target="_blank">{{$t('pubilc.usingHelp')}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
         <div>
-          <h5>通过函数名查询4字节函数选择器</h5>
-          <div>
-            <el-input v-model="enterFunctionName" placeholder="Enter The Function Signature"></el-input>
-            <el-button @click="queryFunctionSelector">查询</el-button>
+          <h5>{{$t('querySelector.inputFunctionName')}}</h5>
+          <div class="unctionalArea">
+            <el-input v-model="enterFunctionName" :placeholder="$t('querySelector.inputFunctionNamePrompt')"></el-input>
+            <el-button @click="queryFunctionSelector">{{$t('pubilc.btnInquire')}}</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -16,10 +17,10 @@
           }}<img class="copyButton" v-if="canCopyABI" src="../assets/imgs/copy.png" @click="copy(outputSelector)" />
         </h5>
         <div>
-          <h5>通过字节函数选择器函数名查询函数签名</h5>
-          <div>
+          <h5>{{$t('querySelector.inputByteFunctionSelector')}}</h5>
+          <div class="unctionalArea">
             <el-input v-model="enterSelector" placeholder="Input Selector"></el-input>
-            <el-button @click="querySignature()">查询</el-button>
+            <el-button @click="querySignature()">{{$t('pubilc.btnInquire')}}</el-button>
           </div>
         </div>
         <h5 class="result">
@@ -43,7 +44,8 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Chaintool - 函数名查询函数选择器(4字节)",
+      title: "Chaintool - " + this.title,
+      
       meta: [
         {
           name: "keyword",
@@ -70,6 +72,12 @@ export default {
       load: false,
     };
   },
+
+  computed:{
+      title(){
+	      return this.$t("title.querySelector")
+	    }
+  },
   
   methods: {
     //格式函数签名
@@ -88,7 +96,7 @@ export default {
         ABI[0] = "function " + ABI[0];
       } else {
         this.outputSelector =
-          "你输入的函数有误，请重新输入!  请用如下格式输入，例：transfer(address,uint256)";
+          this.$t('querySelector.functionInputError') ;
         return;
       }
       try {
@@ -99,7 +107,7 @@ export default {
         this.functionSelector.submitFunctionSelector(ABI[0],this.outputSelector)
       } catch (error) {
         this.canCopyABI = false;
-        this.outputSelector = "你输入的函数有误，请重新输入";
+        this.outputSelector =  this.$t('querySelector.functionInputError') ;
       }
     },
 
@@ -109,7 +117,7 @@ export default {
       if (enterSelector.indexOf("0x") != 0) {
         enterSelector = "0x" + enterSelector;
       }
-      this.signature = "正在查询";
+      this.signature =  this.$t('querySelector.pointOutQuerying') ;
       this.load = true;
       this.canCopyFunctionSignature = false;
       let signature = []
@@ -119,7 +127,7 @@ export default {
         this.canCopyFunctionSignature = true;
         this.load = false;
       } else {
-        this.signature = "你所查找的选择器暂未被记录，例：0x0dbe671f";
+        this.signature = this.$t('querySelector.noRecord') ;
         this.load = false;
       }
     },
@@ -131,11 +139,11 @@ export default {
         },
       });
       clipboard.on("success", () => {
-        this.$message.success("复制成功");
+        this.$message.success(this.$t('pubilc.copySauccessfully'));
         clipboard.destroy();
       });
       clipboard.on("error", () => {
-        this.$message.error("复制失败");
+        this.$message.error(this.$t('pubilc.copyFailed'));
         clipboard.destroy();
       });
     },
@@ -146,12 +154,13 @@ export default {
 <style scoped>
 .ABIView {
   width: 100%;
-  height: 100%;
+  height: auto;
+  min-height: 94%;
 }
 
 .ABI {
   width: 100%;
-  height: calc(100vh - 70px);
+  height: auto;
   display: flex;
   justify-content: center;
   overflow: auto;
@@ -186,28 +195,40 @@ export default {
   width: 100%;
   margin-right: 0px;
 }
-
-.title span a{
-	text-decoration:none;
-	cursor:pointer;
-	position: absolute;
-	font-size: 15px;
-	margin-left:5% ;
-	margin-bottom: 0px;
-	margin-top: 10px;
-	color: #909399;
-	width: 90px;
-	display: inline-block;
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  position:relative;
 }
 
-.title span a:hover{
-	color: #409eff;
+.usingHelp {
+  width: 100%;
+  height: 21px;
+  margin-bottom: 5px;
 }
 
- .title span img{
-	margin-bottom: -3px;
-	width: 15px;
-	display: inline-block;
+.usingHelp span{
+  float: right;
+}
+
+.usingHelp span a{
+  text-decoration:none;
+  cursor:pointer;
+  font-size: 15px;
+  color: #909399;
+  width: 90px;
+  display: inline-block;
+}
+
+.usingHelp span a:hover{
+  color: #409eff;
+}
+
+.usingHelp span img{
+  margin-bottom: -3px;
+  width: 15px;
+  display: inline-block;
 }
 
 /deep/ .container div .el-input input {
@@ -278,5 +299,23 @@ export default {
   height: 30px;
   filter: invert(100%);
   vertical-align: middle;
+}
+
+@media (max-width:768px){
+    .container .result{
+      word-break: break-all;
+    }
+    
+    .container div .unctionalArea{
+        flex-wrap: wrap;
+    }
+
+    .unctionalArea .el-button{
+        margin-top: 20px;
+    }
+
+    .container .el-button{
+      margin-top: 15px;
+    }
 }
 </style>

@@ -1,382 +1,418 @@
 <template>
-  <div class="bulkQuery">
-    <Navigation></Navigation>
-    <div class="scroll">
-      <div class="container">
-        <div class="title">批量查询钱包余额 <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E6%9F%A5%E8%AF%A2%E9%92%B1%E5%8C%85%E4%BD%99%E9%A2%9D"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
-        <!-- <div class="tips">查询网络</div>
-        <el-select v-model="select">
-          <el-option
-            v-for="(item, index) in chainlist"
-            :key="'chainlist' + index"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select> -->
-        <div class="tips">代币地址</div>
-        <el-input v-model="tokenAdress" placeholder="默认 ETH 地址"></el-input>
-        <div class="tips">钱包地址</div>
-        <el-input
-          type="textarea"
-          v-model="walletAddress"
-          placeholder="一行输入一个地址"
-        ></el-input>
-        <div class="tips">查询结果</div>
-        <el-table
-          :data="searchResult"
-          border
-          v-loading="isloading"
-          id="outExcel"
-          class="table"
-        >
-          <el-table-column prop="walletAddress" label="钱包地址" width="403">
-          </el-table-column>
-          <el-table-column prop="token" label="代币" width="50">
-          </el-table-column>
-          <el-table-column prop="balance" label="余额" width="250">
-          </el-table-column>
-        </el-table>
-        <div>
-          <div class="bottomBtn" @click="checkBalance">查询余额</div>
-          <span class="bottomBtn" @click="exportexcel">下载表格</span>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="bulkQuery" v-loading="isloading">
+		<Navigation></Navigation>
+		<div class="scroll">
+			<div class="container">
+				<div class="title">{{$t("title.bulkQuery")}}</div>
+				<div class="usingHelp"> <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E6%9F%A5%E8%AF%A2%E9%92%B1%E5%8C%85%E4%BD%99%E9%A2%9D" target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
+				<!-- <div class="tips">查询网络</div>
+				<el-select v-model="select">
+					<el-option v-for="(item, index) in chainlist" :key="'chainlist' + index" :value="item.value">
+					</el-option>
+				</el-select> -->
+				<div class="tips">{{$t("bulkQuery.enterAddress")}}</div>
+				<el-input v-model="tokenAdress" :placeholder="$t('bulkQuery.enterAddressPrompt')"></el-input>
+				<div class="tips">{{$t("bulkQuery.enterWalletAddress")}}</div>
+				<el-input type="textarea" v-model="walletAddress" :placeholder="$t('bulkQuery.enterWalletAddressPrompt')"></el-input>
+				<div class="tips" v-if="searchResult.length>0">{{$t("bulkQuery.inquireResult")}}</div>
+				<el-table v-if="searchResult.length>0" :data="searchResult" border slot="empty" :empty-text="$t('pubilc.noData')"  id="outExcel" class="table">
+					<el-table-column prop="walletAddress" :label="$t('bulkQuery.list[0]')" width="363">
+					</el-table-column>
+					<el-table-column prop="token" :label="$t('bulkQuery.list[1]')" width="90">
+					</el-table-column>
+					<el-table-column prop="balance" :label="$t('bulkQuery.list[2]')" width="250">
+					</el-table-column>
+				</el-table>
+                <div class="collapse">
+                  <el-collapse accordion v-for="item in searchResult" :key="item.walletAddress">
+                    <el-collapse-item>
+                    <template slot="title">
+                    {{$t('bulkQuery.list[0]')}}: {{item.walletAddress}}
+                    </template>
+                    <div>{{$t('bulkQuery.list[1]')}}: {{item.token}}</div>
+                    <div>{{$t('bulkQuery.list[2]')}}: {{item.balance}}</div>
+                </el-collapse-item>
+                </el-collapse>
+                </div>
+				<div>
+					<div class="bottomBtn" @click="checkBalance">{{$t("bulkQuery.bntCheckBalance")}}</div>
+					<span class="bottomBtn" @click="exportexcel">{{$t("bulkQuery.btnExportExcel")}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
-import { ethers } from "ethers";
-import Navigation from "../components/Navigation.vue";
-import FileSaver from "file-saver";
-import * as XLSX from "xlsx";
+import { ethers } from 'ethers'
+import Navigation from '../components/Navigation.vue'
+import FileSaver from 'file-saver'
+import * as XLSX from 'xlsx'
 
 export default {
-  name: "bulkQuery",
-  components: {
-    Navigation,
-  },
-  metaInfo() {
-    return {
-      title: "Chaintool - 批量查询钱包余额",
+	name: 'bulkQuery',
+	components: {
+		Navigation,
+	},
+	metaInfo() {
+		return {
+			title: 'Chaintool - ' + this.title,
 
-      meta: [
-        {
-          name: "keyword",
-          content: "批量查询钱包余额，通过钱包地址查询余额",
-        },
-      ],
-    };
-  },
+			meta: [
+				{
+					name: 'keyword',
+					content: '批量查询钱包余额，通过钱包地址查询余额',
+				},
+			],
+		}
+	},
 
-  data() {
-    return {
-      select: "https://mainnet-eth.compound.finance/",
-      chainlist: [
-        {
-          value: "https://mainnet-eth.compound.finance/",
-        },
+	data() {
+		return {
+			select: 'https://mainnet-eth.compound.finance/',
+			chainlist: [
+				{
+					value: 'https://mainnet-eth.compound.finance/',
+				},
 
-        {
-          value: "https://http-mainnet.hecochain.com",
-        },
+				{
+					value: 'https://http-mainnet.hecochain.com',
+				},
 
-        {
-          value: "https://bsc-dataseed3.binance.org",
-        },
+				{
+					value: 'https://bsc-dataseed3.binance.org',
+				},
 
-        {
-          value: "https://rpc-mainnet.matic.network",
-        },
-      ],
-      //代币地址
-      tokenAdress: "",
-      //钱包地址  
-      walletAddress: "",
-      //查询结果
-      searchResult: [],
-      //是加载中
-      isloading: false,
-    };
-  },
+				{
+					value: 'https://rpc-mainnet.matic.network',
+				},
+			],
+			//代币地址
+			tokenAdress: '',
+			//钱包地址
+			walletAddress: '',
+			//查询结果
+			searchResult: [],
+			//是加载中
+			isloading: false,
+		}
+	},
 
-  async created() {
-    await this.initAccount();
-  },
+	async created() {
+		await this.initAccount()
+	},
 
-  methods: {
-    //导出excel
-    exportexcel() {
-      if (this.searchResult.length == 0) {
-        this.$message("你当前还没有查询余额，请查询余额后再进行下载表格");
-        return;
-      }
-      /** 从表生成工作簿对象*/
-      const wb = XLSX.utils.table_to_book(document.querySelector("#outExcel"), {
-        raw: true,
-      });
-      /** 获取二进制字符串作为输出 */
-      const wbout = XLSX.write(wb, {
-        bookType: "xlsx",
-        bookSST: true,
-        type: "array",
-      });
-      try {
-        FileSaver.saveAs(
-          new Blob([wbout], { type: "application/octet-stream" }),
-          //设置导出文件名称
-          "钱包余额表格.xlsx"
-        );
-      } catch (error) {
-      }
-      return wbout;
-    },
+	computed: {
+		title() {
+			return this.$t('title.bulkQuery')
+		},
+	},
 
-    //查询余额
-    async checkBalance() {
-      this.searchResult = [];
-      let walletBalance = [];
-      let token = [];
-      let walletAddress = this.walletAddress.split("\n");
-      let provider = new ethers.providers.InfuraProvider("mainnet");
-      if (this.walletAddress == "") {
-        this.$message("你还没有输入钱包地址，请输入钱包地址后重试");
-        return;
-      }
-      this.isloading = true;
-      if (this.tokenAdress == "") {
-        for (let i in walletAddress) {
-          try {
-            walletBalance[i] = await (
-              await provider.getBalance(walletAddress[i])
-            )._hex;
-            token[i] = "ETH";
-          } catch (error) {
-            walletBalance[i] = "查询失败";
-          }
-        }
-      } else {
-        try {
-          var source = await provider.getCode(this.tokenAdress);
-        } catch (error) {
-          var source = 1;
-        }
-        if (source == 1 || source.length == 2) {
-          this.$message("你输入代币地址错误，请重新输入后重试");
-          return;
-        }
-        let abi = [
-          "function balanceOf(address) view returns (uint256)",
-          "function symbol() view returns (string)",
-        ];
-        let contract = new ethers.Contract(this.tokenAdress, abi, provider);
-        for (let i in walletAddress) {
-          try {
-            let balance = await contract.balanceOf(walletAddress[i]);
-            walletBalance.push(balance._hex);
-            let tokenAddress = await contract.symbol();
-            token[i] = tokenAddress;
-          } catch (error) {
-            walletBalance.push("查询失败");
-          }
-        }
-      }
-      for (let i in walletAddress) {
-        walletBalance[i] = parseInt(walletBalance[i], 16);
-        let data = {
-          walletAddress: walletAddress[i],
-          balance: walletBalance[i],
-          // token:token[i]
-          token: "ETH",
-        };
-        this.searchResult.push(data);
-      }
-      this.isloading = false;
-    },
+	methods: {
+		//导出excel
+		exportexcel() {
+			if (this.searchResult.length == 0) {
+				this.$message(this.$t('bulkQuery.exportExcelPrompt'))
+				return
+			}
+			/** 从表生成工作簿对象*/
+			const wb = XLSX.utils.table_to_book(
+				document.querySelector('#outExcel'),
+				{
+					raw: true,
+				}
+			)
+			/** 获取二进制字符串作为输出 */
+			const wbout = XLSX.write(wb, {
+				bookType: 'xlsx',
+				bookSST: true,
+				type: 'array',
+			})
+			try {
+				FileSaver.saveAs(
+					new Blob([wbout], { type: 'application/octet-stream' }),
+					//设置导出文件名称
+					'钱包余额表格.xlsx'
+				)
+			} catch (error) {}
+			return wbout
+		},
 
-    // ----------初始化账户-------------
-    async initAccount() {
-      if (window.ethereum) {
-        console.log(window.ethereum);
-        try {
-          this.accounts = await window.ethereum.enable();
-          console.log("accounts:" + this.accounts);
-          this.account = this.accounts[0];
-          this.provider = window.ethereum;
-          this.signer = new ethers.providers.Web3Provider(
-            this.provider
-          ).getSigner();
-          this.chainId = parseInt(
-            await window.ethereum.request({ method: "eth_chainId" })
-          );
-        } catch (error) {
-          console.log("User denied account access", error);
-        }
-      } else {
-        console.log("Need install MetaMask");
-      }
-      console.log("Verify Accounts!");  
-    },
-  },
-};
+		//查询余额
+		async checkBalance() {
+			this.searchResult = []
+			let walletBalance = []
+			let token = []
+			let walletAddress = this.walletAddress.split('\n')
+			let provider = new ethers.providers.InfuraProvider('mainnet')
+			if (this.walletAddress == '') {
+				this.$message(this.$t('bulkQuery.checkBalancePrompt[0]'))
+				return
+			}
+			this.isloading = true
+			if (this.tokenAdress == '') {
+				for (let i in walletAddress) {
+					try {
+						walletBalance[i] = await (
+							await provider.getBalance(walletAddress[i])
+						)._hex
+						token[i] = 'ETH'
+					} catch (error) {
+						walletBalance[i] = '查询失败'
+					}
+				}
+			} else {
+				try {
+					var source = await provider.getCode(this.tokenAdress)
+				} catch (error) {
+					var source = 1
+				}
+				if (source == 1 || source.length == 2) {
+					this.$message(this.$t('bulkQuery.checkBalancePrompt[1]'))
+					return
+				}
+				let abi = [
+					'function balanceOf(address) view returns (uint256)',
+					'function symbol() view returns (string)',
+				]
+				let contract = new ethers.Contract(
+					this.tokenAdress,
+					abi,
+					provider
+				)
+				for (let i in walletAddress) {
+					try {
+						let balance = await contract.balanceOf(walletAddress[i])
+						walletBalance.push(balance._hex)
+						let tokenAddress = await contract.symbol()
+						token[i] = tokenAddress
+					} catch (error) {
+						walletBalance.push('查询失败')
+					}
+				}
+			}
+			for (let i in walletAddress) {
+				walletBalance[i] = parseInt(walletBalance[i], 16)
+				let data = {
+					walletAddress: walletAddress[i],
+					balance: walletBalance[i],
+					// token:token[i]
+					token: 'ETH',
+				}
+				this.searchResult.push(data)
+			}
+			this.isloading = false
+		},
+
+		// ----------初始化账户-------------
+		async initAccount() {
+			if (window.ethereum) {
+				try {
+					this.accounts = await window.ethereum.enable()
+					this.account = this.accounts[0]
+					this.provider = window.ethereum
+					this.signer = new ethers.providers.Web3Provider(
+						this.provider
+					).getSigner()
+					this.chainId = parseInt(
+						await window.ethereum.request({ method: 'eth_chainId' })
+					)
+				} catch (error) {
+					// User denied account access
+				}
+			} else {
+				// Need install MetaMask
+			}
+			// Verify Accounts!
+		},
+	},
+}
 </script>
 
 <style scoped>
 .bulkQuery {
-  width: 100%;
-  height: 100%;
+	width: 100%;
+	height: auto;
+	min-height: 94%;
 }
 
 .scroll {
-  width: 100%;
-  height: calc(100vh - 70px);
-  display: flex;
-  justify-content: center;
-  overflow: auto;
+	width: 100%;
+	height: auto;
+	display: flex;
+	justify-content: center;
+	overflow: auto;
 }
 
 .container {
-  max-width: 768px;
-  height: min-content;
-  padding: 32px;
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 30px 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+	max-width: 768px;
+	height: min-content;
+	padding: 32px;
+	width: 100%;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 30px 20px;
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-.container .title {
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 24px;
+.title {
+	font-size: 18px;
+	font-weight: 700;
+	margin-bottom: 15px;
+	position: relative;
 }
 
-.title span a{
-	text-decoration:none;
-	cursor:pointer;
-	position: absolute;
+.usingHelp {
+	width: 100%;
+	height: 21px;
+	margin-bottom: 15px;
+}
+
+.usingHelp span {
+	float: right;
+}
+
+.usingHelp span a {
+	text-decoration: none;
+	cursor: pointer;
 	font-size: 15px;
-	margin-left:5% ;
-	margin-bottom: 0px;
-	margin-top: 10px;
 	color: #909399;
 	width: 90px;
 	display: inline-block;
 }
 
-.title span a:hover{
+.usingHelp span a:hover {
 	color: #409eff;
 }
 
- .title span img{
+.usingHelp span img {
 	margin-bottom: -3px;
 	width: 15px;
 	display: inline-block;
 }
 
 .container .tips {
-  font-size: 14px;
-  color: #000;
-  font-weight: 700;
-  align-self: flex-start;
-  margin-bottom: 10px;
+	font-size: 14px;
+	color: #000;
+	font-weight: 700;
+	align-self: flex-start;
+	margin-bottom: 10px;
 }
 
 .container .el-select,
 .container .el-input,
 .container .el-textarea {
-  width: 100%;
-  margin-bottom: 30px;
+	width: 100%;
+	margin-bottom: 30px;
 }
 
 /deep/ .container .el-select .el-input__inner,
 /deep/ .container .el-input .el-input__inner,
 /deep/ .container .el-textarea .el-textarea__inner {
-  border: none;
-  background-color: #f5f5f5;
-  border-radius: 6px;
+	border: none;
+	background-color: #f5f5f5;
+	border-radius: 6px;
 }
 
 /deep/ .container .el-textarea .el-textarea__inner {
-  height: 220px;
+	height: 220px;
 }
 
 .container .list {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  border-radius: 6px;
-  border-bottom: 1px solid #e8eaec;
-  margin-bottom: 30px;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	border-radius: 6px;
+	border-bottom: 1px solid #e8eaec;
+	margin-bottom: 30px;
 }
 
 .container .list .header {
-  display: flex;
-  width: 100%;
-  height: 40px;
-  background-color: #f5f5f5;
-  justify-content: space-between;
-  padding: 0 30px;
-  box-sizing: border-box;
-  line-height: 40px;
-  color: #515a6e;
-  font-weight: bold;
-  font-size: 14px;
+	display: flex;
+	width: 100%;
+	height: 40px;
+	background-color: #f5f5f5;
+	justify-content: space-between;
+	padding: 0 30px;
+	box-sizing: border-box;
+	line-height: 40px;
+	color: #515a6e;
+	font-weight: bold;
+	font-size: 14px;
 }
 
 .container .list .header > div:last-child {
-  width: 30%;
+	width: 30%;
 }
 
 .container .list .none {
-  display: flex;
-  width: 100%;
-  height: 40px;
-  line-height: 40px;
-  justify-content: center;
-  color: #515a6e;
-  font-size: 14px;
-  font-weight: 300;
+	display: flex;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	justify-content: center;
+	color: #515a6e;
+	font-size: 14px;
+	font-weight: 300;
 }
 
 .container .bottomBtn {
-  flex-direction: row;
-  display: inline-block;
-  text-align: center;
-  margin-top: 10px;
-  margin-left: 20px;
-  width: 96px;
-  height: 36px;
-  line-height: 35px;
-  background-color: #404040;
-  cursor: pointer;
-  color: #fff;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 700;
-  border-radius: 6px;
+	vertical-align: top;
+	flex-direction: row;
+	display: inline-block;
+	text-align: center;
+	margin-top: 10px;
+	margin-left: 20px;
+	width: 96px;
+	height: 36px;
+	line-height: 35px;
+	background-color: #404040;
+	cursor: pointer;
+	color: #fff;
+	align-items: center;
+	justify-content: center;
+	font-size: 14px;
+	font-weight: 700;
+	border-radius: 6px;
 }
 
 .container .bottomBtn:hover {
-  background-color: #575757;
+	background-color: #575757;
 }
 
 .container .bottomBtn:active {
-  background-color: #000;
+	background-color: #000;
 }
 
-@media (max-width: 808px) {
-  .container {
-    max-width: calc(100vw - 40px);
-  }
+.table {
+	width: 100%;
 }
-.table{
-  width: 100%;
+
+.collapse{
+    display: none;
+}
+
+@media (max-width:768px){
+    .collapse{
+        display: inline-block;
+        width: 100%;
+    }
+    .table{
+        display: none;
+    }
+    .container {
+		max-width: calc(100vw - 40px);
+	}
+    /deep/ .el-collapse-item__header{
+        line-height: 15px;
+        height:auto;
+        padding-top:10px;
+        padding-bottom:10px;
+        word-break:break-all;
+    }
 }
 </style>

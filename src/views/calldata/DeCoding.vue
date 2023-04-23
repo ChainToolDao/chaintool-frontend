@@ -1,90 +1,106 @@
 <template>
-    <div>
-        <div class="mainRow"> Input Calldata</div>
-        <el-input v-model="calldata" placeholder="Enter Calldata" @input="getFunctionSignAuto()" type="textarea"
-            autosize></el-input>
-        <div class="mainRow">选择函数 <span> <el-radio-group v-model="isManualInput" @click="selectInputWay">
-                    <el-radio :label="false" border size="medium" @change="selectInputWay">自动选择</el-radio>
-                    <el-radio :label="true" border size="medium" @change="selectInputWay">手动输入</el-radio>
-                </el-radio-group></span>
-        </div>
-        <el-select v-model="chooseSignature" placeholder="Please Choose" v-if="!isManualInput">
-            <el-option v-for="(item, index) in signatureArray" :key="'chainlist' + index" :label="item" :value="item">
-            </el-option>
-        </el-select>
-        <el-input v-model="chooseSignature" placeholder="Input Function " v-if="isManualInput"></el-input>
-        <div class="bottomButton contentButton" @click="decoding">解码
-        </div>
-        <div class="mainRow">解码结果</div>
-        <el-table :data="decodingResult" class="list" row-key="id" border :row-class-name="increaseTableStyle"
-            :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-            <el-table-column prop="id" label="参数" width="150">
-            </el-table-column>
-            <el-table-column label="参数类型" width="150">
-                <template slot-scope="scope">
-                    <DataType :data=scope.row.argument></DataType>
-                </template>
-            </el-table-column>
-            <el-table-column label="值" width="420">
-                <template slot-scope="scope">
-                    <DataValue :data=scope.row></DataValue>
-                </template>
-            </el-table-column>
-        </el-table>
-    </div>
+	<div>
+		<div class="mainRow">{{$t("calldata.inputCalldata")}}</div>
+		<div>
+			<el-input v-model="calldata" placeholder="Enter Calldata" @input="getFunctionSignAuto()" type="textarea"
+				autosize></el-input>
+			<div class="mainRow">{{$t("calldata.selectFunction")}} <span> <el-radio-group v-model="isManualInput"
+						@click="selectInputWay">
+						<el-radio :label="false" border size="medium"
+							@change="selectInputWay">{{$t("calldata.autoChoose")}}
+						</el-radio>
+						<el-radio :label="true" border size="medium"
+							@change="selectInputWay">{{$t("calldata.manualInput")}}
+						</el-radio>
+					</el-radio-group></span>
+			</div>
+			<el-select v-model="chooseSignature" placeholder="Please Choose" v-if="!isManualInput">
+				<el-option v-for="(item, index) in signatureArray" :key="'chainlist' + index" :label="item"
+					:value="item">
+				</el-option>
+			</el-select>
+			<el-input v-model="chooseSignature" placeholder="Input Function " v-if="isManualInput"></el-input>
+			<div class="bottomButton contentButton" @click="decoding">{{$t("calldata.decoding")}}
+			</div>
+			<div class="mainRow">{{$t("calldata.decodingResult")}}</div>
+			<el-table :data="decodingResult" class="list" row-key="id" border :row-class-name="increaseTableStyle"
+				slot="empty" :empty-text="$t('pubilc.noData')"
+				:tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
+				<el-table-column prop="id" :label="$t('calldata.parameter')" width="150">
+				</el-table-column>
+				<el-table-column :label="$t('calldata.parameterType')" width="150">
+					<template slot-scope="scope">
+						<DataType :data=scope.row.argument></DataType>
+					</template>
+				</el-table-column>
+				<el-table-column :label="$t('calldata.value')" width="420">
+					<template slot-scope="scope">
+						<DataValue :data=scope.row></DataValue>
+					</template>
+				</el-table-column>
+			</el-table>
+		</div>
+	</div>
 </template>
 
 <script>
-import { ethers } from "ethers";
-import DataValue from "./DataValue.vue";
-import DataType from "./DataType.vue";
+import { ethers } from 'ethers'
+import DataValue from './DataValue.vue'
+import DataType from './DataType.vue'
 export default {
-    components: {
-        DataValue,
-        DataType,
-    },
+	components: {
+		DataValue,
+		DataType,
+	},
 
-    data() {
-        return {
-            // 输入的calldata
-            calldata: "0x23b872dd0000000000000000000000008ba1f109551bd432803012645ac136ddd64dba72000000000000000000000000ab7c8803962c0f2f5bbbe3fa8bf41cd82aa1923c0000000000000000000000000000000000000000000000000de0b6b3a7640000",
-            // 选择的签名
-            chooseSignature: "transferFrom(address,address,uint256)",
-            // 签名数组
-            signatureArray: [],
-            // 是手动输入
-            isManualInput: false,
-            // 解码结果
-            decodingResult: [],
-        };
-    },
+	data() {
+		return {
+			// 输入的calldata
+			calldata:
+				'0x23b872dd0000000000000000000000008ba1f109551bd432803012645ac136ddd64dba72000000000000000000000000ab7c8803962c0f2f5bbbe3fa8bf41cd82aa1923c0000000000000000000000000000000000000000000000000de0b6b3a7640000',
+			// 选择的签名
+			chooseSignature: 'transferFrom(address,address,uint256)',
+			// 签名数组
+			signatureArray: [],
+			// 是手动输入
+			isManualInput: false,
+			// 解码结果
+			decodingResult: [],
+		}
+	},
 
-    methods: {
-        //增加表格样式
-        increaseTableStyle({ row, rowIndex }) {
-            if (String(JSON.parse(JSON.stringify(row.id))).indexOf("[var") == "-1") {
-                return 'success-row';
-            }
-            return '';
-        },
+	methods: {
+		//增加表格样式
+		increaseTableStyle({ row, rowIndex }) {
+			if (
+				String(JSON.parse(JSON.stringify(row.id))).indexOf('[var') ==
+				'-1'
+			) {
+				return 'success-row'
+			}
+			return ''
+		},
 
-        //选择输入方式
-        selectInputWay: function () {
-            if (this.isManualInput) {
-                this.chooseSignature = ''
-            } else {
-                this.chooseSignature = this.signatureArray[0]
-            }
-        },
+		//选择输入方式
+		selectInputWay: function () {
+			if (this.isManualInput) {
+				this.chooseSignature = ''
+			} else {
+				this.chooseSignature = this.signatureArray[0]
+			}
+		},
 
-        //获取函数签名自动
-        async getFunctionSignAuto() {
-            let functionSignature = await this.functionSelector.getFunctionSignature(this.calldata.slice(0, 10))
-            this.signatureArray = functionSignature
-            if (!this.isManualInput) {
-                this.chooseSignature = functionSignature[0]
-            }
-        },
+		//获取函数签名自动
+		async getFunctionSignAuto() {
+			let functionSignature =
+				await this.functionSelector.getFunctionSignature(
+					this.calldata.slice(0, 10)
+				)
+			this.signatureArray = functionSignature
+			if (!this.isManualInput) {
+				this.chooseSignature = functionSignature[0]
+			}
+		},
 
         //  解析交易数据    
         async decodingTransactionData(ABIData, sign, funcGetFunctionSignature, funcSubmitFunctionSelector) {
@@ -218,7 +234,7 @@ export default {
             let searchResult = await this.$options.methods.decodingTransactionData(this.calldata, this.chooseSignature, this.functionSelector.getFunctionSignature, this.functionSelector.submitFunctionSelector);
             this.decodingResult = await this.$options.methods.processingCalldata(searchResult, this.functionSelector.getFunctionSignature, this.functionSelector.submitFunctionSelector);
             if (this.decodingResult == undefined) {
-                this.$message.error("查询失败，请检查你的输入后重试");
+                this.$message.error(this.$t("calldata.queryFailed"));
             }
         },
     },
@@ -227,30 +243,48 @@ export default {
 
 <style scoped>
 .mainRow {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .contentButton {
-    margin-left: 41%;
+	margin-left: 41%;
 }
 
 /deep/ .el-select {
-    width: 716px;
+	width: 100%;
 }
 
 /deep/ .el-textarea {
-    margin-bottom: 15px;
+	margin-bottom: 15px;
 }
 
 /deep/ .el-radio-group {
-    margin-left: 10px;
+	margin-left: 10px;
 }
 
 /deep/ .el-input__inner {
-    margin-bottom: 12px;
+	margin-bottom: 12px;
 }
 
-.list{
-    width: 100%;
+.list {
+	width: 100%;
+}
+
+@media (max-width: 377px) {
+	.mainRow span .el-radio-group label {
+		margin-top: 11px;
+		margin-left: 0px !important;
+	}
+}
+
+@media (max-width: 500px) {
+	.title span a {
+		top: 25px;
+		left: 50%;
+		margin-left: 0;
+	}
+	.container .title {
+		margin-bottom: 50px;
+	}
 }
 </style>

@@ -1,35 +1,35 @@
 <template>
-	<div class="traceView" v-loading="loading" element-loading-text="全力分析中...">
+	<div class="traceView" v-loading="loading" :element-loading-text="$t('traceView.analyzing')">
         <Navigation></Navigation>
 
 		<div class="scroll">
 			<div class="container">
-				<div class="title">交易堆栈 Trace 分析工具 <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BA%A4%E6%98%93%E5%A0%86%E6%A0%88-Trace-%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7"  target="_blank">使用帮助 <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
-
-				<div class="tips">交易哈希</div>
+				<div class="title">{{$t('traceView.title')}}</div>
+				<div class="usingHelp"><span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E4%BA%A4%E6%98%93%E5%A0%86%E6%A0%88-Trace-%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7"  target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
+				<div class="tips">{{$t('traceView.transactionHash')}}</div>
 
 				<div class="inputBtn">
-					<el-input v-model="txid" placeholder="Transaction Hash"></el-input>
-					<el-button class="btn" :disabled="loading ? true : false" type="primary" @click="traceVisualization">分析</el-button>
+					<el-input v-model="txid" :placeholder="$t('traceView.inputTransactionHash')"></el-input>
+					<el-button class="btn" :disabled="loading ? true : false" type="primary" @click="traceVisualization">{{$t('traceView.btnAnalyze')}}</el-button>
 				</div>
 
-				<div class="tips">高级选项</div>
+				<div class="tips">{{$t('traceView.options')}}</div>
 
 				<el-switch v-model="senior"></el-switch>
 
 				<div v-if="senior" class="senior">
-					<div class="tips">Address Map</div>
-					<el-input type="textarea" v-model="addressMap" :rows="7" placeholder="请填入Address map"></el-input>
+					<div class="tips"> {{$t('traceView.AddressMap')}}</div>
+					<el-input type="textarea" v-model="addressMap" :rows="7" :placeholder="$t('traceView.inputAddressMap')"></el-input>
 
-					<div class="tips">Function Map</div>
-					<el-input class="functionMap" type="textarea" v-model="functionMap" placeholder="请填入Function map"></el-input>
+					<div class="tips">{{$t('traceView.FunctionMap')}}</div>
+					<el-input class="functionMap" type="textarea" v-model="functionMap" :placeholder="$t('traceView.inputFunctionMap')"></el-input>
 
-					<el-link @click="fillDemo">例
+					<el-link @click="fillDemo">{{$t('traceView.example')}}
 						<i class="el-icon-view el-icon--right"></i>
 					</el-link>
 				</div>
 
-				<div class="tips">Call Traces</div>
+				<div class="tips"  v-if="treeData!=null" >{{$t('traceView.CallTraces')}}</div>
 
 				<div class="div-center">
 					<div class="tree-container divItem">
@@ -42,7 +42,7 @@
 							</template>
 						</div>
 
-						<el-tree id="tree" ref="tree" node-key="id" :indent="0" :data="treeData">
+						<el-tree id="tree" ref="tree" node-key="id" :indent="0" :empty-text="$t('pubilc.noData')" :data="treeData" v-if="treeData!=null">
 							<span class="custom-tree-node" slot-scope="{ data }">
 								<template v-if="data.init">
 									<!-- 如果该交易为创建合约 -->
@@ -163,7 +163,7 @@ export default {
     },
 	metaInfo() {
         return {
-            title: 'Chaintool - 交易分析工具',
+            title: "Chaintool - " + this.title,
 
             meta: [
                 {
@@ -189,6 +189,12 @@ export default {
             senior: false,
         }
     },
+
+	computed:{
+      title(){
+	      return this.$t("title.traceview")
+	    }
+  	},
 
     methods: {
         fillDemo() {
@@ -219,11 +225,11 @@ export default {
         async traceVisualization() {
 			if(this.txid!=null){
 				if (this.txid.length != 66 || this.txid.slice(0, 2) != '0x') {
-                	this.$message.error('请输入正确的交易hash值')
+                	this.$message.error(this.$t('traceView.prompt[0]'))
                 	return
             	}
 			}else{
-				this.$message.error('请输入交易hash值后重试')
+				this.$message.error(this.$t('traceView.prompt[1]'))
 				return
 			}
            
@@ -259,12 +265,12 @@ export default {
                         }
                     } else {
                         this.loading = false
-                        this.$message.error('解析失败，请稍后再试')
+                        this.$message.error(this.$t('traceView.parsingFailed[0]'))
                     }
                 })
             } catch (error) {
                 this.loading = false
-                this.$message.error('解析失败...')
+                this.$message.error(this.$t('traceView.parsingFailed[1]'))
                 console.log(error)
             }
 
@@ -287,7 +293,8 @@ export default {
 <style scoped>
 	.traceView {
         width: 100%;
-        height: auto;
+		height: auto;
+        min-height: 94%;
     }
 
 	.scroll {
@@ -312,35 +319,43 @@ export default {
         box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
     }
 
-    .container .title {
-        font-size: 18px;
-        font-weight: 700;
-        margin-bottom: 24px;
-    }
+.title {
+	font-size: 18px;
+	font-weight: 700;
+	margin-bottom: 15px;
+	position:relative;
+}
 
 
-	.title span a{
-		text-decoration:none;
-		cursor:pointer;
-		position: absolute;
-		font-size: 15px;
-		margin-left:5% ;
-		margin-bottom: 0px;
-		margin-top: 10px;
-		color: #909399;
-		width: 90px;
-		display: inline-block;
-	}
 
-	.title span a:hover{
-		color: #409eff;
-	}
+.usingHelp {
+  width: 100%;
+  height: 21px;
+  margin-bottom: 15px;
+}
 
- 	.title span img{
-		margin-bottom: -3px;
-		width: 15px;
-		display: inline-block;
-	}
+.usingHelp span{
+	float: right;
+}
+
+.usingHelp span a{
+	text-decoration:none;
+	cursor:pointer;
+	font-size: 15px;
+	color: #909399;
+	width: 90px;
+	display: inline-block;
+}
+
+.usingHelp span a:hover{
+	color: #409eff;
+}
+
+.usingHelp span img{
+	margin-bottom: -3px;
+	width: 15px;
+	display: inline-block;
+}
 
 	.container .tips {
         font-size: 14px;
@@ -416,10 +431,6 @@ export default {
 	.container .el-link {
 		align-self: flex-start;
 		margin-bottom: 20px;
-	}
-
-	.el-tree {
-		width: 100%;
 	}
 
 	.div-center {
@@ -644,4 +655,14 @@ export default {
 	/deep/ .el-textarea__inner {
 		height: 200px;
 	}
+
+    @media (max-width:768px){
+        .inputBtn{
+           flex-wrap: wrap;
+        }
+        .container .inputBtn .btn{
+            margin: 10px 0;
+            margin-left: 0;
+        }
+    }
 </style>
