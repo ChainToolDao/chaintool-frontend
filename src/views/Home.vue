@@ -77,12 +77,6 @@ export default {
 					router: '/generateWallet',
 					url: require('../assets/imgs/toolList8.png'),
 				},
-                {
-					title: this.$t('home.toolList[11].title'),
-					detail: this.$t('home.toolList[11].detail'),
-					router: '/generateWallet/btcWallet',
-					url: require('../assets/imgs/toolList8.png'),
-				},
 				{
 					title: this.$t('home.toolList[3].title'),
 					detail: this.$t('home.toolList[3].detail'),

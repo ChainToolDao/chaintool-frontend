@@ -39,6 +39,7 @@ export default {
         btnFeedback: "Feedback",
         subheadingToolList: "Tools",
         listDescribe: "Free & Efficiency, try it out",
+        EVMWalletGenerator: 'EVM Wallet Generator',
         toolList: [
             {
                 title: 'Unit Converter',
@@ -62,7 +63,7 @@ export default {
             },
             {
                 title: 'Wallet Generator',
-                detail: 'Trustworthy & Batch EVM Wallet Generator',
+                detail: 'Trustworthy & Batch EVM / BTC Wallet Generator',
             },
             {
                 title: 'Selector Querier',
@@ -218,7 +219,7 @@ export default {
             tips:["Refer:","BIP44"],
             options:["Purpose","Coin","Account","External / Internal","Index","Path"]
         },
-        tips:['Max is 100','Please wait...','Advanced is disable, where create by private key'],
+        messages:['Max is 100','Please wait...','Advanced is disable, where create by private key'],
         subtitleMnemonicCreate:"Create wallet by mnemonic",
         publicKey:"Public key",
     },

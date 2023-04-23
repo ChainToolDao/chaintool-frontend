@@ -3,7 +3,7 @@
 		<div class="wallet">
 			<div class="container">
 				<el-menu class="el-menu-demo" mode="horizontal" default-active="BTC">
-					<router-link to="/generateWallet/evmWallet"><el-menu-item index="EVM">{{ $t('home.toolList[5].title') }}</el-menu-item></router-link>
+					<router-link to="/generateWallet/evmWallet"><el-menu-item index="EVM">{{ $t('home.EVMWalletGenerator') }}</el-menu-item></router-link>
 					<router-link to="/generateWallet/btcWallet"><el-menu-item index="BTC">{{ $t('home.toolList[11].title') }}</el-menu-item></router-link>
 				</el-menu>
 				<h3 class="title"> {{$t('home.toolList[11].title')}} </h3>
@@ -211,14 +211,14 @@ export default {
 			}
 			if (this.walletQuantity > 100) {
 				this.$message({
-					message: this.$t('generateWallet.tips[0]'),
+					message: this.$t('generateWallet.messages[0]'),
 					type: 'warning',
 				})
 				return
 			}
 			if (this.walletQuantity > 50) {
 				this.$message({
-					message: this.$t('generateWallet.tips[1]'),
+					message: this.$t('generateWallet.messages[1]'),
 					type: 'warning',
 				})
 			}

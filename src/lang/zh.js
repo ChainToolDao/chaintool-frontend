@@ -39,6 +39,7 @@ export default {
         btnFeedback: "问题反馈",
         subheadingToolList: "工具列表",
         listDescribe: "免费效率工具，快上手试试吧",
+        EVMWalletGenerator: '生成 EVM 钱包',
         toolList: [
             {
                 title: '单位换算',
@@ -61,8 +62,8 @@ export default {
                 detail: '地址查询转换与ENS查询',
             },
             {
-                title: '生成 EVM 钱包',
-                detail: '批量生成 EVM 钱包',
+                title: '生成钱包',
+                detail: '批量生成 EVM / BTC 钱包',
             },
             {
                 title: '签名选择器查询',
@@ -218,7 +219,7 @@ export default {
             tips:["有关高级选项，请参阅","BIP44 规范"],
             options:["协议","币种","账户","外部内部","系数","推导路径"]
         },
-        tips:['最大生成钱包数量为100','当前生成钱包数量较多，请耐心等待','通过私钥生成钱包，无法改变生成数量及使用高级选项'],
+        messages:['最大生成钱包数量为100','当前生成钱包数量较多，请耐心等待','通过私钥生成钱包，无法改变生成数量及使用高级选项'],
         subtitleMnemonicCreate:"通过助记词创建钱包",
         publicKey:"公钥",
     },

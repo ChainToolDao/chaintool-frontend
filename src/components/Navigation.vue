@@ -9,7 +9,7 @@
 			<div class="nav">
 				<el-menu class="el-menu-demo" mode="horizontal">
 					<el-submenu index="1">
-						<template slot="title">EVM {{$t('pubilc.tool')}}</template>
+						<template slot="title">EVM</template>
 						<router-link to="/faucet" class="navRouter"><el-menu-item index="2-1">{{$t('home.toolList[10].title')}}</el-menu-item></router-link>
 						<router-link to="/generateWallet" class="navRouter"><el-menu-item index="2-2">{{$t('home.toolList[5].title')}}</el-menu-item></router-link>
 						<router-link to="/abi" class="navRouter"><el-menu-item index="2-3">{{$t('home.toolList[3].title')}}</el-menu-item></router-link>
@@ -23,7 +23,7 @@
 						<router-link to="/calldata" class="navRouter"> <el-menu-item index="2-11">{{$t('home.toolList[9].title')}}</el-menu-item></router-link>
 					</el-submenu>
                     <el-submenu index="2">
-						<template slot="title">MOVE {{$t('pubilc.tool')}}</template>
+						<template slot="title">BTC</template>
 						<router-link to="/generateWallet/btcWallet" class="navRouter"><el-menu-item index="3-1">{{$t('home.toolList[11].title')}}</el-menu-item></router-link>
 					</el-submenu>
 				</el-menu>
@@ -67,7 +67,7 @@
 							<div></div>
 						</el-collapse-item>
 						<el-collapse-item name="2">
-							<template slot="title">EVM {{$t('pubilc.tool')}}</template>
+							<template slot="title">EVM</template>
 							<router-link to="/faucet">{{$t('home.toolList[10].title')}}</router-link>
 							<router-link to="/generateWallet">{{$t('home.toolList[5].title')}}</router-link>
 							<router-link to="/abi">{{$t('home.toolList[3].title')}}</router-link>
@@ -81,7 +81,7 @@
 							<router-link to="/calldata">{{$t('home.toolList[9].title')}}</router-link>
 						</el-collapse-item>
                         <el-collapse-item name="3">
-							<template slot="title">MOVE {{$t('pubilc.tool')}}</template>
+							<template slot="title">BTC</template>
 							<router-link to="/generateWallet/btcWallet">{{$t('home.toolList[11].title')}}</router-link>
 						</el-collapse-item>
 						<el-collapse-item :title="$t('navigation.nav.languageSelection')" name="4">
