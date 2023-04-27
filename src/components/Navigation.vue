@@ -31,7 +31,7 @@
 			<div class="rightcontainer">
 				<div>
 					<a href="https://github.com/ChainToolDao" target="_blank"> <img class="github" src="../assets/imgs/github.png" alt=""></a>
-					<a href="https://twitter.com/NUpchain" target="_blank"> <img class="twitter" src="../assets/imgs/twitter.png" alt=""></a>
+					<a href="https://twitter.com/UpchainDAO" target="_blank"> <img class="twitter" src="../assets/imgs/twitter.png" alt=""></a>
 				</div>
 				<div v-if="address" class="connect connected">
 					<div></div>
@@ -90,7 +90,7 @@
 						</el-collapse-item>
 						<el-collapse-item :title="$t('navigation.nav.folloUs')" name="5">
 							<a href="https://github.com/ChainToolDao" target="_blank">Github</a>
-							<a href="https://twitter.com/NUpchain" target="_blank">Twitter</a>
+							<a href="https://twitter.com/UpchainDAO" target="_blank">Twitter</a>
 						</el-collapse-item>
 					</el-collapse>
 				</div>
