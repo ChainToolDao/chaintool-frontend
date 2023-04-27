@@ -100,8 +100,8 @@
 		</div>
 		<div class="sponsorshipBanner">
 			<span>
-				<a href="https://explorer.gitcoin.co/#/round/1/0xaa40e2e5c8df03d792a52b5458959c320f86ca18/0xaa40e2e5c8df03d792a52b5458959c320f86ca18-95">在 Gitcoin Grant 为登链社区捐赠, 支持社区发展 >></a>
-				<a href="https://explorer.gitcoin.co/#/round/1/0xaa40e2e5c8df03d792a52b5458959c320f86ca18/0xaa40e2e5c8df03d792a52b5458959c320f86ca18-95">在 Gitcoin Grant 支持社区</a>
+				<a href="https://learnblockchain.cn/article/5713">在 Gitcoin Grant 为登链社区捐赠, 支持社区发展 >></a>
+				<a href="https://learnblockchain.cn/article/5713">在 Gitcoin Grant 支持社区</a>
 			</span>
 		</div>
 	</div>
