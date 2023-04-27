@@ -100,8 +100,8 @@
 		</div>
 		<div class="sponsorshipBanner">
 			<span>
-				<a href="https://learnblockchain.cn/article/5713">在 Gitcoin Grant 为登链社区捐赠, 支持社区发展 >></a>
-				<a href="https://learnblockchain.cn/article/5713">在 Gitcoin Grant 支持社区</a>
+				<a href="https://learnblockchain.cn/article/5713">{{ $t('navigation.sponsor[0]') }}</a>
+				<a href="https://learnblockchain.cn/article/5713">{{ $t('navigation.sponsor[1]') }}</a>
 			</span>
 		</div>
 	</div>
@@ -243,6 +243,10 @@ export default {
 	.sponsorshipBanner {
 		margin: 10px auto;
 	}
+}
+
+.sponsorshipBanner span:hover a {
+    text-decoration:underline;
 }
 
 .sponsorshipBanner span a {

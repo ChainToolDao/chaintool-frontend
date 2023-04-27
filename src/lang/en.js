@@ -31,7 +31,8 @@ export default {
             home: "Home",
             languageSelection: "Lang",
             folloUs: "Follow",
-        }
+        },
+        sponsor:["在 Gitcoin Grant 为登链社区捐赠, 支持社区发展 >>","在 Gitcoin Grant 支持社区 >>"]
     },
     home: {
         title: ["OpenSource ", "Toolbox", "Make Blockchain Develop More Easier"],
