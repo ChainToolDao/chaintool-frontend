@@ -53,7 +53,7 @@
 					<div v-if="advancedOptions">
 						<div>{{ $t('generateWallet.advancedOptions.tips[0]')}} <a href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki" target="_blank"> {{ $t('generateWallet.advancedOptions.tips[1]')}}</a></div>
 						<div><span>{{ $t('generateWallet.advancedOptions.options[0]')}}</span><el-input class="prohibitInput" value="44" :disabled="true"></el-input></div>
-						<div><span>{{ $t('generateWallet.advancedOptions.options[1]')}}</span><el-input class="prohibitInput" value="60" :disabled="true"></el-input></div>
+						<div><span>{{ $t('generateWallet.advancedOptions.options[1]')}}</span><el-input class="prohibitInput" value="0" :disabled="true"></el-input></div>
 						<div><span>{{ $t('generateWallet.advancedOptions.options[2]')}}</span><el-input :placeholder="$t('abi.inputPrompt')" v-model="account"></el-input></div>
 						<div><span>{{ $t('generateWallet.advancedOptions.options[3]')}}</span><el-input :placeholder="$t('abi.inputPrompt')" v-model="externalorInternal"></el-input></div>
 						<div><span>{{ $t('generateWallet.advancedOptions.options[4]')}}</span><el-input :placeholder="$t('abi.inputPrompt')" v-model="index"></el-input></div>
