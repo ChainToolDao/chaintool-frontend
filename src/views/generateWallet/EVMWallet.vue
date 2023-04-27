@@ -3,10 +3,10 @@
 		<div class="wallet">
 			<div class="container">
 				<el-menu class="el-menu-demo" mode="horizontal" default-active="EVM">
-					<router-link to="/generateWallet/evmWallet"><el-menu-item index="EVM">{{ $t('home.toolList[5].title') }}</el-menu-item></router-link>
+					<router-link to="/generateWallet/evmWallet"><el-menu-item index="EVM">{{ $t('home.EVMWalletGenerator') }}</el-menu-item></router-link>
 					<router-link to="/generateWallet/btcWallet"><el-menu-item index="BTC">{{ $t('home.toolList[11].title') }}</el-menu-item></router-link>
 				</el-menu>
-				<h3 class="title">{{$t('home.toolList[5].title')}} </h3>
+				<h3 class="title">{{$t('home.EVMWalletGenerator')}} </h3>
 				<div class="usingHelp"><span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E7%94%9F%E6%88%90EVM%E9%92%B1%E5%8C%85" target="_blank">{{$t("pubilc.usingHelp")}} <img src="../../assets/imgs/explain.png" alt=""></a></span></div>
 				<div class="tips">
 					<span> {{$t('generateWallet.tips[0]')}}<a href="https://github.com/ChainToolDao" target="_blank">{{$t('generateWallet.tips[1]')}}</a>{{$t('generateWallet.tips[2]')}}<br></span>
@@ -204,14 +204,14 @@ export default {
 			}
 			if (this.walletQuantity > 100) {
 				this.$message({
-					message: this.$t('generateWallet.tips[0]'),
+					message: this.$t('generateWallet.messages[0]'),
 					type: 'warning',
 				})
 				return
 			}
 			if (this.walletQuantity > 50) {
 				this.$message({
-					message: this.$t('generateWallet.tips[1]'),
+					message: this.$t('generateWallet.messages[1]'),
 					type: 'warning',
 				})
 			}

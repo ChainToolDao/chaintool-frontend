@@ -1,7 +1,7 @@
 export default {
     pubilc: {
         usingHelp: "Help",
-        copySauccessfully: "Copyed",
+        copySauccessfully: "Copied",
         copyFailed: "Copy Failed",
         noData: "No data",
         cancel: "Cancel",
@@ -16,11 +16,11 @@ export default {
         home: "Toolbox For Blockchain Developer",
         unitConvert: "Unit Converter",
         bulkQuery: "Batch Query Wallet Balance",
-        traceview: "交易分析工具",
-        abi: "ABI 图形化",
+        traceview: "Tx trace viewer",
+        abi: "ABI Caller",
         address: "Address & ENS Lookup",
         querySelector: "Selector By Function Signature",
-        topicID: "查询事件主题(TopicID)",
+        topicID: "TopicID Querier",
         hashTool: "Hash Tools",
         calldata: "Input Calldata Decoder & Encoder",
         faucet: "Testnet Faucets"
@@ -29,8 +29,8 @@ export default {
         connectWallet: "Connect Wallet",
         nav: {
             home: "Home",
-            languageSelection: "语言选择",
-            folloUs: "关注我们",
+            languageSelection: "Lang",
+            folloUs: "Follow",
         }
     },
     home: {
@@ -39,6 +39,7 @@ export default {
         btnFeedback: "Feedback",
         subheadingToolList: "Tools",
         listDescribe: "Free & Efficiency, try it out",
+        EVMWalletGenerator: 'EVM Wallet Generator',
         toolList: [
             {
                 title: 'Unit Converter',
@@ -62,7 +63,7 @@ export default {
             },
             {
                 title: 'Wallet Generator',
-                detail: 'Trustworthy & Batch EVM Wallet Generator',
+                detail: 'Trustworthy & Batch EVM / BTC Wallet Generator',
             },
             {
                 title: 'Selector Querier',
@@ -85,7 +86,7 @@ export default {
                 detail: 'Testnet Faucet All in one',
             },
             {
-                title: '生成BTC钱包',
+                title: 'BTC Wallet Generator',
                 detail: 'Trustworthy & Batch BTC Wallet Generator',
             },
         ],
@@ -164,7 +165,7 @@ export default {
         checkAbi: "Input ABI",
         checkNetwork: "Choose network",
         autoAddError: 'Load contract error',
-        promptSharingError: "分享失败，请稍后再试，",
+        promptSharingError: "Share Failed, please retry later",
         copyShareSuccess: "Copy share link success",
         examineAddressAndNetwork: "Please input contract address and network",
         getABIeroor: "Fail to get ABI ",
@@ -179,9 +180,9 @@ export default {
         currentNetworkError: "Network error",
         connectionRequestError: "Network error, please retry connect and reload",
         btnReturn:"Return",
-        btnDevelop:"展开操作栏",
-        btnFold:"收起操作栏",
-        riskWarning:"当前的合约无法验证真实性，请确保该合约可靠后使用!!!",
+        btnDevelop:"Expand Panel",
+        btnFold:"Collapse Panel",
+        riskWarning:"The current contract is not open source verified, please confirm the risk!!!",
     },
     address: {
         address: "wallet address",
@@ -212,14 +213,14 @@ export default {
         beyondErrorPrompt: "Address number too big, must be smaller than 100",
         inputErrorPrompt: "Create failed",
         popoverBtnClick: "Click",
-        options:["相同助记词","不同助记词","自定义助记词创建"],
+        options:["One Mnemonic","Many Mnemonic","User Input"],
         advancedOptions:{
-            title:"高级选项",
-            tips:["有关高级选项，请参阅","BIP44 规范"],
-            options:["Purpose","Coin","Account","External / Internal","系数","Path"]
+            title:"Advanced",
+            tips:["Refer:","BIP44"],
+            options:["Purpose","Coin","Account","External / Internal","Index","Path"]
         },
-        tips:['最大生成钱包数量为100','当前生成钱包数量较多，请耐心等待','通过私钥生成钱包，无法改变生成数量及使用高级选项'],
-        subtitleMnemonicCreate:"通过助记词创建钱包",
+        messages:['Max is 100','Please wait...','Advanced is disable, where create by private key'],
+        subtitleMnemonicCreate:"Create wallet by mnemonic",
         publicKey:"Public key",
     },
     querySelector: {

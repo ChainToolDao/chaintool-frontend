@@ -39,6 +39,7 @@ export default {
         btnFeedback: "问题反馈",
         subheadingToolList: "工具列表",
         listDescribe: "免费效率工具，快上手试试吧",
+        EVMWalletGenerator: '生成 EVM 钱包',
         toolList: [
             {
                 title: '单位换算',
@@ -61,8 +62,8 @@ export default {
                 detail: '地址查询转换与ENS查询',
             },
             {
-                title: '生成 EVM 钱包',
-                detail: '批量生成 EVM 钱包',
+                title: '生成钱包',
+                detail: '批量生成 EVM / BTC 钱包',
             },
             {
                 title: '签名选择器查询',
@@ -181,7 +182,7 @@ export default {
         btnReturn:"返回",
         btnDevelop:"展开操作栏",
         btnFold:"收起操作栏",
-        riskWarning:"当前的合约无法验证真实性，请确保该合约可靠后使用!!!",
+        riskWarning:"当前的合约未开源验证，请确认风险，谨慎使用!!!",
     },
     address: {
         address: "地址",
@@ -208,22 +209,22 @@ export default {
         privateKey: "私钥",
         mnemonic: '助记词',
         nullErrorPrompt: "你没有选择助记词长度或没有填入生成钱包的地址数量",
-        IllegalErrorPrompt: "你写入的生成钱包的地址数量非数字或小于1,无法生成,请重新输入",
-        beyondErrorPrompt: "你写入的钱包数量大于100,无法生成。请输入不大于100的生成数量。",
+        IllegalErrorPrompt: "你写入的生成钱包的地址数量非数字或小于1, 无法生成,请重新输入",
+        beyondErrorPrompt: "你写入的钱包数量大于100, 无法生成。请输入不大于100的生成数量。",
         inputErrorPrompt: "创建失败，请检查你的输入",
         popoverBtnClick: "查看",
-        options:["相同助记词","不同助记词","自定义助记词创建"],
+        options:["同一助记词推导","不同助记词","自定义助记词创建"],
         advancedOptions:{
             title:"高级选项",
             tips:["有关高级选项，请参阅","BIP44 规范"],
             options:["协议","币种","账户","外部内部","系数","推导路径"]
         },
-        tips:['最大生成钱包数量为100','当前生成钱包数量较多，请耐心等待','通过私钥生成钱包，无法改变生成数量及使用高级选项'],
+        messages:['最大生成钱包数量为100','当前生成钱包数量较多，请耐心等待','通过私钥生成钱包，无法改变生成数量及使用高级选项'],
         subtitleMnemonicCreate:"通过助记词创建钱包",
         publicKey:"公钥",
     },
     querySelector: {
-        title: "函数名 <=> 函数选择器",
+        title: "函数名 <-> 函数选择器",
         inputFunctionName: '通过函数名查询函数选择器',
         inputFunctionNamePrompt: "输入函数签名",
         inquire: "查询",
@@ -233,7 +234,7 @@ export default {
         pointOutQuerying:"正在查询"
     },
     topicID: {
-        title: "事件 <=> 主题(TopicID)",
+        title: "事件 <-> 主题(TopicID)",
         EventSignature: '根据事件名查询主题(TopicID)',
         inputEventSignature: "输入事件签名",
         TopicID: "根据TopicID查询事件名",
