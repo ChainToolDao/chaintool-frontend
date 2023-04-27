@@ -262,7 +262,7 @@ export default {
 	height: auto;
 	background-color: #ffffff;
 	border-radius: 15px;
-	margin: 30px auto;
+	margin: 0 auto 30px 0 ;
 	padding: 40px;
 }
 

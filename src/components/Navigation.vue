@@ -1,100 +1,108 @@
 <template>
-	<div class="navigation">
-		<div class="container">
-			<div class="btn" @click="toHome()">
-				<span>
-					<img class="topLogo" src="../assets/imgs/topLogo.png" alt="">
-				</span>
-			</div>
-			<div class="nav">
-				<el-menu class="el-menu-demo" mode="horizontal">
-					<el-submenu index="1">
-						<template slot="title">EVM</template>
-						<router-link to="/faucet" class="navRouter"><el-menu-item index="2-1">{{$t('home.toolList[10].title')}}</el-menu-item></router-link>
-						<router-link to="/generateWallet" class="navRouter"><el-menu-item index="2-2">{{$t('home.toolList[5].title')}}</el-menu-item></router-link>
-						<router-link to="/abi" class="navRouter"><el-menu-item index="2-3">{{$t('home.toolList[3].title')}}</el-menu-item></router-link>
-						<router-link to="/querySelector" class="navRouter"> <el-menu-item index="2-4">{{$t('home.toolList[6].title')}}</el-menu-item></router-link>
-						<router-link to="/unitConvert" class="navRouter"> <el-menu-item index="2-5">{{$t('home.toolList[0].title')}}</el-menu-item></router-link>
-						<router-link to="/bulkQuery" class="navRouter"><el-menu-item index="2-6">{{$t('home.toolList[1].title')}}</el-menu-item></router-link>
-						<router-link to="/traceview" class="navRouter"> <el-menu-item index="2-7">{{$t('home.toolList[2].title')}}</el-menu-item></router-link>
-						<router-link to="/address" class="navRouter"> <el-menu-item index="2-8">{{$t('home.toolList[4].title')}}</el-menu-item></router-link>
-						<router-link to="/topicID" class="navRouter"> <el-menu-item index="2-9">{{$t('home.toolList[7].title')}}</el-menu-item></router-link>
-						<router-link to="/hashTool" class="navRouter"><el-menu-item index="2-10">{{$t('home.toolList[8].title')}}</el-menu-item></router-link>
-						<router-link to="/calldata" class="navRouter"> <el-menu-item index="2-11">{{$t('home.toolList[9].title')}}</el-menu-item></router-link>
-					</el-submenu>
-                    <el-submenu index="2">
-						<template slot="title">BTC</template>
-						<router-link to="/generateWallet/btcWallet" class="navRouter"><el-menu-item index="3-1">{{$t('home.toolList[11].title')}}</el-menu-item></router-link>
-					</el-submenu>
-				</el-menu>
-			</div>
-			<div class="rightcontainer">
-				<div>
-					<a href="https://github.com/ChainToolDao" target="_blank"> <img class="github" src="../assets/imgs/github.png" alt=""></a>
-					<a href="https://twitter.com/UpchainDAO" target="_blank"> <img class="twitter" src="../assets/imgs/twitter.png" alt=""></a>
+	<div class="header">
+		<div class="navigation">
+			<div class="container">
+				<div class="btn" @click="toHome()">
+					<span>
+						<img class="topLogo" src="../assets/imgs/topLogo.png" alt="">
+					</span>
 				</div>
-				<div v-if="address" class="connect connected">
-					<div></div>
-					<div>{{ address }}</div>
-				</div>
-				<div v-else class="connect" @click="login">
-					<div></div>
-					<div>{{$t("navigation.connectWallet")}}</div>
-				</div>
-				<el-select v-model="lang" @change="cutoverLang(lang)" class="lang">
-					<el-option label="中文" value="zh"></el-option>
-					<el-option label="English" value="en"></el-option>
-				</el-select>
-			</div>
-			<div class="more pcHide" @click="show = !show">
-				<div><img src="../assets/imgs/more.png" alt=""></div>
-			</div>
-			<div class="pcHide wallet">
-				<div v-if="address" class="connect connected ">
-					<div></div>
-					<div>{{ address }}</div>
-				</div>
-				<div v-else class="connect" @click="login">
-					<div></div>
-					<div>{{$t("navigation.connectWallet")}}</div>
-				</div>
-			</div>
-			<transition name="el-zoom-in-top">
-				<div v-show="show" class="collapse-item">
-					<el-collapse accordion @change="activeNamesList">
-						<el-collapse-item name="home">
-							<template slot="title">{{$t('navigation.nav.home')}}</template>
-							<div></div>
-						</el-collapse-item>
-						<el-collapse-item name="2">
+				<div class="nav">
+					<el-menu class="el-menu-demo" mode="horizontal">
+						<el-submenu index="1">
 							<template slot="title">EVM</template>
-							<router-link to="/faucet">{{$t('home.toolList[10].title')}}</router-link>
-							<router-link to="/generateWallet">{{$t('home.toolList[5].title')}}</router-link>
-							<router-link to="/abi">{{$t('home.toolList[3].title')}}</router-link>
-							<router-link to="/querySelector">{{$t('home.toolList[6].title')}}</router-link>
-							<router-link to="/unitConvert">{{$t('home.toolList[0].title')}}</router-link>
-							<router-link to="/bulkQuery">{{$t('home.toolList[1].title')}}</router-link>
-							<router-link to="/traceview">{{$t('home.toolList[2].title')}}</router-link>
-							<router-link to="/address">{{$t('home.toolList[4].title')}}</router-link>
-							<router-link to="/topicID">{{$t('home.toolList[7].title')}}</router-link>
-							<router-link to="/hashTool">{{$t('home.toolList[8].title')}}</router-link>
-							<router-link to="/calldata">{{$t('home.toolList[9].title')}}</router-link>
-						</el-collapse-item>
-                        <el-collapse-item name="3">
+							<router-link to="/faucet" class="navRouter"><el-menu-item index="2-1">{{$t('home.toolList[10].title')}}</el-menu-item></router-link>
+							<router-link to="/generateWallet" class="navRouter"><el-menu-item index="2-2">{{$t('home.toolList[5].title')}}</el-menu-item></router-link>
+							<router-link to="/abi" class="navRouter"><el-menu-item index="2-3">{{$t('home.toolList[3].title')}}</el-menu-item></router-link>
+							<router-link to="/querySelector" class="navRouter"> <el-menu-item index="2-4">{{$t('home.toolList[6].title')}}</el-menu-item></router-link>
+							<router-link to="/unitConvert" class="navRouter"> <el-menu-item index="2-5">{{$t('home.toolList[0].title')}}</el-menu-item></router-link>
+							<router-link to="/bulkQuery" class="navRouter"><el-menu-item index="2-6">{{$t('home.toolList[1].title')}}</el-menu-item></router-link>
+							<router-link to="/traceview" class="navRouter"> <el-menu-item index="2-7">{{$t('home.toolList[2].title')}}</el-menu-item></router-link>
+							<router-link to="/address" class="navRouter"> <el-menu-item index="2-8">{{$t('home.toolList[4].title')}}</el-menu-item></router-link>
+							<router-link to="/topicID" class="navRouter"> <el-menu-item index="2-9">{{$t('home.toolList[7].title')}}</el-menu-item></router-link>
+							<router-link to="/hashTool" class="navRouter"><el-menu-item index="2-10">{{$t('home.toolList[8].title')}}</el-menu-item></router-link>
+							<router-link to="/calldata" class="navRouter"> <el-menu-item index="2-11">{{$t('home.toolList[9].title')}}</el-menu-item></router-link>
+						</el-submenu>
+						<el-submenu index="2">
 							<template slot="title">BTC</template>
-							<router-link to="/generateWallet/btcWallet">{{$t('home.toolList[11].title')}}</router-link>
-						</el-collapse-item>
-						<el-collapse-item :title="$t('navigation.nav.languageSelection')" name="4">
-							<div @click="cutoverLang('zh')">中文</div>
-							<div @click="cutoverLang('en')">English</div>
-						</el-collapse-item>
-						<el-collapse-item :title="$t('navigation.nav.folloUs')" name="5">
-							<a href="https://github.com/ChainToolDao" target="_blank">Github</a>
-							<a href="https://twitter.com/UpchainDAO" target="_blank">Twitter</a>
-						</el-collapse-item>
-					</el-collapse>
+							<router-link to="/generateWallet/btcWallet" class="navRouter"><el-menu-item index="3-1">{{$t('home.toolList[11].title')}}</el-menu-item></router-link>
+						</el-submenu>
+					</el-menu>
 				</div>
-			</transition>
+				<div class="rightcontainer">
+					<div>
+						<a href="https://github.com/ChainToolDao" target="_blank"> <img class="github" src="../assets/imgs/github.png" alt=""></a>
+						<a href="https://twitter.com/UpchainDAO" target="_blank"> <img class="twitter" src="../assets/imgs/twitter.png" alt=""></a>
+					</div>
+					<div v-if="address" class="connect connected">
+						<div></div>
+						<div>{{ address }}</div>
+					</div>
+					<div v-else class="connect" @click="login">
+						<div></div>
+						<div>{{$t("navigation.connectWallet")}}</div>
+					</div>
+					<el-select v-model="lang" @change="cutoverLang(lang)" class="lang">
+						<el-option label="中文" value="zh"></el-option>
+						<el-option label="English" value="en"></el-option>
+					</el-select>
+				</div>
+				<div class="more pcHide" @click="show = !show">
+					<div><img src="../assets/imgs/more.png" alt=""></div>
+				</div>
+				<div class="pcHide wallet">
+					<div v-if="address" class="connect connected ">
+						<div></div>
+						<div>{{ address }}</div>
+					</div>
+					<div v-else class="connect" @click="login">
+						<div></div>
+						<div>{{$t("navigation.connectWallet")}}</div>
+					</div>
+				</div>
+				<transition name="el-zoom-in-top">
+					<div v-show="show" class="collapse-item">
+						<el-collapse accordion @change="activeNamesList">
+							<el-collapse-item name="home">
+								<template slot="title">{{$t('navigation.nav.home')}}</template>
+								<div></div>
+							</el-collapse-item>
+							<el-collapse-item name="2">
+								<template slot="title">EVM</template>
+								<router-link to="/faucet">{{$t('home.toolList[10].title')}}</router-link>
+								<router-link to="/generateWallet">{{$t('home.toolList[5].title')}}</router-link>
+								<router-link to="/abi">{{$t('home.toolList[3].title')}}</router-link>
+								<router-link to="/querySelector">{{$t('home.toolList[6].title')}}</router-link>
+								<router-link to="/unitConvert">{{$t('home.toolList[0].title')}}</router-link>
+								<router-link to="/bulkQuery">{{$t('home.toolList[1].title')}}</router-link>
+								<router-link to="/traceview">{{$t('home.toolList[2].title')}}</router-link>
+								<router-link to="/address">{{$t('home.toolList[4].title')}}</router-link>
+								<router-link to="/topicID">{{$t('home.toolList[7].title')}}</router-link>
+								<router-link to="/hashTool">{{$t('home.toolList[8].title')}}</router-link>
+								<router-link to="/calldata">{{$t('home.toolList[9].title')}}</router-link>
+							</el-collapse-item>
+							<el-collapse-item name="3">
+								<template slot="title">BTC</template>
+								<router-link to="/generateWallet/btcWallet">{{$t('home.toolList[11].title')}}</router-link>
+							</el-collapse-item>
+							<el-collapse-item :title="$t('navigation.nav.languageSelection')" name="4">
+								<div @click="cutoverLang('zh')">中文</div>
+								<div @click="cutoverLang('en')">English</div>
+							</el-collapse-item>
+							<el-collapse-item :title="$t('navigation.nav.folloUs')" name="5">
+								<a href="https://github.com/ChainToolDao" target="_blank">Github</a>
+								<a href="https://twitter.com/UpchainDAO" target="_blank">Twitter</a>
+							</el-collapse-item>
+						</el-collapse>
+					</div>
+				</transition>
+			</div>
+		</div>
+		<div class="sponsorshipBanner">
+			<span>
+				<a href="https://explorer.gitcoin.co/#/round/1/0xaa40e2e5c8df03d792a52b5458959c320f86ca18/0xaa40e2e5c8df03d792a52b5458959c320f86ca18-95">在 Gitcoin Grant 为登链社区捐赠, 支持社区发展 >></a>
+				<a href="https://explorer.gitcoin.co/#/round/1/0xaa40e2e5c8df03d792a52b5458959c320f86ca18/0xaa40e2e5c8df03d792a52b5458959c320f86ca18-95">在 Gitcoin Grant 支持社区</a>
+			</span>
 		</div>
 	</div>
 </template>
@@ -207,12 +215,44 @@ export default {
 </script>
 
 <style scoped>
+.header {
+	width: 100%;
+}
+
 .navigation {
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	background-color: #fff;
 	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.sponsorshipBanner {
+	width: calc(100vw - 40px);
+	max-width: 1280px;
+	height: auto;
+	background-color: #f9c456;
+	margin: 10px auto;
+	border-radius: 7px;
+	padding: 6px 20px 6px 20px;
+	text-align: center;
+	box-shadow: 0 4px 7px 0 rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 1315px) {
+	.sponsorshipBanner {
+		margin: 10px auto;
+	}
+}
+
+.sponsorshipBanner span a {
+	font-size: 14px;
+	font-weight: 500;
+	text-decoration: none;
+}
+
+.sponsorshipBanner span a:nth-child(2) {
+	display: none;
 }
 
 .container {
@@ -355,9 +395,9 @@ a:-webkit-any-link {
 	color: black;
 }
 
-.nav ul{
-    display: flex;
-    flex-wrap: nowrap;
+.nav ul {
+	display: flex;
+	flex-wrap: nowrap;
 }
 
 @media (max-width: 400px) {
@@ -384,6 +424,14 @@ a:-webkit-any-link {
 @media (max-width: 768px) {
 	.nav {
 		display: none;
+	}
+
+	.sponsorshipBanner span a:nth-child(1) {
+		display: none;
+	}
+
+	.sponsorshipBanner span a:nth-child(2) {
+		display: inline-block;
 	}
 
 	.navigation {

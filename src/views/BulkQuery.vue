@@ -253,7 +253,7 @@ export default {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 30px 20px;
+	margin: 0 20px 30px 20px; 
 	background-color: #fff;
 	border-radius: 8px;
 	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
