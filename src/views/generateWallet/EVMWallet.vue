@@ -320,10 +320,6 @@ export default {
 			this.walletdata = []
 			if (/\d/.test(this.inputPrivateKey)) {
 				//通过私钥创建
-				this.$message({
-					message: this.$t('generateWallet.tips[2]'),
-					type: 'warning',
-				})
 				this.privateKeyGenerationWallet()
 				// 关闭界面加载状态
 				this.loading = !this.loading

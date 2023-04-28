@@ -74,14 +74,7 @@
 							<h5>
 								<span class="dataTitle"> {{$t('generateWallet.address')}}</span><span class="verticalLine"></span>
 								<span class="dataBox">
-									<el-popover placement="bottom-start" width="200" trigger="hover">
-										<div style="text-align: left; margin: 0">
-											<div v-for="item in network" :key="item.chainID">
-												<el-button type="primary" v-if="item.chainID!='31337'" size="mini" class="btnPopover">{{ item.networkName }}{{$t('generateWallet.popoverBtnClick')}}</el-button>
-											</div>
-										</div>
 										<span class="roll" slot="reference">{{ data.address }}</span>
-									</el-popover>
 								</span><span class="dataReplication" @click="copy(data.address)">{{$t('pubilc.copy')}}</span>
 							</h5>
 							<h5>
