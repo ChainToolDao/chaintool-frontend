@@ -119,6 +119,7 @@ import wif from 'wif'
 import BIP32Factory from 'bip32'
 import { mnemonicToSeedSync } from 'bip39'
 import * as ecc from 'tiny-secp256k1'
+import { ethers } from 'ethers'
 
 export default {
 	name: 'generateWallet',
@@ -262,6 +263,8 @@ export default {
 				path = "m/44'/0'/0'/0/" + (parseInt(0) + parseInt(i))
 			}
 			try {
+                //用于验证助记词是否正确
+                ethers.Wallet.fromMnemonic(mnemonic, path) 
 				const seed = mnemonicToSeedSync(mnemonic)
 				const btcNetwork = networks.bitcoin
 				let bip32 = BIP32Factory(ecc)

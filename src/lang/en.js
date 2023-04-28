@@ -32,7 +32,7 @@ export default {
             languageSelection: "Lang",
             folloUs: "Follow",
         },
-        sponsor:["在 Gitcoin Grant 为登链社区捐赠, 支持社区发展 >>","在 Gitcoin Grant 支持社区 >>"]
+        sponsor:["Please support upchain on Gitcoin Grant >>","Support upchain on Gitcoin Grant >>"]
     },
     home: {
         title: ["OpenSource ", "Toolbox", "Make Blockchain Develop More Easier"],
