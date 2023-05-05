@@ -113,13 +113,21 @@ export default {
       this.canCopyENS = false;
       this.outputENS = this.$t('pubilc.querying');
       this.load = true;
-      let provider = new ethers.providers.InfuraProvider("mainnet");
       let pendingENS = "";
-      if (ethers.utils.isAddress(this.enterENS)) {
-        pendingENS = await provider.lookupAddress(this.enterENS);
-      } else {
-        pendingENS = await provider.resolveName(this.enterENS);
+      let enterENS = this.enterENS.toLowerCase();
+      let isAddress=false
+      if (ethers.utils.isAddress(enterENS)) {
+        isAddress=true
       }
+      //执行查询ENS
+      await this.$axios.get('https://api.decert.me/v1/ens/' + this.enterENS).then(res=>{
+        if (isAddress) {
+            pendingENS=res.data.data.domain
+        }else{
+            pendingENS=res.data.data.address
+        }
+      }).catch(err=>{
+        })
       this.load = false;
       if (!pendingENS && typeof pendingENS !== "undefined" && pendingENS != 0) {
         pendingENS = this.$t('address.errorENSPrompt');
