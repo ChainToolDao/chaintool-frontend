@@ -32,7 +32,10 @@ export default {
             languageSelection: "Lang",
             folloUs: "Follow",
         },
-        sponsor:["Please support upchain on Gitcoin Grant >>","Support upchain on Gitcoin Grant >>"]
+    },
+    footer:{
+        cooperate:"Partners",  //合作伙伴
+        community:"Community", //社区
     },
     home: {
         title: ["OpenSource ", "Toolbox", "Make Blockchain Develop More Easier"],

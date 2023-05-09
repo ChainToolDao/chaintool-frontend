@@ -98,12 +98,6 @@
 				</transition>
 			</div>
 		</div>
-		<div class="sponsorshipBanner">
-			<span>
-				<a href="https://learnblockchain.cn/article/5713">{{ $t('navigation.sponsor[0]') }}</a>
-				<a href="https://learnblockchain.cn/article/5713">{{ $t('navigation.sponsor[1]') }}</a>
-			</span>
-		</div>
 	</div>
 </template>
 
@@ -217,6 +211,7 @@ export default {
 <style scoped>
 .header {
 	width: 100%;
+    margin-bottom: 20px;
 }
 
 .navigation {

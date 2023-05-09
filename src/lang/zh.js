@@ -30,9 +30,11 @@ export default {
         nav: {
             home: "首页",
             languageSelection: "语言选择",
-            folloUs: "关注我们",
         },
-        sponsor:["在 Gitcoin Grant 为登链社区捐赠, 支持社区发展 >>","在 Gitcoin Grant 支持社区 >>"]
+    },
+    footer:{
+        cooperate:"合作伙伴",
+        community:"社区",
     },
     home: {
         title: ["开源", "工具箱", "让区块链开发更轻松"],
