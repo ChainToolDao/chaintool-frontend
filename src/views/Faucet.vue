@@ -253,7 +253,7 @@ export default {
 .faucet {
 	width: 100%;
 	height: auto;
-	min-height: 92%;
+	min-height: calc(100vh - 263px);
 	margin-bottom: 20px;
 }
 

@@ -5,11 +5,6 @@
 			<div class="container">
 				<div class="title">{{$t("title.bulkQuery")}}</div>
 				<div class="usingHelp"> <span><a href="https://github.com/ChainToolDao/chaintool-frontend/wiki/%E6%89%B9%E9%87%8F%E6%9F%A5%E8%AF%A2%E9%92%B1%E5%8C%85%E4%BD%99%E9%A2%9D" target="_blank">{{$t("pubilc.usingHelp")}} <img src="../assets/imgs/explain.png" alt=""></a></span> </div>
-				<!-- <div class="tips">查询网络</div>
-				<el-select v-model="select">
-					<el-option v-for="(item, index) in chainlist" :key="'chainlist' + index" :value="item.value">
-					</el-option>
-				</el-select> -->
 				<div class="tips">{{$t("bulkQuery.enterAddress")}}</div>
 				<el-input v-model="tokenAdress" :placeholder="$t('bulkQuery.enterAddressPrompt')"></el-input>
 				<div class="tips">{{$t("bulkQuery.enterWalletAddress")}}</div>
@@ -233,7 +228,7 @@ export default {
 .bulkQuery {
 	width: 100%;
 	height: auto;
-	min-height: 94%;
+	min-height: calc(100vh - 243px);
 }
 
 .scroll {

@@ -240,7 +240,7 @@ export default {
 .TopicIDView {
   width: 100%;
   height: auto;
-  min-height: 94%;
+  min-height: calc(100vh - 243px);
 }
 
 .TopicID {
