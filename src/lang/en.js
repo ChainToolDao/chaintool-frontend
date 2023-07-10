@@ -226,6 +226,7 @@ export default {
         messages:['Max is 100','Please wait...','Advanced is disable, where create by private key'],
         subtitleMnemonicCreate:"Create wallet by mnemonic",
         publicKey:"Public key",
+        selectProtocol:"选择协议"
     },
     querySelector: {
         title: "Selector Querier",

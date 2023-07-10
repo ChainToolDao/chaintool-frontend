@@ -225,6 +225,7 @@ export default {
         messages:['最大生成钱包数量为100','当前生成钱包数量较多，请耐心等待','通过私钥生成钱包，无法改变生成数量及使用高级选项'],
         subtitleMnemonicCreate:"通过助记词创建钱包",
         publicKey:"公钥",
+        selectProtocol:"选择协议"
     },
     querySelector: {
         title: "函数名 <-> 函数选择器",

@@ -51,8 +51,18 @@
 					<span>{{ $t('generateWallet.advancedOptions.title')}}</span>
 					<span> <el-switch v-model="advancedOptions"></el-switch></span>
 					<div v-if="advancedOptions">
+						<div >
+							<div class="lengthSelection" v-if="advancedOptions">
+								<h5 class="subtitle">{{ $t('generateWallet.selectProtocol')}}&nbsp; &nbsp; &nbsp; </h5>
+								<el-select v-model="agreement" :placeholder="$t('generateWallet.selectProtocol')">
+									<el-option v-for="item in agreementData" :key="item.value" :label="item.label"
+										:value="item.value">
+									</el-option>
+								</el-select>
+							</div>
+						</div>
 						<div>{{ $t('generateWallet.advancedOptions.tips[0]')}} <a href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki" target="_blank"> {{ $t('generateWallet.advancedOptions.tips[1]')}}</a></div>
-						<div><span>{{ $t('generateWallet.advancedOptions.options[0]')}}</span><el-input class="prohibitInput" value="44" :disabled="true"></el-input></div>
+						<div><span>{{ $t('generateWallet.advancedOptions.options[0]')}}</span><el-input class="prohibitInput" :value=agreement :disabled="true"></el-input></div>
 						<div><span>{{ $t('generateWallet.advancedOptions.options[1]')}}</span><el-input class="prohibitInput" value="0" :disabled="true"></el-input></div>
 						<div><span>{{ $t('generateWallet.advancedOptions.options[2]')}}</span><el-input :placeholder="$t('abi.inputPrompt')" v-model="account"></el-input></div>
 						<div><span>{{ $t('generateWallet.advancedOptions.options[3]')}}</span><el-input :placeholder="$t('abi.inputPrompt')" v-model="externalorInternal"></el-input></div>
@@ -74,7 +84,14 @@
 							<h5>
 								<span class="dataTitle"> {{$t('generateWallet.address')}}</span><span class="verticalLine"></span>
 								<span class="dataBox">
+									<el-popover placement="bottom-start" width="200" trigger="hover">
+										<div style="text-align: left; margin: 0">
+											<div v-for="item in network" :key="item.chainID">
+												<el-button type="primary" v-if="item.chainID!='31337'" size="mini" class="btnPopover">{{ item.networkName }}{{$t('generateWallet.popoverBtnClick')}}</el-button>
+											</div>
+										</div>
 										<span class="roll" slot="reference">{{ data.address }}</span>
+									</el-popover>
 								</span><span class="dataReplication" @click="copy(data.address)">{{$t('pubilc.copy')}}</span>
 							</h5>
 							<h5>
@@ -112,7 +129,6 @@ import wif from 'wif'
 import BIP32Factory from 'bip32'
 import { mnemonicToSeedSync } from 'bip39'
 import * as ecc from 'tiny-secp256k1'
-import { ethers } from 'ethers'
 
 export default {
 	name: 'generateWallet',
@@ -157,6 +173,13 @@ export default {
 			externalorInternal: '0',
 			//指数
 			index: '0',
+			//协议数据
+			agreementData: [
+			{ label: "BIP44", value: "44" },
+			{ label: "BIP49", value: "49" },
+			{ label: "BIP84", value: "84" }],
+			//选择的协议
+			agreement: "44"
 		}
 	},
 
@@ -169,7 +192,10 @@ export default {
 		//推导路径
 		derivationPath() {
 			return (
-				"m/44'/0'/" +
+				"m/" +
+				this.agreement
+				+
+				"'/0'/" +
 				this.account +
 				"'/" +
 				this.externalorInternal +
@@ -240,33 +266,64 @@ export default {
 			}
 		},
 
+		//公钥获取地址
+		publicKeyGetAddress(publicKey){
+			
+			if (this.agreement=="44"){
+				return this.generateLegacyAddress(publicKey)
+			}
+			if (this.agreement=="49"){
+				return this.generateP2SHAddress(publicKey)
+			}
+			if (this.agreement=="84"){
+				return this.generateSegWitAddress(publicKey)
+			}
+		
+		},
+
+		// 生成比特币传统地址
+		generateLegacyAddress(publicKey) {
+			const  address  = payments.p2pkh({ pubkey: publicKey }).address;
+			return address;
+		},
+
+		// 生成比特币P2SH地址
+		generateP2SHAddress(publicKey) {
+			const  address  = payments.p2sh({
+			redeem: payments.p2wpkh({ pubkey: publicKey }),
+			}).address;
+			return address;
+		},
+
+		// 生成比特币原生隔离见证地址
+		generateSegWitAddress(publicKey) {
+			const  address  = payments.p2wpkh({ pubkey: publicKey }).address;
+			return address;
+		},
+
+
 		//助记词生成钱包
 		mnemonicGenerateWallet(mnemonic, i) {
 			//判断用户是否打开高级选项
 			let path = null
 			if (this.advancedOptions) {
 				path =
-					"m/44'/0'/" +
+					"m/" + this.agreement + "'/0'/" +
 					this.account +
 					"'/" +
 					this.externalorInternal +
 					'/' +
 					(parseInt(this.index) + parseInt(i))
 			} else {
-				path = "m/44'/0'/0'/0/" + (parseInt(0) + parseInt(i))
+				path = "m/" + this.agreement + "'/0'/0'/0/" + (parseInt(0) + parseInt(i))
 			}
 			try {
-                //用于验证助记词是否正确
-                ethers.Wallet.fromMnemonic(mnemonic, path) 
 				const seed = mnemonicToSeedSync(mnemonic)
 				const btcNetwork = networks.bitcoin
 				let bip32 = BIP32Factory(ecc)
 				const root = bip32.fromSeed(seed, btcNetwork)
 				const child = root.derivePath(path)
-				const address = payments.p2pkh({
-					pubkey: child.publicKey,
-				}).address
-
+				let address = this.publicKeyGetAddress(child.publicKey)
 				let publickey = child.publicKey.toString('hex')
 				let privateKey = child.privateKey
 				var privateKeyhex = new Buffer(privateKey, 'hex')
@@ -396,7 +453,7 @@ export default {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 0 20px 30px 20px; 
+	margin: 30px 20px;
 	background-color: #fff;
 	border-radius: 8px;
 	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
