@@ -87,6 +87,40 @@ export function faucetData(that) {
             ]
         },
         {
+            "network": "Optimism Sepolia",
+            "remark": "Optimism "+that.$t('faucetData.testnet'),
+            "chainID": "11155420",
+            "currency": "opETH",
+            "img": "optimismLogo.png",
+            "faucet": [
+                {
+                    "url": "https://www.alchemy.com/faucets/optimism-sepolia",
+                    "remark":  that.$t('faucetData.remarkOptimismSepolia[0]')
+                },
+                {
+                    "url": "https://learnweb3.io/faucets/optimism_sepolia",
+                    "remark":  that.$t('faucetData.remarkOptimismSepolia[1]')
+                }
+            ]
+        },
+        {
+            "network": "Arbitrum Sepolia",
+            "remark": "Arbitrum "+that.$t('faucetData.testnet'),
+            "chainID": "421614",
+            "currency": "arbETH",
+            "img": "arbitrumLogo.png",
+            "faucet": [
+                {
+                    "url": "https://www.alchemy.com/faucets/arbitrum-sepolia",
+                    "remark":  that.$t('faucetData.remarkArbitrumSepolia[0]')
+                },
+                {
+                    "url": "https://learnweb3.io/faucets/arbitrum_sepolia",
+                    "remark":  that.$t('faucetData.remarkArbitrumSepolia[1]')
+                }
+            ]
+        },
+        {
             "network": "BNB Chain Testnet",
             "remark": "BSC "+that.$t('faucetData.testnet'),
             "chainID": "97",

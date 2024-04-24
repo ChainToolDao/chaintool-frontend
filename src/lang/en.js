@@ -290,7 +290,9 @@ export default {
         remarkSepolia: ["1 Sepolia ETH per day", "by pow", "10 for those who have deployed contracts before 202211"],
         remarkMumbai: ["0.5 Mumbai MATIC per day"],
         remarkHarmony: ["Shard 0、Shard 1、Shard 2、Shard 3"],
-        remarkCelo: ["need github auth"]
+        remarkCelo: ["need github auth"],
+        remarkOptimismSepolia: ["Dripping 0.5 opETH per da, requires a minimum 0.001 ETH on mainnet wallet", "Dripping 0.01 opETH per day"],
+        remarkArbitrumSepolia: ["Dripping 0.5 opETH per day, requires a minimum 0.001 ETH on mainnet wallet", "Dripping 0.01 opETH per day"]
     },
     connectWallet: {
         walleAccessDenied: "MetaMask refused",
