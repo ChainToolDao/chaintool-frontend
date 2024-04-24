@@ -98,12 +98,12 @@
 				</transition>
 			</div>
 		</div>
-		<div class="sponsorshipBanner">
+		<!-- <div class="sponsorshipBanner">
 			<span>
 				<a href="https://learnblockchain.cn/article/5713">在 Gitcoin Grant 为登链社区捐赠, 支持社区发展 >></a>
 				<a href="https://learnblockchain.cn/article/5713">在 Gitcoin Grant 支持社区</a>
 			</span>
-		</div>
+		</div> -->
 	</div>
 </template>
 
@@ -217,6 +217,7 @@ export default {
 <style scoped>
 .header {
 	width: 100%;
+	margin-bottom: 20px;
 }
 
 .navigation {
