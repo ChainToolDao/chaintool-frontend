@@ -19,7 +19,7 @@
           </div>
           <div>
               <el-select name="" v-model="encodingType" id="">
-                <el-option value="Test">Text</el-option>
+                <el-option value="Text">Text</el-option>
                 <el-option value="Hex">Hex</el-option>
             </el-select>
             <el-input v-model="inputHash" placeholder="Input" type="textarea" autosize></el-input>

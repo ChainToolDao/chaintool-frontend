@@ -290,7 +290,9 @@ export default {
         remarkSepolia: ["每天 1 Sepolia ETH", "需要通过挖矿获取", "在 2022 年11之前部署过合约的，可以领 10 个"],
         remarkMumbai: ["每天0.5 Mumbai MATIC"],
         remarkHarmony: ["包含Shard 0、Shard 1、Shard 2、Shard 3"],
-        remarkCelo: ["需要使用Github进行身份验证"]
+        remarkCelo: ["需要使用Github进行身份验证"],
+        remarkOptimismSepolia: ["每天 0.5 opEth, 需要主网钱包至少有 0.001 ETH", "每天 0.01 opEth"],
+        remarkArbitrumSepolia: ["每天 0.5 opEth, 需要主网钱包至少有 0.001 ETH", "每天 0.01 opEth"]
     },
     connectWallet: {
         walleAccessDenied: "连接失败, MetaMask连接被拒绝。",
