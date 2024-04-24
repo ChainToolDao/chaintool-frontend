@@ -64,7 +64,7 @@ export default {
       // 可以复制Hash  
       canCopyHash: false,
       // 编码类型  encodingType
-      encodingType: "Test",
+      encodingType: "Text",
       // 算法选择
       algorithmSelection: "Keccak-256",
       // 是编码状态
