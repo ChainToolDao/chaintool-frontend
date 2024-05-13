@@ -65,24 +65,24 @@ export default {
 	computed: {
 		toolList() {
 			return [
-				{
-					title: this.$t('home.toolList[10].title'),
-					detail: this.$t('home.toolList[10].detail'),
-					router: '/faucet',
-					url: require('../assets/imgs/toolList11.png'),
-				},
-				{
-					title: this.$t('home.toolList[5].title'),
-					detail: this.$t('home.toolList[5].detail'),
-					router: '/generateWallet',
-					url: require('../assets/imgs/toolList8.png'),
-				},
-				{
-					title: this.$t('home.toolList[3].title'),
-					detail: this.$t('home.toolList[3].detail'),
-					router: '/abi',
-					url: require('../assets/imgs/toolList5.png'),
-				},
+				// {
+				// 	title: this.$t('home.toolList[10].title'),
+				// 	detail: this.$t('home.toolList[10].detail'),
+				// 	router: '/faucet',
+				// 	url: require('../assets/imgs/toolList11.png'),
+				// },
+				// {
+				// 	title: this.$t('home.toolList[5].title'),
+				// 	detail: this.$t('home.toolList[5].detail'),
+				// 	router: '/generateWallet',
+				// 	url: require('../assets/imgs/toolList8.png'),
+				// },
+				// {
+				// 	title: this.$t('home.toolList[3].title'),
+				// 	detail: this.$t('home.toolList[3].detail'),
+				// 	router: '/abi',
+				// 	url: require('../assets/imgs/toolList5.png'),
+				// },
 				{
 					title: this.$t('home.toolList[6].title'),
 					detail: this.$t('home.toolList[6].detail'),
@@ -95,24 +95,24 @@ export default {
 					router: '/unitConvert',
 					url: require('../assets/imgs/toolList1.png'),
 				},
-				{
-					title: this.$t('home.toolList[1].title'),
-					detail: this.$t('home.toolList[1].detail'),
-					router: '/bulkQuery',
-					url: require('../assets/imgs/toolList2.png'),
-				},
+				// {
+				// 	title: this.$t('home.toolList[1].title'),
+				// 	detail: this.$t('home.toolList[1].detail'),
+				// 	router: '/bulkQuery',
+				// 	url: require('../assets/imgs/toolList2.png'),
+				// },
 				// {
 				//     title: '批量转账',
 				//     detail: '批量转账',
 				//     router: '/bulkTransfer',
 				//     url: require('../assets/imgs/toolList3.png'),
 				// },
-				{
-					title: this.$t('home.toolList[2].title'),
-					detail: this.$t('home.toolList[2].detail'),
-					router: '/traceview',
-					url: require('../assets/imgs/toolList4.png'),
-				},
+				// {
+				// 	title: this.$t('home.toolList[2].title'),
+				// 	detail: this.$t('home.toolList[2].detail'),
+				// 	router: '/traceview',
+				// 	url: require('../assets/imgs/toolList4.png'),
+				// },
 				{
 					title: this.$t('home.toolList[4].title'),
 					detail: this.$t('home.toolList[4].detail'),
