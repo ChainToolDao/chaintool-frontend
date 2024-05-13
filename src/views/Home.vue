@@ -65,36 +65,36 @@ export default {
 	computed: {
 		toolList() {
 			return [
-				{
-					title: this.$t('home.toolList[10].title'),
-					detail: this.$t('home.toolList[10].detail'),
-					router: '/faucet',
-					url: require('../assets/imgs/toolList11.png'),
-				},
+				// {
+				// 	title: this.$t('home.toolList[10].title'),
+				// 	detail: this.$t('home.toolList[10].detail'),
+				// 	router: '/faucet',
+				// 	url: require('../assets/imgs/toolList11.png'),
+				// },
 				{
 					title: this.$t('home.toolList[5].title'),
 					detail: this.$t('home.toolList[5].detail'),
 					router: '/generateWallet',
 					url: require('../assets/imgs/toolList8.png'),
 				},
-				{
-					title: this.$t('home.toolList[3].title'),
-					detail: this.$t('home.toolList[3].detail'),
-					router: '/abi',
-					url: require('../assets/imgs/toolList5.png'),
-				},
-				{
-					title: this.$t('home.toolList[6].title'),
-					detail: this.$t('home.toolList[6].detail'),
-					router: '/querySelector',
-					url: require('../assets/imgs/toolList7.png'),
-				},
-				{
-					title: this.$t('home.toolList[0].title'),
-					detail: this.$t('home.toolList[0].detail'),
-					router: '/unitConvert',
-					url: require('../assets/imgs/toolList1.png'),
-				},
+				// {
+				// 	title: this.$t('home.toolList[3].title'),
+				// 	detail: this.$t('home.toolList[3].detail'),
+				// 	router: '/abi',
+				// 	url: require('../assets/imgs/toolList5.png'),
+				// },
+				// {
+				// 	title: this.$t('home.toolList[6].title'),
+				// 	detail: this.$t('home.toolList[6].detail'),
+				// 	router: '/querySelector',
+				// 	url: require('../assets/imgs/toolList7.png'),
+				// },
+				// {
+				// 	title: this.$t('home.toolList[0].title'),
+				// 	detail: this.$t('home.toolList[0].detail'),
+				// 	router: '/unitConvert',
+				// 	url: require('../assets/imgs/toolList1.png'),
+				// },
 				{
 					title: this.$t('home.toolList[1].title'),
 					detail: this.$t('home.toolList[1].detail'),
@@ -107,36 +107,36 @@ export default {
 				//     router: '/bulkTransfer',
 				//     url: require('../assets/imgs/toolList3.png'),
 				// },
-				{
-					title: this.$t('home.toolList[2].title'),
-					detail: this.$t('home.toolList[2].detail'),
-					router: '/traceview',
-					url: require('../assets/imgs/toolList4.png'),
-				},
-				{
-					title: this.$t('home.toolList[4].title'),
-					detail: this.$t('home.toolList[4].detail'),
-					router: '/address',
-					url: require('../assets/imgs/toolList6.png'),
-				},
-				{
-					title: this.$t('home.toolList[7].title'),
-					detail: this.$t('home.toolList[7].detail'),
-					router: '/topicID',
-					url: require('../assets/imgs/toolList9.png'),
-				},
-				{
-					title: this.$t('home.toolList[8].title'),
-					detail: this.$t('home.toolList[8].detail'),
-					router: '/hashTool',
-					url: require('../assets/imgs/toolList10.png'),
-				},
-				{
-					title: this.$t('home.toolList[9].title'),
-					detail: this.$t('home.toolList[9].detail'),
-					router: '/calldata',
-					url: require('../assets/imgs/toolList11.png'),
-				},
+				// {
+				// 	title: this.$t('home.toolList[2].title'),
+				// 	detail: this.$t('home.toolList[2].detail'),
+				// 	router: '/traceview',
+				// 	url: require('../assets/imgs/toolList4.png'),
+				// },
+				// {
+				// 	title: this.$t('home.toolList[4].title'),
+				// 	detail: this.$t('home.toolList[4].detail'),
+				// 	router: '/address',
+				// 	url: require('../assets/imgs/toolList6.png'),
+				// },
+				// {
+				// 	title: this.$t('home.toolList[7].title'),
+				// 	detail: this.$t('home.toolList[7].detail'),
+				// 	router: '/topicID',
+				// 	url: require('../assets/imgs/toolList9.png'),
+				// },
+				// {
+				// 	title: this.$t('home.toolList[8].title'),
+				// 	detail: this.$t('home.toolList[8].detail'),
+				// 	router: '/hashTool',
+				// 	url: require('../assets/imgs/toolList10.png'),
+				// },
+				// {
+				// 	title: this.$t('home.toolList[9].title'),
+				// 	detail: this.$t('home.toolList[9].detail'),
+				// 	router: '/calldata',
+				// 	url: require('../assets/imgs/toolList11.png'),
+				// },
 			]
 		},
 		title() {
